@@ -1,17 +1,21 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { BsArrowLeft } from "react-icons/bs";
+import * as usersService from "../../utilities/users-service";
 
 import styles from "./SignUp.module.css";
 
 const LoginSignUp = () => {
   const [formData, setFormData] = useState({
     name: "",
-    phoneNumber: "",
+    tel: "",
     email: "",
     dateOfBirth: "",
     gender: "",
+    password: ""
   });
+
+  const [message, setMessage] = useState("Create an Account");
 
   const handleChange = (evt) => {
     setFormData({ ...formData, [evt.target.name]: evt.target.value });
@@ -19,13 +23,25 @@ const LoginSignUp = () => {
 
   const submitHandler = async (evt) => {
     evt.preventDefault();
-    console.log(formData);    
+    try {
+      console.log(formData);
+      const userData = await usersService.register(formData);
+      console.log(userData);
+      // setUser(userData)
+    } catch (error) {
+      setMessage(
+        "Either an account has already been created with this email, or there is a network error. Please try again."
+      );
+      console.log(error);
+    }
   };
 
   return (
     <section className={styles["signup-container"]}>
       <div>
-        <Link to="/"><BsArrowLeft/></Link>
+        <Link to="/">
+          <BsArrowLeft />
+        </Link>
         <h1>Sign Up</h1>
       </div>
       <br />
@@ -40,7 +56,7 @@ const LoginSignUp = () => {
           <input
             type="number"
             id="phone-number"
-            name="phoneNumber"
+            name="tel"
             onChange={handleChange}
           />
         </div>
@@ -63,11 +79,7 @@ const LoginSignUp = () => {
           <br />
           <div>
             <label htmlFor="gender">Gender*</label>
-            <select
-              id="gender"
-              name="gender"
-              onChange={handleChange}
-            >
+            <select id="gender" name="gender" onChange={handleChange}>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other">Other</option>
