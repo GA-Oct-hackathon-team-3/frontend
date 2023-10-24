@@ -10,10 +10,18 @@ const Landing = () => {
       <img src={heroImg} alt="Birthday Introduction" />
       <div>
         <h1>Lorem ipsum dolor consectetur</h1>
-        <p>lorem ipsum dolor consectetur lorem ipsum dolor consectetur lorem ipsum dolor consectetur,lorem ipsum dolor consectetur lorem ipsum dolor consectetur, lorem ipsum dolor consectetur.</p>
+        <p>
+          lorem ipsum dolor consectetur lorem ipsum dolor consectetur lorem
+          ipsum dolor consectetur,lorem ipsum dolor consectetur lorem ipsum
+          dolor consectetur, lorem ipsum dolor consectetur.
+        </p>
       </div>
-      <NavLink to="/signup" className={styles.signup}>Sign Up</NavLink>
-      <NavLink to="/login" className={styles.login}>Log In</NavLink>
+      <NavLink to="/signup" className={styles.signup}>
+        Sign Up
+      </NavLink>
+      <NavLink to="/login" className={styles.login}>
+        Log In
+      </NavLink>
     </section>
   );
 };
