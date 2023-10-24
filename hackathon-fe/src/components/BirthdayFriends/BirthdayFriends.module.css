@@ -1,0 +1,95 @@
+/* Base styles */
+body {
+  font-family: Arial, sans-serif;
+}
+
+/* Mobile first approach */
+.container {
+  background-color: #f5f5f5;
+  padding: 16px;
+}
+
+.itemButton {
+  width: 100%;
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  background-color: #ffffff;
+  padding: 20px;
+  margin: 8px 0;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 3.84px rgba(0, 0, 0, 0.25);
+}
+
+.itemTextContainer {
+  /* Empty style can be omitted or filled in as needed */
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: "space-between";
+  gap: 20px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-size: 18px;
+  font-weight: bold;
+  color: black;
+}
+
+.birthday {
+  font-size: 14px;
+  color: gray;
+}
+
+.card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.label {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.days {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.searchBar {
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  height: 40px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Media query for larger devices */
+@media (min-width: 768px) {
+  /* Adjustments for larger screens, if needed */
+}
