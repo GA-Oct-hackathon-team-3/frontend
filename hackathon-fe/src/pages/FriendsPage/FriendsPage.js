@@ -1,5 +1,7 @@
 import BirthdayFriends from "../../components/BirthdayFriends/BirthdayFriends";
 
+
+
 const FriendsPage = () => {
     return (
         <>

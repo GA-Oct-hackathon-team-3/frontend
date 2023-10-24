@@ -1,35 +1,27 @@
 @media(max-width:480px) {
-    
-
-    footer {
+    .footer-container {
         display: flex;
         position: fixed;
         bottom: 0;
         border-top: 1px solid black;
         text-decoration: none;
-    
+        background-color: black;
     }
-    div {
+    .footer-container > a > div {
         padding: 15px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        
-    }
-    .icon {
-        align-items: center;
         text-decoration: none;
-        
     }
-    p{
+
+    .footer-container > a > div > p{
         text-align: center;
+        text-decoration: none;        
+    }
+
+    .footer-container > a {
         text-decoration: none;
-      
-        
+        color: white;
     }
-    .link {
-        text-decoration: none;
-        color: black;
-    }
-    
-    }
+}
