@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import styles from "./Landing.module.css";
 
 import heroImg from "../../assets/bday-hero-img.jpg";
+import Footer from '../../components/Footer/Footer'
 
 const Landing = () => {
   return (
@@ -14,6 +15,7 @@ const Landing = () => {
       </div>
       <NavLink to="/signup" className={styles.signup}>Sign Up</NavLink>
       <NavLink to="/login" className={styles.login}>Log In</NavLink>
+      <Footer/>
     </section>
   );
 };
