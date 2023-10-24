@@ -22,5 +22,22 @@
     .landing-container > div > h1 {
         margin-bottom: 30px;
     }
+    .login{
+        border: solid black 2px;
+        width: 90%;
+        margin: 0 auto;
+        text-align: center;
+        padding: 15px 0;
+
+
+    }
+    .signup{
+        border: solid red 2px;
+        width: 90%;
+        margin: 50px auto 30px;
+        text-align: center;
+        padding: 15px 0;
+
+    }
     
 }

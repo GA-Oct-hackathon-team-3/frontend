@@ -13,7 +13,7 @@ const Landing = () => {
         <p>lorem ipsum dolor consectetur lorem ipsum dolor consectetur lorem ipsum dolor consectetur,lorem ipsum dolor consectetur lorem ipsum dolor consectetur, lorem ipsum dolor consectetur.</p>
       </div>
       <NavLink to="/signup" className={styles.signup}>Sign Up</NavLink>
-      <NavLink className={styles.signup}>Log In</NavLink>
+      <NavLink to="/login" className={styles.login}>Log In</NavLink>
     </section>
   );
 };
