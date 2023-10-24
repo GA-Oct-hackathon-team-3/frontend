@@ -1,7 +1,9 @@
 import React, { useState, useContext } from "react";
+import * as usersService from "../../utilities/users-service";
+// import { AuthContext } from "../../pages/App/App";
 
 const Login = () => {
-  // const { user, setUser } = useContext(AuthContext)
+  // const { user, setUser } = useContext(AuthContext);
   const [credentials, setCredentials] = useState({
     email: "",
     password: ""
@@ -18,9 +20,9 @@ const Login = () => {
     try {
       console.log("Login form submitted");
       console.log(credentials);
+      const user = await usersService.login(credentials);
+      //setUser(user);
       console.log("Login successful");
-      // const user = await usersService.login(credentials)
-      // setUser(user)
     } catch {
       setErrorMsg("Login failed, try again");
     }
@@ -31,7 +33,7 @@ const Login = () => {
       <p>Login Page</p>
 
       <form
-        // className="flex flex-col justify-center items-center"
+        className="flex flex-col justify-center items-center"
         onSubmit={handleLogin}
       >
         <div>
