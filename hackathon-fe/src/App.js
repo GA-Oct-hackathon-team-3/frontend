@@ -12,6 +12,7 @@ import FiltersPage from "./pages/FiltersPage/FiltersPage";
 function App() {
   return (
     <div className="App">
+
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/signup" element={<SignUpPage />} />
@@ -22,6 +23,7 @@ function App() {
         <Route path="/filters" element={<FiltersPage />} />
       </Routes>
       <Footer />
+
     </div>
   );
 }

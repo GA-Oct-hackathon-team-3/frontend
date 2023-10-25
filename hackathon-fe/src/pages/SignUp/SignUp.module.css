@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
 @media(max-width: 480px) {
     .signup-container {
         position: absolute;
@@ -7,14 +9,31 @@
     }
 
     .signup-container > div {
-        width: 65%;
+        width: 60%;
         display: flex;
         justify-content: space-between;
+        align-items: center;
+    }
+
+    .signup-container > div > h1 {
+        color: #000;
+        font-family: Inter;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 900;
+        letter-spacing: -.5px;
+        line-height: normal;
+
+    }
+
+    .signup-container > div > a {
+        color: black;
+        font-size: 20px;
     }
 
     .signup-container > form {
         padding: 5px;
-        margin-top: 30px;
+        margin-top: 25px;
         height: 85%;
         display: flex;
         flex-direction: column;
@@ -26,40 +45,50 @@
         flex-direction: column;
     }
 
-    .signup-container > form > div > label, .signup-container > form > div:nth-child(7) > div > label {
+    .signup-container > form > div > label, .signup-container > form > div:nth-child(7) > div > label, .signup-container > form > div:nth-child(11) > div > label {
         margin-bottom: 4px;
+        font-family: Inter;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        letter-spacing: 0.28px;
     }
 
     .signup-container > form > div > input {
-        border: 1px solid gray;
-        border-radius: 4px;
+        background-color: #C4C4C4;
+        border-radius: 8px;
         width: 95%;
         padding: 12px;
     }
 
-    .signup-container > form > div:nth-child(7) {
+    .signup-container > form > div:nth-child(11) {
         width: 95%;
         flex-direction: row;
         justify-content: space-between;
     }
 
-    .signup-container > form > div:nth-child(7) > div {
+    .signup-container > form > div:nth-child(11) > div {
         width: 45%;
         display: flex;
         flex-direction: column;
     }
 
-    .signup-container > form > div:nth-child(7) > div > input, .signup-container > form > div:nth-child(7) > div > select {
-        border: 1px solid gray;
+    .signup-container > form > div:nth-child(11) > div > input, .signup-container > form > div:nth-child(11) > div > select {
+        background-color: #C4C4C4;
+        border-radius: 8px;
         border-radius: 4px;
         width: 95%;
         padding: 12px;
     }
 
     .signup-container > form > button {
-        margin: 300px auto 0;
-        width: 80%;
-        padding: 15px 0;
-        border-radius: 4px;
+        background-color: #747474;
+        color: #fff;
+        margin: 35px auto 0;
+        width: 70%;
+        padding: 18px 0;
+        border-radius: 15px;
+        font-family: Inter;
     }
 }
