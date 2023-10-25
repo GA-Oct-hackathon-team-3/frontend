@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBirthdayCake } from "@fortawesome/free-solid-svg-icons";
 import * as friendsService from "../../utilities/friends-service";
+import { daysUntilBirthday } from "../../utilities/helpers";
 
 import styles from "./BirthdayFriends.module.css";
 
@@ -40,25 +41,6 @@ const BirthdayFriends = () => {
         }
       };
 
-  function daysUntilBirthday(dob) {
-    const birthday = new Date(dob);
-    const currentDate = new Date();
-
-    const nextBirthday = new Date(currentDate.getFullYear(), birthday.getMonth(), birthday.getDate());
-
-    // If the next birthday is before the current date, set it to next year
-    if (nextBirthday < currentDate) {
-    nextBirthday.setFullYear(currentDate.getFullYear() + 1);
-    }
-
-    // Calculate the time difference in milliseconds
-    const timeDifference = nextBirthday - currentDate;
-
-    // Convert milliseconds to days
-    const days = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-    return days;
-  }
-
   const Item = ({ name, dob, id }) => {
     const history = useNavigate();
 
@@ -86,7 +68,7 @@ const BirthdayFriends = () => {
             <div className={styles["content"]}>
               <span className={styles["label"]}>Days Left</span>
               <span className={styles["days"]}>
-                {daysUntilBirthday(dob)}
+                { daysUntilBirthday(dob) }
               </span>
             </div>
           </div>
