@@ -29,6 +29,8 @@ function CreateFriendProfile() {
   const submitHandler = (e) => {
     e.preventDefault();
 
+    console.log(profile);
+
     // navigate("/addtags")
   };
 
@@ -65,6 +67,7 @@ function CreateFriendProfile() {
             <div>
               <label htmlFor="dob">DOB</label>
               <input
+                type="date"
                 id="dob"
                 value={profile.dob}
                 onChange={(e) =>
@@ -106,13 +109,22 @@ function CreateFriendProfile() {
           <div>
             <p>Gift type Preferences (choose all that apply)</p>
             <div>
-              <button onClick={() => handleGiftTypeToggle("Present")}>
+              <button
+                type="button"
+                onClick={() => handleGiftTypeToggle("Present")}
+              >
                 Present
               </button>
-              <button onClick={() => handleGiftTypeToggle("Experience")}>
+              <button
+                type="button"
+                onClick={() => handleGiftTypeToggle("Experience")}
+              >
                 Experience
               </button>
-              <button onClick={() => handleGiftTypeToggle("Donation")}>
+              <button
+                type="button"
+                onClick={() => handleGiftTypeToggle("Donation")}
+              >
                 Donation
               </button>
             </div>
