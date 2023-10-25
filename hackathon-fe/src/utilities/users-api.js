@@ -2,7 +2,7 @@ import sendRequest from "./send-request";
 const BASE_URL = "http://localhost:3010/api/";
 
 export function register(userData) {
-  return sendRequest(`${BASE_URL}users/register`, "POST", userData);
+  return sendRequest(`${BASE_URL}users`, "POST", userData);
 }
 
 export function login(credentials) {

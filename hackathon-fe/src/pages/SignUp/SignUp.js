@@ -10,7 +10,7 @@ const LoginSignUp = () => {
     name: "",
     tel: "",
     email: "",
-    dateOfBirth: "",
+    dob: "",
     gender: "",
     password: "",
     confirmPassword: ""
@@ -68,9 +68,9 @@ const LoginSignUp = () => {
           <label htmlFor="confirmPassword">Confirm Password*</label>
           <input
             type="password"
-            name="confirm"
+            name="confirmPassword"
             placeholder="Confirm password"
-            value={formData.confirm}
+            value={formData.confirmPassword}
             onChange={handleChange}
             className="border-gray-400 border-2 p-1 rounded-[4px] w-60"
           />
@@ -94,12 +94,7 @@ const LoginSignUp = () => {
         <div>
           <div>
             <label>Date of Birth</label>
-            <input
-              type="date"
-              id="date"
-              name="dateOfBirth"
-              onChange={handleChange}
-            />
+            <input type="date" id="date" name="dob" onChange={handleChange} />
           </div>
           <br />
           <div>
