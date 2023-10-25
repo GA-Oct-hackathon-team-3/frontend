@@ -9,13 +9,15 @@ import styles from "./BirthdayFriends.module.css";
 const BirthdayFriends = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  const [allFriends, setAllFriends] = useState([]);
   const navigate = useNavigate();
 
     useEffect(() => {
         const fetchFriends = async () => {
             try {
-                const friends = await friendsService.retrieveFriends();
-                setFilteredData(friends);
+                const friendsData = await friendsService.retrieveFriends();
+                setAllFriends(friendsData);
+                setFilteredData(friendsData);
             } catch (error) {
                 console.error('Error fetching friends: ', error);
             }
@@ -23,19 +25,20 @@ const BirthdayFriends = () => {
         fetchFriends();
     }, []);
 
-  const handleSearch = (query) => {
-    setSearchQuery(query);
-    if (query) {
-      console.log(query, "THIS IS THE QUERY");
-      setFilteredData(
-        filteredData.filter((item) =>
-          item.name.toLowerCase().includes(query.toLowerCase())
-        )
-      );
-    } else {
-      setFilteredData(filteredData);
-    }
-  };
+    const handleSearch = (query) => {
+        setSearchQuery(query);
+    
+        if (query) {
+          // Filter the friends based on the search query
+          const filteredResults = allFriends.filter((item) =>
+            item.name.toLowerCase().includes(query.toLowerCase())
+          );
+          setFilteredData(filteredResults);
+        } else {
+          // If the query is empty, reset the list to the original friends data
+          setFilteredData([...allFriends]);
+        }
+      };
 
   function daysUntilBirthday(dob) {
     const birthday = new Date(dob);
