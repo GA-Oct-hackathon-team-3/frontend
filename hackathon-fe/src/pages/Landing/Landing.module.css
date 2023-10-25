@@ -1,8 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
 @media (max-width: 480px) {
     .landing-container {
         position: absolute;
         height: 100%;
-
         display: flex;
         flex-direction: column;
     }
@@ -10,34 +11,90 @@
     .landing-container > img {
         border-bottom-left-radius: 12px;
         border-bottom-right-radius: 12px;
-        height: 350px;
+        height: 500px;
         width: 100%;
     }
 
+    .landing-container > h1 {
+        /* border: 1px solid red; */
+        color: #fff;
+        width: 280px;
+        height: 51px;
+        text-align: center;
+        font-family: Inter;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        margin: -430px auto 380px;
+        z-index: 999999;
+
+    }
+
     .landing-container > div {
+        /* border: 2px solid red; */
         text-align: center;
-        padding: 30px 0;
+        padding: 40px 0 0;
     }
 
-    .landing-container > div > h1 {
-        margin-bottom: 30px;
-    }
-    .login{
-        border: solid black 2px;
-        width: 90%;
-        margin: 0 auto;
+    .landing-container > div > p {
+        /* border: 1px solid royalblue; */
+        width: 310px;
+        margin: 0 auto 20px;
+        color: #000;
         text-align: center;
-        padding: 15px 0;
-
+        font-family: Inter;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 18.2px;
 
     }
-    .signup{
-        border: solid red 2px;
-        width: 90%;
-        margin: 50px auto 30px;
-        text-align: center;
-        padding: 15px 0;
 
+    .landing-container > div > p:nth-child(2) {
+        width: 325px;
+    }
+
+    .landing-container > a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        color: #fff;
+        background-color: #747474;
+        border-radius: 20px;
+        width: 264px;
+        height: 60px;
+        margin: 25px auto;
+        text-align: center;
+        font-family: Inter;
+        font-size: 17px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        letter-spacing: 0.34px;
+    }
+
+    .landing-container > p {
+        /* border: 1px solid red; */
+        color: #4A4A4A;
+        text-align: center;
+        font-family: Inter;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        letter-spacing: 0.28px;
+    }
+
+    .landing-container > p > a {
+        color: #4A4A4A;
+        font-family: Inter;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        letter-spacing: 0.28px;
     }
     
 }

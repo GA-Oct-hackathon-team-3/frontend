@@ -1,6 +1,10 @@
 import React, { useState, useContext } from "react";
+import { Link } from "react-router-dom";
+import { BsArrowLeft } from "react-icons/bs";
 import * as usersService from "../../utilities/users-service";
 // import { AuthContext } from "../../pages/App/App";
+
+import styles from "./Login.module.css";
 
 const Login = () => {
   // const { user, setUser } = useContext(AuthContext);
@@ -29,38 +33,42 @@ const Login = () => {
   }
 
   return (
-    <div>
-      <p>Login Page</p>
+    <section className={styles["login-container"]}>
+      <div>
+        <Link to="/">
+          <BsArrowLeft />
+        </Link>
+        <h1>Log In</h1>
+      </div>
 
-      <form
-        className="flex flex-col justify-center items-center"
-        onSubmit={handleLogin}
-      >
+      <br />
+
+      <form onSubmit={handleLogin}>
         <div>
+          <label htmlFor="email">Email</label>
           <input
             type="email"
             name="email"
-            placeholder="E-mail"
+            id="email"
             value={credentials.email}
             onChange={handleChange}
-            className="border-gray-400 border-2 p-1 rounded-[4px] w-60"
-          ></input>
+          />
         </div>
         <div>
+          <label htmlFor="password">Password</label>
           <input
             type="password"
             name="password"
+            id="password"
             value={credentials.password}
             onChange={handleChange}
-            placeholder="Password"
-            className="border-gray-400 border-2 p-1 rounded-[4px] w-60"
           />
         </div>
         <div>
           <button type="submit">Sign In</button>
         </div>
       </form>
-    </div>
+    </section>
   );
 };
 

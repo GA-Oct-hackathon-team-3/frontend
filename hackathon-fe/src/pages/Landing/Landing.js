@@ -1,27 +1,24 @@
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import styles from "./Landing.module.css";
 
-import heroImg from "../../assets/bday-hero-img.jpg";
+import heroImg from "../../assets/heroImg.png";
 
 const Landing = () => {
   return (
     <section className={styles["landing-container"]}>
       <img src={heroImg} alt="Birthday Introduction" />
+      <h1>Remember the perfect gift, every time.</h1>
       <div>
-        <h1>Lorem ipsum dolor consectetur</h1>
-        <p>
-          lorem ipsum dolor consectetur lorem ipsum dolor consectetur lorem
-          ipsum dolor consectetur,lorem ipsum dolor consectetur lorem ipsum
-          dolor consectetur, lorem ipsum dolor consectetur.
-        </p>
+        <p>Birthday Buddy is your new best friend to help in the hunt for the greatest gifts ever.</p>
+        <p>Get reminders to help you keep track of upcoming birthdays and recommendations based on your loved one's interests and hobbies.</p>
       </div>
-      <NavLink to="/signup" className={styles.signup}>
-        Sign Up
-      </NavLink>
-      <NavLink to="/login" className={styles.login}>
-        Log In
-      </NavLink>
+      <Link to="/signup" className={styles["get-started"]}>
+        Get started
+      </Link>
+      <p>
+        Already have an account? <Link to="/login" className={styles["log-in"]}>Log In</Link>
+      </p>
     </section>
   );
 };

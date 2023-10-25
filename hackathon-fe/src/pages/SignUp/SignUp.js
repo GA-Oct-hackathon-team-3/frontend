@@ -48,36 +48,37 @@ const LoginSignUp = () => {
       <br />
       <form className={styles["form-container"]} onSubmit={submitHandler}>
         <div>
-          <label htmlFor="name">Name*</label>
+          <label htmlFor="name">Name</label>
           <input type="text" id="name" name="name" onChange={handleChange} />
         </div>
         <br />
-        <div className="m-2">
-          <label htmlFor="password">Password*</label>
+        <div >
+          <label htmlFor="password">Password</label>
           <input
             type="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
-            placeholder="Password"
-            className="border-gray-400 border-2 p-1 rounded-[4px] w-60"
-          />
-        </div>
-        <br />
-        <div className="m-2">
-          <label htmlFor="confirmPassword">Confirm Password*</label>
-          <input
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirm password"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            className="border-gray-400 border-2 p-1 rounded-[4px] w-60"
           />
         </div>
         <br />
         <div>
-          <label htmlFor="phone-number">Phone no.</label>
+          <label htmlFor="confirmPassword">Confirm Password</label>
+          <input
+            type="password"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+          />
+        </div>
+        <br />
+        <div>
+          <label htmlFor="email">Email</label>
+          <input type="email" id="email" name="email" onChange={handleChange} />
+        </div>
+        <br />
+        <div>
+          <label htmlFor="phone-number">Phone Number</label>
           <input
             type="number"
             id="phone-number"
@@ -85,20 +86,15 @@ const LoginSignUp = () => {
             onChange={handleChange}
           />
         </div>
-        <br />
-        <div>
-          <label htmlFor="email">Email*</label>
-          <input type="email" id="email" name="email" onChange={handleChange} />
-        </div>
-        <br />
-        <div>
+          <br/>
+        <div>    
           <div>
             <label>Date of Birth</label>
             <input type="date" id="date" name="dob" onChange={handleChange} />
           </div>
           <br />
           <div>
-            <label htmlFor="gender">Gender*</label>
+            <label htmlFor="gender">Gender</label>
             <select id="gender" name="gender" onChange={handleChange}>
               <option value="male">Male</option>
               <option value="female">Female</option>
@@ -106,12 +102,17 @@ const LoginSignUp = () => {
             </select>
           </div>
         </div>
+        <br />
+        <div>
+        <label htmlFor="location">Location</label>
+            <input type="text" id="location" name="location" onChange={handleChange} />
+        </div>
         {/* <div>
           <label htmlFor="profile-image">Photo Upload</label>
           <input type="file" id="profile-image"  name="photoUrl" />
         </div> */}
         <br />
-        <button>Submit</button>
+        <button>Create account</button>
       </form>
     </section>
   );

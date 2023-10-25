@@ -20,7 +20,7 @@ function App() {
           <Route path="/friends" element={<FriendsPage />} />
           <Route path="/friend/:id" element={<FriendPage />} />
         </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
