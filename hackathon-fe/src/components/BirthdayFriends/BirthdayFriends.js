@@ -1,5 +1,3 @@
-import dummydata from "../../dummydata";
-import ShowFriend from "../ShowFriend/ShowFriend";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,7 +16,6 @@ const BirthdayFriends = () => {
             try {
                 const friends = await friendsService.retrieveFriends();
                 setFilteredData(friends);
-                console.log(friends)
             } catch (error) {
                 console.error('Error fetching friends: ', error);
             }
@@ -107,9 +104,13 @@ const BirthdayFriends = () => {
         <span className={styles["upcomingLabel"]}>Upcoming</span>
       </div>
       <div className={styles["list"]}>
-        {filteredData.map((item) => (
-          <Item key={item._id} {...item} id={item._id} />
-        ))}
+      {filteredData.length > 0 ? (
+        filteredData.map((item) => (
+        <Item key={item._id} {...item} id={item._id} />
+        ))
+        ) : (
+        <div>No friends</div>
+    )}
       </div>
     </div>
   );
