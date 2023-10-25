@@ -16,7 +16,7 @@ function CreateFriendProfile() {
     gender: "",
     location: "",
     giftTypePreferences: [],
-    giftCost: "",
+    giftCost: ""
   });
 
   const handleGiftTypeToggle = (type) => {
@@ -28,7 +28,6 @@ function CreateFriendProfile() {
 
   const submitHandler = (e) => {
     e.preventDefault();
-
 
     // navigate("/addtags")
   };
@@ -120,7 +119,7 @@ function CreateFriendProfile() {
           </div>
           <br />
 
-          <div>
+          {/* <div>
             <label htmlFor="giftcost">Gift Cost</label>
             <select
               id="giftcost"
@@ -134,7 +133,7 @@ function CreateFriendProfile() {
               <option value="Medium">$$ - Medium</option>
               <option value="High">$$$ - High</option>
             </select>
-          </div>
+          </div> */}
           <br />
 
           <button>Continue to add tags</button>
