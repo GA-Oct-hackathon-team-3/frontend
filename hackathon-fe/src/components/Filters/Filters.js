@@ -27,8 +27,10 @@ const marks = [
   },
 ];
 
-const Filters = () => {
+const Filters = ({ friend }) => {
   const [show, setShow] = useState(null);
+  const [budget, setBudget] = useState(20);
+  const [giftPreferences, setGiftPreferences] = useState([]);
 
   const handleClick = (string) => {
     if (show === string) {
@@ -39,9 +41,19 @@ const Filters = () => {
   };
 
   function valuetext(value) {
-    console.log(value);
     return `${value}°C`;
   }
+
+  function handleTagClick(e) {
+    const idx = giftPreferences.findIndex(el => el === e);
+    console.log(idx);
+    if(idx>-1){
+      setGiftPreferences(giftPreferences.slice(0,idx).concat(giftPreferences.slice(idx+1)));
+    }else{
+      setGiftPreferences([...giftPreferences, e]);
+    }
+  }
+
 
   return (
     <div className={styles["mainContainer"]}>
@@ -59,12 +71,14 @@ const Filters = () => {
             <div className={styles["slider-container"]}>
               <Slider
                 aria-label="Small steps"
-                defaultValue={20}
+                defaultValue={budget}
                 getAriaValueText={valuetext}
-                step={1}
+                step={10}
+                onChange={(_, e) => setBudget(e)}
+                value={budget}
                 marks={marks}
                 min={0}
-                max={100}
+                max={1000}
                 valueLabelDisplay="auto"
                 className={styles["slider"]}
               />
@@ -102,9 +116,24 @@ const Filters = () => {
           </div>
           {show === "gifttype" && (
             <div className={styles["tags"]}>
-              <button className={styles["tag-button"]}>Experience</button>
-              <button className={styles["tag-button"]}>Present</button>
-              <button className={styles["tag-button"]}>Donation</button>
+              <button
+                value="experience"
+                onClick={()=>handleTagClick('experience')}
+                className={styles["tag-button"] + ' ' + (giftPreferences.includes("experience") ? styles["active"] : '')}>
+                Experience
+              </button>
+              <button
+                value="present"
+                onClick={()=>handleTagClick('present')}
+                className={styles["tag-button"] + ' ' + (giftPreferences.includes("present") ? styles["active"] : '')}>
+                Present
+              </button>
+              <button
+                value="donation"
+                onClick={()=>handleTagClick('donation')}
+                className={styles["tag-button"] + ' ' + (giftPreferences.includes("donation") ? styles["active"] : '')}>
+                Donation
+              </button>
             </div>
           )}
         </div>
