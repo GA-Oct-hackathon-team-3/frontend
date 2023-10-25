@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { BsArrowLeft } from "react-icons/bs";
 import * as usersService from "../../utilities/users-service";
+import Header from '../../components/Header/Header'
 
 import styles from "./SignUp.module.css";
 
@@ -38,6 +39,8 @@ const LoginSignUp = () => {
   };
 
   return (
+    <>
+    <Header/>
     <section className={styles["signup-container"]}>
       <div>
         <Link to="/">
@@ -115,6 +118,7 @@ const LoginSignUp = () => {
         <button>Create account</button>
       </form>
     </section>
+    </>
   );
 };
 
