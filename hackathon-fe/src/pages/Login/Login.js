@@ -6,6 +6,8 @@ import * as usersService from "../../utilities/users-service";
 
 import styles from "./Login.module.css";
 
+import loginImg from "../../assets/loginImg.png";
+
 const Login = () => {
   // const { user, setUser } = useContext(AuthContext);
   const [credentials, setCredentials] = useState({
@@ -42,6 +44,8 @@ const Login = () => {
       </div>
 
       <br />
+
+      <img src={loginImg} alt="Birthday cake" />
 
       <form onSubmit={handleLogin}>
         <div>
