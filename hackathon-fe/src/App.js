@@ -24,6 +24,7 @@ function App() {
         <Route path="/friend/:id" element={<FriendPage />} />
         <Route path="/filters" element={<FiltersPage />} />
         <Route path="/addfriend" element={<CreateFriendPage />}/>
+        {/* <Route path="/addtags" element={}/> */}
       </Routes>
       {/* <Footer /> */}
 
