@@ -2,18 +2,14 @@ import * as usersAPI from "./users-api";
 
 export async function register(userData) {
   const userDataReturned = await usersAPI.register(userData);
-  console.log("userDataReturned", userDataReturned);
   const token = userDataReturned.accessToken;
-  console.log("token in user service after userData", token);
   localStorage.setItem("token", token);
   return getUser();
 }
 
 export function getToken() {
   const token = localStorage.getItem("token");
-  console.log("token in getToken", token);
   if (!token) return null;
-  console.log("token in getToken2", token);
   const payload = JSON.parse(atob(token.split(".")[1]));
   if (payload.exp < Date.now() / 1000) {
     localStorage.removeItem("token");
