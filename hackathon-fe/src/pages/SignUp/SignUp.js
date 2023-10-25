@@ -25,7 +25,7 @@ const LoginSignUp = () => {
   const submitHandler = async (evt) => {
     evt.preventDefault();
     try {
-      console.log(formData);
+      console.log("FormData", formData);
       const userData = await usersService.register(formData);
       console.log(userData);
       // setUser(userData)
