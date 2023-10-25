@@ -54,7 +54,9 @@ const ShowFriend = ({ friend }) => {
           <p>25</p>
         </div>
       </div>
-      <button className={styles["edit-btn"]}>Edit</button>
+      <div className={styles["edit-container"]}>
+        <button className={styles["edit-btn"]}>Edit</button>
+      </div>
       <div className={styles["gift-preference"]}>
         <h3>Gift Preference</h3>
       </div>
