@@ -9,6 +9,8 @@ import ProfilePage from "./pages/Profile/Profile";
 import FriendsPage from "./pages/FriendsPage/FriendsPage";
 import FriendPage from "./pages/FriendPage/FriendPage";
 import FiltersPage from "./pages/FiltersPage/FiltersPage";
+import CreateFriendPage from "./pages/CreateFriendPage/CreateFriendPage";
+
 function App() {
   return (
     <div className="App">
@@ -21,8 +23,9 @@ function App() {
         <Route path="/friends" element={<FriendsPage />} />
         <Route path="/friend/:id" element={<FriendPage />} />
         <Route path="/filters" element={<FiltersPage />} />
+        <Route path="/addfriend" element={<CreateFriendPage />}/>
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
 
     </div>
   );
