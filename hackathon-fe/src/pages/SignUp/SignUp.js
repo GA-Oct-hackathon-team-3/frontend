@@ -12,7 +12,8 @@ const LoginSignUp = () => {
     email: "",
     dateOfBirth: "",
     gender: "",
-    password: ""
+    password: "",
+    confirmPassword: ""
   });
 
   const [message, setMessage] = useState("Create an Account");
@@ -51,6 +52,30 @@ const LoginSignUp = () => {
           <input type="text" id="name" name="name" onChange={handleChange} />
         </div>
         <br />
+        <div className="m-2">
+          <label htmlFor="password">Password*</label>
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Password"
+            className="border-gray-400 border-2 p-1 rounded-[4px] w-60"
+          />
+        </div>
+        <br />
+        <div className="m-2">
+          <label htmlFor="confirmPassword">Confirm Password*</label>
+          <input
+            type="password"
+            name="confirm"
+            placeholder="Confirm password"
+            value={formData.confirm}
+            onChange={handleChange}
+            className="border-gray-400 border-2 p-1 rounded-[4px] w-60"
+          />
+        </div>
+        <br />
         <div>
           <label htmlFor="phone-number">Phone no.</label>
           <input
@@ -62,7 +87,7 @@ const LoginSignUp = () => {
         </div>
         <br />
         <div>
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">Email*</label>
           <input type="email" id="email" name="email" onChange={handleChange} />
         </div>
         <br />
