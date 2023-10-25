@@ -1,31 +1,23 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styles from "./ShowFriend.module.css";
+import * as friendsService from "../../utilities/friends-service";
+import { daysUntilBirthday, splitDOB, calculateAge } from "../../utilities/helpers";
 
-export const DATA = [
-  { id: "1", first_name: "John Can", last_name: "Doe", birthday: "1990-05-15" },
-  { id: "2", first_name: "Jane", last_name: "Smith", birthday: "1987-03-28" },
-  {
-    id: "3",
-    first_name: "Alice",
-    last_name: "Johnson",
-    birthday: "1992-10-12",
-  },
-  { id: "4", first_name: "Bob", last_name: "Brown", birthday: "1985-06-22" },
-  {
-    id: "5",
-    first_name: "Charlie",
-    last_name: "Davis",
-    birthday: "1995-02-02",
-  },
-];
+const ShowFriend = () => {
 
-const ShowFriend = ({ friend }) => {
+    const [ friend, setFriend ] = useState(null);
+    const [ dobObject, setDobObject ] = useState(null);
   const { id } = useParams();
 
-  const user = DATA.find((user) => user.id === id);
-
-  console.log(user, "this is the user");
+  useEffect(() => {
+    const fetchFriend = async () => {
+        const friend = await friendsService.showFriend(id);
+        setFriend(friend);
+        setDobObject(splitDOB(friend.dob));
+  }
+  fetchFriend();
+},[])
 
   return (
     <div className={styles["container"]}>
@@ -36,22 +28,22 @@ const ShowFriend = ({ friend }) => {
           className={styles["profile-pic"]}
         />
         <h2>
-          {user.first_name} {user.last_name}
+            { friend && friend.name }
         </h2>
         <p>Friend</p>
       </div>
       <div className={styles["birthday"]}>
         <div className={styles["description"]}>
-          <p>3</p>
-          <p>Jun</p>
+            <p>{ dobObject && dobObject.day }</p>
+            <p>{ dobObject && dobObject.month }</p>
         </div>
         <div className={styles["description"]}>
-          <p>180 </p>
-          <p>Days left</p>
+            <p>{ friend && daysUntilBirthday(friend.dob) }</p>
+            <p>days left</p>
         </div>
         <div className={styles["description"]}>
           <p>Age </p>
-          <p>25</p>
+          <p>{ friend && calculateAge(friend.dob) }</p>
         </div>
       </div>
       <div className={styles["edit-container"]}>
