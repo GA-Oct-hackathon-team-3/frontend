@@ -1,0 +1,182 @@
+.create-profile-container {
+    width: 80%;
+    margin: 115px auto 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.create-profile-container > div:nth-child(1) {
+    margin-right: 30%;
+    margin-bottom: 10px;
+    width: 85%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.create-profile-container > div:nth-child(1) > h1 {
+    color: #000;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 900;
+    letter-spacing: -.5px;
+    line-height: normal;
+
+}
+
+.create-profile-container > div:nth-child(1) > p {
+    color: black;
+    font-size: 20px;
+}
+
+.create-profile-container > form > div:nth-child(1) {
+    /* border: 1px solid green; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.create-profile-container > form > div:nth-child(1) > label {
+    background-color: #c4c4c4;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    font-size: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.create-profile-container > form > div:nth-child(1) > p {
+    color: #000;
+    text-align: center;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.28px;
+}
+
+
+.create-profile-container > form > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.create-profile-container > form > div > label {
+    color: #4A4A4A;
+    text-align: center;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 0.28px;
+}
+
+.create-profile-container > form > div > input {
+    width: 358px;
+    height: 48px;
+    border-radius: 8px;
+    background-color: #c4c4c4;
+    border: none;
+    outline: none;
+}
+
+.create-profile-container > form > div:nth-child(5) {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.create-profile-container > form > div:nth-child(5) > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.create-profile-container > form > div:nth-child(5) > div > label, .create-profile-container > form > div:nth-child(11) > label {
+    color: #4A4A4A;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 0.28px;
+
+}
+
+.create-profile-container > form > div:nth-child(5) > div > input {
+    background-color: #C4C4C4;
+    border-radius: 8px;
+    border-radius: 4px;
+    width: 95%;
+    padding: 12px;
+    border: none;
+    outline: none;
+}
+
+.create-profile-container > form > div:nth-child(5) > div > select {
+    background-color: #C4C4C4;
+    border-radius: 8px;
+    border-radius: 4px;
+    width: 130px;
+    padding: 12px;
+    border: none;
+    outline: none;
+}
+
+.create-profile-container > form > div:nth-child(9) > p {
+    color: #4A4A4A;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 0.28px;
+    margin-bottom: 5px;
+}
+
+.create-profile-container > form > div:nth-child(9) > div {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.create-profile-container > form > div:nth-child(9) > div > button {
+    height: 40px;
+    border-radius: 8px;
+    background-color: #D9D9D9;
+}
+
+.create-profile-container > form > div:nth-child(11) > select {
+    background-color: #C4C4C4;
+    border-radius: 8px;
+    border-radius: 4px;
+    width: 100%;
+    padding: 12px;
+    border: none;
+}
+
+.create-profile-container > form > button {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 264px;
+    height: 60px;
+    color: #fff;
+    background-color: #747474;
+    border-radius: 20px;
+    margin: 0 auto;
+    /* font-family: Pilcrow Rounded; */
+}
+
