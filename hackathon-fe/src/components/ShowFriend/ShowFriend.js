@@ -76,7 +76,7 @@ const ShowFriend = () => {
       </div>
       <div className={styles["birthday"]}>
         <div className={styles["description"]}>
-          <p>{dobObject && dobObject.day}</p>
+          <p className={styles["text-brick"]}>{dobObject && dobObject.day}</p>
           <p>{dobObject && dobObject.month}</p>
 
         </div>
@@ -84,7 +84,7 @@ const ShowFriend = () => {
           <p></p><p></p>
         </div>
         <div className={styles["description"]}>
-          <p>{friend && daysUntilBirthday(friend.dob)}</p>
+          <p className={styles["text-brick"]}>{friend && daysUntilBirthday(friend.dob)}</p>
           <p>days left</p>
 
         </div>
@@ -92,7 +92,7 @@ const ShowFriend = () => {
           <p></p><p></p>
         </div>
         <div className={styles["description"]}>
-          <p>Age </p>
+          <p className={styles["text-brick"]}>Age </p>
           <p>{friend && calculateAge(friend.dob)}</p>
         </div>
         <div>
