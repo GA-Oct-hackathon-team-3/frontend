@@ -1,7 +1,7 @@
 import sendRequest from "./send-request";
 import { getToken } from "./users-service";
 
-const BASE_URL = "http://localhost:3010/api/friends";
+const BASE_URL = "https://presently-backend-64495929a7ac.herokuapp.com/api/friends";
 
 export async function retrieveFriends() {
   const friends = await sendRequest(BASE_URL, "GET", null);
