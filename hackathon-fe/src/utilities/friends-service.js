@@ -26,3 +26,8 @@ export async function getFavorites(id){
   const response = await sendRequest(`${BASE_URL}/${id}/favorites`, "GET", null);
   return response.favorites;
 }
+
+export async function getRecommendations(id, data){
+  const response = await sendRequest(`${BASE_URL}/${id}/generate-gift`, "POST", data);
+  return response;
+}

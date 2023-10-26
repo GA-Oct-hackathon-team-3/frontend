@@ -8,7 +8,7 @@ import {
   splitDOB,
   calculateAge
 } from "../../utilities/helpers";
-import { BsArrowLeftCircle, BsHeart, BsPencilFill } from "react-icons/bs";
+import { BsArrowCounterclockwise, BsFilter, BsHeart, BsPencilFill } from "react-icons/bs";
 
 const ShowFriend = () => {
 
@@ -18,6 +18,8 @@ const ShowFriend = () => {
   const [dobObject, setDobObject] = useState(null);
   const [activeTab, setActiveTab] = useState("profile");
   const [enableRecs, setEnableRecs] = useState(false);
+  const [isRecommending, setIsRecommending] = useState(false);
+  const [recs, setRecs] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -36,6 +38,37 @@ const ShowFriend = () => {
     fetchFriend();
     fetchFavorites();
   }, [id]);
+
+
+  useEffect(() => {
+    if (friend && friend.tags && friend.tags.length) {
+      setEnableRecs(true);
+    } else {
+      setEnableRecs(false);
+    }
+  }, [friend]);
+
+  useEffect(() => {
+    const getRecommendations = async () => {
+      // ignoring filters for now
+      const requestBody = {
+        giftTypes: friend.giftPreferences,
+        tags: friend.tags
+      }
+      console.log(requestBody);
+      setIsRecommending(true);
+      const recom = await friendsService.getRecommendations(id, requestBody);
+      console.log(recom);
+      setRecs(recom.recommendations);
+      setIsRecommending(false);
+    }
+
+    if (enableRecs && activeTab === "explore" && !recs.length) {
+      getRecommendations();
+    }
+
+  }, [activeTab, enableRecs, recs.length, id, friend]);
+
   const handleTabClick = tabName => {
     setActiveTab(tabName);
   }
@@ -189,45 +222,31 @@ const ShowFriend = () => {
           <div className={styles["personalized-recs--container"]}>
             <div className={styles["personalized-recs--container--header"]}>
               <Typography variant="h6"><div>Personalized Recommendations</div></Typography>
-              <IconButton disabled={!enableRecs}>
+              <IconButton className={styles["action-btn"]} disabled={!enableRecs}>
+                <BsArrowCounterclockwise />
                 <div>Refresh</div>
               </IconButton>
-              <IconButton disabled={!enableRecs}>
+              <IconButton className={styles["action-btn"]} disabled={!enableRecs}>
+                <BsFilter />
                 <div>Filter</div>
               </IconButton>
             </div>
-            {(friend && friend.tags && !!friend.tags.length) &&
-              <>
-                <div className={styles["personalized-recs--grid"]}>
-                  <div className={styles["grid-item"]}>
-                    <div className={styles["product-pic"]}></div>
-                    <div className={styles["product-heart"]}><IconButton><BsHeart /></IconButton></div>
-                    <div className={styles["product-name"]}>Bluetooth Earbuds</div>
-                    <div className={styles["product-price"]}>~$100</div>
-                  </div>
-                  <div className={styles["grid-item"]}>
-                    <div className={styles["product-pic"]}></div>
-                    <div className={styles["product-heart"]}><IconButton><BsHeart /></IconButton></div>
-                    <div className={styles["product-name"]}>Ficus</div>
-                    <div className={styles["product-price"]}>~$100</div>
-                  </div>
-                  <div className={styles["grid-item"]}>
-                    <div className={styles["product-pic"]}></div>
-                    <div className={styles["product-heart"]}><IconButton><BsHeart /></IconButton></div>
-                    <div className={styles["product-name"]}>Memory Foam Pillow</div>
-                    <div className={styles["product-price"]}>~$100</div>
-                  </div>
-                  <div className={styles["grid-item"]}>
-                    <div className={styles["product-pic"]}></div>
-                    <div className={styles["product-heart"]}><IconButton><BsHeart /></IconButton></div>
-                    <div className={styles["product-name"]}>Bluetooth Earbuds</div>
-                    <div className={styles["product-price"]}>~$100</div>
-                  </div>
-                </div>
-              </>
+            {!!recs.length &&
+              <div className={styles["personalized-recs--grid"]}>
+                {
+                  recs.map((rec, idx) =>
+                    <div className={styles["grid-item"]}>
+                      <div className={styles["product-pic"]}><img className={styles["product-pic"]} src={rec.imgSrc} alt={rec.title}/></div>
+                      <div className={styles["product-heart"]}><IconButton><BsHeart /></IconButton></div>
+                      <div className={styles["product-name"]}>{rec.title}</div>
+                      <div className={styles["product-price"]}>~$100</div>
+                    </div>
+                  )
+                }
+              </div>
             }
             {
-              !(friend && friend.tags && !!friend.tags.length) &&
+              !enableRecs &&
               <>
                 <div className={styles["no-tags-text"]}><Typography>Add tags to get personalized gift recommendations</Typography></div>
               </>
