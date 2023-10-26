@@ -18,6 +18,7 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .birthday {
@@ -60,4 +61,26 @@ button:hover {
   display: flex;
   flex-direction: column;
   text-align: center;
+}
+
+.border {
+  border-right: 1px solid #D9D9D9;
+}
+
+.tab-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.tab-container span {
+  padding: 10px 20px;
+  cursor: pointer;
+  color: #D9D9D9;
+}
+
+.tab-container span.active-tab {
+  border-radius: 5px;
+  color: black;
 }
