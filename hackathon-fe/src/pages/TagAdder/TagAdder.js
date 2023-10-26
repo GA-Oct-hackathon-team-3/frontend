@@ -1,5 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import "./TagAdder.css";
+import * as friendsService from "../../utilities/friends-service";
+import * as tagService from "../../utilities/tags-service";
+
+import {
+  daysUntilBirthday,
+  splitDOB,
+  calculateAge
+} from "../../utilities/helpers";
 
 function TagAdder() {
   const [tags, setTags] = useState([
@@ -12,8 +21,21 @@ function TagAdder() {
     "Arts and Crafts",
     "Socializing"
   ]);
+  const { id } = useParams();
+  const [friend, setFriend] = useState(null);
+  const [dobObject, setDobObject] = useState(null);
   const [selectedTags, setSelectedTags] = useState([]);
   const [inputValue, setInputValue] = useState("");
+
+  useEffect(() => {
+    const fetchFriend = async () => {
+      const friend = await friendsService.showFriend(id);
+      console.log(friend);
+      setFriend(friend);
+      setDobObject(splitDOB(friend.dob));
+    };
+    fetchFriend();
+  }, []);
 
   const handleTagClick = (tag) => {
     if (!selectedTags.includes(tag)) {
@@ -27,6 +49,7 @@ function TagAdder() {
 
   const handleInputEnter = () => {
     if (inputValue && !tags.includes(inputValue)) {
+      tagService.addTag(id, { title: inputValue });
       setTags([...tags, inputValue]);
       setSelectedTags([...selectedTags, inputValue]);
       setInputValue("");
@@ -54,6 +77,21 @@ function TagAdder() {
           }}
         />
       </div>
+      <div className="tag-section">
+        <h3>Added Tags</h3>
+        {tags.slice(0, 3).map((tag) => (
+          <button
+            className={`tag-button ${
+              selectedTags.includes(tag) ? "selected" : ""
+            }`}
+            onClick={() => handleTagClick(tag)}
+            key={tag}
+          >
+            {tag}
+          </button>
+        ))}
+      </div>
+
       <div className="tag-section">
         <h3>Popular Tags</h3>
         {tags.slice(0, 3).map((tag) => (
