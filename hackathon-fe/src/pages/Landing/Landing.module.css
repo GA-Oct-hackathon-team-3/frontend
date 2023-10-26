@@ -1,8 +1,3 @@
-/* @font-face {
-    font-family: 'Pilcrow Rounded';
-    src:  url('../../assets/fonts/PilcrowRounded-Regular.woff2') format('woff2');
-} */
-
 @media (max-width: 480px) {
     .landing-container {
         position: absolute;

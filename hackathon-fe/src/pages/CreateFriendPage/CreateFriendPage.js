@@ -55,7 +55,7 @@ function CreateFriendProfile() {
 
         <form onSubmit={submitHandler}>
           <div>
-            <label htmlFor="image" className={styles["add-image"]}></label>
+            <label htmlFor="image" className={styles["add-image"]}>+</label>
             <input type="file" id="image" hidden />
             <p>Add profile photo</p>
           </div>
