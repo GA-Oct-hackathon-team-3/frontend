@@ -21,9 +21,7 @@ function UpdateFriendPage () {
     const fetchFriend = async () => {
       const friendInfo = await friendsService.showFriend(id);
       setFriend(friendInfo);
-      setDobObject(splitDOB(friendInfo.dob));
       setProfileInput({
-        dobObject,
         ...friendInfo
       });
     }
@@ -40,7 +38,8 @@ function UpdateFriendPage () {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(profileInput);
+    const response = await friendsService.updateFriend(id, profileInput);
+    if (response.message === 'Friend updated') navigate((-1));
 
   };
 
