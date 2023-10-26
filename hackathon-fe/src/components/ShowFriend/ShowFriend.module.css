@@ -238,3 +238,8 @@ button:hover {
   display:flex;
   flex-direction: column;
 }
+
+.spinner-container{
+  width: 100%;
+  margin: 50px auto;
+}

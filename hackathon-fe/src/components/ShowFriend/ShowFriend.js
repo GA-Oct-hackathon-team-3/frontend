@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "./ShowFriend.module.css";
-import { Card, CardHeader, IconButton, CardContent, Typography } from "@mui/material";
+import { Card, CardHeader, IconButton, CardContent, Typography, CircularProgress } from "@mui/material";
 import * as friendsService from "../../utilities/friends-service";
 import {
   daysUntilBirthday,
@@ -27,7 +27,7 @@ const ShowFriend = () => {
     const fetchFriend = async () => {
       const friendData = await friendsService.showFriend(id);
       const uniqueTimestamp = Date.now();
-      friendData.photo = `${friendData.photo}?timestamp=${uniqueTimestamp}`;    
+      friendData.photo = `${friendData.photo ? friendData.photo : 'https://i.imgur.com/hCwHtRc.png'}?timestamp=${uniqueTimestamp}`;
       setFriend(friendData);
       setDobObject(splitDOB(friendData.dob));
     }
@@ -208,6 +208,7 @@ const ShowFriend = () => {
               <div className={styles["gift-recommendations"]}>
                 {favorites && !!favorites.length && favorites.map((fav, idx) => {
                   // Grid display or flex the favorites here
+                  return <div key={idx} />
                 })}
                 {
                   !(favorites && !!favorites.length) && <div>You haven't favorited any gifts yet.</div>
@@ -231,12 +232,18 @@ const ShowFriend = () => {
                 <div>Filter</div>
               </IconButton>
             </div>
+            {
+              isRecommending && 
+              <div className={styles["spinner-container"]}>
+              <CircularProgress color="secondary" />
+              </div>
+            }
             {!!recs.length &&
               <div className={styles["personalized-recs--grid"]}>
                 {
                   recs.map((rec, idx) =>
-                    <div className={styles["grid-item"]}>
-                      <div className={styles["product-pic"]}><img className={styles["product-pic"]} src={rec.imgSrc} alt={rec.title}/></div>
+                    <div key={idx} className={styles["grid-item"]}>
+                      <div className={styles["product-pic"]}><img className={styles["product-pic"]} src={rec.imgSrc} alt={rec.title} /></div>
                       <div className={styles["product-heart"]}><IconButton><BsHeart /></IconButton></div>
                       <div className={styles["product-name"]}>{rec.title}</div>
                       <div className={styles["product-price"]}>~$100</div>
