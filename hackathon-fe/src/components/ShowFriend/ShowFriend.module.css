@@ -4,8 +4,25 @@
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  background-color: #ffffff;
-  height: 100vh;
+  background-color: #FDF7ED;
+  position: relative;
+  /* height: 100vh; */
+  min-height: 100vh;
+}
+
+.shadow {
+  border-radius: 0px 0px 8px 8px;
+  background: var(--Brick, #FA7F39);
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100px;
+  width: 100%;
+  z-index: 0;
+}
+
+.text-brick{
+  color: #FA7F39;
 }
 
 .profile {
@@ -19,6 +36,7 @@
   height: 60px;
   border-radius: 50%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1;
 }
 
 .birthday {
@@ -34,14 +52,14 @@
 
 .gift-preference,
 .gift-recommendations {
-  margin-top: 20px;
+
   min-height: 100px;
 }
 
-.gift-types{
+.gift-types {
   display: flex;
   justify-content: space-evenly;
-  margin-bottom: 10px;
+  gap: 10px;
 }
 
 .gift-type-btn {
@@ -57,7 +75,7 @@
   align-items: center;
 }
 
-.gift-type-btn.active{
+.gift-type-btn.active {
   background: var(--Background-Cream, #FDF7ED);
 }
 
@@ -65,14 +83,16 @@
   width: 57.628px;
   height: 40px;
   flex-shrink: 0;
-  background: url("../../assets/music_keys.png"), lightgray 50% / contain no-repeat;
+  background: url("./../../assets/music_keys.png"), rgba(0, 0, 0, 0) 50% / contain no-repeat;
 }
+
 .gift-type-btn__image--presents {
   width: 57.628px;
   height: 50px;
   flex-shrink: 0;
-  background: url("../../assets/pink_gift_box_with_white_ribbon.png"),rgba(0, 0, 0, 0) 50% / contain no-repeat;
+  background: url("../../assets/pink_gift_box_with_white_ribbon.png"), rgba(0, 0, 0, 0) 50% / contain no-repeat;
 }
+
 .gift-type-btn__image--donations {
   width: 57.628px;
   height: 50px;
@@ -99,6 +119,8 @@ button {
   border-radius: 5px;
   background-color: #e0e0e0;
   cursor: pointer;
+  z-index: 1;
+  position: relative;
 }
 
 button:hover {
@@ -136,4 +158,92 @@ button:hover {
 .tab-container span.active-tab {
   border-radius: 5px;
   color: black;
+  text-decoration: underline;
+}
+
+.personalized-recs--container {
+  background-color: #ffffff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 35px;
+  min-height: 469px;
+  padding-top: 21px;
+  border: 1px solid var(--Soft-Border-Gray, #D9D9D9);
+
+}
+
+.personalized-recs--container--header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.personalized-recs--grid {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 24px;
+  padding: 24px;
+}
+
+.grid-item {
+  /* background-color: #F5F5F5;
+  border: 1px solid #D9D9D9; */
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  gap: 5px;
+}
+
+.product-pic {
+  height: 128px;
+  width: 128px;
+  border-radius: 8px;
+  border: 1px solid var(--Soft-Border-Gray, #D9D9D9);
+  background: var(--White, #FFF);
+  flex-shrink: 0;
+  position: relative;
+  object-fit: cover;
+}
+
+.product-heart {
+  width: 32px;
+  /* Adjust based on your heart icon size */
+  height: 32px;
+  /* margin-bottom: 24px; */
+  position: absolute;
+  bottom: 75px;
+  right: 16px;
+}
+
+.product-name {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.product-price {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.no-tags-text{
+  text-align: center;
+  margin-top: 100px;
+}
+
+.action-btn{
+  display:flex;
+  flex-direction: column;
+}
+
+.spinner-container{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px auto;
 }
