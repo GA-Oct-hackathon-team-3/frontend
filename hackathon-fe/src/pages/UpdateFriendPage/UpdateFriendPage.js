@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { BsArrowLeft } from "react-icons/bs";
 import * as friendsService from "../../utilities/friends-service";
-import { splitDOB } from "../../utilities/helpers";
 
 import Header from "../../components/Header/Header";
 
@@ -13,21 +12,47 @@ function UpdateFriendPage () {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const [friend, setFriend] = useState(null); 
   const [profileInput, setProfileInput] = useState(null);
-  const [dobObject, setDobObject] = useState(null);
+  const [displayFile, setDisplayFile] = useState(null);
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const [buttonHTML, setButtonHTML] = useState('Add profile photo');
+
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     const fetchFriend = async () => {
       const friendInfo = await friendsService.showFriend(id);
-      setFriend(friendInfo);
       setProfileInput({
         ...friendInfo
       });
+      if (friendInfo.photo) {
+            const uniqueTimestamp = Date.now();
+            friendInfo.photo = `${friendInfo.photo}?timestamp=${uniqueTimestamp}`;    
+            setDisplayFile(friendInfo.photo);
+            setButtonHTML('Change photo');
+      }
     }
     fetchFriend();
   }, [id]);
 
+  function handleAddPhotoClick (evt) {
+    evt.preventDefault();
+    fileInputRef.current.click();
+}
+
+function handleFileChange (evt) {
+    // assigns file upload to display image, adds file to state for form submit, and toggles button HTML
+    const file = evt.target.files[0];
+    if (file) {
+        setDisplayFile(URL.createObjectURL(file));
+        setUploadedFile(file);
+        setButtonHTML('Change photo');
+    } else {
+        setDisplayFile(null);
+        setUploadedFile(null);
+        setButtonHTML('Add profile photo');
+    } 
+}
 
   const handleGiftTypeToggle = (type) => {
     const newGiftTypes = profileInput.giftPreferences.includes(type)
@@ -39,7 +64,11 @@ function UpdateFriendPage () {
   const submitHandler = async (e) => {
     e.preventDefault();
     const response = await friendsService.updateFriend(id, profileInput);
-    if (response.message === 'Friend updated') navigate((-1));
+    if (uploadedFile) {
+        const photoResponse = await friendsService.uploadPhoto(id, uploadedFile);
+        if (photoResponse.ok && response.message === 'Friend updated') navigate(`/friend/${id}`);
+    }
+    if (response.message === 'Friend updated') navigate(`/friend/${id}`);
 
   };
 
@@ -54,12 +83,15 @@ function UpdateFriendPage () {
           <h1>Edit Friend Profile</h1>
         </div>
 
-        <form onSubmit={submitHandler}>
+        <form onSubmit={submitHandler} encType="multipart/form-data">
           <div>
-            { profileInput && profileInput.photo }
-            <label htmlFor="image" className={styles["add-image"]}></label>
-            <input type="file" id="image" hidden />
-            <p>Add profile photo</p>
+            { displayFile ? (
+                    <img src={`${displayFile}`} alt="Uploaded" style={{ height: '80px', width: '80px', paddingBottom: '6px' }}/>
+                ) : (
+                    <label htmlFor="image" className={styles["add-image"]} >+</label>
+            )}
+            <input type="file" name="photo" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} />
+            <button onClick={handleAddPhotoClick}>{buttonHTML}</button>
           </div>
           <br />
 

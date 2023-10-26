@@ -21,14 +21,14 @@ const ShowFriend = () => {
 
   useEffect(() => {
     const fetchFriend = async () => {
-      const friend = await friendsService.showFriend(id);
-      console.log(friend);
-      setFriend(friend);
-      setDobObject(splitDOB(friend.dob));
+      const friendData = await friendsService.showFriend(id);
+      const uniqueTimestamp = Date.now();
+      friendData.photo = `${friendData.photo}?timestamp=${uniqueTimestamp}`;    
+      setFriend(friendData);
+      setDobObject(splitDOB(friendData.dob));
     }
     const fetchFavorites = async () => {
       const favorites = await friendsService.getFavorites(id);
-      console.log(favorites);
       setFavorites(favorites);
     }
     fetchFriend();
