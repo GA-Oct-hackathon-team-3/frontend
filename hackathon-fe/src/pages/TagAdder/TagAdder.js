@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./TagAdder.css";
 import * as friendsService from "../../utilities/friends-service";
@@ -26,6 +26,8 @@ function TagAdder() {
   const [dobObject, setDobObject] = useState(null);
   const [selectedTags, setSelectedTags] = useState([]);
   const [inputValue, setInputValue] = useState("");
+  const [allTags, setAllTags] = useState([]);
+  const hasFunctionRun = useRef(false);
 
   useEffect(() => {
     const fetchFriend = async () => {
@@ -35,7 +37,17 @@ function TagAdder() {
       setSelectedTags(friend.tags);
       setDobObject(splitDOB(friend.dob));
     };
+    const fetchTags = async () => {
+      const tagsData = await tagService.getTags();
+      console.log("all tags: ", tagsData);
+      setAllTags(tagsData);
+    };
 
+    if (!hasFunctionRun.current) {
+      fetchTags();
+      console.log("fetching tags");
+      hasFunctionRun.current = true;
+    }
     fetchFriend();
   }, [tags]);
 
@@ -57,6 +69,14 @@ function TagAdder() {
       setInputValue("");
     }
   };
+
+  const groupedData = allTags.reduce((acc, curr) => {
+    if (!acc[curr.type]) {
+      acc[curr.type] = [];
+    }
+    acc[curr.type].push(curr);
+    return acc;
+  }, {});
 
   return (
     <div className="tag-container">
@@ -86,9 +106,7 @@ function TagAdder() {
             className={"tag-button"}
             onClick={async () => {
               await tagService.removeTag(id, tag._id);
-              setSelectedTags(
-                selectedTags.filter((tag) => tag._id !== tag._id)
-              );
+              setTags(tags.filter((tag) => tag.title !== tag.title));
             }}
             key={tag._id}
           >
@@ -97,7 +115,29 @@ function TagAdder() {
         ))}
       </div>
 
-      <div className="tag-section">
+      <div>
+        {Object.entries(groupedData)
+          .filter(([type, tags]) => type !== "custom")
+          .map(([type, tags]) => (
+            <div key={type}>
+              <h3>{type}</h3>
+              {tags.map((tag) => (
+                <button
+                  className={"tag-button"}
+                  onClick={async () => {
+                    await tagService.addTag(id, tag);
+                    setTags([...tags, tag.title]);
+                  }}
+                  key={tag.name}
+                >
+                  {tag.title}
+                </button>
+              ))}
+            </div>
+          ))}
+      </div>
+
+      {/* <div className="tag-section">
         <h3>Popular Tags</h3>
         {tags.slice(0, 3).map((tag) => (
           <button
@@ -138,8 +178,15 @@ function TagAdder() {
             {tag}
           </button>
         ))}
-      </div>
-      <button className="complete-button">Complete Profile</button>
+      </div> */}
+      <button
+        className="complete-button"
+        onClick={async () => {
+          console.log("complete button clicked");
+        }}
+      >
+        Complete Profile
+      </button>
     </div>
   );
 }
