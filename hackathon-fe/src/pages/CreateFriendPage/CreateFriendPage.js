@@ -34,7 +34,7 @@ function CreateFriendProfile() {
       console.log("Creating friend profile", profile);
       const friendData = await friendsService.createFriend(profile);
       console.log("friend succesfully created", friendData);
-      // navigate("/friends");
+      navigate("/friends");
     } catch (error) {
       console.log(error);
     }
