@@ -1,45 +1,46 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { BsArrowLeft } from "react-icons/bs";
 import * as friendsService from "../../utilities/friends-service";
+import { splitDOB } from "../../utilities/helpers";
 
 import Header from "../../components/Header/Header";
 
-import styles from "./CreateFriendPage.module.css";
+import styles from "../CreateFriendPage/CreateFriendPage.module.css";
 
-function CreateFriendProfile() {
+function UpdateFriendPage () {
   const navigate = useNavigate();
+  const { id } = useParams();
 
-  const [profile, setProfile] = useState({
-    name: "",
-    dob: "",
-    gender: "",
-    location: "",
-    giftPreferences: [],
-    giftCost: ""
-  });
+  const [friend, setFriend] = useState(null); 
+  const [profileInput, setProfileInput] = useState(null);
+  const [dobObject, setDobObject] = useState(null);
+
+  useEffect(() => {
+    const fetchFriend = async () => {
+      const friendInfo = await friendsService.showFriend(id);
+      setFriend(friendInfo);
+      setProfileInput({
+        ...friendInfo
+      });
+    }
+    fetchFriend();
+  }, [id]);
+
 
   const handleGiftTypeToggle = (type) => {
-    const newGiftTypes = profile.giftPreferences.includes(type)
-      ? profile.giftPreferences.filter((t) => t !== type)
-      : [...profile.giftPreferences, type];
-    setProfile({ ...profile, giftPreferences: newGiftTypes });
+    const newGiftTypes = profileInput.giftPreferences.includes(type)
+      ? profileInput.giftPreferences.filter((t) => t !== type)
+      : [...profileInput.giftPreferences, type];
+    setProfileInput({ ...profileInput, giftPreferences: newGiftTypes });
   };
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    const response = await friendsService.updateFriend(id, profileInput);
+    if (response.message === 'Friend updated') navigate((-1));
 
-    try {
-      console.log("Creating friend profile", profile);
-      const friendData = await friendsService.createFriend(profile);
-      console.log("friend succesfully created", friendData);
-      navigate("/friends");
-    } catch (error) {
-      console.log(error);
-    }
-
-    // navigate("/addtags")
   };
 
   return (
@@ -50,12 +51,13 @@ function CreateFriendProfile() {
           <p onClick={() => navigate(-1)}>
             <BsArrowLeft />
           </p>
-          <h1>Create Friend Profile</h1>
+          <h1>Edit Friend Profile</h1>
         </div>
 
         <form onSubmit={submitHandler}>
           <div>
-            <label htmlFor="image" className={styles["add-image"]}>+</label>
+            { profileInput && profileInput.photo }
+            <label htmlFor="image" className={styles["add-image"]}></label>
             <input type="file" id="image" hidden />
             <p>Add profile photo</p>
           </div>
@@ -65,8 +67,8 @@ function CreateFriendProfile() {
             <label htmlFor="name">Name</label>
             <input
               id="name"
-              value={profile.name}
-              onChange={(e) => setProfile({ ...profile, name: e.target.value })}
+              value={profileInput && profileInput.name}
+              onChange={(e) => setProfileInput({ ...profileInput, name: e.target.value })}
             />
           </div>
           <br />
@@ -77,9 +79,9 @@ function CreateFriendProfile() {
               <input
                 type="date"
                 id="dob"
-                value={profile.dob}
+                value={profileInput && profileInput.dob}
                 onChange={(e) =>
-                  setProfile({ ...profile, dob: e.target.value })
+                  setProfileInput({ ...profileInput, dob: e.target.value })
                 }
               />
             </div>
@@ -88,9 +90,9 @@ function CreateFriendProfile() {
               <label htmlFor="gender">Gender</label>
               <select
                 id="gender"
-                value={profile.gender}
+                value={profileInput && profileInput.gender}
                 onChange={(e) =>
-                  setProfile({ ...profile, gender: e.target.value })
+                    setProfileInput({ ...profileInput, gender: e.target.value })
                 }
               >
                 <option disabled></option>
@@ -106,9 +108,9 @@ function CreateFriendProfile() {
             <label htmlFor="location">Location</label>
             <input
               id="location"
-              value={profile.location}
+              value={profileInput && profileInput.location}
               onChange={(e) =>
-                setProfile({ ...profile, location: e.target.value })
+                setProfileInput({ ...profileInput, location: e.target.value })
               }
             />
           </div>
@@ -156,11 +158,11 @@ function CreateFriendProfile() {
           </div> */}
           <br />
 
-          <button onClick={submitHandler}>Continue to add tags</button>
+          <button onClick={submitHandler}>Confirm</button>
         </form>
       </div>
     </>
   );
 }
 
-export default CreateFriendProfile;
+export default UpdateFriendPage;
