@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { BsArrowLeft } from "react-icons/bs";
+import * as friendsService from "../../utilities/friends-service";
 
 import Header from "../../components/Header/Header";
 
@@ -15,20 +16,28 @@ function CreateFriendProfile() {
     dob: "",
     gender: "",
     location: "",
-    giftTypePreferences: [],
-    giftCost: "",
+    giftPreferences: [],
+    giftCost: ""
   });
 
   const handleGiftTypeToggle = (type) => {
-    const newGiftTypes = profile.giftTypePreferences.includes(type)
-      ? profile.giftTypePreferences.filter((t) => t !== type)
-      : [...profile.giftTypePreferences, type];
-    setProfile({ ...profile, giftTypePreferences: newGiftTypes });
+    const newGiftTypes = profile.giftPreferences.includes(type)
+      ? profile.giftPreferences.filter((t) => t !== type)
+      : [...profile.giftPreferences, type];
+    setProfile({ ...profile, giftPreferences: newGiftTypes });
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
 
+    try {
+      console.log("Creating friend profile", profile);
+      const friendData = await friendsService.createFriend(profile);
+      console.log("friend succesfully created", friendData);
+      navigate("/friends");
+    } catch (error) {
+      console.log(error);
+    }
 
     // navigate("/addtags")
   };
@@ -66,6 +75,7 @@ function CreateFriendProfile() {
             <div>
               <label htmlFor="dob">DOB</label>
               <input
+                type="date"
                 id="dob"
                 value={profile.dob}
                 onChange={(e) =>
@@ -84,9 +94,9 @@ function CreateFriendProfile() {
                 }
               >
                 <option disabled></option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
               </select>
             </div>
           </div>
@@ -107,20 +117,29 @@ function CreateFriendProfile() {
           <div>
             <p>Gift type Preferences (choose all that apply)</p>
             <div>
-              <button onClick={() => handleGiftTypeToggle("Present")}>
+              <button
+                type="button"
+                onClick={() => handleGiftTypeToggle("Present")}
+              >
                 Present
               </button>
-              <button onClick={() => handleGiftTypeToggle("Experience")}>
+              <button
+                type="button"
+                onClick={() => handleGiftTypeToggle("Experience")}
+              >
                 Experience
               </button>
-              <button onClick={() => handleGiftTypeToggle("Donation")}>
+              <button
+                type="button"
+                onClick={() => handleGiftTypeToggle("Donation")}
+              >
                 Donation
               </button>
             </div>
           </div>
           <br />
 
-          <div>
+          {/* <div>
             <label htmlFor="giftcost">Gift Cost</label>
             <select
               id="giftcost"
@@ -134,10 +153,10 @@ function CreateFriendProfile() {
               <option value="Medium">$$ - Medium</option>
               <option value="High">$$$ - High</option>
             </select>
-          </div>
+          </div> */}
           <br />
 
-          <button>Continue to add tags</button>
+          <button onClick={submitHandler}>Continue to add tags</button>
         </form>
       </div>
     </>
