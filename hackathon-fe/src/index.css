@@ -6,5 +6,5 @@
 * {
   box-sizing: border-box;
   margin: 0;
-  font-family: "Pilcrow Rounded";
+  font-family: "Pilcrow Rounded" !important;
 }

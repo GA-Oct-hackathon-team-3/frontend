@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "./ShowFriend.module.css";
-import { Card } from "@mui/material";
+import { Card, CardHeader, IconButton, CardContent, Typography } from "@mui/material";
 import * as friendsService from "../../utilities/friends-service";
 import {
   daysUntilBirthday,
   splitDOB,
   calculateAge
 } from "../../utilities/helpers";
+import { BsArrowLeftCircle, BsHeart, BsPencilFill } from "react-icons/bs";
 
 const ShowFriend = () => {
 
@@ -16,6 +17,7 @@ const ShowFriend = () => {
   const [favorites, setFavorites] = useState([]);
   const [dobObject, setDobObject] = useState(null);
   const [activeTab, setActiveTab] = useState("profile");
+  const [enableRecs, setEnableRecs] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -38,11 +40,24 @@ const ShowFriend = () => {
     setActiveTab(tabName);
   }
 
+  const handleEditProfile = () => {
+    alert("Edit friend profile");
+  }
+
+  const handleEditTags = () => {
+    alert("Edit friend tags");
+  }
+
+  const handleEditFavorites = () => {
+    alert("Edit favorites");
+  }
+
   const giftPreferences = friend && friend.giftPreferences;
 
 
   return (
     <div className={styles["container"]}>
+      <div className={styles["shadow"]}></div>
       <button type="button" onClick={() => navigate("/friends")}>
         <a>X</a>
       </button>
@@ -80,9 +95,9 @@ const ShowFriend = () => {
           <p>Age </p>
           <p>{friend && calculateAge(friend.dob)}</p>
         </div>
-      </div>
-      <div className={styles["edit-container"]}>
-        <button className={styles["edit-btn"]}>Edit</button>
+        <div>
+          <BsPencilFill onClick={handleEditProfile} />
+        </div>
       </div>
       <div className={styles["tab-container"]}>
         <span
@@ -98,47 +113,116 @@ const ShowFriend = () => {
           Explore Gifts
         </span>
       </div>
-      {activeTab === "profile" && <>
-        <Card className={styles["card"]}>
-          <div className={styles["gift-preference"]}>
-            <h3>Gift Type</h3>
-            <div className={styles["gift-types"]}>
-              <div className={styles["gift-type-btn"] + ' ' + (giftPreferences && giftPreferences.includes("Experience") ? styles["active"] : '')}>
-                <div className={styles["gift-type-btn__image--experiences"]}></div>
-                <div className={styles["gift-type-btn__text"]}>Experiences</div>
+      {activeTab === "profile" &&
+        <>
+          <Card className={styles["card"]}>
+            <CardHeader className={styles["card-header"]} title="Gift Type" action={
+              <IconButton onClick={handleEditProfile}>
+                <BsPencilFill />
+              </IconButton>
+            } />
+            <CardContent>
+              <div className={styles["gift-preference"]}>
+                <div className={styles["gift-types"]}>
+                  <div className={styles["gift-type-btn"] + ' ' + (giftPreferences && giftPreferences.includes("Experience") ? styles["active"] : '')}>
+                    <div className={styles["gift-type-btn__image--experiences"]}></div>
+                    <div className={styles["gift-type-btn__text"]}>Experiences</div>
+                  </div>
+                  <div className={styles["gift-type-btn"] + ' ' + (giftPreferences && giftPreferences.includes("Present") ? styles["active"] : '')}>
+                    <div className={styles["gift-type-btn__image--presents"]}></div>
+                    <div className={styles["gift-type-btn__text"]}>Presents</div>
+                  </div>
+                  <div className={styles["gift-type-btn"] + ' ' + (giftPreferences && giftPreferences.includes("Donation") ? styles["active"] : '')}>
+                    <div className={styles["gift-type-btn__image--donations"]}></div>
+                    <div className={styles["gift-type-btn__text"]}>Donations</div>
+                  </div>
+                </div>
               </div>
-              <div className={styles["gift-type-btn"] + ' ' + (giftPreferences && giftPreferences.includes("Present") ? styles["active"] : '')}>
-                <div className={styles["gift-type-btn__image--presents"]}></div>
-                <div className={styles["gift-type-btn__text"]}>Presents</div>
+            </CardContent>
+          </Card>
+          <Card className={styles["card"]}>
+            <CardHeader className={styles["card-header"]} title="Selected Tags" action={
+              <IconButton onClick={handleEditTags}>
+                <BsPencilFill />
+              </IconButton>
+            } />
+            <CardContent>
+              <div className={styles["gift-preference"]}>
+                <div className={styles["tags"]}>
+                  {friend && friend.tags && !!friend.tags.length && friend.tags.map((tag, idx) =>
+                    <>
+                      <button key={tag._id}>{tag.title}</button>
+                    </>)}
+                  {
+                    !(friend && friend.tags && !!friend.tags.length) &&
+                    <>
+                      <div>
+                        Your friend doesn't have any tags. Click edit to add them.
+                      </div>
+                    </>
+                  }
+                </div>
               </div>
-              <div className={styles["gift-type-btn"] + ' ' + (giftPreferences && giftPreferences.includes("Donation") ? styles["active"] : '')}>
-                <div className={styles["gift-type-btn__image--donations"]}></div>
-                <div className={styles["gift-type-btn__text"]}>Donations</div>
+            </CardContent>
+          </Card>
+          <Card className={styles["card"]}>
+            <CardHeader className={styles["card-header"]} title="Favorite Gifts" action={
+              <IconButton onClick={handleEditFavorites}>
+                <BsPencilFill />
+              </IconButton>
+            } />
+            <CardContent>
+              <div className={styles["gift-recommendations"]}>
+                {favorites && !!favorites.length && favorites.map((fav, idx) => {
+                  // Grid display or flex the favorites here
+                })}
+                {
+                  !(favorites && !!favorites.length) && <div>You haven't favorited any gifts yet.</div>
+                }
               </div>
-            </div>
-          </div>
-        </Card>
-        <Card className={styles["card"]}>
-          <div className={styles["gift-preference"]}>
-            <h3>Selected Tags</h3>
-            <div className={styles["tags"]}>
-              <button>Reading</button>
-              <button>Outdoor Activities +</button>
-              <button>Arts and Crafts +</button>
-              <button>Socializing +</button>
-            </div>
-          </div>
-        </Card>
-        <Card className={styles["card"]}>
-          <div className={styles["gift-recommendations"]}>
-            <h3>Favorite Gifts</h3>
-          </div>
-        </Card>
-      </>}
+            </CardContent>
+          </Card>
+        </>}
       {
         activeTab === "explore" &&
         <>
-          <h3>this is explore gifts</h3>
+          <div className={styles["personalized-recs--container"]}>
+            <div className={styles["personalized-recs--container--header"]}>
+              <Typography variant="h6"><div>Personalized Recommendations</div></Typography>
+              <IconButton disabled={!enableRecs}>
+                <div>Refresh</div>
+              </IconButton>
+              <IconButton disabled={!enableRecs}>
+                <div>Filter</div>
+              </IconButton>
+            </div>
+            <div className={styles["personalized-recs--grid"]}>
+              <div className={styles["grid-item"]}>
+                <div className={styles["product-pic"]}></div>
+                <div className={styles["product-heart"]}><IconButton><BsHeart /></IconButton></div>
+                <div className={styles["product-name"]}>Bluetooth Earbuds</div>
+                <div className={styles["product-price"]}>~$100</div>
+              </div>
+              <div className={styles["grid-item"]}>
+                <div className={styles["product-pic"]}></div>
+                <div className={styles["product-heart"]}><IconButton><BsHeart /></IconButton></div>
+                <div className={styles["product-name"]}>Ficus</div>
+                <div className={styles["product-price"]}>~$100</div>
+              </div>
+              <div className={styles["grid-item"]}>
+                <div className={styles["product-pic"]}></div>
+                <div className={styles["product-heart"]}><IconButton><BsHeart /></IconButton></div>
+                <div className={styles["product-name"]}>Memory Foam Pillow</div>
+                <div className={styles["product-price"]}>~$100</div>
+              </div>
+              <div className={styles["grid-item"]}>
+                <div className={styles["product-pic"]}></div>
+                <div className={styles["product-heart"]}><IconButton><BsHeart /></IconButton></div>
+                <div className={styles["product-name"]}>Bluetooth Earbuds</div>
+                <div className={styles["product-price"]}>~$100</div>
+              </div>
+            </div>
+          </div>
         </>
       }
     </div>
