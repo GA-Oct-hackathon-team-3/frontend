@@ -30,12 +30,14 @@ function TagAdder() {
   useEffect(() => {
     const fetchFriend = async () => {
       const friend = await friendsService.showFriend(id);
-      console.log(friend);
+      console.log("useEffect triggered, friend data:", friend);
       setFriend(friend);
+      setSelectedTags(friend.tags);
       setDobObject(splitDOB(friend.dob));
     };
+
     fetchFriend();
-  }, []);
+  }, [tags]);
 
   const handleTagClick = (tag) => {
     if (!selectedTags.includes(tag)) {
@@ -47,9 +49,9 @@ function TagAdder() {
     setInputValue(e.target.value);
   };
 
-  const handleInputEnter = () => {
+  const handleInputEnter = async () => {
     if (inputValue && !tags.includes(inputValue)) {
-      tagService.addTag(id, { title: inputValue });
+      await tagService.addTag(id, { title: inputValue });
       setTags([...tags, inputValue]);
       setSelectedTags([...selectedTags, inputValue]);
       setInputValue("");
@@ -79,15 +81,18 @@ function TagAdder() {
       </div>
       <div className="tag-section">
         <h3>Added Tags</h3>
-        {tags.slice(0, 3).map((tag) => (
+        {selectedTags.map((tag) => (
           <button
-            className={`tag-button ${
-              selectedTags.includes(tag) ? "selected" : ""
-            }`}
-            onClick={() => handleTagClick(tag)}
-            key={tag}
+            className={"tag-button"}
+            onClick={async () => {
+              await tagService.removeTag(id, tag._id);
+              setSelectedTags(
+                selectedTags.filter((tag) => tag._id !== tag._id)
+              );
+            }}
+            key={tag._id}
           >
-            {tag}
+            {tag.title}
           </button>
         ))}
       </div>
