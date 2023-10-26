@@ -82,7 +82,7 @@ const ShowFriend = () => {
         </div>
       </div>
       <div className={styles["edit-container"]}>
-        <button className={styles["edit-btn"]}>Edit</button>
+        <button className={styles["edit-btn"]} onClick={() => navigate(`/friend/${id}/edit`)}>Edit</button>
       </div>
       <div className={styles["tab-container"]}>
         <span
