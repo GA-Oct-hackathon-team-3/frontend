@@ -27,24 +27,24 @@ const marks = [
   },
 ];
 
-// const friend = {
-//   _id: "1",
-//   user: "1",
-//   name: "friend one",
-//   gender: "female",
-//   dob: "1990-01-01",
-//   tags: [{
-//     _id: "1",
-//     title: "arts & crafts"
-//   },
-//   {
-//     _id: "2",
-//     title: "gardening"
-//   }],
-//   giftPreferences: ["donation"]
-// }
+const friend = {
+  _id: "1",
+  user: "1",
+  name: "friend one",
+  gender: "female",
+  dob: "1990-01-01",
+  tags: [{
+    _id: "1",
+    title: "arts & crafts"
+  },
+  {
+    _id: "2",
+    title: "gardening"
+  }],
+  giftPreferences: ["donation"]
+}
 
-const Filters = ({friend}) => {
+const Filters = ({onSave}) => {
   const [show, setShow] = useState(null);
   const [budget, setBudget] = useState(100);
   const [giftPreferences, setGiftPreferences] = useState(friend.giftPreferences);
@@ -59,7 +59,11 @@ const Filters = ({friend}) => {
   };
 
   function valuetext(value) {
-    return `${value}°C`;
+    return `$${value}`;
+  }
+
+  const valueLabelFormat = value =>{
+    return `$ ${value}`;
   }
 
   const handlePrefClick = (e) => {
@@ -112,6 +116,7 @@ const Filters = ({friend}) => {
                 max={1000}
                 valueLabelDisplay="auto"
                 className={styles["slider"]}
+                valueLabelFormat={valueLabelFormat}
               />
             </div>
           )}
@@ -175,7 +180,7 @@ const Filters = ({friend}) => {
       </div>
       <div className={styles["btn-container"]}>
         <button className={styles["clear-btn"]} onClick={clearFilters}>Clear</button>
-        <button className={styles["save-btn"]}>Save</button>
+        <button className={styles["save-btn"]} onClick={onSave}>Save</button>
       </div>
     </div>
   );
