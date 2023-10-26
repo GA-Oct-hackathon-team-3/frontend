@@ -207,15 +207,16 @@ button:hover {
   background: var(--White, #FFF);
   flex-shrink: 0;
   position: relative;
+  object-fit: cover;
 }
 
 .product-heart {
   width: 32px;
   /* Adjust based on your heart icon size */
   height: 32px;
-  margin-bottom: 24px;
+  /* margin-bottom: 24px; */
   position: absolute;
-  bottom: 32px;
+  bottom: 75px;
   right: 16px;
 }
 
@@ -241,5 +242,8 @@ button:hover {
 
 .spinner-container{
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin: 50px auto;
 }

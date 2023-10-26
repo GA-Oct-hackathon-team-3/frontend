@@ -8,7 +8,7 @@ import {
   splitDOB,
   calculateAge
 } from "../../utilities/helpers";
-import { BsArrowCounterclockwise, BsFilter, BsHeart, BsPencilFill } from "react-icons/bs";
+import { BsArrowCounterclockwise, BsFilter, BsHeart, BsHeartFill, BsPencilFill } from "react-icons/bs";
 
 const ShowFriend = () => {
 
@@ -223,11 +223,11 @@ const ShowFriend = () => {
           <div className={styles["personalized-recs--container"]}>
             <div className={styles["personalized-recs--container--header"]}>
               <Typography variant="h6"><div>Personalized Recommendations</div></Typography>
-              <IconButton className={styles["action-btn"]} disabled={!enableRecs}>
+              <IconButton className={styles["action-btn"]} disabled={!enableRecs || isRecommending}>
                 <BsArrowCounterclockwise />
                 <div>Refresh</div>
               </IconButton>
-              <IconButton className={styles["action-btn"]} disabled={!enableRecs}>
+              <IconButton className={styles["action-btn"]} disabled={!enableRecs || isRecommending}>
                 <BsFilter />
                 <div>Filter</div>
               </IconButton>
@@ -246,7 +246,7 @@ const ShowFriend = () => {
                       <div className={styles["product-pic"]}><img className={styles["product-pic"]} src={rec.imgSrc} alt={rec.title} /></div>
                       <div className={styles["product-heart"]}><IconButton><BsHeart /></IconButton></div>
                       <div className={styles["product-name"]}>{rec.title}</div>
-                      <div className={styles["product-price"]}>~$100</div>
+                      <div className={styles["product-price"]}>~{rec.estimatedCost}</div>
                     </div>
                   )
                 }
