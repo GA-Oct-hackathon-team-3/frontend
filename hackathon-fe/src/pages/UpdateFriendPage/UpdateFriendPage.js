@@ -1,80 +1,75 @@
-import React, { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { BsArrowLeft } from "react-icons/bs";
 import * as friendsService from "../../utilities/friends-service";
 
 import Header from "../../components/Header/Header";
 
-import styles from "./CreateFriendPage.module.css";
+import styles from "../CreateFriendPage/CreateFriendPage.module.css";
 
-function CreateFriendProfile() {
+function UpdateFriendPage () {
   const navigate = useNavigate();
+  const { id } = useParams();
 
+  const [profileInput, setProfileInput] = useState(null);
   const [displayFile, setDisplayFile] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [buttonHTML, setButtonHTML] = useState('Add profile photo');
-  const [profile, setProfile] = useState({
-    name: "",
-    dob: "",
-    gender: "",
-    location: "",
-    giftPreferences: [],
-    giftCost: ""
-  });
 
   const fileInputRef = useRef(null);
 
-  const handleGiftTypeToggle = (type) => {
-    const newGiftTypes = profile.giftPreferences.includes(type)
-      ? profile.giftPreferences.filter((t) => t !== type)
-      : [...profile.giftPreferences, type];
-    setProfile({ ...profile, giftPreferences: newGiftTypes });
-  };
-
-    function handleAddPhotoClick (evt) {
-        evt.preventDefault();
-        fileInputRef.current.click();
-    }
-
-    function handleFileChange (evt) {
-        // assigns file upload to display image, adds file to state for form submit, and toggles button HTML
-        const file = evt.target.files[0];
-        if (file) {
-            setDisplayFile(URL.createObjectURL(file));
-            setUploadedFile(file);
+  useEffect(() => {
+    const fetchFriend = async () => {
+      const friendInfo = await friendsService.showFriend(id);
+      setProfileInput({
+        ...friendInfo
+      });
+      if (friendInfo.photo) {
+            const uniqueTimestamp = Date.now();
+            friendInfo.photo = `${friendInfo.photo}?timestamp=${uniqueTimestamp}`;    
+            setDisplayFile(friendInfo.photo);
             setButtonHTML('Change photo');
-        } else {
-            setDisplayFile(null);
-            setUploadedFile(null);
-            setButtonHTML('Add profile photo');
-        } 
+      }
     }
+    fetchFriend();
+  }, [id]);
 
+  function handleAddPhotoClick (evt) {
+    evt.preventDefault();
+    fileInputRef.current.click();
+}
 
+function handleFileChange (evt) {
+    // assigns file upload to display image, adds file to state for form submit, and toggles button HTML
+    const file = evt.target.files[0];
+    if (file) {
+        setDisplayFile(URL.createObjectURL(file));
+        setUploadedFile(file);
+        setButtonHTML('Change photo');
+    } else {
+        setDisplayFile(null);
+        setUploadedFile(null);
+        setButtonHTML('Add profile photo');
+    } 
+}
 
-  
+  const handleGiftTypeToggle = (type) => {
+    const newGiftTypes = profileInput.giftPreferences.includes(type)
+      ? profileInput.giftPreferences.filter((t) => t !== type)
+      : [...profileInput.giftPreferences, type];
+    setProfileInput({ ...profileInput, giftPreferences: newGiftTypes });
+  };
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
-    try {
-
-      const friendData = await friendsService.createFriend(profile);
-      if (uploadedFile) {
-        try {
-            const response = await friendsService.uploadPhoto(friendData._id, uploadedFile);
-            if (response.ok && friendData) navigate("/friends");
-        } catch (error) {
-            console.log(error);
-        }
-      }
-      if (friendData) navigate("/friends");
-    } catch (error) {
-      console.log(error);
+    const response = await friendsService.updateFriend(id, profileInput);
+    if (uploadedFile) {
+        const photoResponse = await friendsService.uploadPhoto(id, uploadedFile);
+        if (photoResponse.ok && response.message === 'Friend updated') navigate(`/friend/${id}`);
     }
+    if (response.message === 'Friend updated') navigate(`/friend/${id}`);
 
-    // navigate("/addtags")
   };
 
   return (
@@ -85,18 +80,18 @@ function CreateFriendProfile() {
           <p onClick={() => navigate(-1)}>
             <BsArrowLeft />
           </p>
-          <h1>Create Friend Profile</h1>
+          <h1>Edit Friend Profile</h1>
         </div>
 
         <form onSubmit={submitHandler} encType="multipart/form-data">
           <div>
-                { displayFile ? (
-                    <img src={displayFile} alt="Uploaded" style={{ height: '80px', width: '80px', paddingBottom: '6px' }}/>
+            { displayFile ? (
+                    <img src={`${displayFile}`} alt="Uploaded" style={{ height: '80px', width: '80px', paddingBottom: '6px' }}/>
                 ) : (
                     <label htmlFor="image" className={styles["add-image"]} >+</label>
-                )}
-                <input type="file" name="photo" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} />
-                <button onClick={handleAddPhotoClick}>{buttonHTML}</button>
+            )}
+            <input type="file" name="photo" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} />
+            <button onClick={handleAddPhotoClick}>{buttonHTML}</button>
           </div>
           <br />
 
@@ -104,8 +99,8 @@ function CreateFriendProfile() {
             <label htmlFor="name">Name</label>
             <input
               id="name"
-              value={profile.name}
-              onChange={(e) => setProfile({ ...profile, name: e.target.value })}
+              value={profileInput && profileInput.name}
+              onChange={(e) => setProfileInput({ ...profileInput, name: e.target.value })}
             />
           </div>
           <br />
@@ -116,9 +111,9 @@ function CreateFriendProfile() {
               <input
                 type="date"
                 id="dob"
-                value={profile.dob}
+                value={profileInput && profileInput.dob}
                 onChange={(e) =>
-                  setProfile({ ...profile, dob: e.target.value })
+                  setProfileInput({ ...profileInput, dob: e.target.value })
                 }
               />
             </div>
@@ -127,9 +122,9 @@ function CreateFriendProfile() {
               <label htmlFor="gender">Gender</label>
               <select
                 id="gender"
-                value={profile.gender}
+                value={profileInput && profileInput.gender}
                 onChange={(e) =>
-                  setProfile({ ...profile, gender: e.target.value })
+                    setProfileInput({ ...profileInput, gender: e.target.value })
                 }
               >
                 <option disabled></option>
@@ -145,9 +140,9 @@ function CreateFriendProfile() {
             <label htmlFor="location">Location</label>
             <input
               id="location"
-              value={profile.location}
+              value={profileInput && profileInput.location}
               onChange={(e) =>
-                setProfile({ ...profile, location: e.target.value })
+                setProfileInput({ ...profileInput, location: e.target.value })
               }
             />
           </div>
@@ -195,11 +190,11 @@ function CreateFriendProfile() {
           </div> */}
           <br />
 
-          <button onClick={submitHandler}>Continue to add tags</button>
+          <button onClick={submitHandler}>Confirm</button>
         </form>
       </div>
     </>
   );
 }
 
-export default CreateFriendProfile;
+export default UpdateFriendPage;

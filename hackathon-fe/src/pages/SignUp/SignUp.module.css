@@ -1,14 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
-
 @media(max-width: 480px) {
     .signup-container {
         position: absolute;
         height: 100%;
         width: 100%;
-        padding: 130px 15px 80px;
+        padding: 110px 15px 80px;
+        background-color: #FDF7ED;
     }
 
     .signup-container > div {
+        /* border: 1px solid royalblue; */
         width: 60%;
         display: flex;
         justify-content: space-between;
@@ -16,12 +16,10 @@
     }
 
     .signup-container > div > h1 {
-        color: #000;
-        font-family: Inter;
-        font-size: 20px;
+        color: #3d3c3c;
+        font-size: 24px;
         font-style: normal;
-        font-weight: 900;
-        letter-spacing: -.5px;
+        font-weight: 600;
         line-height: normal;
 
     }
@@ -33,7 +31,7 @@
 
     .signup-container > form {
         padding: 5px;
-        margin-top: 25px;
+        margin-top: 10px;
         height: 85%;
         display: flex;
         flex-direction: column;
@@ -47,7 +45,6 @@
 
     .signup-container > form > div > label, .signup-container > form > div:nth-child(7) > div > label, .signup-container > form > div:nth-child(11) > div > label {
         margin-bottom: 4px;
-        font-family: Inter;
         font-size: 14px;
         font-style: normal;
         font-weight: 700;
@@ -56,7 +53,8 @@
     }
 
     .signup-container > form > div > input {
-        background-color: #C4C4C4;
+        background-color: #fff;
+        border: 1px solid #D9D9D9;
         border-radius: 8px;
         width: 95%;
         padding: 12px;
@@ -75,7 +73,8 @@
     }
 
     .signup-container > form > div:nth-child(11) > div > input, .signup-container > form > div:nth-child(11) > div > select {
-        background-color: #C4C4C4;
+        background-color: #fff;
+        border: 1px solid #D9D9D9;
         border-radius: 8px;
         border-radius: 4px;
         width: 95%;
@@ -83,12 +82,15 @@
     }
 
     .signup-container > form > button {
-        background-color: #747474;
+        background-color: #53CF85;
         color: #fff;
-        margin: 35px auto 0;
-        width: 70%;
+        margin: 0 auto;
+        width: 264px;
         padding: 18px 0;
         border-radius: 15px;
-        font-family: Inter;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
     }
 }

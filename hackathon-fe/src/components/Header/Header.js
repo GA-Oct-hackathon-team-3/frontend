@@ -1,10 +1,12 @@
 import React from 'react'
 import styles from "./Header.module.css";
 
+import HeaderImg from "../../assets/headerImg.png";
 const Header = () => {
+  console.log(HeaderImg)
   return (
     <header className={styles.app_header}>
-        <h5>LOGO</h5>
+        <img src={HeaderImg} alt="Presently" />
     </header>
   )
 }

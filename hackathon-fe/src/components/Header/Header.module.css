@@ -1,13 +1,13 @@
 .app_header {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: end;
     width: 390px;
-    height: 115px;
+    height: 94px;
     color: white;
-    background-color: grey;
     position: fixed;
     top:0;
     z-index: 9999;
+    background-color: #FDF7ED;
  
 }

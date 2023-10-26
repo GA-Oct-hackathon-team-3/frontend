@@ -1,44 +1,102 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styles from "./ShowFriend.module.css";
+import { Card, CardHeader, IconButton, CardContent, Typography, CircularProgress } from "@mui/material";
 import * as friendsService from "../../utilities/friends-service";
 import {
   daysUntilBirthday,
   splitDOB,
   calculateAge
 } from "../../utilities/helpers";
+import { BsArrowCounterclockwise, BsFilter, BsHeart, BsHeartFill, BsPencilFill } from "react-icons/bs";
 
 const ShowFriend = () => {
 
 
   const [friend, setFriend] = useState(null);
+  const [favorites, setFavorites] = useState([]);
   const [dobObject, setDobObject] = useState(null);
   const [activeTab, setActiveTab] = useState("profile");
+  const [enableRecs, setEnableRecs] = useState(false);
+  const [isRecommending, setIsRecommending] = useState(false);
+  const [recs, setRecs] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchFriend = async () => {
-      const friend = await friendsService.showFriend(id);
-      console.log(friend);
-      setFriend(friend);
-      setDobObject(splitDOB(friend.dob));
+      const friendData = await friendsService.showFriend(id);
+      const uniqueTimestamp = Date.now();
+      friendData.photo = `${friendData.photo ? friendData.photo : 'https://i.imgur.com/hCwHtRc.png'}?timestamp=${uniqueTimestamp}`;
+      setFriend(friendData);
+      setDobObject(splitDOB(friendData.dob));
+    }
+    const fetchFavorites = async () => {
+      const favorites = await friendsService.getFavorites(id);
+      setFavorites(favorites);
     }
     fetchFriend();
-  }, []);
+    fetchFavorites();
+  }, [id]);
+
+
+  useEffect(() => {
+    if (friend && friend.tags && friend.tags.length) {
+      setEnableRecs(true);
+    } else {
+      setEnableRecs(false);
+    }
+  }, [friend]);
+
+  useEffect(() => {
+    const getRecommendations = async () => {
+      // ignoring filters for now
+      const requestBody = {
+        giftTypes: friend.giftPreferences,
+        tags: friend.tags
+      }
+      console.log(requestBody);
+      setIsRecommending(true);
+      const recom = await friendsService.getRecommendations(id, requestBody);
+      console.log(recom);
+      setRecs(recom.recommendations);
+      setIsRecommending(false);
+    }
+
+    if (enableRecs && activeTab === "explore" && !recs.length) {
+      getRecommendations();
+    }
+
+  }, [activeTab, enableRecs, recs.length, id, friend]);
+
   const handleTabClick = tabName => {
     setActiveTab(tabName);
   }
 
+  const handleEditProfile = () => {
+    navigate(`/friend/${id}/edit`);
+  }
+
+  const handleEditTags = () => {
+    alert("Edit friend tags");
+  }
+
+  const handleEditFavorites = () => {
+    alert("Edit favorites");
+  }
+
+  const giftPreferences = friend && friend.giftPreferences;
+
 
   return (
     <div className={styles["container"]}>
+      <div className={styles["shadow"]}></div>
       <button type="button" onClick={() => navigate("/friends")}>
         <a>X</a>
       </button>
       <div className={styles["profile"]}>
         <img
-          src="https://i.imgur.com/hCwHtRc.png"
+          src={friend && friend.photo ? friend.photo : "https://i.imgur.com/hCwHtRc.png"}
           alt="Anthony Sudol"
           className={styles["profile-pic"]}
         />
@@ -51,7 +109,7 @@ const ShowFriend = () => {
       </div>
       <div className={styles["birthday"]}>
         <div className={styles["description"]}>
-          <p>{dobObject && dobObject.day}</p>
+          <p className={styles["text-brick"]}>{dobObject && dobObject.day}</p>
           <p>{dobObject && dobObject.month}</p>
 
         </div>
@@ -59,7 +117,7 @@ const ShowFriend = () => {
           <p></p><p></p>
         </div>
         <div className={styles["description"]}>
-          <p>{friend && daysUntilBirthday(friend.dob)}</p>
+          <p className={styles["text-brick"]}>{friend && daysUntilBirthday(friend.dob)}</p>
           <p>days left</p>
 
         </div>
@@ -67,12 +125,12 @@ const ShowFriend = () => {
           <p></p><p></p>
         </div>
         <div className={styles["description"]}>
-          <p>Age </p>
+          <p className={styles["text-brick"]}>Age </p>
           <p>{friend && calculateAge(friend.dob)}</p>
         </div>
-      </div>
-      <div className={styles["edit-container"]}>
-        <button className={styles["edit-btn"]}>Edit</button>
+        <div>
+          <BsPencilFill onClick={handleEditProfile} />
+        </div>
       </div>
       <div className={styles["tab-container"]}>
         <span
@@ -88,27 +146,119 @@ const ShowFriend = () => {
           Explore Gifts
         </span>
       </div>
-      {activeTab === "profile" && <>
-        <div className={styles["gift-preference"]}>
-          <h3>Gift Preference</h3>
-        </div>
-        <div className={styles["gift-preference"]}>
-          <h3>Tags</h3>
-          <div className={styles["tags"]}>
-            <button>Reading</button>
-            <button>Outdoor Activities +</button>
-            <button>Arts and Crafts +</button>
-            <button>Socializing +</button>
-          </div>
-        </div>
-        <div className={styles["gift-recommendations"]}>
-          <h3>Favorited Gifts</h3>
-        </div>
-      </>}
-      {
-        activeTab==="explore" && 
+      {activeTab === "profile" &&
         <>
-        <h3>this is explore gifts</h3>
+          <Card className={styles["card"]}>
+            <CardHeader className={styles["card-header"]} title="Gift Type" action={
+              <IconButton onClick={handleEditProfile}>
+                <BsPencilFill />
+              </IconButton>
+            } />
+            <CardContent>
+              <div className={styles["gift-preference"]}>
+                <div className={styles["gift-types"]}>
+                  <div className={styles["gift-type-btn"] + ' ' + (giftPreferences && giftPreferences.includes("Experience") ? styles["active"] : '')}>
+                    <div className={styles["gift-type-btn__image--experiences"]}></div>
+                    <div className={styles["gift-type-btn__text"]}>Experiences</div>
+                  </div>
+                  <div className={styles["gift-type-btn"] + ' ' + (giftPreferences && giftPreferences.includes("Present") ? styles["active"] : '')}>
+                    <div className={styles["gift-type-btn__image--presents"]}></div>
+                    <div className={styles["gift-type-btn__text"]}>Presents</div>
+                  </div>
+                  <div className={styles["gift-type-btn"] + ' ' + (giftPreferences && giftPreferences.includes("Donation") ? styles["active"] : '')}>
+                    <div className={styles["gift-type-btn__image--donations"]}></div>
+                    <div className={styles["gift-type-btn__text"]}>Donations</div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className={styles["card"]}>
+            <CardHeader className={styles["card-header"]} title="Selected Tags" action={
+              <IconButton onClick={handleEditTags}>
+                <BsPencilFill />
+              </IconButton>
+            } />
+            <CardContent>
+              <div className={styles["gift-preference"]}>
+                <div className={styles["tags"]}>
+                  {friend && friend.tags && !!friend.tags.length && friend.tags.map((tag, idx) =>
+                    <>
+                      <button key={tag._id}>{tag.title}</button>
+                    </>)}
+                  {
+                    !(friend && friend.tags && !!friend.tags.length) &&
+                    <>
+                      <div>
+                        Your friend doesn't have any tags. Click edit to add them.
+                      </div>
+                    </>
+                  }
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className={styles["card"]}>
+            <CardHeader className={styles["card-header"]} title="Favorite Gifts" action={
+              <IconButton onClick={handleEditFavorites}>
+                <BsPencilFill />
+              </IconButton>
+            } />
+            <CardContent>
+              <div className={styles["gift-recommendations"]}>
+                {favorites && !!favorites.length && favorites.map((fav, idx) => {
+                  // Grid display or flex the favorites here
+                  return <div key={idx} />
+                })}
+                {
+                  !(favorites && !!favorites.length) && <div>You haven't favorited any gifts yet.</div>
+                }
+              </div>
+            </CardContent>
+          </Card>
+        </>}
+      {
+        activeTab === "explore" &&
+        <>
+          <div className={styles["personalized-recs--container"]}>
+            <div className={styles["personalized-recs--container--header"]}>
+              <Typography variant="h6"><div>Personalized Recommendations</div></Typography>
+              <IconButton className={styles["action-btn"]} disabled={!enableRecs || isRecommending}>
+                <BsArrowCounterclockwise />
+                <div>Refresh</div>
+              </IconButton>
+              <IconButton className={styles["action-btn"]} disabled={!enableRecs || isRecommending}>
+                <BsFilter />
+                <div>Filter</div>
+              </IconButton>
+            </div>
+            {
+              isRecommending && 
+              <div className={styles["spinner-container"]}>
+              <CircularProgress color="secondary" />
+              </div>
+            }
+            {!!recs.length &&
+              <div className={styles["personalized-recs--grid"]}>
+                {
+                  recs.map((rec, idx) =>
+                    <div key={idx} className={styles["grid-item"]}>
+                      <div className={styles["product-pic"]}><img className={styles["product-pic"]} src={rec.imgSrc} alt={rec.title} /></div>
+                      <div className={styles["product-heart"]}><IconButton><BsHeart /></IconButton></div>
+                      <div className={styles["product-name"]}>{rec.title}</div>
+                      <div className={styles["product-price"]}>~{rec.estimatedCost}</div>
+                    </div>
+                  )
+                }
+              </div>
+            }
+            {
+              !enableRecs &&
+              <>
+                <div className={styles["no-tags-text"]}><Typography>Add tags to get personalized gift recommendations</Typography></div>
+              </>
+            }
+          </div>
         </>
       }
     </div>

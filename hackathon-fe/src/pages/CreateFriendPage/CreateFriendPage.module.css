@@ -1,16 +1,20 @@
 .create-profile-container {
-    width: 80%;
-    margin: 115px auto 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    margin: 90px auto 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: 20px;
+    background-color: #FDF7ED;;
+    
 }
 
 .create-profile-container > div:nth-child(1) {
-    margin-right: 30%;
+    margin-right: 25%;
     margin-bottom: 10px;
-    width: 85%;
+    width: 60%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -18,7 +22,6 @@
 
 .create-profile-container > div:nth-child(1) > h1 {
     color: #000;
-    font-family: Inter;
     font-size: 20px;
     font-style: normal;
     font-weight: 900;
@@ -33,7 +36,6 @@
 }
 
 .create-profile-container > form > div:nth-child(1) {
-    /* border: 1px solid green; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -45,22 +47,26 @@
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    font-size: 50px;
+    font-size: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 10px;
+    background-color: #53CF85;
+    color: white;
+    font-weight: lighter;
+
 }
 
 .create-profile-container > form > div:nth-child(1) > p {
     color: #000;
     text-align: center;
-    font-family: Inter;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
     letter-spacing: 0.28px;
+   
 }
 
 
@@ -68,33 +74,36 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    
 }
 
 .create-profile-container > form > div > label {
     color: #4A4A4A;
     text-align: center;
-    font-family: Inter;
     font-size: 14px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
     letter-spacing: 0.28px;
+    
 }
 
 .create-profile-container > form > div > input {
     width: 358px;
     height: 48px;
     border-radius: 8px;
-    background-color: #c4c4c4;
-    border: none;
     outline: none;
+    border: 1px solid #D9D9D9;  
+    background-color: white;
 }
 
 .create-profile-container > form > div:nth-child(5) {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
+    margin: 0 -20px;
+   
 }
 
 .create-profile-container > form > div:nth-child(5) > div {
@@ -104,7 +113,6 @@
 
 .create-profile-container > form > div:nth-child(5) > div > label, .create-profile-container > form > div:nth-child(11) > label {
     color: #4A4A4A;
-    font-family: Inter;
     font-size: 14px;
     font-style: normal;
     font-weight: 700;
@@ -114,28 +122,30 @@
 }
 
 .create-profile-container > form > div:nth-child(5) > div > input {
-    background-color: #C4C4C4;
     border-radius: 8px;
     border-radius: 4px;
     width: 95%;
     padding: 12px;
-    border: none;
     outline: none;
+    border: 1px solid #D9D9D9;
+    background-color: white;
 }
 
 .create-profile-container > form > div:nth-child(5) > div > select {
-    background-color: #C4C4C4;
     border-radius: 8px;
     border-radius: 4px;
     width: 130px;
     padding: 12px;
     border: none;
     outline: none;
+    border: 1px solid #D9D9D9;
+    background-color: white;
+    
+    
 }
 
 .create-profile-container > form > div:nth-child(9) > p {
     color: #4A4A4A;
-    font-family: Inter;
     font-size: 14px;
     font-style: normal;
     font-weight: 700;
@@ -145,16 +155,20 @@
 }
 
 .create-profile-container > form > div:nth-child(9) > div {
-    width: 80%;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
+    gap: 30px;
+    padding-top: 4px;
 }
 
 .create-profile-container > form > div:nth-child(9) > div > button {
     height: 40px;
+    padding: 8px 24px;
     border-radius: 8px;
-    background-color: #D9D9D9;
+    border: 1px solid #D9D9D9;
+    background-color: white;
+
 }
 
 .create-profile-container > form > div:nth-child(11) > select {
@@ -177,6 +191,5 @@
     background-color: #747474;
     border-radius: 20px;
     margin: 0 auto;
-    /* font-family: Pilcrow Rounded; */
+    background-color: #53CF85;
 }
-

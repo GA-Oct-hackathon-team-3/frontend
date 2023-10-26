@@ -11,6 +11,7 @@ import FriendPage from "./pages/FriendPage/FriendPage";
 import FiltersPage from "./pages/FiltersPage/FiltersPage";
 import CreateFriendPage from "./pages/CreateFriendPage/CreateFriendPage";
 import TagAdderPage from "./pages/TagAdder/TagAdder";
+import UpdateFriendPage from "./pages/UpdateFriendPage/UpdateFriendPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/friends" element={<FriendsPage />} />
         <Route path="/friend/:id" element={<FriendPage />} />
+        <Route path="/friend/:id/edit" element={<UpdateFriendPage />} />
         <Route path="/filters" element={<FiltersPage />} />
         <Route path="/addfriend" element={<CreateFriendPage />} />
         <Route path="/friend/:id/tag" element={<TagAdderPage />} />

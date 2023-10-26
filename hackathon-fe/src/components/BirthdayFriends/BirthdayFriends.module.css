@@ -1,95 +1,204 @@
-/* Base styles */
-body {
-  font-family: Arial, sans-serif;
-}
+@media (max-width: 480px) {
+  .friends-container {
+    background-color: #FDF7ED;
+    padding: 120px 20px;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+  }
 
-/* Mobile first approach */
-.container {
-  background-color: #f5f5f5;
-  padding: 16px;
-}
+  .friends-container > .search-bar {
+    width: 358px;
+    height: 48px;
+    padding: 10px;
+    padding-left: 30px;
+    border: 1px solid #D9D9D9;
+    border-radius: 40px;
+    background-color: white;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    background-image: url('../../assets/searchIcon.png');
+    background-repeat: no-repeat;
+    background-position: 2% 50%;
+    font-family: Pilcrow Rounded;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20.8px
+  }
 
-.itemButton {
-  width: 100%;
-}
+  .friends-container > .reminders {
+    width: 340px;
+    height: 122px;
+    border-radius: 8px;
+    border: 1px solid #D9D9D9;
+    background-color: #FFF;
+    margin: 0 auto;
+    display: flex;
+    margin-bottom: 50px;
+  }
 
-.item {
-  display: flex;
-  flex-direction: row;
-  background-color: #ffffff;
-  padding: 20px;
-  margin: 8px 0;
-  border-radius: 10px;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 2px 3.84px rgba(0, 0, 0, 0.25);
-}
+  .friends-container > .reminders > img:nth-child(1) {
+    width: 116px;
+    height: 175px;
+    margin-right: -40px;
+  }
 
-.itemTextContainer {
-  /* Empty style can be omitted or filled in as needed */
-}
+  .friends-container > .reminders > img:nth-child(2) {
+    width: 68px;
+    height: 150px;
+    z-index: 999;
+  }
 
-.row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: "space-between";
-  gap: 20px;
-}
+  .friends-container > .reminders > h2 {
+    width: 171px;
+    color: #3D3C3C;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: left;
+    padding-top: 30px;
+    margin-left: 10px;
 
-.column {
-  display: flex;
-  flex-direction: column;
-}
+  }
 
-.name {
-  font-size: 18px;
-  font-weight: bold;
-  color: black;
-}
+  .friends-container > button {
+    height: 75px;
+    position: fixed;
+    bottom: 80px;
+    right: 0;
+    margin-right: 20px;
+    margin-bottom: 10px;
 
-.birthday {
-  font-size: 14px;
-  color: gray;
-}
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 0.48px;
+    
+    border-radius: 20px;
+    border: 1px solid #D9D9D9;
+    background: #53CF85;
 
-.card {
-  background-color: white;
-  border-radius: 10px;
-  padding: 10px;
-  margin: 10px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
+    display: inline-flex;
+    padding: 16px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    z-index: 99999999;
+  }
 
-.content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+  .friends-container > button > span {
+    font-size: 40px;
+    margin-top: -15px;
+    margin-bottom: -18px;
+  }
 
-.label {
-  font-size: 16px;
-  color: #555;
-  margin-bottom: 10px;
-}
+  /*  ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  */
 
-.days {
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
-}
 
-.searchBar {
-  background-color: white;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  height: 40px;
-  box-sizing: border-box;
-  width: 100%;
-}
 
-/* Media query for larger devices */
-@media (min-width: 768px) {
-  /* Adjustments for larger screens, if needed */
+  .itemButton {
+    width: 100%;
+    background-color: #FDF7ED;
+  }
+
+  .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: #ffffff;
+    padding: 12px 0 15px;
+    /* margin: 8px 0; */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  }
+
+  .item > div {
+    /* border: 2px solid red; */
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 10px;
+  }
+
+  .item > div > img {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+  }
+
+  .item > div > div:nth-child(2) {
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  .item > div > div:nth-child(2) > p:nth-child(1) {
+    color: #3D3C3C;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.72px;
+  }
+  
+  .item > div > div:nth-child(2) > p:nth-child(2) {
+    color: #3D3C3C;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20.8px;
+    text-align: left;
+  }
+
+  .item > div > div:nth-child(3) {
+    display: flex;
+    flex-direction: column;
+    height: 60px;
+
+  }
+
+  .item > div > div:nth-child(3) > p:nth-child(1) {
+    color: #FE6797;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+
+  .item > div > div:nth-child(3) > p:nth-child(2) {
+    width: 68.886px;
+    color: #3D3C3C;
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20.8px
+  }
+
+  .itemButton > div:nth-child(2) {
+    width: 100%;
+    padding: 8px 5px;
+    color: #FDF7ED;
+    background-color: #FE6797;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 0.48px;
+    text-align: right;
+    z-index: -1;
+    margin-top: -10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
 }
