@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { BsArrowLeft } from "react-icons/bs";
 import * as friendsService from "../../utilities/friends-service";
-import { splitDOB } from "../../utilities/helpers";
 
 import Header from "../../components/Header/Header";
 
@@ -27,6 +26,8 @@ function UpdateFriendPage () {
         ...friendInfo
       });
       if (friendInfo.photo) {
+            const uniqueTimestamp = Date.now();
+            friendInfo.photo = `${friendInfo.photo}?timestamp=${uniqueTimestamp}`;    
             setDisplayFile(friendInfo.photo);
             setButtonHTML('Change photo');
       }
