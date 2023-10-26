@@ -86,7 +86,7 @@ function CreateFriendProfile() {
         <form onSubmit={submitHandler}>
           <div>
                 { displayFile ? (
-                    <img src={displayFile} alt="Uploaded" style={{ height: '80px', width: '80px' }}/>
+                    <img src={displayFile} alt="Uploaded" style={{ height: '80px', width: '80px', paddingBottom: '6px' }}/>
                 ) : (
                     <label htmlFor="image" className={styles["add-image"]} >+</label>
                 )}
