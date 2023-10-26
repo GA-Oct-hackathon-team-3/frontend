@@ -14,7 +14,6 @@ function CreateFriendProfile() {
   const [displayFile, setDisplayFile] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [buttonHTML, setButtonHTML] = useState('Add profile photo');
-
   const [profile, setProfile] = useState({
     name: "",
     dob: "",
@@ -24,14 +23,14 @@ function CreateFriendProfile() {
     giftCost: ""
   });
 
+  const fileInputRef = useRef(null);
+
   const handleGiftTypeToggle = (type) => {
     const newGiftTypes = profile.giftPreferences.includes(type)
       ? profile.giftPreferences.filter((t) => t !== type)
       : [...profile.giftPreferences, type];
     setProfile({ ...profile, giftPreferences: newGiftTypes });
   };
-
-    const fileInputRef = useRef(null);
 
     function handleAddPhotoClick (evt) {
         evt.preventDefault();
@@ -43,14 +42,13 @@ function CreateFriendProfile() {
         const file = evt.target.files[0];
         if (file) {
             setDisplayFile(URL.createObjectURL(file));
-            setUploadedFile(file)
-            setButtonHTML('Change photo upload')
+            setUploadedFile(file);
+            setButtonHTML('Change photo upload');
         } else {
             setDisplayFile(null);
             setUploadedFile(null);
-            setButtonHTML('Add profile photo')
+            setButtonHTML('Add profile photo');
         } 
-        console.log(file);
     }
 
 
@@ -61,10 +59,17 @@ function CreateFriendProfile() {
     e.preventDefault();
 
     try {
-      console.log("Creating friend profile", profile);
+
       const friendData = await friendsService.createFriend(profile);
-      console.log("friend succesfully created", friendData);
-      navigate("/friends");
+      if (uploadedFile) {
+        try {
+            const response = await friendsService.uploadPhoto(friendData._id, uploadedFile);
+            if (response.ok && friendData) navigate("/friends");
+        } catch (error) {
+            console.log(error);
+        }
+      }
+      if (friendData) navigate("/friends");
     } catch (error) {
       console.log(error);
     }
@@ -83,14 +88,14 @@ function CreateFriendProfile() {
           <h1>Create Friend Profile</h1>
         </div>
 
-        <form onSubmit={submitHandler}>
+        <form onSubmit={submitHandler} encType="multipart/form-data">
           <div>
                 { displayFile ? (
                     <img src={displayFile} alt="Uploaded" style={{ height: '80px', width: '80px', paddingBottom: '6px' }}/>
                 ) : (
                     <label htmlFor="image" className={styles["add-image"]} >+</label>
                 )}
-                <input type="file" name="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} />
+                <input type="file" name="photo" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} />
                 <button onClick={handleAddPhotoClick}>{buttonHTML}</button>
           </div>
           <br />
