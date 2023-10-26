@@ -2,18 +2,18 @@ export function daysUntilBirthday(dob) {
     const birthday = new Date(dob);
     const currentDate = new Date();
 
-    const nextBirthday = new Date(currentDate.getFullYear(), birthday.getMonth(), birthday.getDate());
+    birthday.setFullYear(currentDate.getFullYear());
 
     // If the next birthday is before the current date, set it to next year
-    if (nextBirthday < currentDate) {
-    nextBirthday.setFullYear(currentDate.getFullYear() + 1);
-    }
+    if (birthday < currentDate) birthday.setFullYear(currentDate.getFullYear() + 1);
 
     // Calculate the time difference in milliseconds
-    const timeDifference = nextBirthday - currentDate;
+    const timeDifference = birthday - currentDate;
 
     // Convert milliseconds to days
     const days = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+    if (days > 365) return 0;
     return days;
   }
 
@@ -54,4 +54,3 @@ function numericMonthToAbbreviation(month) {
     
     return years;
   }
-
