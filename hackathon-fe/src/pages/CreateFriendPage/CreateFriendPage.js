@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { BsArrowLeft } from "react-icons/bs";
+import * as friendsService from "../../utilities/friends-service";
 
 import Header from "../../components/Header/Header";
 
@@ -26,10 +27,16 @@ function CreateFriendProfile() {
     setProfile({ ...profile, giftTypePreferences: newGiftTypes });
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
 
-    console.log(profile);
+    try {
+      const friendData = await friendsService.createFriend(profile);
+      console.log("friend succesfully created", friendData);
+      // navigate("/friends");
+    } catch (error) {
+      console.log(error);
+    }
 
     // navigate("/addtags")
   };
@@ -86,9 +93,9 @@ function CreateFriendProfile() {
                 }
               >
                 <option disabled></option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
               </select>
             </div>
           </div>
@@ -148,7 +155,7 @@ function CreateFriendProfile() {
           </div> */}
           <br />
 
-          <button>Continue to add tags</button>
+          <button onClick={submitHandler}>Continue to add tags</button>
         </form>
       </div>
     </>
