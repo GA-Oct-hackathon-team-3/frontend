@@ -4,58 +4,31 @@ import "./TagAdder.css";
 import * as friendsService from "../../utilities/friends-service";
 import * as tagService from "../../utilities/tags-service";
 
-import {
-  daysUntilBirthday,
-  splitDOB,
-  calculateAge
-} from "../../utilities/helpers";
-
 function TagAdder() {
-  const [tags, setTags] = useState([
-    "Movie Buff",
-    "Minimal",
-    "Quirky",
-    "Grunge",
-    "Reading",
-    "Outdoor Activities",
-    "Arts and Crafts",
-    "Socializing"
-  ]);
+  const [tags, setTags] = useState([]);
   const { id } = useParams();
-  const [friend, setFriend] = useState(null);
-  const [dobObject, setDobObject] = useState(null);
   const [selectedTags, setSelectedTags] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [allTags, setAllTags] = useState([]);
   const hasFunctionRun = useRef(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchFriend = async () => {
       const friend = await friendsService.showFriend(id);
-      console.log("useEffect triggered, friend data:", friend);
-      setFriend(friend);
       setSelectedTags(friend.tags);
-      setDobObject(splitDOB(friend.dob));
     };
     const fetchTags = async () => {
       const tagsData = await tagService.getTags();
-      console.log("all tags: ", tagsData);
       setAllTags(tagsData);
     };
 
     if (!hasFunctionRun.current) {
       fetchTags();
-      console.log("fetching tags");
       hasFunctionRun.current = true;
     }
     fetchFriend();
   }, [tags]);
-
-  const handleTagClick = (tag) => {
-    if (!selectedTags.includes(tag)) {
-      setSelectedTags([...selectedTags, tag]);
-    }
-  };
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -82,7 +55,7 @@ function TagAdder() {
     <div className="tag-container">
       <div className="header">
         <h1>PRESENTly</h1>
-        <h2>Add Tags</h2>
+        <h2>Edit Tags</h2>
         <p>
           What's your friend into? Adding tags helps Presently give more
           accurate gift suggestions.
@@ -94,7 +67,7 @@ function TagAdder() {
           placeholder="Type to create custom tag"
           value={inputValue}
           onChange={handleInputChange}
-          onKeyPress={(e) => {
+          onKeyDown={(e) => {
             if (e.key === "Enter") handleInputEnter();
           }}
         />
@@ -136,53 +109,10 @@ function TagAdder() {
             </div>
           ))}
       </div>
-
-      {/* <div className="tag-section">
-        <h3>Popular Tags</h3>
-        {tags.slice(0, 3).map((tag) => (
-          <button
-            className={`tag-button ${
-              selectedTags.includes(tag) ? "selected" : ""
-            }`}
-            onClick={() => handleTagClick(tag)}
-            key={tag}
-          >
-            {tag}
-          </button>
-        ))}
-      </div>
-      <div className="tag-section">
-        <h3>Aesthetic</h3>
-        {tags.slice(3, 6).map((tag) => (
-          <button
-            className={`tag-button ${
-              selectedTags.includes(tag) ? "selected" : ""
-            }`}
-            onClick={() => handleTagClick(tag)}
-            key={tag}
-          >
-            {tag}
-          </button>
-        ))}
-      </div>
-      <div className="tag-section">
-        <h3>Hobbies</h3>
-        {tags.slice(6, 8).map((tag) => (
-          <button
-            className={`tag-button ${
-              selectedTags.includes(tag) ? "selected" : ""
-            }`}
-            onClick={() => handleTagClick(tag)}
-            key={tag}
-          >
-            {tag}
-          </button>
-        ))}
-      </div> */}
       <button
         className="complete-button"
-        onClick={async () => {
-          console.log("complete button clicked");
+        onClick={() => {
+          navigate(`/friend/${id}`);
         }}
       >
         Complete Profile
