@@ -15,3 +15,9 @@ export async function createFriend(friendData) {
   const newFriend = await sendRequest(`${BASE_URL}/create`, "POST", friendData);
   return newFriend;
 }
+
+
+export async function getFavorites(id){
+  const response = await sendRequest(`${BASE_URL}/${id}/favorites`, "GET", null);
+  return response.favorites;
+}
