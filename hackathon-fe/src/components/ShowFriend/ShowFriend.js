@@ -41,7 +41,7 @@ const ShowFriend = () => {
   }
 
   const handleEditProfile = () => {
-    alert("Edit friend profile");
+    navigate(`/friends/${id}/edit`);
   }
 
   const handleEditTags = () => {
@@ -196,7 +196,7 @@ const ShowFriend = () => {
                 <div>Filter</div>
               </IconButton>
             </div>
-            { (friend && friend.tags && !!friend.tags.length) && 
+            {(friend && friend.tags && !!friend.tags.length) &&
               <>
                 <div className={styles["personalized-recs--grid"]}>
                   <div className={styles["grid-item"]}>
@@ -227,9 +227,9 @@ const ShowFriend = () => {
               </>
             }
             {
-              !(friend && friend.tags && !!friend.tags.length) && 
+              !(friend && friend.tags && !!friend.tags.length) &&
               <>
-              <div className={styles["no-tags-text"]}><Typography>Add tags to get personalized gift recommendations</Typography></div>
+                <div className={styles["no-tags-text"]}><Typography>Add tags to get personalized gift recommendations</Typography></div>
               </>
             }
           </div>
