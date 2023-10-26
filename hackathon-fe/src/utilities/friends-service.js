@@ -7,13 +7,18 @@ export async function retrieveFriends() {
 }
 
 export async function showFriend(id) {
-  const friend = await sendRequest(BASE_URL + `/${id}`, "GET", null);
+  const friend = await sendRequest(`${BASE_URL}/${id}`, "GET", null);
   return friend;
 }
 
 export async function createFriend(friendData) {
   const newFriend = await sendRequest(`${BASE_URL}/create`, "POST", friendData);
   return newFriend;
+}
+
+export async function updateFriend(id, friendInput) {
+    const response = await sendRequest(`${BASE_URL}/${id}/update`, "PUT", friendInput);
+    return response;
 }
 
 
