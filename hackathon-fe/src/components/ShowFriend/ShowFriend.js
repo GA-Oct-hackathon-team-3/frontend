@@ -1,15 +1,21 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import styles from "./ShowFriend.module.css";
 import * as friendsService from "../../utilities/friends-service";
-import { daysUntilBirthday, splitDOB, calculateAge } from "../../utilities/helpers";
+import {
+  daysUntilBirthday,
+  splitDOB,
+  calculateAge
+} from "../../utilities/helpers";
 
 const ShowFriend = () => {
+
 
   const [friend, setFriend] = useState(null);
   const [dobObject, setDobObject] = useState(null);
   const [activeTab, setActiveTab] = useState("profile");
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchFriend = async () => {
@@ -24,23 +30,30 @@ const ShowFriend = () => {
     setActiveTab(tabName);
   }
 
+
   return (
     <div className={styles["container"]}>
+      <button type="button" onClick={() => navigate("/friends")}>
+        <a>X</a>
+      </button>
       <div className={styles["profile"]}>
         <img
           src="https://i.imgur.com/hCwHtRc.png"
           alt="Anthony Sudol"
           className={styles["profile-pic"]}
         />
+
         <h2>
           {friend && friend.name}
         </h2>
+
         <p>Friend</p>
       </div>
       <div className={styles["birthday"]}>
         <div className={styles["description"]}>
           <p>{dobObject && dobObject.day}</p>
           <p>{dobObject && dobObject.month}</p>
+
         </div>
         <div className={styles["border"]}>
           <p></p><p></p>
@@ -48,6 +61,7 @@ const ShowFriend = () => {
         <div className={styles["description"]}>
           <p>{friend && daysUntilBirthday(friend.dob)}</p>
           <p>days left</p>
+
         </div>
         <div className={styles["border"]}>
           <p></p><p></p>
