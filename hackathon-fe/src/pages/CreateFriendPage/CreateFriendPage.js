@@ -85,9 +85,12 @@ function CreateFriendProfile() {
 
         <form onSubmit={submitHandler}>
           <div>
-                <label htmlFor="image" className={styles["add-image"]} >+</label>
+                { displayFile ? (
+                    <img src={displayFile} alt="Uploaded" style={{ height: '80px', width: '80px' }}/>
+                ) : (
+                    <label htmlFor="image" className={styles["add-image"]} >+</label>
+                )}
                 <input type="file" name="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} />
-                {displayFile && <img src={displayFile} alt="Uploaded" />}
                 <button onClick={handleAddPhotoClick}>{buttonHTML}</button>
           </div>
           <br />
