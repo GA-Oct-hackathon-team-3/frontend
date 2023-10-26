@@ -43,7 +43,7 @@ function CreateFriendProfile() {
         if (file) {
             setDisplayFile(URL.createObjectURL(file));
             setUploadedFile(file);
-            setButtonHTML('Change photo upload');
+            setButtonHTML('Change photo');
         } else {
             setDisplayFile(null);
             setUploadedFile(null);
