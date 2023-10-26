@@ -8,11 +8,58 @@ import { daysUntilBirthday } from "../../utilities/helpers";
 import styles from "./BirthdayFriends.module.css";
 import { Button } from "@mui/material";
 
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
+import WomanCelebratingImg from "../../assets/womanCelebrating.png";
+import manCelebratingImg from "../../assets/manCelebrating.png";
+
+import AnthonyImg from "../../assets/anthonyImg.png";
+import MollyImg from "../../assets/mollyImg.png";
+
 const BirthdayFriends = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [allFriends, setAllFriends] = useState([]);
   const navigate = useNavigate();
+
+  const dummyfriends = [
+    {
+      img: { AnthonyImg },
+      name: "Anthony Sudol",
+      dob: "14 April 1996",
+      days: "0",
+    },
+    {
+      img: { MollyImg },
+      name: "Molly Rosenthal",
+      dob: "10 October 1987",
+      days: "330",
+    },
+    {
+      img: { AnthonyImg },
+      name: "Anthony Sudol",
+      dob: "14 April 1996",
+      days: "0",
+    },
+    {
+      img: { MollyImg },
+      name: "Molly Rosenthal",
+      dob: "10 October 1987",
+      days: "330",
+    },
+    {
+      img: { AnthonyImg },
+      name: "Anthony Sudol",
+      dob: "14 April 1996",
+      days: "0",
+    },
+    {
+      img: { MollyImg },
+      name: "Molly Rosenthal",
+      dob: "10 October 1987",
+      days: "330",
+    },
+  ];
 
   useEffect(() => {
     const fetchFriends = async () => {
@@ -31,10 +78,11 @@ const BirthdayFriends = () => {
     setSearchQuery(query);
 
     if (query) {
-      // Filter the friends based on the search query
+      // Filter the friends based on the search query      
       const filteredResults = allFriends.filter((item) =>
-        item.name.toLowerCase().includes(query.toLowerCase())
+      item.name.toLowerCase().includes(query.toLowerCase())
       );
+      
       setFilteredData(filteredResults);
     } else {
       // If the query is empty, reset the list to the original friends data
@@ -42,7 +90,7 @@ const BirthdayFriends = () => {
     }
   };
 
-  const Item = ({ name, dob, id }) => {
+  const Item = ({ name, dob, id, img }) => {
     const history = useNavigate();
 
     return (
@@ -51,54 +99,66 @@ const BirthdayFriends = () => {
         className={styles["itemButton"]}
       >
         <div className={styles["item"]}>
-          <div className={styles["itemTextContainer"]}>
-            <div className={styles["row"]}>
-              {/* FontAwesome might have a different implementation for web, adjust accordingly */}
-              <FontAwesomeIcon icon={faBirthdayCake} size="6x" />
-              <div className={styles["column"]}>
-                <span className={styles["name"]}>{name}</span>
-                <span className={styles["birthday"]}>{dob}</span>
-              </div>
+          <div>
+
+
+
+            <img src={img.AnthonyImg || img.MollyImg} alt={name} />
+            <div>
+              <p>{name}</p>
+              <p>{dob}</p>
             </div>
-          </div>
-          <div className={styles["card"]}>
-            <div className={styles["content"]}>
-              <span className={styles["label"]}>Days Left</span>
-              <span className={styles["days"]}>{daysUntilBirthday(dob)}</span>
+
+            <div className={styles["card"]}>
+              <p className={styles["days"]}>{daysUntilBirthday(dob)}</p>
+              <p className={styles["label"]}>Days Left</p>
             </div>
+
+
+
           </div>
         </div>
+        <div>View Saved Gifts </div>
       </button>
     );
   };
 
   return (
-    <div className={styles["container"]}>
-      <div>
-        <button type="button" onClick={() => navigate("/addfriend")}>
-          <a>Add Friend</a>
-        </button>
-      </div>
+    <>
+      <Header />
+      <div className={styles["friends-container"]}>
+        <input
+          className={styles["search-bar"]}
+          value={searchQuery}
+          onChange={(e) => handleSearch(e.target.value)}
+          placeholder="Search by name, date, month..."
+        />
 
-      <input
-        className={styles["searchBar"]}
-        value={searchQuery}
-        onChange={(e) => handleSearch(e.target.value)}
-        placeholder="Search..."
-      />
-      <div>
-        <span className={styles["upcomingLabel"]}>Upcoming</span>
+        <div className={styles.reminders}>
+          <img src={manCelebratingImg} alt="Man celebrating" />
+          <img src={WomanCelebratingImg} alt="Woman celebrating" />
+          <h2>Your reminders will show up here!</h2>
+        </div>
+
+        <div className={styles["list"]}>
+          {/* {filteredData.length > 0 ? (
+            filteredData.map((item) => ( */}
+          {dummyfriends.length > 0 ? (
+            dummyfriends.map((item) => (
+              <Item key={item._id} {...item} id={item._id} />
+            ))
+          ) : (
+            <div>No friends</div>
+          )}
+        </div>
+
+          <button onClick={() => navigate("/addfriend")}>
+            <span>+</span>
+            Add Friend
+          </button>
       </div>
-      <div className={styles["list"]}>
-        {filteredData.length > 0 ? (
-          filteredData.map((item) => (
-            <Item key={item._id} {...item} id={item._id} />
-          ))
-        ) : (
-          <div>No friends</div>
-        )}
-      </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 
