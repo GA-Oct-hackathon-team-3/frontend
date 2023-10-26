@@ -28,7 +28,7 @@ function UpdateFriendPage () {
       });
       if (friendInfo.photo) {
             setDisplayFile(friendInfo.photo);
-          setButtonHTML('Change photo');
+            setButtonHTML('Change photo');
       }
     }
     fetchFriend();
@@ -65,10 +65,9 @@ function handleFileChange (evt) {
     const response = await friendsService.updateFriend(id, profileInput);
     if (uploadedFile) {
         const photoResponse = await friendsService.uploadPhoto(id, uploadedFile);
-        console.log(photoResponse);
-        if (photoResponse.ok && response.message === 'Friend updated') navigate((-1));
+        if (photoResponse.ok && response.message === 'Friend updated') navigate(`/friend/${id}`);
     }
-    if (response.message === 'Friend updated') navigate((-1));
+    if (response.message === 'Friend updated') navigate(`/friend/${id}`);
 
   };
 
