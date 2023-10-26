@@ -7,6 +7,8 @@ import styles from "./Login.module.css";
 
 import loginImg from "../../assets/loginImg.png";
 
+import Header from "../../components/Header/Header";
+
 const Login = () => {
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
@@ -34,6 +36,9 @@ const Login = () => {
   }
 
   return (
+    <>
+    <Header />
+   
     <section className={styles["login-container"]}>
       <div>
         <Link to="/">
@@ -57,6 +62,7 @@ const Login = () => {
             onChange={handleChange}
           />
         </div>
+        <br/>
         <div>
           <label htmlFor="password">Password</label>
           <input
@@ -66,12 +72,15 @@ const Login = () => {
             value={credentials.password}
             onChange={handleChange}
           />
+          <p>Forgot Password?</p>
         </div>
         <div>
-          <button type="submit">Sign In</button>
+          <button type="submit">Login</button>
         </div>
       </form>
     </section>
+
+    </>
   );
 };
 

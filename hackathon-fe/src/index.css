@@ -1,4 +1,10 @@
+@font-face {
+  font-family: 'Pilcrow Rounded';
+  src:  url('./assets/fonts/PilcrowRounded-Regular.woff2') format('woff2');
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
+  font-family: "Pilcrow Rounded";
 }
