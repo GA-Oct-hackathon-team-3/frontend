@@ -79,7 +79,7 @@
   width: 57.628px;
   height: 40px;
   flex-shrink: 0;
-  background: url("./../../assets/music_keys.png"), lightgray 50% / contain no-repeat;
+  background: url("./../../assets/music_keys.png"), rgba(0, 0, 0, 0) 50% / contain no-repeat;
 }
 
 .gift-type-btn__image--presents {
@@ -223,4 +223,9 @@ button:hover {
 .product-price {
   font-size: 14px;
   font-weight: 400;
+}
+
+.no-tags-text{
+  text-align: center;
+  margin-top: 100px;
 }

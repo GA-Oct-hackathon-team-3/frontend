@@ -196,32 +196,42 @@ const ShowFriend = () => {
                 <div>Filter</div>
               </IconButton>
             </div>
-            <div className={styles["personalized-recs--grid"]}>
-              <div className={styles["grid-item"]}>
-                <div className={styles["product-pic"]}></div>
-                <div className={styles["product-heart"]}><IconButton><BsHeart /></IconButton></div>
-                <div className={styles["product-name"]}>Bluetooth Earbuds</div>
-                <div className={styles["product-price"]}>~$100</div>
-              </div>
-              <div className={styles["grid-item"]}>
-                <div className={styles["product-pic"]}></div>
-                <div className={styles["product-heart"]}><IconButton><BsHeart /></IconButton></div>
-                <div className={styles["product-name"]}>Ficus</div>
-                <div className={styles["product-price"]}>~$100</div>
-              </div>
-              <div className={styles["grid-item"]}>
-                <div className={styles["product-pic"]}></div>
-                <div className={styles["product-heart"]}><IconButton><BsHeart /></IconButton></div>
-                <div className={styles["product-name"]}>Memory Foam Pillow</div>
-                <div className={styles["product-price"]}>~$100</div>
-              </div>
-              <div className={styles["grid-item"]}>
-                <div className={styles["product-pic"]}></div>
-                <div className={styles["product-heart"]}><IconButton><BsHeart /></IconButton></div>
-                <div className={styles["product-name"]}>Bluetooth Earbuds</div>
-                <div className={styles["product-price"]}>~$100</div>
-              </div>
-            </div>
+            { (friend && friend.tags && !!friend.tags.length) && 
+              <>
+                <div className={styles["personalized-recs--grid"]}>
+                  <div className={styles["grid-item"]}>
+                    <div className={styles["product-pic"]}></div>
+                    <div className={styles["product-heart"]}><IconButton><BsHeart /></IconButton></div>
+                    <div className={styles["product-name"]}>Bluetooth Earbuds</div>
+                    <div className={styles["product-price"]}>~$100</div>
+                  </div>
+                  <div className={styles["grid-item"]}>
+                    <div className={styles["product-pic"]}></div>
+                    <div className={styles["product-heart"]}><IconButton><BsHeart /></IconButton></div>
+                    <div className={styles["product-name"]}>Ficus</div>
+                    <div className={styles["product-price"]}>~$100</div>
+                  </div>
+                  <div className={styles["grid-item"]}>
+                    <div className={styles["product-pic"]}></div>
+                    <div className={styles["product-heart"]}><IconButton><BsHeart /></IconButton></div>
+                    <div className={styles["product-name"]}>Memory Foam Pillow</div>
+                    <div className={styles["product-price"]}>~$100</div>
+                  </div>
+                  <div className={styles["grid-item"]}>
+                    <div className={styles["product-pic"]}></div>
+                    <div className={styles["product-heart"]}><IconButton><BsHeart /></IconButton></div>
+                    <div className={styles["product-name"]}>Bluetooth Earbuds</div>
+                    <div className={styles["product-price"]}>~$100</div>
+                  </div>
+                </div>
+              </>
+            }
+            {
+              !(friend && friend.tags && !!friend.tags.length) && 
+              <>
+              <div className={styles["no-tags-text"]}><Typography>Add tags to get personalized gift recommendations</Typography></div>
+              </>
+            }
           </div>
         </>
       }
