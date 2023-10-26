@@ -27,10 +27,28 @@ const marks = [
   },
 ];
 
-const Filters = ({ friend }) => {
+// const friend = {
+//   _id: "1",
+//   user: "1",
+//   name: "friend one",
+//   gender: "female",
+//   dob: "1990-01-01",
+//   tags: [{
+//     _id: "1",
+//     title: "arts & crafts"
+//   },
+//   {
+//     _id: "2",
+//     title: "gardening"
+//   }],
+//   giftPreferences: ["donation"]
+// }
+
+const Filters = ({friend}) => {
   const [show, setShow] = useState(null);
-  const [budget, setBudget] = useState(20);
-  const [giftPreferences, setGiftPreferences] = useState([]);
+  const [budget, setBudget] = useState(100);
+  const [giftPreferences, setGiftPreferences] = useState(friend.giftPreferences);
+  const [tags, setTags] = useState(friend.tags);
 
   const handleClick = (string) => {
     if (show === string) {
@@ -44,14 +62,27 @@ const Filters = ({ friend }) => {
     return `${value}°C`;
   }
 
-  function handleTagClick(e) {
+  const handlePrefClick = (e) => {
     const idx = giftPreferences.findIndex(el => el === e);
-    console.log(idx);
-    if(idx>-1){
-      setGiftPreferences(giftPreferences.slice(0,idx).concat(giftPreferences.slice(idx+1)));
-    }else{
+    if (idx > -1) {
+      setGiftPreferences(giftPreferences.slice(0, idx).concat(giftPreferences.slice(idx + 1)));
+    } else {
       setGiftPreferences([...giftPreferences, e]);
     }
+  }
+
+  const handleTagClick = e => {
+    const idx = tags.findIndex(el => el.title === e);
+    if (idx > -1) {
+      setTags(tags.slice(0, idx).concat(tags.slice(idx + 1)));
+    } else {
+      setTags([...tags, { title: e }]);
+    }
+  }
+
+  const clearFilters = () => {
+    setTags(friend.tags);
+    setGiftPreferences(friend.giftPreferences);
   }
 
 
@@ -96,12 +127,16 @@ const Filters = ({ friend }) => {
           </div>
           {show === "tags" && (
             <div className={styles["tags"]}>
-              <button className={styles["tag-button"]}>Reading</button>
-              <button className={styles["tag-button"]}>
-                Outdoor Activities
-              </button>
-              <button className={styles["tag-button"]}>Arts and Crafts</button>
-              <button className={styles["tag-button"]}>Socializing</button>
+              {!!friend.tags.length && friend.tags.map((tag, idx) =>
+                <button
+                  key={idx}
+                  className={styles["tag-button"] + ' ' + (tags.findIndex(t => t.title === tag.title) > -1 ? styles['active'] : '')}
+                  onClick={() => handleTagClick(tag.title)}>
+                  {tag.title}
+                </button>
+              )}
+
+
             </div>
           )}
         </div>
@@ -118,19 +153,19 @@ const Filters = ({ friend }) => {
             <div className={styles["tags"]}>
               <button
                 value="experience"
-                onClick={()=>handleTagClick('experience')}
+                onClick={() => handlePrefClick('experience')}
                 className={styles["tag-button"] + ' ' + (giftPreferences.includes("experience") ? styles["active"] : '')}>
                 Experience
               </button>
               <button
                 value="present"
-                onClick={()=>handleTagClick('present')}
+                onClick={() => handlePrefClick('present')}
                 className={styles["tag-button"] + ' ' + (giftPreferences.includes("present") ? styles["active"] : '')}>
                 Present
               </button>
               <button
                 value="donation"
-                onClick={()=>handleTagClick('donation')}
+                onClick={() => handlePrefClick('donation')}
                 className={styles["tag-button"] + ' ' + (giftPreferences.includes("donation") ? styles["active"] : '')}>
                 Donation
               </button>
@@ -139,7 +174,7 @@ const Filters = ({ friend }) => {
         </div>
       </div>
       <div className={styles["btn-container"]}>
-        <button className={styles["clear-btn"]}>Clear</button>
+        <button className={styles["clear-btn"]} onClick={clearFilters}>Clear</button>
         <button className={styles["save-btn"]}>Save</button>
       </div>
     </div>
