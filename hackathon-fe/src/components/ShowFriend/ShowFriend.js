@@ -41,7 +41,7 @@ const ShowFriend = () => {
   }
 
   const handleEditProfile = () => {
-    navigate(`/friends/${id}/edit`);
+    navigate(`/friend/${id}/edit`);
   }
 
   const handleEditTags = () => {
