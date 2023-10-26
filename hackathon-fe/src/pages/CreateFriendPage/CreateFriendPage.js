@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { BsArrowLeft } from "react-icons/bs";
@@ -10,6 +10,10 @@ import styles from "./CreateFriendPage.module.css";
 
 function CreateFriendProfile() {
   const navigate = useNavigate();
+
+  const [displayFile, setDisplayFile] = useState(null);
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const [buttonHTML, setButtonHTML] = useState('Add profile photo');
 
   const [profile, setProfile] = useState({
     name: "",
@@ -26,6 +30,32 @@ function CreateFriendProfile() {
       : [...profile.giftPreferences, type];
     setProfile({ ...profile, giftPreferences: newGiftTypes });
   };
+
+    const fileInputRef = useRef(null);
+
+    function handleAddPhotoClick (evt) {
+        evt.preventDefault();
+        fileInputRef.current.click();
+    }
+
+    function handleFileChange (evt) {
+        // assigns file upload to display image, adds file to state for form submit, and toggles button HTML
+        const file = evt.target.files[0];
+        if (file) {
+            setDisplayFile(URL.createObjectURL(file));
+            setUploadedFile(file)
+            setButtonHTML('Change photo upload')
+        } else {
+            setDisplayFile(null);
+            setUploadedFile(null);
+            setButtonHTML('Add profile photo')
+        } 
+        console.log(file);
+    }
+
+
+
+  
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -55,9 +85,10 @@ function CreateFriendProfile() {
 
         <form onSubmit={submitHandler}>
           <div>
-            <label htmlFor="image" className={styles["add-image"]}>+</label>
-            <input type="file" id="image" hidden />
-            <p>Add profile photo</p>
+                <label htmlFor="image" className={styles["add-image"]} >+</label>
+                <input type="file" name="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} />
+                {displayFile && <img src={displayFile} alt="Uploaded" />}
+                <button onClick={handleAddPhotoClick}>{buttonHTML}</button>
           </div>
           <br />
 
