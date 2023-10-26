@@ -1,42 +1,43 @@
 import React from "react";
-import { AiFillHome, AiFillGift } from "react-icons/ai";
-import { BiBell } from "react-icons/bi";
-import { SlCalender } from "react-icons/sl";
-import { BsPersonFill } from "react-icons/bs";
 import { NavLink } from "react-router-dom";
+import Profile from '../../assets/icons/profile.png'
+import Home from '../../assets/icons/home.png'
+import Calender from '../../assets/icons/calender.png'
+import Alert from '../../assets/icons/alert.png'
+import Gift from '../../assets/icons/gift.png'
 
 import styles from "./Footer.module.css";
 
 const Footer = () => {
   return (
     <footer className={styles["footer-container"]}>
-      <NavLink className={styles.link} to="/">
+      <NavLink className={styles.link} to="/friends">
         <div className={styles.icon}>
-          <AiFillHome />
+          <img src={Home} alt="" />
           <p>Home</p>
         </div>
       </NavLink>
       <NavLink className={styles.link} to="/">
         <div className={styles.icon}>
-          <BiBell />
+        <img src={Alert} alt="" />
           <p>Reminder</p>
         </div>
       </NavLink>
       <NavLink className={styles.link} to="/">
         <div className={styles.icon}>
-          <SlCalender />
+        <img src={Calender} alt="" />
           <p>Calender</p>
         </div>
       </NavLink>
       <NavLink className={styles.link} to="/">
         <div className={styles.icon}>
-          <AiFillGift />
+        <img className={styles.gift} src={Gift} alt="" />
           <p>Gifts</p>
         </div>
       </NavLink>
       <NavLink className={styles.link} to="/">
         <div className={styles.icon}>
-          <BsPersonFill />
+        <img src={Profile} alt="" />
           <p>Profile</p>
         </div>
       </NavLink>
