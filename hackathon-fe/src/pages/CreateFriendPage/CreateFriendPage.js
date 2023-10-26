@@ -16,21 +16,22 @@ function CreateFriendProfile() {
     dob: "",
     gender: "",
     location: "",
-    giftTypePreferences: [],
+    giftPreferences: [],
     giftCost: ""
   });
 
   const handleGiftTypeToggle = (type) => {
-    const newGiftTypes = profile.giftTypePreferences.includes(type)
-      ? profile.giftTypePreferences.filter((t) => t !== type)
-      : [...profile.giftTypePreferences, type];
-    setProfile({ ...profile, giftTypePreferences: newGiftTypes });
+    const newGiftTypes = profile.giftPreferences.includes(type)
+      ? profile.giftPreferences.filter((t) => t !== type)
+      : [...profile.giftPreferences, type];
+    setProfile({ ...profile, giftPreferences: newGiftTypes });
   };
 
   const submitHandler = async (e) => {
     e.preventDefault();
 
     try {
+      console.log("Creating friend profile", profile);
       const friendData = await friendsService.createFriend(profile);
       console.log("friend succesfully created", friendData);
       // navigate("/friends");
