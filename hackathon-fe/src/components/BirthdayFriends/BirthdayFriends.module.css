@@ -65,6 +65,30 @@
 
   }
 
+  .friends-container > div:nth-child(3) > div.no-friends-yet {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: #fff;
+    width: 358px;
+    height: 100px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px 0px rgba(116, 138, 133, 0.40);
+  }
+
+  .friends-container > div:nth-child(3) > div.no-friends-yet > img {
+    width: 99px;
+    height: 99px;
+  }
+
+  .friends-container > div:nth-child(3) > div.no-friends-yet > p {
+    width: 219px;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20.8px
+  }
+
   .friends-container > button {
     height: 75px;
     position: fixed;
