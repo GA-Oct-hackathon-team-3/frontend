@@ -103,6 +103,7 @@ const BirthdayFriends = () => {
                 icon={faBirthdayCake}
                 size="xl"
                 style={{ height: 60, width: 60 }}
+                color={friendCardColor}
               />
             )}
             <div>
