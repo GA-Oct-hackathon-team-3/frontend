@@ -3,13 +3,13 @@ import { useNavigate } from "react-router-dom";
 import styles from "./Landing.module.css";
 
 import heroImg from "../../assets/heroImg.png";
-import * as usersService from "../../utilities/users-api";
+import * as profilesService from "../../utilities/profiles-service";
 
 const Landing = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const checkValidUser = async () => {
-    const userData = await usersService.getProfile();
+    const userData = await profilesService.getProfile();
     navigate("/friends");
   };
   if (token) {
