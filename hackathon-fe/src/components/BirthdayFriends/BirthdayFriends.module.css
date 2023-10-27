@@ -206,5 +206,68 @@
   .list {
     padding-bottom: 50px;
   }
+  .onboarding-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .onboarding-overlay2 {
+    position: absolute;
+    top: 250px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .onboarding-content {
+    max-width: 300px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .onboarding-content h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  
+  .onboarding-content ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 20px;
+  }
+  
+  .onboarding-content li {
+    margin-bottom: 10px;
+  }
+  
+  .onboarding-content button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #34C759;  
+    color: white;
+    cursor: pointer;
+  }
+  
+  .onboarding-content button:hover {
+    background-color: #2AB045;  /* A slightly darker shade for hover effect */
+  }
 }
 
