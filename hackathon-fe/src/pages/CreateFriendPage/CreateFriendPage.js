@@ -13,7 +13,7 @@ function CreateFriendProfile() {
 
   const [displayFile, setDisplayFile] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
-  const [buttonHTML, setButtonHTML] = useState('Add profile photo');
+  const [buttonHTML, setButtonHTML] = useState("Add profile photo");
   const [profile, setProfile] = useState({
     name: "",
     dob: "",
@@ -32,44 +32,46 @@ function CreateFriendProfile() {
     setProfile({ ...profile, giftPreferences: newGiftTypes });
   };
 
-    function handleAddPhotoClick (evt) {
-        evt.preventDefault();
-        fileInputRef.current.click();
+  function handleAddPhotoClick(evt) {
+    evt.preventDefault();
+    fileInputRef.current.click();
+  }
+
+  function handleFileChange(evt) {
+    // assigns file upload to display image, adds file to state for form submit, and toggles button HTML
+    const file = evt.target.files[0];
+    if (file) {
+      setDisplayFile(URL.createObjectURL(file));
+      setUploadedFile(file);
+      setButtonHTML("Change photo");
+    } else {
+      setDisplayFile(null);
+      setUploadedFile(null);
+      setButtonHTML("Add profile photo");
     }
-
-    function handleFileChange (evt) {
-        // assigns file upload to display image, adds file to state for form submit, and toggles button HTML
-        const file = evt.target.files[0];
-        if (file) {
-            setDisplayFile(URL.createObjectURL(file));
-            setUploadedFile(file);
-            setButtonHTML('Change photo');
-        } else {
-            setDisplayFile(null);
-            setUploadedFile(null);
-            setButtonHTML('Add profile photo');
-        } 
-    }
-
-
-
-  
+  }
 
   const submitHandler = async (e) => {
     e.preventDefault();
 
     try {
-
       const friendData = await friendsService.createFriend(profile);
       if (uploadedFile) {
         try {
-            const response = await friendsService.uploadPhoto(friendData._id, uploadedFile);
-            if (response.ok && friendData) navigate("/friends");
+          const response = await friendsService.uploadPhoto(
+            friendData._id,
+            uploadedFile
+          );
+          if (response.ok && friendData) {
+            navigate("/friend/" + friendData._id + "/tag");
+          }
         } catch (error) {
-            console.log(error);
+          console.log(error);
         }
       }
-      if (friendData) navigate("/friends");
+      if (friendData) {
+        navigate("/friend/" + friendData._id + "/tag");
+      }
     } catch (error) {
       console.log(error);
     }
@@ -90,13 +92,25 @@ function CreateFriendProfile() {
 
         <form onSubmit={submitHandler} encType="multipart/form-data">
           <div>
-                { displayFile ? (
-                    <img src={displayFile} alt="Uploaded" style={{ height: '80px', width: '80px', paddingBottom: '6px' }}/>
-                ) : (
-                    <label htmlFor="image" className={styles["add-image"]} >+</label>
-                )}
-                <input type="file" name="photo" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} />
-                <p onClick={handleAddPhotoClick}>{buttonHTML}</p>
+            {displayFile ? (
+              <img
+                src={displayFile}
+                alt="Uploaded"
+                style={{ height: "80px", width: "80px", paddingBottom: "6px" }}
+              />
+            ) : (
+              <label htmlFor="image" className={styles["add-image"]}>
+                +
+              </label>
+            )}
+            <input
+              type="file"
+              name="photo"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              style={{ display: "none" }}
+            />
+            <p onClick={handleAddPhotoClick}>{buttonHTML}</p>
           </div>
           <br />
 
@@ -159,21 +173,39 @@ function CreateFriendProfile() {
               <button
                 type="button"
                 onClick={() => handleGiftTypeToggle("Present")}
-                className={profile.giftPreferences.findIndex(g=>g.toLowerCase()==="present") > -1 ? styles["gift-type-active"] : ''}
+                className={
+                  profile.giftPreferences.findIndex(
+                    (g) => g.toLowerCase() === "present"
+                  ) > -1
+                    ? styles["gift-type-active"]
+                    : ""
+                }
               >
                 Present
               </button>
               <button
                 type="button"
                 onClick={() => handleGiftTypeToggle("Experience")}
-                className={profile.giftPreferences.findIndex(g=>g.toLowerCase()==="experience") > -1 ? styles["gift-type-active"] : ''}
+                className={
+                  profile.giftPreferences.findIndex(
+                    (g) => g.toLowerCase() === "experience"
+                  ) > -1
+                    ? styles["gift-type-active"]
+                    : ""
+                }
               >
                 Experience
               </button>
               <button
                 type="button"
                 onClick={() => handleGiftTypeToggle("Donation")}
-                className={profile.giftPreferences.findIndex(g=>g.toLowerCase()==="donation") > -1 ? styles["gift-type-active"] : ''}
+                className={
+                  profile.giftPreferences.findIndex(
+                    (g) => g.toLowerCase() === "donation"
+                  ) > -1
+                    ? styles["gift-type-active"]
+                    : ""
+                }
               >
                 Donation
               </button>
