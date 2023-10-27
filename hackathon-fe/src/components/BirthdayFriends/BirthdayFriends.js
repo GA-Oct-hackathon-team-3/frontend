@@ -68,6 +68,9 @@ const BirthdayFriends = () => {
 
   const Item = ({ name, dob, id, photo}) => {
     const history = useNavigate();
+    useEffect(()=>{
+      getRandomColor();
+    },[]);
 
 
     const [friendCardColor, setFriendCardColor] = useState("");
