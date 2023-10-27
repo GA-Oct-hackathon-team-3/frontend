@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { BsArrowLeft } from "react-icons/bs";
 import * as friendsService from "../../utilities/friends-service";
+import { profileFormValidation, profileDobValidation } from "../../utilities/helpers";
 
 import Header from "../../components/Header/Header";
 
@@ -11,6 +12,7 @@ import styles from "./CreateFriendPage.module.css";
 function CreateFriendProfile() {
   const navigate = useNavigate();
 
+  const [validationMessage, setValidationMessage] = useState('');
   const [displayFile, setDisplayFile] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [buttonHTML, setButtonHTML] = useState("Add profile photo");
@@ -53,7 +55,16 @@ function CreateFriendProfile() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
+    const validDate = profileDobValidation(profile.dob);
+    const valid = profileFormValidation(profile);
+    if (!validDate) {
+        setValidationMessage('Date of birth cannot be in the future');
+        return;
+    }
+    if (!valid) {
+        setValidationMessage('Required fields are marked with (*)');
+        return;
+    }
     try {
       const friendData = await friendsService.createFriend(profile);
       if (uploadedFile) {
@@ -99,7 +110,7 @@ function CreateFriendProfile() {
                 style={{ height: "80px", width: "80px", paddingBottom: "6px" }}
               />
             ) : (
-              <label htmlFor="image" className={styles["add-image"]}>
+              <label htmlFor="image" className={styles["add-image"]} onClick={handleAddPhotoClick}>
                 +
               </label>
             )}
@@ -113,9 +124,9 @@ function CreateFriendProfile() {
             <p onClick={handleAddPhotoClick}>{buttonHTML}</p>
           </div>
           <br />
-
+          {validationMessage ? validationMessage : ''}
           <div>
-            <label htmlFor="name">Name</label>
+            <label htmlFor="name" style={{paddingTop: 10}}>Name * </label>
             <input
               id="name"
               value={profile.name}
@@ -126,11 +137,12 @@ function CreateFriendProfile() {
 
           <div>
             <div>
-              <label htmlFor="dob">DOB</label>
+              <label htmlFor="dob">Date of Birth *</label>
               <input
                 type="date"
                 id="dob"
                 value={profile.dob}
+                max={new Date().toISOString().split('T')[0]}
                 onChange={(e) =>
                   setProfile({ ...profile, dob: e.target.value })
                 }
@@ -138,7 +150,7 @@ function CreateFriendProfile() {
             </div>
 
             <div>
-              <label htmlFor="gender">Gender</label>
+              <label htmlFor="gender">Gender *</label>
               <select
                 id="gender"
                 value={profile.gender}
@@ -172,19 +184,6 @@ function CreateFriendProfile() {
             <div>
               <button
                 type="button"
-                onClick={() => handleGiftTypeToggle("Present")}
-                className={
-                  profile.giftPreferences.findIndex(
-                    (g) => g.toLowerCase() === "present"
-                  ) > -1
-                    ? styles["gift-type-active"]
-                    : ""
-                }
-              >
-                Present
-              </button>
-              <button
-                type="button"
                 onClick={() => handleGiftTypeToggle("Experience")}
                 className={
                   profile.giftPreferences.findIndex(
@@ -194,7 +193,20 @@ function CreateFriendProfile() {
                     : ""
                 }
               >
-                Experience
+                Experiences
+              </button>
+              <button
+                type="button"
+                onClick={() => handleGiftTypeToggle("Present")}
+                className={
+                  profile.giftPreferences.findIndex(
+                    (g) => g.toLowerCase() === "present"
+                  ) > -1
+                    ? styles["gift-type-active"]
+                    : ""
+                }
+              >
+                Presents
               </button>
               <button
                 type="button"
@@ -207,7 +219,7 @@ function CreateFriendProfile() {
                     : ""
                 }
               >
-                Donation
+                Donations
               </button>
             </div>
           </div>

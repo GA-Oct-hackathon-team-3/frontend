@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { BsArrowLeft } from "react-icons/bs";
 import * as friendsService from "../../utilities/friends-service";
+import { profileFormValidation, profileDobValidation } from "../../utilities/helpers";
 
 import Header from "../../components/Header/Header";
 
@@ -42,11 +43,6 @@ function UpdateFriendPage () {
     fetchFriend();
   }, [id]);
 
-  function validateForm () {
-    if (!profileInput.name || !profileInput.dob || !profileInput.gender) return false;
-    else return true;
-  }
-
   function handleAddPhotoClick (evt) {
     evt.preventDefault();
     fileInputRef.current.click();
@@ -75,7 +71,12 @@ function handleFileChange (evt) {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const valid = validateForm();
+    const validDate = profileDobValidation(profileInput.dob);
+    const valid = profileFormValidation(profileInput);
+    if (!validDate) {
+        setValidationMessage('Date of birth cannot be in the future');
+        return;
+    }
     if (!valid) {
         setValidationMessage('Required fields are marked with (*)');
         return;
@@ -129,6 +130,7 @@ function handleFileChange (evt) {
                 type="date"
                 id="dob"
                 value={profileInput && profileInput.dob}
+                max={new Date().toISOString().split('T')[0]}
                 onChange={(e) =>
                   setProfileInput({ ...profileInput, dob: e.target.value })
                 }
@@ -170,24 +172,24 @@ function handleFileChange (evt) {
             <div>
               <button
                 type="button"
-                onClick={() => handleGiftTypeToggle("Presents")}
-                className={profileInput && profileInput.giftPreferences.findIndex(g=>g.toLowerCase()==="present") > -1 ? styles["gift-type-active"] : ''}
-              >
-                Present
-              </button>
-              <button
-                type="button"
                 onClick={() => handleGiftTypeToggle("Experience")}
                 className={profileInput && profileInput.giftPreferences.findIndex(g=>g.toLowerCase()==="experience") > -1 ? styles["gift-type-active"] : ''}
               >
-                Experience
+                Experiences
+              </button>
+              <button
+                type="button"
+                onClick={() => handleGiftTypeToggle("Present")}
+                className={profileInput && profileInput.giftPreferences.findIndex(g=>g.toLowerCase()==="present") > -1 ? styles["gift-type-active"] : ''}
+              >
+                Presents
               </button>
               <button
                 type="button"
                 onClick={() => handleGiftTypeToggle("Donation")}
                 className={profileInput && profileInput.giftPreferences.findIndex(g=>g.toLowerCase()==="donation") > -1 ? styles["gift-type-active"] : ''}
               >
-                Donation
+                Donations
               </button>
             </div>
           </div>
