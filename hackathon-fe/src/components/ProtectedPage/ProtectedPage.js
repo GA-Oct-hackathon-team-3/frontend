@@ -12,8 +12,6 @@ const ProtectedPage = ({ children }) => {
       localStorage.removeItem("token");
       setIsValidToken(false);
     } else {
-      console.log("valid user");
-      console.log(children);
       setIsValidToken(true);
     }
   };
@@ -28,7 +26,7 @@ const ProtectedPage = ({ children }) => {
   }, []);
 
   if (isValidToken === null) {
-    // You can render a loading spinner here
+    // Update with better loading indicator
     return <div>Loading...</div>;
   }
 
