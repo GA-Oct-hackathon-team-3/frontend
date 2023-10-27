@@ -4,6 +4,8 @@
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
   background-color: #FDF7ED;
   position: relative;
   height: 100%;
@@ -23,6 +25,14 @@
   z-index: 0;
 }
 
+.back-btn{
+  position: absolute;
+  z-index: 2;
+  left: 5px;
+  top: 50%;
+  font-size: 1.5rem;
+}
+
 .text-brick{
   color: #FA7F39;
 }
@@ -31,6 +41,8 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  position:relative;
+  margin-top: 40px;
 }
 
 .profile-pic {
@@ -218,7 +230,7 @@ button:hover {
   height: 32px;
   /* margin-bottom: 24px; */
   position: absolute;
-  bottom: 75px;
+  bottom: 45px;
   right: 16px;
 }
 
