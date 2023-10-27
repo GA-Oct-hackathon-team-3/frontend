@@ -1,10 +1,10 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import Profile from '../../assets/icons/profile.png'
-import Home from '../../assets/icons/home.png'
-import Calender from '../../assets/icons/calender.png'
-import Alert from '../../assets/icons/alert.png'
-import Gift from '../../assets/icons/gift.png'
+import Profile from "../../assets/icons/profile.png";
+import Home from "../../assets/icons/home.png";
+import Calender from "../../assets/icons/calender.png";
+import Alert from "../../assets/icons/alert.png";
+import Gift from "../../assets/icons/gift.png";
 
 import styles from "./Footer.module.css";
 
@@ -19,25 +19,25 @@ const Footer = () => {
       </NavLink>
       <NavLink className={styles.link} to="/">
         <div className={styles.icon}>
-        <img src={Alert} alt="" />
+          <img src={Alert} alt="" />
           <p>Reminder</p>
         </div>
       </NavLink>
       <NavLink className={styles.link} to="/">
         <div className={styles.icon}>
-        <img src={Calender} alt="" />
+          <img src={Calender} alt="" />
           <p>Calender</p>
         </div>
       </NavLink>
       <NavLink className={styles.link} to="/">
         <div className={styles.icon}>
-        <img className={styles.gift} src={Gift} alt="" />
+          <img className={styles.gift} src={Gift} alt="" />
           <p>Gifts</p>
         </div>
       </NavLink>
-      <NavLink className={styles.link} to="/">
+      <NavLink className={styles.link} to="/profile">
         <div className={styles.icon}>
-        <img src={Profile} alt="" />
+          <img src={Profile} alt="" />
           <p>Profile</p>
         </div>
       </NavLink>
