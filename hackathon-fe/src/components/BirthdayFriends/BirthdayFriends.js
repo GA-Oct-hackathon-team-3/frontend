@@ -6,7 +6,6 @@ import * as friendsService from "../../utilities/friends-service";
 import { daysUntilBirthday } from "../../utilities/helpers";
 
 import styles from "./BirthdayFriends.module.css";
-
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import WomanCelebratingImg from "../../assets/womanCelebrating.png";
@@ -16,6 +15,7 @@ const BirthdayFriends = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [allFriends, setAllFriends] = useState([]);
+  const [onboardingStep, setOnboardingStep] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,6 +24,10 @@ const BirthdayFriends = () => {
         const friendsData = await friendsService.retrieveFriends();
         setAllFriends(friendsData);
         setFilteredData(friendsData);
+        console.log("Length", friendsData.length);
+        if (typeof friendsData.length === "undefined") {
+          setOnboardingStep(1); // Initiate onboarding if there are no friends
+        }
       } catch (error) {
         console.error("Error fetching friends: ", error);
       }
@@ -35,11 +39,11 @@ const BirthdayFriends = () => {
     setSearchQuery(query);
 
     if (query) {
-      // Filter the friends based on the search query      
+      // Filter the friends based on the search query
       const filteredResults = allFriends.filter((item) =>
-      item.name.toLowerCase().includes(query.toLowerCase())
+        item.name.toLowerCase().includes(query.toLowerCase())
       );
-      
+
       setFilteredData(filteredResults);
     } else {
       // If the query is empty, reset the list to the original friends data
@@ -57,12 +61,15 @@ const BirthdayFriends = () => {
       >
         <div className={styles["item"]}>
           <div>
-
-            { photo ? 
-            <img src={photo} alt={name} />
-            : 
-            <FontAwesomeIcon icon={faBirthdayCake} size="80px" style={{ height: 60, width: 60}}/>
-            }
+            {photo ? (
+              <img src={photo} alt={name} />
+            ) : (
+              <FontAwesomeIcon
+                icon={faBirthdayCake}
+                size="80px"
+                style={{ height: 60, width: 60 }}
+              />
+            )}
             <div>
               <p>{name}</p>
               <p>{dob}</p>
@@ -72,7 +79,6 @@ const BirthdayFriends = () => {
               <p className={styles["days"]}>{daysUntilBirthday(dob)}</p>
               <p className={styles["label"]}>Days Left</p>
             </div>
-
           </div>
         </div>
         <div>View Saved Gifts </div>
@@ -107,11 +113,36 @@ const BirthdayFriends = () => {
           )}
         </div>
 
-          <button onClick={() => navigate("/addfriend")}>
-            <span>+</span>
-            Add Friend
-          </button>
+        {onboardingStep === 1 && (
+          <div className={styles["onboarding-overlay"]}>
+            <div className={styles["onboarding-content"]}>
+              <h2>Welcome to your Presently Dashboard!</h2>
+              <ul>
+                <li>See birthdays that are coming up soon</li>
+                <li>
+                  Search for a friend to view their profile or saved gifts
+                </li>
+              </ul>
+              <button onClick={() => setOnboardingStep(2)}>Continue</button>
+            </div>
+          </div>
+        )}
+
+        {onboardingStep === 2 && (
+          <div className={styles["onboarding-overlay2"]}>
+            <div className={styles["onboarding-content"]}>
+              <h2>Add a new friend profile to get personalized gift ideas.</h2>
+              <button onClick={() => setOnboardingStep(0)}>Skip for now</button>
+            </div>
+          </div>
+        )}
+
+        <button onClick={() => navigate("/addfriend")}>
+          <span>+</span>
+          Add Friend
+        </button>
       </div>
+
       <Footer />
     </>
   );

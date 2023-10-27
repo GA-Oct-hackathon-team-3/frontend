@@ -1,9 +1,8 @@
 @media (max-width: 480px) {
     .landing-container {
-        position: absolute;
-        height: 108%;
-        overflow-y: scroll;
-        overflow-x: hidden;
+        height: 100%;
+        width: 100%;
+        padding-bottom: 40px;
         display: flex;
         flex-direction: column;
         background-color: #FDF7ED;
