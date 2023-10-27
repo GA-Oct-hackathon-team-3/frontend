@@ -5,6 +5,8 @@ import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import Slider from "@mui/material/Slider";
 import { useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
+import { Typography } from "@mui/material";
+import { BsArrowLeft } from "react-icons/bs";
 
 const marks = [
   {
@@ -106,6 +108,11 @@ const Filters = ({ friend }) => {
     navigate(`/friend/${friend._id}?${queryParams}`);
   }
 
+  const onBack = () =>{
+    clearFilters();
+    navigate(`/friend/${friend._id}`);
+  }
+
 
   return (
     <>
@@ -113,6 +120,14 @@ const Filters = ({ friend }) => {
       <div className={styles["mainContainer"]}>
         <div className={styles["container"]}>
           <div className={styles["row-container"]}>
+            <div className={styles.row}>
+              <div className={styles["heading-container"]}>
+                  <p style={{fontSize:"1.5rem"}} onClick={onBack}>
+                    <BsArrowLeft />
+                  </p>
+                  <h1>Filters</h1>
+              </div>
+            </div>
             <div className={styles.row}>
               <h2>Budget</h2>
               <FontAwesomeIcon

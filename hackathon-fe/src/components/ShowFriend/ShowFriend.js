@@ -17,6 +17,7 @@ import {
 } from "../../utilities/helpers";
 import {
   BsArrowCounterclockwise,
+  BsArrowLeft,
   BsFilter,
   BsHeart,
   BsPencilFill
@@ -152,9 +153,6 @@ const ShowFriend = () => {
   return (
     <div className={styles["container"]}>
       <div className={styles["shadow"]}></div>
-      <button type="button" onClick={() => navigate("/friends")}>
-        <a>X</a>
-      </button>
       <div className={styles["profile"]}>
         <img
           src={
@@ -165,8 +163,11 @@ const ShowFriend = () => {
           alt="Anthony Sudol"
           className={styles["profile-pic"]}
         />
+          <h2 style={{position:"relative"}}>{friend && friend.name}</h2>
+          <p className={styles["back-btn"]} onClick={() => navigate('/friends')}>
+            <BsArrowLeft />
+          </p>
 
-        <h2>{friend && friend.name}</h2>
 
         <p>Friend</p>
       </div>

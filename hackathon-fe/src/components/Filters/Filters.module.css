@@ -19,6 +19,14 @@
   overflow-y: scroll;
 }
 
+.heading-container{
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  gap:20px;
+}
+
 .save-btn {
   padding: 10px 20px;
   font-family: Arial, sans-serif;
