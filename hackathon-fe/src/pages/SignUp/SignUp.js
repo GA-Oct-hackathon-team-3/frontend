@@ -9,6 +9,7 @@ import styles from "./SignUp.module.css";
 
 const LoginSignUp = () => {
   const [passwordValidity, setPasswordValidity] = useState(false);
+  const [passwordMatch, setPasswordMatch] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
     tel: "",
@@ -24,8 +25,10 @@ const LoginSignUp = () => {
   const [message, setMessage] = useState("Create an Account");
 
   const handleChange = (evt) => {
-    setFormData({ ...formData, [evt.target.name]: evt.target.value });
-    if (evt.target.name === 'password') validatePassword(evt.target.value);
+    const { name, value } = evt.target;
+    setFormData({ ...formData, [name]: value });
+    if (name === 'password') validatePassword(value);
+    if (name === 'confirmPassword') validateMatch(value);
   };
 
   const submitHandler = async (evt) => {
@@ -86,6 +89,12 @@ const LoginSignUp = () => {
     return passwordValidity;
   }
 
+  function validateMatch (confirmPassword) {
+    const match = confirmPassword === formData.password;
+    setPasswordMatch(match);
+    return match;
+  }
+
   return (
     <>
       <Header />
@@ -127,7 +136,13 @@ const LoginSignUp = () => {
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
+              onBlur={() => validateMatch(formData.confirmPassword)}
             />
+            {!passwordMatch && (
+              <p>
+                Passwords do not match
+              </p>
+            )}
           </div>
           <br />
           <div>
