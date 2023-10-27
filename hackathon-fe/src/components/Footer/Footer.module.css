@@ -8,6 +8,7 @@
         border-top: 1px solid #D9D9D9; 
         text-decoration: none;
         background-color: #FDF7ED;
+        z-index: 10;
        
     }
     .footer-container > a > div {
