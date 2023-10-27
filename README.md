@@ -8,7 +8,7 @@ https://ga-oct-hackathon-team-3.github.io/
 - [Web Frontend](https://github.com/GA-Oct-hackathon-team-3/frontend)
 - [Native Frontend](https://github.com/GA-Oct-hackathon-team-3/mobile)
 
-
+## Overview
 
 Presently is an AI-powered birthday gifting companion! Presently is a an app that takes the hassle out of finding the perfect birthday gift and never lets you forget an important date. With its sophisticated AI algorithms, Presently creates a personalized gift suggestion list based on the recipient's interests, preferences, and more. It scours the internet for the latest and greatest gift ideas, ensuring that you always present a thoughtful and meaningful gift.
 
