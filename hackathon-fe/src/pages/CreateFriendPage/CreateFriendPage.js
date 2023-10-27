@@ -11,6 +11,7 @@ import styles from "./CreateFriendPage.module.css";
 function CreateFriendProfile() {
   const navigate = useNavigate();
 
+  const [validationMessage, setValidationMessage] = useState('');
   const [displayFile, setDisplayFile] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [buttonHTML, setButtonHTML] = useState("Add profile photo");
@@ -99,7 +100,7 @@ function CreateFriendProfile() {
                 style={{ height: "80px", width: "80px", paddingBottom: "6px" }}
               />
             ) : (
-              <label htmlFor="image" className={styles["add-image"]}>
+              <label htmlFor="image" className={styles["add-image"]} onClick={handleAddPhotoClick}>
                 +
               </label>
             )}
@@ -172,19 +173,6 @@ function CreateFriendProfile() {
             <div>
               <button
                 type="button"
-                onClick={() => handleGiftTypeToggle("Present")}
-                className={
-                  profile.giftPreferences.findIndex(
-                    (g) => g.toLowerCase() === "present"
-                  ) > -1
-                    ? styles["gift-type-active"]
-                    : ""
-                }
-              >
-                Present
-              </button>
-              <button
-                type="button"
                 onClick={() => handleGiftTypeToggle("Experience")}
                 className={
                   profile.giftPreferences.findIndex(
@@ -194,7 +182,20 @@ function CreateFriendProfile() {
                     : ""
                 }
               >
-                Experience
+                Experiences
+              </button>
+              <button
+                type="button"
+                onClick={() => handleGiftTypeToggle("Present")}
+                className={
+                  profile.giftPreferences.findIndex(
+                    (g) => g.toLowerCase() === "present"
+                  ) > -1
+                    ? styles["gift-type-active"]
+                    : ""
+                }
+              >
+                Presents
               </button>
               <button
                 type="button"
@@ -207,7 +208,7 @@ function CreateFriendProfile() {
                     : ""
                 }
               >
-                Donation
+                Donations
               </button>
             </div>
           </div>

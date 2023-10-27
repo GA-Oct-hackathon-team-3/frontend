@@ -170,24 +170,24 @@ function handleFileChange (evt) {
             <div>
               <button
                 type="button"
-                onClick={() => handleGiftTypeToggle("Presents")}
-                className={profileInput && profileInput.giftPreferences.findIndex(g=>g.toLowerCase()==="present") > -1 ? styles["gift-type-active"] : ''}
-              >
-                Present
-              </button>
-              <button
-                type="button"
                 onClick={() => handleGiftTypeToggle("Experience")}
                 className={profileInput && profileInput.giftPreferences.findIndex(g=>g.toLowerCase()==="experience") > -1 ? styles["gift-type-active"] : ''}
               >
-                Experience
+                Experiences
+              </button>
+              <button
+                type="button"
+                onClick={() => handleGiftTypeToggle("Present")}
+                className={profileInput && profileInput.giftPreferences.findIndex(g=>g.toLowerCase()==="present") > -1 ? styles["gift-type-active"] : ''}
+              >
+                Presents
               </button>
               <button
                 type="button"
                 onClick={() => handleGiftTypeToggle("Donation")}
                 className={profileInput && profileInput.giftPreferences.findIndex(g=>g.toLowerCase()==="donation") > -1 ? styles["gift-type-active"] : ''}
               >
-                Donation
+                Donations
               </button>
             </div>
           </div>
