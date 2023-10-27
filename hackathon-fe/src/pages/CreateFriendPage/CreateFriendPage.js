@@ -63,7 +63,6 @@ function CreateFriendProfile() {
             uploadedFile
           );
           if (response.ok && friendData) {
-            console.log("friendData", friendData);
             navigate("/friend/" + friendData._id + "/tag");
           }
         } catch (error) {
@@ -71,7 +70,6 @@ function CreateFriendProfile() {
         }
       }
       if (friendData) {
-        console.log("friendData", friendData);
         navigate("/friend/" + friendData._id + "/tag");
       }
     } catch (error) {
