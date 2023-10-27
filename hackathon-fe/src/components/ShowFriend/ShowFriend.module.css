@@ -4,6 +4,8 @@
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
   background-color: #FDF7ED;
   position: relative;
   height: 100%;

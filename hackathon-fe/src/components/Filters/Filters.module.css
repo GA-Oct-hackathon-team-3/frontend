@@ -14,7 +14,8 @@
   flex-direction: column;
   justify-content: space-between;
   height: 90vh;
-  padding: 0 20px;
+  padding: 45px 20px;
+  background-color: #FDF7ED;
 }
 
 .save-btn {
@@ -68,7 +69,8 @@
 }
 
 .tag-button.active{
-  background-color: rgba(217, 217, 217, 0.5);
+  background: var(--Accent-Green, #53CF85);
+  color: #FDF7ED;
 }
 
 .slider {

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import styles from "./ShowFriend.module.css";
 import {
   Card,
@@ -33,16 +33,34 @@ const ShowFriend = () => {
   const [filteredTags, setFilteredTags] = useState([]);
   const [budget, setBudget] = useState(null);
   const [recs, setRecs] = useState([]);
+  const [refresh, setRefresh] = useState(false);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+
+
   const { id } = useParams();
   const navigate = useNavigate();
+
+  // Extract parameters from URL
+  const urlBudget = queryParams.get('budget');
+  const urlTags = queryParams.get('tags') ? queryParams.get('tags').split(',') : [];
+  const urlGiftTypes = queryParams.get('giftTypes') ? queryParams.get('giftTypes').split(',') : [];
+
+  useEffect(() => {
+    // If URL parameters exist, switch to "explore" tab, else default to "profile"
+    if (urlBudget || urlTags.length > 0 || urlGiftTypes.length > 0) {
+      setActiveTab("explore");
+    } else {
+      setActiveTab("profile");
+    }
+  }, []); // This effect should only run once, so the dependency array is empty
 
   useEffect(() => {
     const fetchFriend = async () => {
       const friendData = await friendsService.showFriend(id);
       const uniqueTimestamp = Date.now();
-      friendData.photo = `${
-        friendData.photo ? friendData.photo : "https://i.imgur.com/hCwHtRc.png"
-      }?timestamp=${uniqueTimestamp}`;
+      friendData.photo = `${friendData.photo ? friendData.photo : "https://i.imgur.com/hCwHtRc.png"
+        }?timestamp=${uniqueTimestamp}`;
       setFriend(friendData);
       setDobObject(splitDOB(friendData.dob));
     };
@@ -60,27 +78,35 @@ const ShowFriend = () => {
     } else {
       setEnableRecs(false);
     }
+    if (friend) {
+      urlGiftTypes && urlGiftTypes.length ? setFilteredGiftTypes(urlGiftTypes) : setFilteredGiftTypes(friend.giftPreferences);
+      urlTags && urlTags.length ? setFilteredTags(urlTags) : setFilteredTags(friend.tags.map(tag=>tag.title));
+      urlBudget && urlBudget > 0 ? setBudget(urlBudget) : setBudget(null);
+    }
   }, [friend]);
 
   useEffect(() => {
     const getRecommendations = async () => {
-      // ignoring filters for now
       const requestBody = {
-        giftTypes: friend.giftPreferences,
-        tags: friend.tags
+        giftTypes: filteredGiftTypes,
+        tags: filteredTags
       };
+      if (budget) {
+        requestBody.budget = budget
+      }
       console.log(requestBody);
       setIsRecommending(true);
       const recom = await friendsService.getRecommendations(id, requestBody);
+      setRefresh(false);
       console.log(recom);
       setRecs(recom.recommendations);
       setIsRecommending(false);
     };
 
-    if (enableRecs && activeTab === "explore" && !recs.length) {
+    if (enableRecs && activeTab === "explore" && (!recs.length || refresh)) {
       getRecommendations();
     }
-  }, [activeTab, enableRecs, recs.length, id, friend]);
+  }, [activeTab, enableRecs, recs.length, id, friend, refresh, budget, filteredGiftTypes, filteredTags]);
 
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
@@ -99,11 +125,6 @@ const ShowFriend = () => {
     alert("Edit favorites");
   };
 
-  const onSave = () =>{
-    navigate(`/friend/${id}`);
-    setActiveTab("explore");
-
-  }
 
   const giftPreferences = friend && friend.giftPreferences;
 
@@ -305,21 +326,19 @@ const ShowFriend = () => {
               <IconButton
                 className={styles["action-btn"]}
                 disabled={!enableRecs || isRecommending}
+                onClick={() => setRefresh(true)}
               >
                 <BsArrowCounterclockwise />
                 <div>Refresh</div>
               </IconButton>
-              <IconButton onClick={()=>navigate('/filters', {state: {friend}})} className={styles["action-btn"]} disabled={!enableRecs || isRecommending}>
+              <IconButton onClick={() => navigate('/filters', { state: { friend } })} className={styles["action-btn"]} disabled={!enableRecs || isRecommending}>
                 <BsFilter />
                 <div>Filter</div>
               </IconButton>
             </div>
-            {isRecommending && (
-              <div className={styles["spinner-container"]}>
+            {refresh || !recs.length ? (<div className={styles["spinner-container"]}>
                 <CircularProgress color="secondary" />
-              </div>
-            )}
-            {!!recs.length && (
+              </div>) : (
               <div className={styles["personalized-recs--grid"]}>
                 {recs.map((rec, idx) => (
                   <div key={idx} className={styles["grid-item"]}>

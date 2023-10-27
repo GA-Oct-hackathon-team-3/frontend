@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Filters.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import Slider from "@mui/material/Slider";
+import { useNavigate } from "react-router-dom";
+import Header from "../Header/Header";
 
 const marks = [
   {
@@ -44,11 +46,17 @@ const friend = {
   giftPreferences: ["donation"]
 }
 
-const Filters = ({friend, onSave}) => {
+const Filters = ({ friend }) => {
   const [show, setShow] = useState(null);
   const [budget, setBudget] = useState(100);
   const [giftPreferences, setGiftPreferences] = useState(friend.giftPreferences);
   const [tags, setTags] = useState(friend.tags);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setGiftPreferences(friend.giftPreferences);
+  }, []);
 
   const handleClick = (string) => {
     if (show === string) {
@@ -62,12 +70,12 @@ const Filters = ({friend, onSave}) => {
     return `$${value}`;
   }
 
-  const valueLabelFormat = value =>{
+  const valueLabelFormat = value => {
     return `$ ${value}`;
   }
 
   const handlePrefClick = (e) => {
-    const idx = giftPreferences.findIndex(el => el === e);
+    const idx = giftPreferences.findIndex(el => el.toLowerCase() === e.toLowerCase());
     if (idx > -1) {
       setGiftPreferences(giftPreferences.slice(0, idx).concat(giftPreferences.slice(idx + 1)));
     } else {
@@ -89,100 +97,112 @@ const Filters = ({friend, onSave}) => {
     setGiftPreferences(friend.giftPreferences);
   }
 
+  const onSave = () => {
+    const queryParams = new URLSearchParams({
+      budget: budget,
+      tags: tags.map(tag => tag.title).join(','), // Assuming tags is an array
+      giftTypes: giftPreferences.join(',') // Assuming giftPreferences is an array
+    });
+    navigate(`/friend/${friend._id}?${queryParams}`);
+  }
+
 
   return (
-    <div className={styles["mainContainer"]}>
-      <div className={styles["container"]}>
-        <div className={styles["row-container"]}>
-          <div className={styles.row}>
-            <h2>Budget</h2>
-            <FontAwesomeIcon
-              onClick={() => handleClick("budget")}
-              icon={show === "budget" ? faMinus : faPlus}
-              size="2x"
-            />
-          </div>
-          {show === "budget" && (
-            <div className={styles["slider-container"]}>
-              <Slider
-                aria-label="Small steps"
-                defaultValue={budget}
-                getAriaValueText={valuetext}
-                step={10}
-                onChange={(_, e) => setBudget(e)}
-                value={budget}
-                marks={marks}
-                min={0}
-                max={1000}
-                valueLabelDisplay="auto"
-                className={styles["slider"]}
-                valueLabelFormat={valueLabelFormat}
+    <>
+      <Header />
+      <div className={styles["mainContainer"]}>
+        <div className={styles["container"]}>
+          <div className={styles["row-container"]}>
+            <div className={styles.row}>
+              <h2>Budget</h2>
+              <FontAwesomeIcon
+                onClick={() => handleClick("budget")}
+                icon={show === "budget" ? faMinus : faPlus}
+                size="2x"
               />
             </div>
-          )}
-        </div>
-        <div className={styles["row-container"]}>
-          <div className={styles.row}>
-            <h2>Tags</h2>
-            <FontAwesomeIcon
-              onClick={() => handleClick("tags")}
-              icon={show === "tags" ? faMinus : faPlus}
-              size="2x"
-            />
+            {show === "budget" && (
+              <div className={styles["slider-container"]}>
+                <Slider
+                  aria-label="Small steps"
+                  defaultValue={budget}
+                  getAriaValueText={valuetext}
+                  step={10}
+                  onChange={(_, e) => setBudget(e)}
+                  value={budget}
+                  marks={marks}
+                  min={0}
+                  max={1000}
+                  valueLabelDisplay="auto"
+                  className={styles["slider"]}
+                  valueLabelFormat={valueLabelFormat}
+                />
+              </div>
+            )}
           </div>
-          {show === "tags" && (
-            <div className={styles["tags"]}>
-              {!!friend.tags.length && friend.tags.map((tag, idx) =>
+          <div className={styles["row-container"]}>
+            <div className={styles.row}>
+              <h2>Tags</h2>
+              <FontAwesomeIcon
+                onClick={() => handleClick("tags")}
+                icon={show === "tags" ? faMinus : faPlus}
+                size="2x"
+              />
+            </div>
+            {show === "tags" && (
+              <div className={styles["tags"]}>
+                {!!friend.tags.length && friend.tags.map((tag, idx) =>
+                  <button
+                    key={idx}
+                    className={styles["tag-button"] + ' ' + (tags.findIndex(t => t.title === tag.title) > -1 ? styles['active'] : '')}
+                    onClick={() => handleTagClick(tag.title)}>
+                    {tag.title}
+                  </button>
+                )}
+
+
+              </div>
+            )}
+          </div>
+          <div className={styles["row-container"]}>
+            <div className={styles.row}>
+              <h2>Gift Type</h2>
+              <FontAwesomeIcon
+                onClick={() => handleClick("gifttype")}
+                icon={show === "gifttype" ? faMinus : faPlus}
+                size="2x"
+              />
+            </div>
+            {show === "gifttype" && (
+              <div className={styles["tags"]}>
                 <button
-                  key={idx}
-                  className={styles["tag-button"] + ' ' + (tags.findIndex(t => t.title === tag.title) > -1 ? styles['active'] : '')}
-                  onClick={() => handleTagClick(tag.title)}>
-                  {tag.title}
+                  value="experience"
+                  onClick={() => handlePrefClick('experience')}
+                  className={styles["tag-button"] + ' ' + (giftPreferences.findIndex(pref => pref.toLowerCase() === "experience") > -1 ? styles["active"] : '')}>
+                  Experience
                 </button>
-              )}
-
-
-            </div>
-          )}
-        </div>
-        <div className={styles["row-container"]}>
-          <div className={styles.row}>
-            <h2>Gift Type</h2>
-            <FontAwesomeIcon
-              onClick={() => handleClick("gifttype")}
-              icon={show === "gifttype" ? faMinus : faPlus}
-              size="2x"
-            />
+                <button
+                  value="present"
+                  onClick={() => handlePrefClick('present')}
+                  className={styles["tag-button"] + ' ' + (giftPreferences.findIndex(pref => pref.toLowerCase() === "present") > -1 ? styles["active"] : '')}>
+                  Present
+                </button>
+                <button
+                  value="donation"
+                  onClick={() => handlePrefClick('donation')}
+                  className={styles["tag-button"] + ' ' + (giftPreferences.findIndex(pref => pref.toLowerCase() === "donation") > -1 ? styles["active"] : '')}>
+                  Donation
+                </button>
+              </div>
+            )}
           </div>
-          {show === "gifttype" && (
-            <div className={styles["tags"]}>
-              <button
-                value="experience"
-                onClick={() => handlePrefClick('experience')}
-                className={styles["tag-button"] + ' ' + (giftPreferences.includes("experience") ? styles["active"] : '')}>
-                Experience
-              </button>
-              <button
-                value="present"
-                onClick={() => handlePrefClick('present')}
-                className={styles["tag-button"] + ' ' + (giftPreferences.includes("present") ? styles["active"] : '')}>
-                Present
-              </button>
-              <button
-                value="donation"
-                onClick={() => handlePrefClick('donation')}
-                className={styles["tag-button"] + ' ' + (giftPreferences.includes("donation") ? styles["active"] : '')}>
-                Donation
-              </button>
-            </div>
-          )}
+        </div>
+        <div className={styles["btn-container"]}>
+          <button className={styles["clear-btn"]} onClick={clearFilters}>Clear</button>
+          <button className={styles["save-btn"]} onClick={onSave}>Save</button>
         </div>
       </div>
-      <div className={styles["btn-container"]}>
-        <button className={styles["clear-btn"]} onClick={clearFilters}>Clear</button>
-        <button className={styles["save-btn"]} onClick={onSave}>Save</button>
-      </div>
-    </div>
+    </>
   );
 };
 
