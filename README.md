@@ -1,7 +1,12 @@
 # Presently
 ![Add a heading (1)](https://github.com/jpineda48/readme/assets/135978440/2a2e9947-0d35-4999-a4f9-7e4427648383)
-### Deployed App
+## Deployed App
 https://ga-oct-hackathon-team-3.github.io/
+
+## Repos
+- [Backend](https://github.com/GA-Oct-hackathon-team-3/backend)
+- [Web Frontend](https://github.com/GA-Oct-hackathon-team-3/frontend)
+- [Native Frontend](https://github.com/GA-Oct-hackathon-team-3/mobile)
 
 
 
