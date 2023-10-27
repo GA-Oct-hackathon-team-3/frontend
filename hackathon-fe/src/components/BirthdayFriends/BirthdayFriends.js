@@ -67,10 +67,13 @@ const BirthdayFriends = () => {
   };
 
   const Item = ({ name, dob, id, photo}) => {
+    const [friendCardColor, setFriendCardColor] = useState("");
+    useEffect(()=>{
+      getRandomColor();
+    },[]);
+    
     const history = useNavigate();
 
-
-    const [friendCardColor, setFriendCardColor] = useState("");
 
     const itemCardColors = [
       "#AF95E7",

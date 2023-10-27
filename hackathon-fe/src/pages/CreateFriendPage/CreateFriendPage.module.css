@@ -198,3 +198,12 @@ button.gift-type-active{
     background-color: #53CF85 !important;
     color: #fff !important;
 }
+
+.selector{
+    background-color: #fff;
+}
+
+.selector div {
+    padding-bottom: 11px !important;
+    padding-top: 11px !important;
+}

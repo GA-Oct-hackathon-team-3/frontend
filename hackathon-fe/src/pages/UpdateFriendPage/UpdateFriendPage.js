@@ -8,6 +8,7 @@ import { profileFormValidation, profileDobValidation } from "../../utilities/hel
 import Header from "../../components/Header/Header";
 
 import styles from "../CreateFriendPage/CreateFriendPage.module.css";
+import { Box, MenuItem, Select } from "@mui/material";
 
 function UpdateFriendPage () {
   const navigate = useNavigate();
@@ -137,21 +138,22 @@ function handleFileChange (evt) {
               />
             </div>
 
-            <div>
+            <Box sx={{minWidth:"120px"}}>
               <label htmlFor="gender">Gender *</label>
-              <select
+              <Select
                 id="gender"
                 value={profileInput && profileInput.gender}
+                className={styles["selector"]}
                 onChange={(e) =>
                     setProfileInput({ ...profileInput, gender: e.target.value })
                 }
               >
-                <option disabled></option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
+                <MenuItem disabled></MenuItem>
+                <MenuItem value="male">Male</MenuItem>
+                <MenuItem value="female">Female</MenuItem>
+                <MenuItem value="other">Other</MenuItem>
+              </Select>
+            </Box>
           </div>
           <br />
 
