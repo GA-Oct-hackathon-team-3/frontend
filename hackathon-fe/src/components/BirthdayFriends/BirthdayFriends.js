@@ -23,6 +23,7 @@ const BirthdayFriends = () => {
     const fetchFriends = async () => {
       try {
         const friendsData = await friendsService.retrieveFriends();
+        friendsData.sort((a, b) => daysUntilBirthday(a.dob) - daysUntilBirthday(b.dob));
         setAllFriends(friendsData);
         setFilteredData(friendsData);
         if (typeof friendsData.length === "undefined") {
@@ -134,7 +135,7 @@ const BirthdayFriends = () => {
             <div className={styles["onboarding-content2"]}>
               <h2>Add a new friend profile to get personalized gift ideas.</h2>
               <p onClick={() => setOnboardingStep(0)}>Skip for now</p>
-            <img src={pointingHandImg} alt="Pointing hand" />
+              <img src={pointingHandImg} alt="Pointing hand" />
             </div>
           </div>
         )}
