@@ -81,7 +81,6 @@ function App() {
           />
         </Routes>
       </RecommendationProvider>
-      <Footer />
     </div>
   );
 }

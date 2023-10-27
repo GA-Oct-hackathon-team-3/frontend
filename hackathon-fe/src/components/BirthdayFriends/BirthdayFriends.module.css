@@ -169,7 +169,7 @@
   }
 
   .item > div > div:nth-child(3) > p:nth-child(1) {
-    color: #FE6797;
+    /* color: #FE6797; */
     font-size: 40px;
     font-style: normal;
     font-weight: 600;
@@ -190,7 +190,7 @@
     width: 100%;
     padding: 8px 5px;
     color: #FDF7ED;
-    background-color: #FE6797;
+    /* background-color: #FE6797; */
     font-size: 16px;
     font-style: normal;
     font-weight: 700;
