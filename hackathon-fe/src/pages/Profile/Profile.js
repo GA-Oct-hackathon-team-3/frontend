@@ -3,7 +3,7 @@ import Header from "../../components/Header/Header";
 import { useNavigate } from "react-router-dom";
 
 import { BsArrowLeft } from "react-icons/bs";
-import * as userService from "../../utilities/users-api";
+import * as profilesService from "../../utilities/profiles-service";
 
 import styles from "../CreateFriendPage/CreateFriendPage.module.css";
 
@@ -11,6 +11,7 @@ const Profile = () => {
   const navigate = useNavigate();
 
   const [profileInput, setProfileInput] = useState(null);
+  const [profile, setProfile] = useState();
   const [displayFile, setDisplayFile] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [buttonHTML, setButtonHTML] = useState("Add profile photo");
@@ -19,15 +20,13 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const profileInfo = await userService.getProfile();
-      console.log("profileInfo", profileInfo.user);
-      setProfileInput({
-        ...profileInfo.user
-      });
-      if (profileInfo.photo) {
+      const profileInfo = await profilesService.getProfile();
+      setProfileInput(profileInfo.user);
+      setProfile(profileInfo.profile);
+      if (profileInfo.profile.photo) {
         const uniqueTimestamp = Date.now();
-        profileInfo.photo = `${profileInfo.photo}?timestamp=${uniqueTimestamp}`;
-        setDisplayFile(profileInfo.photo);
+        const profilePhoto = `${profileInfo.proile.photo}?timestamp=${uniqueTimestamp}`;
+        setDisplayFile(profilePhoto);
         setButtonHTML("Change photo");
       }
     };
@@ -36,13 +35,14 @@ const Profile = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    // const response = await friendsService.updateFriend(id, profileInput);
+    const response = await profilesService.updateUserProfile(profileInput);
     // if (uploadedFile) {
     //   const photoResponse = await friendsService.uploadPhoto(id, uploadedFile);
     //   if (photoResponse.ok && response.message === "Friend updated")
     //     navigate(`/friend/${id}`);
     // }
-    // if (response.message === "Friend updated") navigate(`/friend/${id}`);
+    if (response) navigate('/friends');
+
   };
   function handleAddPhotoClick(evt) {
     evt.preventDefault();
@@ -152,3 +152,4 @@ const Profile = () => {
 };
 
 export default Profile;
+
