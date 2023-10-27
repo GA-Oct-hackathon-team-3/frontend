@@ -4,6 +4,8 @@
     padding: 120px 20px;
     position: absolute;
     height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
     width: 100%;
   }
 
@@ -201,4 +203,8 @@
     border-bottom-right-radius: 10px;
   }
 
+  .list {
+    padding-bottom: 50px;
+  }
 }
+
