@@ -67,7 +67,7 @@ const BirthdayFriends = () => {
             ) : (
               <FontAwesomeIcon
                 icon={faBirthdayCake}
-                size="80px"
+                size="xl"
                 style={{ height: 60, width: 60 }}
               />
             )}
