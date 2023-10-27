@@ -8,7 +8,6 @@
     }
 
     .signup-container > div {
-        /* border: 1px solid royalblue; */
         width: 60%;
         display: flex;
         justify-content: space-between;
@@ -41,6 +40,12 @@
     .signup-container > form > div {
         display: flex;
         flex-direction: column;
+    }
+
+    .signup-container > form > div:nth-child(3) > p {
+        margin-top: 10px;
+        width: 300px;
+        color: red;
     }
 
     .signup-container > form > div > label, .signup-container > form > div:nth-child(7) > div > label, .signup-container > form > div:nth-child(11) > div > label {

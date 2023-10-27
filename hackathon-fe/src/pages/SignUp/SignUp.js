@@ -2,11 +2,13 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BsArrowLeft } from "react-icons/bs";
 import * as usersService from "../../utilities/users-service";
+
 import Header from "../../components/Header/Header";
 
 import styles from "./SignUp.module.css";
 
 const LoginSignUp = () => {
+  const [passwordValidity, setPasswordValidity] = useState(" ");
   const [formData, setFormData] = useState({
     name: "",
     tel: "",
@@ -14,7 +16,7 @@ const LoginSignUp = () => {
     dob: "",
     gender: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
 
   const navigate = useNavigate();
@@ -27,6 +29,7 @@ const LoginSignUp = () => {
 
   const submitHandler = async (evt) => {
     evt.preventDefault();
+    console.log(formData)
     try {
       const userData = await usersService.register(formData);
       navigate("/friends");
@@ -37,6 +40,47 @@ const LoginSignUp = () => {
       console.log(error);
     }
   };
+
+  function validatePassword(password) {
+    // Check if the password is at least 8 characters in length
+    if (password.length < 8) {
+      return false;
+    }
+  
+    let hasUppercase = false;
+    let hasLowercase = false;
+    let hasNumber = false;
+    let hasSpecialChar = false;
+  
+    // Iterate through each character in the password
+    for (let i = 0; i < password.length; i++) {
+      const char = password[i];
+  
+      // Check if the character is uppercase
+      if (char >= 'A' && char <= 'Z') {
+        hasUppercase = true;
+      }
+  
+      // Check if the character is lowercase
+      if (char >= 'a' && char <= 'z') {
+        hasLowercase = true;
+      }
+  
+      // Check if the character is a number
+      if (char >= '0' && char <= '9') {
+        hasNumber = true;
+      }
+  
+      // Check if the character is a special character
+      const specialCharacters = "!@#$%^&*()_+{}[]:;<>,.?~-";
+      if (specialCharacters.includes(char)) {
+        hasSpecialChar = true;
+      }
+    }
+  
+    // Check if all requirements are met
+    return hasUppercase && hasLowercase && hasNumber && hasSpecialChar;
+  }
 
   return (
     <>
@@ -62,7 +106,14 @@ const LoginSignUp = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
+              onBlur={() => setPasswordValidity(validatePassword(formData.password))}
             />
+            {!passwordValidity && (
+              <p>
+                Password must contain at least 8 characters, 1 uppercase letter, 1
+                lowercase letter, 1 number, & 1 special character.
+              </p>
+            )}
           </div>
           <br />
           <div>
@@ -104,7 +155,7 @@ const LoginSignUp = () => {
             <div>
               <label htmlFor="gender">Gender</label>
               <select id="gender" name="gender" onChange={handleChange}>
-                <option value="male">Male</option>
+                <option value="male" selected>Male</option>
                 <option value="female">Female</option>
                 <option value="other">Other</option>
               </select>
