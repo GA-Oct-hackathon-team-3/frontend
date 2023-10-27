@@ -131,10 +131,11 @@ button {
   padding: 8px 15px;
   border: none;
   border-radius: 5px;
-  background-color: #e0e0e0;
+  background-color: #53CF85;
   cursor: pointer;
   z-index: 1;
   position: relative;
+  color: #FDF7ED;
 }
 
 button:hover {
