@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { BsArrowLeft } from "react-icons/bs";
 import * as friendsService from "../../utilities/friends-service";
+import { profileFormValidation } from "../../utilities/helpers";
 
 import Header from "../../components/Header/Header";
 
@@ -42,11 +43,6 @@ function UpdateFriendPage () {
     fetchFriend();
   }, [id]);
 
-  function validateForm () {
-    if (!profileInput.name || !profileInput.dob || !profileInput.gender) return false;
-    else return true;
-  }
-
   function handleAddPhotoClick (evt) {
     evt.preventDefault();
     fileInputRef.current.click();
@@ -75,7 +71,7 @@ function handleFileChange (evt) {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const valid = validateForm();
+    const valid = profileFormValidation(profileInput);
     if (!valid) {
         setValidationMessage('Required fields are marked with (*)');
         return;

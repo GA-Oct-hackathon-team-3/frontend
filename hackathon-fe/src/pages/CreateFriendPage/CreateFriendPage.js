@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { BsArrowLeft } from "react-icons/bs";
 import * as friendsService from "../../utilities/friends-service";
+import { profileFormValidation } from "../../utilities/helpers";
 
 import Header from "../../components/Header/Header";
 
@@ -54,7 +55,11 @@ function CreateFriendProfile() {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
+    const valid = profileFormValidation(profile);
+    if (!valid) {
+        setValidationMessage('Required fields are marked with (*)');
+        return;
+    }
     try {
       const friendData = await friendsService.createFriend(profile);
       if (uploadedFile) {
@@ -114,9 +119,9 @@ function CreateFriendProfile() {
             <p onClick={handleAddPhotoClick}>{buttonHTML}</p>
           </div>
           <br />
-
+          {validationMessage ? validationMessage : ''}
           <div>
-            <label htmlFor="name">Name</label>
+            <label htmlFor="name" style={{paddingTop: 10}}>Name * </label>
             <input
               id="name"
               value={profile.name}
@@ -127,7 +132,7 @@ function CreateFriendProfile() {
 
           <div>
             <div>
-              <label htmlFor="dob">DOB</label>
+              <label htmlFor="dob">Date of Birth *</label>
               <input
                 type="date"
                 id="dob"
@@ -139,7 +144,7 @@ function CreateFriendProfile() {
             </div>
 
             <div>
-              <label htmlFor="gender">Gender</label>
+              <label htmlFor="gender">Gender *</label>
               <select
                 id="gender"
                 value={profile.gender}

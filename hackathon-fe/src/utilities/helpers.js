@@ -55,3 +55,8 @@ function numericMonthToString(month) {
     return years;
   }
 
+
+  export function profileFormValidation(profileInput) {
+    if (!profileInput.name || !profileInput.dob || !profileInput.gender) return false;
+    else return true;
+  }

@@ -4,12 +4,14 @@ import { useNavigate } from "react-router-dom";
 
 import { BsArrowLeft } from "react-icons/bs";
 import * as profilesService from "../../utilities/profiles-service";
+import { profileFormValidation } from "../../utilities/helpers";
 
 import styles from "../CreateFriendPage/CreateFriendPage.module.css";
 
 const Profile = () => {
   const navigate = useNavigate();
-
+  
+  const [validationMessage, setValidationMessage] = useState('');
   const [profileInput, setProfileInput] = useState(null);
   const [profile, setProfile] = useState(null);
   const [displayFile, setDisplayFile] = useState(null);
@@ -35,6 +37,11 @@ const Profile = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    const valid = profileFormValidation(profileInput);
+    if (!valid) {
+        setValidationMessage('Required fields are marked with (*)');
+        return;
+    }
     const response = await profilesService.updateUserProfile(profileInput);
     if (uploadedFile) {
       const photoResponse = await profilesService.uploadPhoto(uploadedFile);
@@ -99,9 +106,9 @@ const Profile = () => {
             <button onClick={handleAddPhotoClick}>{buttonHTML}</button>
           </div>
           <br />
-
+          {validationMessage ? validationMessage : ''}
           <div>
-            <label htmlFor="name">Name</label>
+            <label htmlFor="name" style={{paddingTop: 10}}>Name *</label>
             <input
               id="name"
               value={profileInput && profileInput.name}
@@ -114,7 +121,7 @@ const Profile = () => {
 
           <div>
             <div>
-              <label htmlFor="dob">DOB</label>
+              <label htmlFor="dob">Date of Birth *</label>
               <input
                 type="date"
                 id="dob"
@@ -128,7 +135,7 @@ const Profile = () => {
               />
             </div>
             <div>
-              <label htmlFor="gender">Gender</label>
+              <label htmlFor="gender">Gender *</label>
               <select
                 id="gender"
                 value={profileInput && profileInput.gender}
