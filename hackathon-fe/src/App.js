@@ -28,7 +28,7 @@ function App() {
         <Route path="/addfriend" element={<CreateFriendPage />} />
         <Route path="/friend/:id/tag" element={<TagAdderPage />} />
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }
