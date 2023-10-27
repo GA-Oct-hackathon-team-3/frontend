@@ -1,10 +1,11 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import Profile from "../../assets/icons/profile.png";
-import Home from "../../assets/icons/home.png";
-import Calender from "../../assets/icons/calender.png";
-import Alert from "../../assets/icons/alert.png";
-import Gift from "../../assets/icons/gift.png";
+
+import Profile from '../../assets/footerIcons/profile.png'
+import Home from '../../assets/footerIcons/home.png'
+import Calender from '../../assets/footerIcons/calender.png'
+import Alert from '../../assets/footerIcons/alert.png'
+import Gift from '../../assets/footerIcons/gift.png'
 
 import styles from "./Footer.module.css";
 
