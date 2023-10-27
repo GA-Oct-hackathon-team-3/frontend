@@ -90,7 +90,7 @@
     align-items: center;
     gap: 8px;
     color: #fff;
-    z-index: 99999999;
+    z-index: 1500;
   }
 
   .friends-container > button > span {
@@ -206,68 +206,135 @@
   .list {
     padding-bottom: 50px;
   }
+  /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  */
+
   .onboarding-overlay {
+    /* border: 2px solid red; */
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(0, 0, 0, .5);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 2000;
   }
+
+  .onboarding-overlay > .onboarding-content {
+    display: inline-flex;
+    width: 328px;
+    height: 379px;
+    padding: 32px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    flex-shrink: 0;
+    background-color: #fff;
+    border-radius: 20px;
+    border: 1px solid #D9D9D9;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .onboarding-overlay > .onboarding-content > h2 {
+    color: #000;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+    letter-spacing: 0.48px;
+  }
+
+  .onboarding-overlay > .onboarding-content > ul {
+    font-size: 20px;
+  }
+
+  .onboarding-overlay > .onboarding-content > ul > li {
+    margin-left: 30px;
+    color: #000;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.4px;
+  }
+
+  .onboarding-overlay > .onboarding-content > button {
+    width: 264px;
+    height: 60px;
+    border-radius: 20px;
+    background-color: #53CF85;
+
+    color: var(--Bright-White, #FFF);
+    text-align: center;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+  }
+
+  /* ~~~~~~~~~~~~~~~~ */
 
   .onboarding-overlay2 {
     position: absolute;
-    top: 250px;
+    top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(0, 0, 0, .5);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 1500;
   }
-  
-  .onboarding-content {
-    max-width: 300px;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: white;
+
+  .onboarding-overlay2 > .onboarding-content2 {
+    display: inline-flex;
+    width: 294px;
+    height: 185px;
+    padding: 32px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    flex-shrink: 0;
+    background-color: #fff;
+    border-radius: 20px;
+    border: 1px solid #D9D9D9;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 75px;
   }
-  
-  .onboarding-content h2 {
-    font-size: 18px;
-    margin-bottom: 20px;
+
+  .onboarding-overlay2 > .onboarding-content2 > h2 {
+    color: #000;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0.48px;
+    width: 230px;
   }
-  
-  .onboarding-content ul {
-    list-style-type: none;
-    padding-left: 0;
-    margin-bottom: 20px;
+
+  .onboarding-overlay2 > .onboarding-content2 > p {
+    color: #3D3C3C;
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20.8px;
+    text-decoration-line: underline;
   }
-  
-  .onboarding-content li {
-    margin-bottom: 10px;
-  }
-  
-  .onboarding-content button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #34C759;  
-    color: white;
-    cursor: pointer;
-  }
-  
-  .onboarding-content button:hover {
-    background-color: #2AB045;  /* A slightly darker shade for hover effect */
+
+  .onboarding-overlay2 > .onboarding-content2 > img {
+    position: fixed;
+    bottom: 100px;
+    left: -25px;
+    width: 259.327px;
+    height: 259.327px;
+    transform: rotate(15.634deg);
+    flex-shrink: 0;
   }
 }
 

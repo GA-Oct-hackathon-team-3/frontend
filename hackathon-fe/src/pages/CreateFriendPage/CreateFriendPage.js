@@ -96,7 +96,7 @@ function CreateFriendProfile() {
                     <label htmlFor="image" className={styles["add-image"]} >+</label>
                 )}
                 <input type="file" name="photo" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} />
-                <button onClick={handleAddPhotoClick}>{buttonHTML}</button>
+                <p onClick={handleAddPhotoClick}>{buttonHTML}</p>
           </div>
           <br />
 

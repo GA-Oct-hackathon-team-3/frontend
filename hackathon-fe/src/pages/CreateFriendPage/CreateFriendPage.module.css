@@ -1,13 +1,12 @@
 .create-profile-container {
     width: 100%;
-    height: 90%;
-    overflow-x: hidden;
+    height: 100%;
     position: absolute;
-    margin: 90px auto 0;
+    overflow: hidden;
+    padding-top: 110px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 20px;
     background-color: #FDF7ED;;
     
 }
@@ -60,13 +59,12 @@
 }
 
 .create-profile-container > form > div:nth-child(1) > p {
-    color: #000;
+    color: var(--Primary-Text, #3D3C3C);
     text-align: center;
-    font-size: 14px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: normal;
-    letter-spacing: 0.28px;
+    line-height: 20.8px
    
 }
 

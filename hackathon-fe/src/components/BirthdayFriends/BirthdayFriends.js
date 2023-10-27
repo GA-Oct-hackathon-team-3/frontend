@@ -10,6 +10,7 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import WomanCelebratingImg from "../../assets/womanCelebrating.png";
 import manCelebratingImg from "../../assets/manCelebrating.png";
+import pointingHandImg from "../../assets/pointingHandImg.png";
 
 const BirthdayFriends = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -117,6 +118,7 @@ const BirthdayFriends = () => {
             <div className={styles["onboarding-content"]}>
               <h2>Welcome to your Presently Dashboard!</h2>
               <ul>
+                Here you can:
                 <li>See birthdays that are coming up soon</li>
                 <li>
                   Search for a friend to view their profile or saved gifts
@@ -129,9 +131,10 @@ const BirthdayFriends = () => {
 
         {onboardingStep === 2 && (
           <div className={styles["onboarding-overlay2"]}>
-            <div className={styles["onboarding-content"]}>
+            <div className={styles["onboarding-content2"]}>
               <h2>Add a new friend profile to get personalized gift ideas.</h2>
-              <button onClick={() => setOnboardingStep(0)}>Skip for now</button>
+              <p onClick={() => setOnboardingStep(0)}>Skip for now</p>
+            <img src={pointingHandImg} alt="Pointing hand" />
             </div>
           </div>
         )}
