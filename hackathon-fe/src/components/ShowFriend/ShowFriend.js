@@ -227,7 +227,7 @@ const ShowFriend = () => {
                 <BsArrowCounterclockwise />
                 <div>Refresh</div>
               </IconButton>
-              <IconButton className={styles["action-btn"]} disabled={!enableRecs || isRecommending}>
+              <IconButton onClick={()=>navigate('/filters', {state: {friend}})} className={styles["action-btn"]} disabled={!enableRecs || isRecommending}>
                 <BsFilter />
                 <div>Filter</div>
               </IconButton>

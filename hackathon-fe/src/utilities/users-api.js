@@ -1,5 +1,5 @@
 import sendRequest from "./send-request";
-const BASE_URL = "https://presently-backend-64495929a7ac.herokuapp.com/";
+const BASE_URL = "https://presently-backend-64495929a7ac.herokuapp.com/api/";
 
 export function register(userData) {
   return sendRequest(`${BASE_URL}users`, "POST", userData);

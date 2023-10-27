@@ -44,7 +44,7 @@ const friend = {
   giftPreferences: ["donation"]
 }
 
-const Filters = ({onSave}) => {
+const Filters = ({friend, onSave}) => {
   const [show, setShow] = useState(null);
   const [budget, setBudget] = useState(100);
   const [giftPreferences, setGiftPreferences] = useState(friend.giftPreferences);
