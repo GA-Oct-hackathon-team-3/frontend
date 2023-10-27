@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { BsArrowLeft } from "react-icons/bs";
 import * as friendsService from "../../utilities/friends-service";
-import { profileFormValidation } from "../../utilities/helpers";
+import { profileFormValidation, profileDobValidation } from "../../utilities/helpers";
 
 import Header from "../../components/Header/Header";
 
@@ -71,7 +71,12 @@ function handleFileChange (evt) {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    const validDate = profileDobValidation(profileInput.dob);
     const valid = profileFormValidation(profileInput);
+    if (!validDate) {
+        setValidationMessage('Date of birth cannot be in the future');
+        return;
+    }
     if (!valid) {
         setValidationMessage('Required fields are marked with (*)');
         return;
@@ -125,6 +130,7 @@ function handleFileChange (evt) {
                 type="date"
                 id="dob"
                 value={profileInput && profileInput.dob}
+                max={new Date().toISOString().split('T')[0]}
                 onChange={(e) =>
                   setProfileInput({ ...profileInput, dob: e.target.value })
                 }

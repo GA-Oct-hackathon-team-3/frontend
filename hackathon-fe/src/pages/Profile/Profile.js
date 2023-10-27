@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { BsArrowLeft } from "react-icons/bs";
 import * as profilesService from "../../utilities/profiles-service";
-import { profileFormValidation } from "../../utilities/helpers";
+import { profileFormValidation, profileDobValidation } from "../../utilities/helpers";
 
 import styles from "../CreateFriendPage/CreateFriendPage.module.css";
 
@@ -37,7 +37,12 @@ const Profile = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    const validDate = profileDobValidation(profileInput.dob);
     const valid = profileFormValidation(profileInput);
+    if (!validDate) {
+        setValidationMessage('Date of birth cannot be in the future');
+        return;
+    }
     if (!valid) {
         setValidationMessage('Required fields are marked with (*)');
         return;
@@ -126,6 +131,7 @@ const Profile = () => {
                 type="date"
                 id="dob"
                 value={profileInput && profileInput.dob}
+                max={new Date().toISOString().split('T')[0]}
                 onChange={(e) =>
                   setProfileInput({
                     ...profileInput,
