@@ -28,7 +28,7 @@ function App() {
         <Route path="/addfriend" element={<CreateFriendPage />}/>
         {/* <Route path="/addtags" element={}/> */}
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
 
     </div>
   );
