@@ -17,19 +17,27 @@ const Login = () => {
   });
 
   const [errorMsg, setErrorMsg] = useState("");
+  const [validationMessage, setValidationMessage] = useState('')
 
   function handleChange(evt) {
     setCredentials({ ...credentials, [evt.target.name]: evt.target.value });
   }
 
+  function validateForm () {
+    if (!credentials.email || !credentials.password) return false;
+    else return true;
+  }
+
   async function handleLogin(evt) {
     evt.preventDefault();
+    const valid = validateForm();
+    if (!valid) {
+        setValidationMessage('Required fields are marked with (*)');
+        return;
+    }
     try {
-      console.log("Login form submitted");
-      console.log(credentials);
       const user = await usersService.login(credentials);
-      console.log("Login successful");
-      navigate("/friends");
+      if (user) navigate("/friends");
     } catch {
       setErrorMsg("Login failed, try again");
     }
@@ -52,8 +60,9 @@ const Login = () => {
       <img src={loginImg} alt="Birthday cake" />
 
       <form onSubmit={handleLogin}>
+        {validationMessage ? validationMessage : ''}
         <div>
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email" style={{paddingTop: 10}}>Email *</label>
           <input
             type="email"
             name="email"
@@ -64,7 +73,7 @@ const Login = () => {
         </div>
         <br/>
         <div>
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">Password *</label>
           <input
             type="password"
             name="password"
