@@ -121,7 +121,6 @@
   }
 
   .item > div {
-    /* border: 2px solid red; */
     width: 100%;
     display: flex;
     justify-content: space-around;
@@ -137,7 +136,6 @@
   }
 
   .item > div > div:nth-child(2) {
-    height: 60px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -145,11 +143,13 @@
 
   .item > div > div:nth-child(2) > p:nth-child(1) {
     color: #3D3C3C;
+    width: max-content;
     font-size: 24px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
     letter-spacing: -0.72px;
+    text-align: left;
   }
   
   .item > div > div:nth-child(2) > p:nth-child(2) {
