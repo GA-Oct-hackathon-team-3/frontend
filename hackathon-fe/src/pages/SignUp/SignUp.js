@@ -8,7 +8,7 @@ import Header from "../../components/Header/Header";
 import styles from "./SignUp.module.css";
 
 const LoginSignUp = () => {
-  const [passwordValidity, setPasswordValidity] = useState(" ");
+  const [passwordValidity, setPasswordValidity] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     tel: "",
@@ -25,6 +25,7 @@ const LoginSignUp = () => {
 
   const handleChange = (evt) => {
     setFormData({ ...formData, [evt.target.name]: evt.target.value });
+    if (evt.target.name === 'password') validatePassword(evt.target.value);
   };
 
   const submitHandler = async (evt) => {
@@ -77,9 +78,12 @@ const LoginSignUp = () => {
         hasSpecialChar = true;
       }
     }
+
+    if (hasUppercase && hasLowercase && hasNumber && hasSpecialChar) setPasswordValidity(true);
+    else setPasswordValidity(false);
   
     // Check if all requirements are met
-    return hasUppercase && hasLowercase && hasNumber && hasSpecialChar;
+    return passwordValidity;
   }
 
   return (
@@ -95,12 +99,12 @@ const LoginSignUp = () => {
         <br />
         <form className={styles["form-container"]} onSubmit={submitHandler}>
           <div>
-            <label htmlFor="name">Name</label>
+            <label htmlFor="name">Name *</label>
             <input type="text" id="name" name="name" onChange={handleChange} />
           </div>
           <br />
           <div>
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">Password * </label>
             <input
               type="password"
               name="password"
@@ -117,7 +121,7 @@ const LoginSignUp = () => {
           </div>
           <br />
           <div>
-            <label htmlFor="confirmPassword">Confirm Password</label>
+            <label htmlFor="confirmPassword">Confirm Password *</label>
             <input
               type="password"
               name="confirmPassword"
@@ -127,7 +131,7 @@ const LoginSignUp = () => {
           </div>
           <br />
           <div>
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">Email *</label>
             <input
               type="email"
               id="email"
@@ -148,12 +152,12 @@ const LoginSignUp = () => {
           <br />
           <div>
             <div>
-              <label>Date of Birth</label>
+              <label>Date of Birth *</label>
               <input type="date" id="date" name="dob" onChange={handleChange} />
             </div>
             <br />
             <div>
-              <label htmlFor="gender">Gender</label>
+              <label htmlFor="gender">Gender *</label>
               <select
                 id="gender"
                 defaultValue="male"
@@ -189,3 +193,4 @@ const LoginSignUp = () => {
 };
 
 export default LoginSignUp;
+
