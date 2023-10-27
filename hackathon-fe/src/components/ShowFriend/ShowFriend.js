@@ -183,15 +183,15 @@ const ShowFriend = () => {
           <p className={styles["text-brick"]}>
             {friend && daysUntilBirthday(friend.dob)}
           </p>
-          <p>days left</p>
+          <p>Days left</p>
         </div>
         <div className={styles["border"]}>
           <p></p>
           <p></p>
         </div>
         <div className={styles["description"]}>
-          <p className={styles["text-brick"]}>Age </p>
-          <p>{friend && calculateAge(friend.dob)}</p>
+          <p className={styles["text-brick"]}>{friend && calculateAge(friend.dob)}</p>
+          <p>Age </p>
         </div>
         <div>
           <BsPencilFill onClick={handleEditProfile} />
