@@ -12,10 +12,17 @@ function UpdateFriendPage () {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const [profileInput, setProfileInput] = useState(null);
+  const [profileInput, setProfileInput] = useState({
+    name: '',
+    dob: '',
+    gender: '',
+    location: '',
+    giftPreferences: []
+  });
   const [displayFile, setDisplayFile] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [buttonHTML, setButtonHTML] = useState('Add profile photo');
+  const [validationMessage, setValidationMessage] = useState('');
 
   const fileInputRef = useRef(null);
 
@@ -34,6 +41,11 @@ function UpdateFriendPage () {
     }
     fetchFriend();
   }, [id]);
+
+  function validateForm () {
+    if (!profileInput.name || !profileInput.dob || !profileInput.gender) return false;
+    else return true;
+  }
 
   function handleAddPhotoClick (evt) {
     evt.preventDefault();
@@ -63,6 +75,11 @@ function handleFileChange (evt) {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    const valid = validateForm();
+    if (!valid) {
+        setValidationMessage('Required fields are marked with (*)');
+        return;
+    }
     const response = await friendsService.updateFriend(id, profileInput);
     if (uploadedFile) {
         const photoResponse = await friendsService.uploadPhoto(id, uploadedFile);
@@ -88,15 +105,15 @@ function handleFileChange (evt) {
             { displayFile ? (
                     <img src={`${displayFile}`} alt="Uploaded" style={{ height: '80px', width: '80px', paddingBottom: '6px' }}/>
                 ) : (
-                    <label htmlFor="image" className={styles["add-image"]} >+</label>
+                    <label htmlFor="image" className={styles["add-image"]} onClick={handleAddPhotoClick}>+</label>
             )}
             <input type="file" name="photo" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} />
-            <button onClick={handleAddPhotoClick}>{buttonHTML}</button>
+            <p onClick={handleAddPhotoClick}>{buttonHTML}</p>
           </div>
           <br />
-
+          {validationMessage ? validationMessage : ''}
           <div>
-            <label htmlFor="name">Name</label>
+            <label htmlFor="name" style={{paddingTop: 10}}>Name *</label>
             <input
               id="name"
               value={profileInput && profileInput.name}
@@ -107,7 +124,7 @@ function handleFileChange (evt) {
 
           <div>
             <div>
-              <label htmlFor="dob">DOB</label>
+              <label htmlFor="dob">Date of Birth *</label>
               <input
                 type="date"
                 id="dob"
@@ -119,7 +136,7 @@ function handleFileChange (evt) {
             </div>
 
             <div>
-              <label htmlFor="gender">Gender</label>
+              <label htmlFor="gender">Gender *</label>
               <select
                 id="gender"
                 value={profileInput && profileInput.gender}
@@ -153,7 +170,7 @@ function handleFileChange (evt) {
             <div>
               <button
                 type="button"
-                onClick={() => handleGiftTypeToggle("Present")}
+                onClick={() => handleGiftTypeToggle("Presents")}
                 className={profileInput && profileInput.giftPreferences.findIndex(g=>g.toLowerCase()==="present") > -1 ? styles["gift-type-active"] : ''}
               >
                 Present
