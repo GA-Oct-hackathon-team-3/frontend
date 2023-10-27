@@ -8,6 +8,7 @@ import { daysUntilBirthday } from "../../utilities/helpers";
 import styles from "./BirthdayFriends.module.css";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
+import noFriendsImg from "../../assets/noFriendsImg.png";
 import WomanCelebratingImg from "../../assets/womanCelebrating.png";
 import manCelebratingImg from "../../assets/manCelebrating.png";
 import pointingHandImg from "../../assets/pointingHandImg.png";
@@ -144,7 +145,10 @@ const BirthdayFriends = () => {
               <Item key={item._id} {...item} id={item._id} />
             ))
           ) : (
-            <div>No friends</div>
+            <div className={styles["no-friends-yet"]}>
+              <img src={noFriendsImg} alt="No friends added yet." />
+              <p>No birthdays to display–add a friend below to start gifting!</p>
+            </div>
           )}
         </div>
 
