@@ -21,24 +21,24 @@ export function splitDOB (dob) {
     const array = dob.split('-');
     const dobObject = {
         year: array[0],
-        month: numericMonthToAbbreviation([array[1]]),
+        month: numericMonthToString([array[1]]),
         day: array[2]
     }
     return dobObject;
 }
 
-function numericMonthToAbbreviation(month) {
-    const monthAbbreviations = [
-      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+function numericMonthToString(month) {
+    const monthString = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
     ];
   
     if (month >= 1 && month <= 12) {
-      return monthAbbreviations[month - 1];
+        return monthString[month - 1];
     } else {
-      return "Invalid Month";
+        return "Invalid Month";
     }
-  }
+}
 
 
   export function calculateAge(dateOfBirth) {
@@ -54,3 +54,4 @@ function numericMonthToAbbreviation(month) {
     
     return years;
   }
+
