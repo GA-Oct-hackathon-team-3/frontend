@@ -372,11 +372,6 @@ const ShowFriend = () => {
             <CardHeader
               className={styles["card-header"]}
               title="Favorite Gifts"
-              action={
-                <IconButton onClick={handleEditFavorites}>
-                  <img alt="edit" src={EditIcon} />
-                </IconButton>
-              }
             />
             <CardContent>
               <div className={styles["gift-recommendations"]}>
