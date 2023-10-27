@@ -138,7 +138,7 @@ function handleFileChange (evt) {
               />
             </div>
 
-            <Box>
+            <Box sx={{minWidth:"120px"}}>
               <label htmlFor="gender">Gender *</label>
               <Select
                 id="gender"
