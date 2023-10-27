@@ -418,12 +418,13 @@ const ShowFriend = () => {
                               src={rec.imgSrc}
                               alt={rec.title}
                             />
+                            <div className={styles["product-heart"]}>
+                              <IconButton>
+                                <BsHeart />
+                              </IconButton>
+                            </div>
                           </div>
-                          <div className={styles["product-heart"]}>
-                            <IconButton>
-                              <BsHeart />
-                            </IconButton>
-                          </div>
+
                           <div className={styles["product-name"]}>{rec.title}</div>
                           <div className={styles["product-price"]}>
                             ~{rec.estimatedCost}
