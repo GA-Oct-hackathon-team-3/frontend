@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useNavigate, useLocation, Link } from "react-router-dom";
 import styles from "./ShowFriend.module.css";
 import {
   Card,
@@ -34,6 +34,7 @@ const ShowFriend = () => {
   const [budget, setBudget] = useState(null);
   const [recs, setRecs] = useState([]);
   const [refresh, setRefresh] = useState(false);
+  const [showError, setShowError] = useState(false);
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
 
@@ -80,7 +81,7 @@ const ShowFriend = () => {
     }
     if (friend) {
       urlGiftTypes && urlGiftTypes.length ? setFilteredGiftTypes(urlGiftTypes) : setFilteredGiftTypes(friend.giftPreferences);
-      urlTags && urlTags.length ? setFilteredTags(urlTags) : setFilteredTags(friend.tags.map(tag=>tag.title));
+      urlTags && urlTags.length ? setFilteredTags(urlTags) : setFilteredTags(friend.tags.map(tag => tag.title));
       urlBudget && urlBudget > 0 ? setBudget(urlBudget) : setBudget(null);
     }
   }, [friend]);
@@ -96,17 +97,24 @@ const ShowFriend = () => {
       }
       console.log(requestBody);
       setIsRecommending(true);
-      const recom = await friendsService.getRecommendations(id, requestBody);
-      setRefresh(false);
-      console.log(recom);
-      setRecs(recom.recommendations);
-      setIsRecommending(false);
+      try {
+        const recom = await friendsService.getRecommendations(id, requestBody);
+        setRefresh(false);
+        console.log(recom);
+        setRecs(recom.recommendations);
+        setIsRecommending(false);
+        setShowError(false);
+      } catch (error) {
+        setShowError(true);
+        setIsRecommending(false);
+        setRefresh(false);
+      }
     };
 
     if (enableRecs && activeTab === "explore" && (!recs.length || refresh)) {
       getRecommendations();
     }
-  }, [activeTab, enableRecs, recs.length, id, friend, refresh, budget, filteredGiftTypes, filteredTags]);
+  }, [activeTab, enableRecs, recs.length, id, refresh, budget, filteredGiftTypes, filteredTags]);
 
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
@@ -125,6 +133,19 @@ const ShowFriend = () => {
     alert("Edit favorites");
   };
 
+  const buildGiftLink = (gift) => {
+    if (/present/i.test(gift.giftType)) {
+      return `https://www.amazon.com/s?k=${gift.title}`;
+    } else if (/donation/i.test(gift.giftType)) {
+      return `https://www.google.com/search?q=${gift.title}`;
+    } else if (/experience/i.test(gift.giftType)) {
+      let query = `https://www.google.com/search?q=${gift.title}`;
+      if (friend.location) {
+        query += `+near+${friend.location}`;
+      }
+      return query;
+    }
+  }
 
   const giftPreferences = friend && friend.giftPreferences;
 
@@ -336,32 +357,46 @@ const ShowFriend = () => {
                 <div>Filter</div>
               </IconButton>
             </div>
-            {refresh || !recs.length ? (<div className={styles["spinner-container"]}>
-                <CircularProgress color="secondary" />
-              </div>) : (
-              <div className={styles["personalized-recs--grid"]}>
-                {recs.map((rec, idx) => (
-                  <div key={idx} className={styles["grid-item"]}>
-                    <div className={styles["product-pic"]}>
-                      <img
-                        className={styles["product-pic"]}
-                        src={rec.imgSrc}
-                        alt={rec.title}
-                      />
-                    </div>
-                    <div className={styles["product-heart"]}>
-                      <IconButton>
-                        <BsHeart />
-                      </IconButton>
-                    </div>
-                    <div className={styles["product-name"]}>{rec.title}</div>
-                    <div className={styles["product-price"]}>
-                      ~{rec.estimatedCost}
-                    </div>
+            {!showError ?
+              <>
+                {refresh || !recs.length ? (<div className={styles["spinner-container"]}>
+                  <CircularProgress color="secondary" />
+                </div>) : (
+                  <div className={styles["personalized-recs--grid"]}>
+                    {recs.map((rec, idx) => (
+                      <div key={idx} className={styles["grid-item"]}>
+                        <Link to={buildGiftLink(rec)} target="_blank" rel="noopener noreferrer">
+                          <div className={styles["product-pic"]}>
+                            <img
+                              className={styles["product-pic"]}
+                              src={rec.imgSrc}
+                              alt={rec.title}
+                            />
+                          </div>
+                          <div className={styles["product-heart"]}>
+                            <IconButton>
+                              <BsHeart />
+                            </IconButton>
+                          </div>
+                          <div className={styles["product-name"]}>{rec.title}</div>
+                          <div className={styles["product-price"]}>
+                            ~{rec.estimatedCost}
+                          </div>
+                        </Link>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            )}
+                )}
+              </>
+              :
+              <>
+                <div className={styles["no-tags-text"]}>
+                  <Typography>
+                    It appears our servers are too busy, try again in a few seconds
+                  </Typography>
+                </div>
+              </>
+            }
             {!enableRecs && (
               <>
                 <div className={styles["no-tags-text"]}>
