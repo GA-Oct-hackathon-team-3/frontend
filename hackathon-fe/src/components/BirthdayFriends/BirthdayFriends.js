@@ -6,60 +6,17 @@ import * as friendsService from "../../utilities/friends-service";
 import { daysUntilBirthday } from "../../utilities/helpers";
 
 import styles from "./BirthdayFriends.module.css";
-import { Button } from "@mui/material";
 
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import WomanCelebratingImg from "../../assets/womanCelebrating.png";
 import manCelebratingImg from "../../assets/manCelebrating.png";
 
-import AnthonyImg from "../../assets/anthonyImg.png";
-import MollyImg from "../../assets/mollyImg.png";
-
 const BirthdayFriends = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [allFriends, setAllFriends] = useState([]);
   const navigate = useNavigate();
-
-  const dummyfriends = [
-    {
-      img: { AnthonyImg },
-      name: "Anthony Sudol",
-      dob: "14 April 1996",
-      days: "0",
-    },
-    {
-      img: { MollyImg },
-      name: "Molly Rosenthal",
-      dob: "10 October 1987",
-      days: "330",
-    },
-    {
-      img: { AnthonyImg },
-      name: "Anthony Sudol",
-      dob: "14 April 1996",
-      days: "0",
-    },
-    {
-      img: { MollyImg },
-      name: "Molly Rosenthal",
-      dob: "10 October 1987",
-      days: "330",
-    },
-    {
-      img: { AnthonyImg },
-      name: "Anthony Sudol",
-      dob: "14 April 1996",
-      days: "0",
-    },
-    {
-      img: { MollyImg },
-      name: "Molly Rosenthal",
-      dob: "10 October 1987",
-      days: "330",
-    },
-  ];
 
   useEffect(() => {
     const fetchFriends = async () => {
@@ -90,7 +47,7 @@ const BirthdayFriends = () => {
     }
   };
 
-  const Item = ({ name, dob, id, img }) => {
+  const Item = ({ name, dob, id, photo }) => {
     const history = useNavigate();
 
     return (
@@ -101,9 +58,11 @@ const BirthdayFriends = () => {
         <div className={styles["item"]}>
           <div>
 
-
-
-            <img src={img.AnthonyImg || img.MollyImg} alt={name} />
+            { photo ? 
+            <img src={photo} alt={name} />
+            : 
+            <FontAwesomeIcon icon={faBirthdayCake} size="80px" style={{ height: 60, width: 60}}/>
+            }
             <div>
               <p>{name}</p>
               <p>{dob}</p>
@@ -113,8 +72,6 @@ const BirthdayFriends = () => {
               <p className={styles["days"]}>{daysUntilBirthday(dob)}</p>
               <p className={styles["label"]}>Days Left</p>
             </div>
-
-
 
           </div>
         </div>
@@ -141,10 +98,8 @@ const BirthdayFriends = () => {
         </div>
 
         <div className={styles["list"]}>
-          {/* {filteredData.length > 0 ? (
-            filteredData.map((item) => ( */}
-          {dummyfriends.length > 0 ? (
-            dummyfriends.map((item) => (
+          {filteredData.length > 0 ? (
+            filteredData.map((item) => (
               <Item key={item._id} {...item} id={item._id} />
             ))
           ) : (
