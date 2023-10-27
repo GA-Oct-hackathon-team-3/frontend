@@ -31,7 +31,6 @@ function App() {
           <Route path="/friend/:id/tag" element={<TagAdderPage />} />
         </Routes>
       </RecommendationProvider>
-      <Footer />
     </div>
   );
 }

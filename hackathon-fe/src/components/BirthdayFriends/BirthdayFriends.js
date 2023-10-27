@@ -13,18 +13,29 @@ import manCelebratingImg from "../../assets/manCelebrating.png";
 import pointingHandImg from "../../assets/pointingHandImg.png";
 
 const BirthdayFriends = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [allFriends, setAllFriends] = useState([]);
   const [onboardingStep, setOnboardingStep] = useState(0);
-  const navigate = useNavigate();
+
+  // const [friendCardColor, setFriendCardColor] = useState("")
+
+  // const itemCardColors = ["#AF95E7", "#FE6797", "#EDB600", "#418BFA", "#FA7F39"];
+
+  // function getRandomColor() {
+  //   const chosenColor = itemCardColors[Math.floor(Math.random() * 5)];
+  //   setFriendCardColor(chosenColor)
+  // }
 
   useEffect(() => {
     const fetchFriends = async () => {
       try {
         const friendsData = await friendsService.retrieveFriends();
         if (friendsData.length) {
-          friendsData.sort((a, b) => daysUntilBirthday(a.dob) - daysUntilBirthday(b.dob));
+          friendsData.sort(
+            (a, b) => daysUntilBirthday(a.dob) - daysUntilBirthday(b.dob)
+          );
         }
         setAllFriends(friendsData);
         setFilteredData(friendsData);
@@ -54,12 +65,29 @@ const BirthdayFriends = () => {
     }
   };
 
-  const Item = ({ name, dob, id, photo }) => {
+  const Item = ({ name, dob, id, photo}) => {
     const history = useNavigate();
+
+
+    const [friendCardColor, setFriendCardColor] = useState("");
+
+    const itemCardColors = [
+      "#AF95E7",
+      "#FE6797",
+      "#EDB600",
+      "#418BFA",
+      "#FA7F39",
+    ];
+
+    function getRandomColor() {
+      const chosenColor = itemCardColors[Math.floor(Math.random() * 5)];
+      setFriendCardColor(chosenColor);
+    }
 
     return (
       <button
         onClick={() => navigate(`/friend/${id}`, { state: { id: id } })}
+        onLoad={getRandomColor}
         className={styles["itemButton"]}
       >
         <div className={styles["item"]}>
@@ -79,12 +107,16 @@ const BirthdayFriends = () => {
             </div>
 
             <div className={styles["card"]}>
-              <p className={styles["days"]}>{daysUntilBirthday(dob)}</p>
+              <p className={styles["days"]} style={{ color: friendCardColor }}>
+                {daysUntilBirthday(dob)}
+              </p>
               <p className={styles["label"]}>Days Left</p>
             </div>
           </div>
         </div>
-        <div>View Saved Gifts </div>
+        <div style={{ backgroundColor: friendCardColor }}>
+          View Saved Gifts{" "}
+        </div>
       </button>
     );
   };
