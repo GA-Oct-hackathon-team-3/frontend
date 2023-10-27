@@ -10,8 +10,11 @@ Presently is an AI-powered birthday gifting companion! Presently is a an app tha
 
 #### Technology Used:
 - OpenAI API
+- Bing Search API v7
 - React
+- ReactNative
 - JavaScript
+- TypeScript
 - Restful API
 - Jest
 - CSS
