@@ -23,7 +23,9 @@ const BirthdayFriends = () => {
     const fetchFriends = async () => {
       try {
         const friendsData = await friendsService.retrieveFriends();
-        friendsData.sort((a, b) => daysUntilBirthday(a.dob) - daysUntilBirthday(b.dob));
+        if (friendsData.length) {
+          friendsData.sort((a, b) => daysUntilBirthday(a.dob) - daysUntilBirthday(b.dob));
+        }
         setAllFriends(friendsData);
         setFilteredData(friendsData);
         if (typeof friendsData.length === "undefined") {
