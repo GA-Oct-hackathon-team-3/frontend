@@ -159,18 +159,21 @@ function CreateFriendProfile() {
               <button
                 type="button"
                 onClick={() => handleGiftTypeToggle("Present")}
+                className={profile.giftPreferences.findIndex(g=>g.toLowerCase()==="present") > -1 ? styles["gift-type-active"] : ''}
               >
                 Present
               </button>
               <button
                 type="button"
                 onClick={() => handleGiftTypeToggle("Experience")}
+                className={profile.giftPreferences.findIndex(g=>g.toLowerCase()==="experience") > -1 ? styles["gift-type-active"] : ''}
               >
                 Experience
               </button>
               <button
                 type="button"
                 onClick={() => handleGiftTypeToggle("Donation")}
+                className={profile.giftPreferences.findIndex(g=>g.toLowerCase()==="donation") > -1 ? styles["gift-type-active"] : ''}
               >
                 Donation
               </button>
