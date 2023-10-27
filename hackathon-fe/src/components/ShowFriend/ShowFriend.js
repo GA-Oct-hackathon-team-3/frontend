@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation, Link } from "react-router-dom";
 import styles from "./ShowFriend.module.css";
 import {
   Card,
@@ -7,7 +7,8 @@ import {
   IconButton,
   CardContent,
   Typography,
-  CircularProgress
+  CircularProgress,
+  Popover
 } from "@mui/material";
 import * as friendsService from "../../utilities/friends-service";
 import {
@@ -17,10 +18,15 @@ import {
 } from "../../utilities/helpers";
 import {
   BsArrowCounterclockwise,
+  BsArrowLeft,
   BsFilter,
-  BsHeart,
-  BsPencilFill
+  BsHeart
 } from "react-icons/bs";
+import { useRecommendation } from "../RecommendationContext/RecommendationContext";
+
+import EditIcon from '../../assets/edit_icon.png';
+import FilterIcon from '../../assets/filter_icon.png';
+import RefreshIcon from '../../assets/Blue_green_restart_icon.png';
 
 const ShowFriend = () => {
   const [friend, setFriend] = useState(null);
@@ -33,16 +39,38 @@ const ShowFriend = () => {
   const [filteredTags, setFilteredTags] = useState([]);
   const [budget, setBudget] = useState(null);
   const [recs, setRecs] = useState([]);
+  const [refresh, setRefresh] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [popOverText, setPopOverText] = useState("");
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+
+  const { cache, updateCache } = useRecommendation();
+
   const { id } = useParams();
   const navigate = useNavigate();
+
+  // Extract parameters from URL
+  const urlBudget = queryParams.get('budget');
+  const urlTags = queryParams.get('tags') ? queryParams.get('tags').split(',') : [];
+  const urlGiftTypes = queryParams.get('giftTypes') ? queryParams.get('giftTypes').split(',') : [];
+
+  useEffect(() => {
+    // If URL parameters exist, switch to "explore" tab, else default to "profile"
+    if (urlBudget || urlTags.length > 0 || urlGiftTypes.length > 0) {
+      setActiveTab("explore");
+    } else {
+      setActiveTab("profile");
+    }
+  }, []); // This effect should only run once, so the dependency array is empty
 
   useEffect(() => {
     const fetchFriend = async () => {
       const friendData = await friendsService.showFriend(id);
       const uniqueTimestamp = Date.now();
-      friendData.photo = `${
-        friendData.photo ? friendData.photo : "https://i.imgur.com/hCwHtRc.png"
-      }?timestamp=${uniqueTimestamp}`;
+      friendData.photo = `${friendData.photo ? friendData.photo : "https://i.imgur.com/hCwHtRc.png"
+        }?timestamp=${uniqueTimestamp}`;
       setFriend(friendData);
       setDobObject(splitDOB(friendData.dob));
     };
@@ -60,27 +88,51 @@ const ShowFriend = () => {
     } else {
       setEnableRecs(false);
     }
+    if (friend) {
+      urlGiftTypes && urlGiftTypes.length ? setFilteredGiftTypes(urlGiftTypes) : setFilteredGiftTypes(friend.giftPreferences);
+      urlTags && urlTags.length ? setFilteredTags(urlTags) : setFilteredTags(friend.tags.map(tag => tag.title));
+      urlBudget && urlBudget > 0 ? setBudget(urlBudget) : setBudget(null);
+    }
   }, [friend]);
 
   useEffect(() => {
     const getRecommendations = async () => {
-      // ignoring filters for now
       const requestBody = {
-        giftTypes: friend.giftPreferences,
-        tags: friend.tags
+        giftTypes: filteredGiftTypes,
+        tags: filteredTags
       };
+      if (budget) {
+        requestBody.budget = budget
+      }
       console.log(requestBody);
       setIsRecommending(true);
-      const recom = await friendsService.getRecommendations(id, requestBody);
-      console.log(recom);
-      setRecs(recom.recommendations);
-      setIsRecommending(false);
+      try {
+        const recom = await friendsService.getRecommendations(id, requestBody);
+        setRefresh(false);
+        console.log(recom);
+        setRecs(recom.recommendations);
+        updateCache(id, recom.recommendations);
+        setIsRecommending(false);
+        setShowError(false);
+      } catch (error) {
+        setShowError(true);
+        setIsRecommending(false);
+        setRefresh(false);
+      }
     };
 
-    if (enableRecs && activeTab === "explore" && !recs.length) {
-      getRecommendations();
+    if (enableRecs && activeTab === "explore" && (!recs.length || refresh)) {
+      if (!refresh) {
+        if (cache[id] && cache[id].length) {
+          setRecs(cache[id]);
+        } else {
+          getRecommendations();
+        }
+      } else {
+        getRecommendations();
+      }
     }
-  }, [activeTab, enableRecs, recs.length, id, friend]);
+  }, [activeTab, enableRecs, recs.length, id, refresh, budget, filteredGiftTypes, filteredTags, cache, updateCache]);
 
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
@@ -99,20 +151,35 @@ const ShowFriend = () => {
     alert("Edit favorites");
   };
 
-  const onSave = () =>{
-    navigate(`/friend/${id}`);
-    setActiveTab("explore");
+  const buildGiftLink = (gift) => {
+    if (/present/i.test(gift.giftType)) {
+      return `https://www.amazon.com/s?k=${gift.title}`;
+    } else if (/donation/i.test(gift.giftType)) {
+      return `https://www.google.com/search?q=${gift.title}`;
+    } else if (/experience/i.test(gift.giftType)) {
+      let query = `https://www.google.com/search?q=${gift.title}`;
+      if (friend.location) {
+        query += `+near+${friend.location}`;
+      }
+      return query;
+    }
+  }
 
+  const handlePopOverOpen = (event, gift) => {
+    setAnchorEl(event.currentTarget);
+    setPopOverText(gift.reason);
+  }
+
+  const handlePopOverClose = () => {
+    setAnchorEl(null);
   }
 
   const giftPreferences = friend && friend.giftPreferences;
+  const open = Boolean(anchorEl);
 
   return (
     <div className={styles["container"]}>
       <div className={styles["shadow"]}></div>
-      <button type="button" onClick={() => navigate("/friends")}>
-        <a>X</a>
-      </button>
       <div className={styles["profile"]}>
         <img
           src={
@@ -123,8 +190,11 @@ const ShowFriend = () => {
           alt="Anthony Sudol"
           className={styles["profile-pic"]}
         />
+        <h2 style={{ position: "relative" }}>{friend && friend.name}</h2>
+        <p className={styles["back-btn"]} onClick={() => navigate('/friends')}>
+          <BsArrowLeft />
+        </p>
 
-        <h2>{friend && friend.name}</h2>
 
         <p>Friend</p>
       </div>
@@ -141,18 +211,18 @@ const ShowFriend = () => {
           <p className={styles["text-brick"]}>
             {friend && daysUntilBirthday(friend.dob)}
           </p>
-          <p>days left</p>
+          <p>Days left</p>
         </div>
         <div className={styles["border"]}>
           <p></p>
           <p></p>
         </div>
         <div className={styles["description"]}>
-          <p className={styles["text-brick"]}>Age </p>
-          <p>{friend && calculateAge(friend.dob)}</p>
+          <p className={styles["text-brick"]}>{friend && calculateAge(friend.dob)}</p>
+          <p>Age </p>
         </div>
         <div>
-          <BsPencilFill onClick={handleEditProfile} />
+          <img onClick={handleEditProfile} alt="edit" src={EditIcon} />
         </div>
       </div>
       <div className={styles["tab-container"]}>
@@ -177,7 +247,7 @@ const ShowFriend = () => {
               title="Gift Type"
               action={
                 <IconButton onClick={handleEditProfile}>
-                  <BsPencilFill />
+                  <img alt="edit" src={EditIcon} />
                 </IconButton>
               }
             />
@@ -242,7 +312,7 @@ const ShowFriend = () => {
               title="Selected Tags"
               action={
                 <IconButton onClick={handleEditTags}>
-                  <BsPencilFill />
+                  <img alt="edit" src={EditIcon} />
                 </IconButton>
               }
             />
@@ -275,7 +345,7 @@ const ShowFriend = () => {
               title="Favorite Gifts"
               action={
                 <IconButton onClick={handleEditFavorites}>
-                  <BsPencilFill />
+                  <img alt="edit" src={EditIcon} />
                 </IconButton>
               }
             />
@@ -305,44 +375,75 @@ const ShowFriend = () => {
               <IconButton
                 className={styles["action-btn"]}
                 disabled={!enableRecs || isRecommending}
+                onClick={() => setRefresh(true)}
               >
-                <BsArrowCounterclockwise />
+                <img alt="refresh" src={RefreshIcon} />
                 <div>Refresh</div>
               </IconButton>
-              <IconButton onClick={()=>navigate('/filters', {state: {friend}})} className={styles["action-btn"]} disabled={!enableRecs || isRecommending}>
-                <BsFilter />
+              <IconButton onClick={() => navigate('/filters', { state: { friend } })} className={styles["action-btn"]} disabled={!enableRecs || isRecommending}>
+                <img alt="filter" src={FilterIcon} />
                 <div>Filter</div>
               </IconButton>
             </div>
-            {isRecommending && (
-              <div className={styles["spinner-container"]}>
-                <CircularProgress color="secondary" />
-              </div>
-            )}
-            {!!recs.length && (
-              <div className={styles["personalized-recs--grid"]}>
-                {recs.map((rec, idx) => (
-                  <div key={idx} className={styles["grid-item"]}>
-                    <div className={styles["product-pic"]}>
-                      <img
-                        className={styles["product-pic"]}
-                        src={rec.imgSrc}
-                        alt={rec.title}
-                      />
-                    </div>
-                    <div className={styles["product-heart"]}>
-                      <IconButton>
-                        <BsHeart />
-                      </IconButton>
-                    </div>
-                    <div className={styles["product-name"]}>{rec.title}</div>
-                    <div className={styles["product-price"]}>
-                      ~{rec.estimatedCost}
-                    </div>
+            {!showError ?
+              <>
+                {refresh || !recs.length ? (<div className={styles["spinner-container"]}>
+                  <CircularProgress color="secondary" />
+                </div>) : (
+                  <div className={styles["personalized-recs--grid"]}>
+                    <Popover
+                      id="mouse-over-popover"
+                      sx={{
+                        pointerEvents: 'none',
+                      }}
+                      open={open}
+                      anchorEl={anchorEl}
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                      }}
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'left',
+                      }}
+                      onClose={handlePopOverClose}
+                      disableRestoreFocus
+                    >{popOverText}</Popover>
+                    {recs.map((rec, idx) => (
+                      <div key={idx} className={styles["grid-item"]} onMouseEnter={(e) => handlePopOverOpen(e, rec)} onMouseLeave={handlePopOverClose}>
+                        <Link to={buildGiftLink(rec)} target="_blank" rel="noopener noreferrer">
+                          <div className={styles["product-pic"]}>
+                            <img
+                              className={styles["product-pic"]}
+                              src={rec.imgSrc}
+                              alt={rec.title}
+                            />
+                            <div className={styles["product-heart"]}>
+                              <IconButton>
+                                <BsHeart />
+                              </IconButton>
+                            </div>
+                          </div>
+
+                          <div className={styles["product-name"]}>{rec.title}</div>
+                          <div className={styles["product-price"]}>
+                            ~{rec.estimatedCost}
+                          </div>
+                        </Link>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            )}
+                )}
+              </>
+              :
+              <>
+                <div className={styles["no-tags-text"]}>
+                  <Typography>
+                    It appears our servers are too busy, try again in a few seconds
+                  </Typography>
+                </div>
+              </>
+            }
             {!enableRecs && (
               <>
                 <div className={styles["no-tags-text"]}>

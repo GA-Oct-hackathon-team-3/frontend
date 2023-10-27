@@ -4,6 +4,8 @@
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
   background-color: #FDF7ED;
   position: relative;
   height: 100%;
@@ -23,6 +25,14 @@
   z-index: 0;
 }
 
+.back-btn{
+  position: absolute;
+  z-index: 2;
+  left: 5px;
+  top: 50%;
+  font-size: 1.5rem;
+}
+
 .text-brick{
   color: #FA7F39;
 }
@@ -31,6 +41,8 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  position:relative;
+  margin-top: 40px;
 }
 
 .profile-pic {
@@ -119,10 +131,11 @@ button {
   padding: 8px 15px;
   border: none;
   border-radius: 5px;
-  background-color: #e0e0e0;
+  background-color: #53CF85;
   cursor: pointer;
   z-index: 1;
   position: relative;
+  color: #FDF7ED;
 }
 
 button:hover {
@@ -218,8 +231,14 @@ button:hover {
   height: 32px;
   /* margin-bottom: 24px; */
   position: absolute;
-  bottom: 75px;
-  right: 16px;
+  bottom: 5px;
+  right: 5px;
+  border-radius: 50%;
+  background-color: #FDF7ED;
+  border: 2px solid #D9D9D9;
+  display: flex;
+  justify-content: space-around;
+  padding-top: 3px;
 }
 
 .product-name {
