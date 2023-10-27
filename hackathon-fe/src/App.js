@@ -39,11 +39,46 @@ function App() {
               </ProtectedPage>
             }
           />
-          <Route path="/friend/:id" element={<FriendPage />} />
-          <Route path="/friend/:id/edit" element={<UpdateFriendPage />} />
-          <Route path="/filters" element={<FiltersPage />} />
-          <Route path="/addfriend" element={<CreateFriendPage />} />
-          <Route path="/friend/:id/tag" element={<TagAdderPage />} />
+          <Route
+            path="/friend/:id"
+            element={
+              <ProtectedPage>
+                <FriendPage />
+              </ProtectedPage>
+            }
+          />
+          <Route
+            path="/friend/:id/edit"
+            element={
+              <ProtectedPage>
+                <UpdateFriendPage />
+              </ProtectedPage>
+            }
+          />
+          <Route
+            path="/filters"
+            element={
+              <ProtectedPage>
+                <FiltersPage />
+              </ProtectedPage>
+            }
+          />
+          <Route
+            path="/addfriend"
+            element={
+              <ProtectedPage>
+                <CreateFriendPage />
+              </ProtectedPage>
+            }
+          />
+          <Route
+            path="/friend/:id/tag"
+            element={
+              <ProtectedPage>
+                <TagAdderPage />
+              </ProtectedPage>
+            }
+          />
         </Routes>
       </RecommendationProvider>
       <Footer />

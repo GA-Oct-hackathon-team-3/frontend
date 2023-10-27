@@ -1,30 +1,38 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as profilesService from "../../utilities/profiles-service";
 
 const ProtectedPage = ({ children }) => {
-  console.log("ProtectedPage");
+  const [isValidToken, setIsValidToken] = useState(null);
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
+
   const checkValidUser = async () => {
     const userData = await profilesService.getProfile();
     if (!userData) {
       localStorage.removeItem("token");
-      navigate("/");
+      setIsValidToken(false);
     } else {
       console.log("valid user");
-      return children;
+      console.log(children);
+      setIsValidToken(true);
     }
   };
 
   useEffect(() => {
-    if (token) {
-      checkValidUser();
-    } else {
-      console.log("no token");
-      navigate("/");
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setIsValidToken(false);
+      return;
     }
+    checkValidUser();
   }, []);
+
+  if (isValidToken === null) {
+    // You can render a loading spinner here
+    return <div>Loading...</div>;
+  }
+
+  return isValidToken ? children : navigate("/");
 };
 
 export default ProtectedPage;
