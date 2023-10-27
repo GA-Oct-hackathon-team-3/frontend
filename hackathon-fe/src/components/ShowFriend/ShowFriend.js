@@ -7,7 +7,8 @@ import {
   IconButton,
   CardContent,
   Typography,
-  CircularProgress
+  CircularProgress,
+  Popover
 } from "@mui/material";
 import * as friendsService from "../../utilities/friends-service";
 import {
@@ -19,10 +20,13 @@ import {
   BsArrowCounterclockwise,
   BsArrowLeft,
   BsFilter,
-  BsHeart,
-  BsPencilFill
+  BsHeart
 } from "react-icons/bs";
 import { useRecommendation } from "../RecommendationContext/RecommendationContext";
+
+import EditIcon from '../../assets/edit_icon.png';
+import FilterIcon from '../../assets/filter_icon.png';
+import RefreshIcon from '../../assets/Blue_green_restart_icon.png';
 
 const ShowFriend = () => {
   const [friend, setFriend] = useState(null);
@@ -37,6 +41,8 @@ const ShowFriend = () => {
   const [recs, setRecs] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [popOverText, setPopOverText] = useState("");
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
 
@@ -159,7 +165,17 @@ const ShowFriend = () => {
     }
   }
 
+  const handlePopOverOpen = (event, gift) => {
+    setAnchorEl(event.currentTarget);
+    setPopOverText(gift.reason);
+  }
+
+  const handlePopOverClose = () => {
+    setAnchorEl(null);
+  }
+
   const giftPreferences = friend && friend.giftPreferences;
+  const open = Boolean(anchorEl);
 
   return (
     <div className={styles["container"]}>
@@ -206,7 +222,7 @@ const ShowFriend = () => {
           <p>Age </p>
         </div>
         <div>
-          <BsPencilFill onClick={handleEditProfile} />
+          <img onClick={handleEditProfile} alt="edit" src={EditIcon} />
         </div>
       </div>
       <div className={styles["tab-container"]}>
@@ -231,7 +247,7 @@ const ShowFriend = () => {
               title="Gift Type"
               action={
                 <IconButton onClick={handleEditProfile}>
-                  <BsPencilFill />
+                  <img alt="edit" src={EditIcon} />
                 </IconButton>
               }
             />
@@ -296,7 +312,7 @@ const ShowFriend = () => {
               title="Selected Tags"
               action={
                 <IconButton onClick={handleEditTags}>
-                  <BsPencilFill />
+                  <img alt="edit" src={EditIcon} />
                 </IconButton>
               }
             />
@@ -329,7 +345,7 @@ const ShowFriend = () => {
               title="Favorite Gifts"
               action={
                 <IconButton onClick={handleEditFavorites}>
-                  <BsPencilFill />
+                  <img alt="edit" src={EditIcon} />
                 </IconButton>
               }
             />
@@ -361,11 +377,11 @@ const ShowFriend = () => {
                 disabled={!enableRecs || isRecommending}
                 onClick={() => setRefresh(true)}
               >
-                <BsArrowCounterclockwise />
+                <img alt="refresh" src={RefreshIcon} />
                 <div>Refresh</div>
               </IconButton>
               <IconButton onClick={() => navigate('/filters', { state: { friend } })} className={styles["action-btn"]} disabled={!enableRecs || isRecommending}>
-                <BsFilter />
+                <img alt="filter" src={FilterIcon} />
                 <div>Filter</div>
               </IconButton>
             </div>
@@ -375,8 +391,26 @@ const ShowFriend = () => {
                   <CircularProgress color="secondary" />
                 </div>) : (
                   <div className={styles["personalized-recs--grid"]}>
+                    <Popover
+                      id="mouse-over-popover"
+                      sx={{
+                        pointerEvents: 'none',
+                      }}
+                      open={open}
+                      anchorEl={anchorEl}
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                      }}
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'left',
+                      }}
+                      onClose={handlePopOverClose}
+                      disableRestoreFocus
+                    >{popOverText}</Popover>
                     {recs.map((rec, idx) => (
-                      <div key={idx} className={styles["grid-item"]}>
+                      <div key={idx} className={styles["grid-item"]} onMouseEnter={(e) => handlePopOverOpen(e, rec)} onMouseLeave={handlePopOverClose}>
                         <Link to={buildGiftLink(rec)} target="_blank" rel="noopener noreferrer">
                           <div className={styles["product-pic"]}>
                             <img
@@ -384,12 +418,13 @@ const ShowFriend = () => {
                               src={rec.imgSrc}
                               alt={rec.title}
                             />
+                            <div className={styles["product-heart"]}>
+                              <IconButton>
+                                <BsHeart />
+                              </IconButton>
+                            </div>
                           </div>
-                          <div className={styles["product-heart"]}>
-                            <IconButton>
-                              <BsHeart />
-                            </IconButton>
-                          </div>
+
                           <div className={styles["product-name"]}>{rec.title}</div>
                           <div className={styles["product-price"]}>
                             ~{rec.estimatedCost}
