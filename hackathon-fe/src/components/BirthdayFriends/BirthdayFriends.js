@@ -15,7 +15,7 @@ const BirthdayFriends = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [allFriends, setAllFriends] = useState([]);
-  const [onboardingStep, setOnboardingStep] = useState(1);
+  const [onboardingStep, setOnboardingStep] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,8 +24,9 @@ const BirthdayFriends = () => {
         const friendsData = await friendsService.retrieveFriends();
         setAllFriends(friendsData);
         setFilteredData(friendsData);
-        if (friendsData.length > 0) {
-          setOnboardingStep(0); // Hide onboarding if there are friends
+        console.log("Length", friendsData.length);
+        if (typeof friendsData.length === "undefined") {
+          setOnboardingStep(1); // Initiate onboarding if there are no friends
         }
       } catch (error) {
         console.error("Error fetching friends: ", error);
