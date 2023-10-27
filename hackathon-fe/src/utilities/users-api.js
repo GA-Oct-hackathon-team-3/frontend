@@ -10,6 +10,10 @@ export function login(credentials) {
   return sendRequest(`${BASE_URL}users/login`, "POST", credentials);
 }
 
+export function getProfile() {
+  return sendRequest(`${BASE_URL}users/profile/all`, "GET", null);
+}
+
 export function googleLogin(credentials) {
   return sendRequest(`${BASE_URL}googleSignin`, "POST", credentials);
 }

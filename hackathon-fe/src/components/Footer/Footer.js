@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+
 import Profile from '../../assets/footerIcons/profile.png'
 import Home from '../../assets/footerIcons/home.png'
 import Calender from '../../assets/footerIcons/calender.png'
@@ -19,25 +20,25 @@ const Footer = () => {
       </NavLink>
       <NavLink className={styles.link} to="/">
         <div className={styles.icon}>
-        <img src={Alert} alt="" />
+          <img src={Alert} alt="" />
           <p>Reminder</p>
         </div>
       </NavLink>
       <NavLink className={styles.link} to="/">
         <div className={styles.icon}>
-        <img src={Calender} alt="" />
+          <img src={Calender} alt="" />
           <p>Calender</p>
         </div>
       </NavLink>
       <NavLink className={styles.link} to="/">
         <div className={styles.icon}>
-        <img className={styles.gift} src={Gift} alt="" />
+          <img className={styles.gift} src={Gift} alt="" />
           <p>Gifts</p>
         </div>
       </NavLink>
-      <NavLink className={styles.link} to="/">
+      <NavLink className={styles.link} to="/profile">
         <div className={styles.icon}>
-        <img src={Profile} alt="" />
+          <img src={Profile} alt="" />
           <p>Profile</p>
         </div>
       </NavLink>
