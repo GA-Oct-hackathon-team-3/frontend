@@ -1,6 +1,0 @@
-{
-    "root": "/hackathon-fe/build/",
-    "routes": {
-        "/**": "index.html"
-    }
-}

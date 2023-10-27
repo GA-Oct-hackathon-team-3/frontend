@@ -19,7 +19,6 @@ import {
   BsArrowCounterclockwise,
   BsFilter,
   BsHeart,
-  BsHeartFill,
   BsPencilFill
 } from "react-icons/bs";
 
@@ -30,6 +29,9 @@ const ShowFriend = () => {
   const [activeTab, setActiveTab] = useState("profile");
   const [enableRecs, setEnableRecs] = useState(false);
   const [isRecommending, setIsRecommending] = useState(false);
+  const [filteredGiftTypes, setFilteredGiftTypes] = useState([]);
+  const [filteredTags, setFilteredTags] = useState([]);
+  const [budget, setBudget] = useState(null);
   const [recs, setRecs] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -96,6 +98,12 @@ const ShowFriend = () => {
   const handleEditFavorites = () => {
     alert("Edit favorites");
   };
+
+  const onSave = () =>{
+    navigate(`/friend/${id}`);
+    setActiveTab("explore");
+
+  }
 
   const giftPreferences = friend && friend.giftPreferences;
 
@@ -301,10 +309,7 @@ const ShowFriend = () => {
                 <BsArrowCounterclockwise />
                 <div>Refresh</div>
               </IconButton>
-              <IconButton
-                className={styles["action-btn"]}
-                disabled={!enableRecs || isRecommending}
-              >
+              <IconButton onClick={()=>navigate('/filters', {state: {friend}})} className={styles["action-btn"]} disabled={!enableRecs || isRecommending}>
                 <BsFilter />
                 <div>Filter</div>
               </IconButton>
