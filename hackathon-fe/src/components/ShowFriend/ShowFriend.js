@@ -22,6 +22,7 @@ import {
   BsHeart,
   BsPencilFill
 } from "react-icons/bs";
+import { useRecommendation } from "../RecommendationContext/RecommendationContext";
 
 const ShowFriend = () => {
   const [friend, setFriend] = useState(null);
@@ -39,6 +40,7 @@ const ShowFriend = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
 
+  const { cache, updateCache } = useRecommendation();
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -103,6 +105,7 @@ const ShowFriend = () => {
         setRefresh(false);
         console.log(recom);
         setRecs(recom.recommendations);
+        updateCache(id, recom.recommendations);
         setIsRecommending(false);
         setShowError(false);
       } catch (error) {
@@ -113,9 +116,17 @@ const ShowFriend = () => {
     };
 
     if (enableRecs && activeTab === "explore" && (!recs.length || refresh)) {
-      getRecommendations();
+      if (!refresh) {
+        if (cache[id] && cache[id].length) {
+          setRecs(cache[id]);
+        } else {
+          getRecommendations();
+        }
+      } else {
+        getRecommendations();
+      }
     }
-  }, [activeTab, enableRecs, recs.length, id, refresh, budget, filteredGiftTypes, filteredTags]);
+  }, [activeTab, enableRecs, recs.length, id, refresh, budget, filteredGiftTypes, filteredTags, cache, updateCache]);
 
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
@@ -163,10 +174,10 @@ const ShowFriend = () => {
           alt="Anthony Sudol"
           className={styles["profile-pic"]}
         />
-          <h2 style={{position:"relative"}}>{friend && friend.name}</h2>
-          <p className={styles["back-btn"]} onClick={() => navigate('/friends')}>
-            <BsArrowLeft />
-          </p>
+        <h2 style={{ position: "relative" }}>{friend && friend.name}</h2>
+        <p className={styles["back-btn"]} onClick={() => navigate('/friends')}>
+          <BsArrowLeft />
+        </p>
 
 
         <p>Friend</p>
