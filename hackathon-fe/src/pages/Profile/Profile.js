@@ -97,7 +97,7 @@ const Profile = () => {
                 style={{ height: "80px", width: "80px", paddingBottom: "6px" }}
               />
             ) : (
-              <label htmlFor="image" className={styles["add-image"]}>
+              <label htmlFor="image" className={styles["add-image"]} onChange={handleAddPhotoClick}>
                 +
               </label>
             )}
@@ -108,7 +108,7 @@ const Profile = () => {
               onChange={handleFileChange}
               style={{ display: "none" }}
             />
-            <button onClick={handleAddPhotoClick}>{buttonHTML}</button>
+            <p onClick={handleAddPhotoClick}>{buttonHTML}</p>
           </div>
           <br />
           {validationMessage ? validationMessage : ''}
@@ -166,3 +166,4 @@ const Profile = () => {
 };
 
 export default Profile;
+
