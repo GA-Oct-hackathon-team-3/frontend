@@ -8,13 +8,15 @@ import Header from "../../components/Header/Header";
 import styles from "./SignUp.module.css";
 
 const LoginSignUp = () => {
-  const [passwordValidity, setPasswordValidity] = useState(" ");
+  const [passwordValidity, setPasswordValidity] = useState(false);
+  const [passwordMatch, setPasswordMatch] = useState(true);
+  const [requiredMessage, setRequiredMessage] = useState('');
   const [formData, setFormData] = useState({
     name: "",
     tel: "",
     email: "",
     dob: "",
-    gender: "male",
+    gender: "",
     password: "",
     confirmPassword: "",
   });
@@ -23,13 +25,33 @@ const LoginSignUp = () => {
 
   const [message, setMessage] = useState("Create an Account");
 
+  function handleFormMessage (string) {
+    // handles scrolling to top to display various reasons for why form is not valid for submit
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+    setRequiredMessage(string);
+    return;
+  }
+
   const handleChange = (evt) => {
-    setFormData({ ...formData, [evt.target.name]: evt.target.value });
+    const { name, value } = evt.target;
+    setFormData({ ...formData, [name]: value });
+    if (name === 'password') validatePassword(value);
+    // notifies of password match if change on either password field
+    if (name === 'password' || name === 'confirmPassword') validateMatch(value); 
   };
 
   const submitHandler = async (evt) => {
     evt.preventDefault();
-    console.log(formData)
+
+    // form validation before submit
+    const valid = validateForm();
+    if (!valid) return handleFormMessage('Required fields are marked with (*)');
+    if (!passwordValidity) return handleFormMessage('Please enter a valid password');
+    if (!passwordMatch) return handleFormMessage('Passwords must match');
+
     try {
       const userData = await usersService.register(formData);
       navigate("/friends");
@@ -40,6 +62,12 @@ const LoginSignUp = () => {
       console.log(error);
     }
   };
+
+  function validateForm () {
+    if (!formData.name || !formData.password || !formData.confirmPassword ||
+        !formData.email || !formData.dob || !formData.gender) return false;
+    else return true;
+  }
 
   function validatePassword(password) {
     // Check if the password is at least 8 characters in length
@@ -77,9 +105,19 @@ const LoginSignUp = () => {
         hasSpecialChar = true;
       }
     }
+
+
+    if (hasUppercase && hasLowercase && hasNumber && hasSpecialChar) setPasswordValidity(true);
+    else setPasswordValidity(false);
   
-    // Check if all requirements are met
-    return hasUppercase && hasLowercase && hasNumber && hasSpecialChar;
+    // returns validity of password
+    return passwordValidity;
+  }
+
+  function validateMatch (confirmPassword) {
+    const match = confirmPassword === formData.password;
+    setPasswordMatch(match);
+    return match;
   }
 
   return (
@@ -94,13 +132,14 @@ const LoginSignUp = () => {
         </div>
         <br />
         <form className={styles["form-container"]} onSubmit={submitHandler}>
+            {requiredMessage ? requiredMessage : ''}
           <div>
-            <label htmlFor="name">Name</label>
+            <label htmlFor="name" style={{paddingTop: 10}}>Name *</label>
             <input type="text" id="name" name="name" onChange={handleChange} />
           </div>
           <br />
           <div>
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">Password * </label>
             <input
               type="password"
               name="password"
@@ -117,17 +156,23 @@ const LoginSignUp = () => {
           </div>
           <br />
           <div>
-            <label htmlFor="confirmPassword">Confirm Password</label>
+            <label htmlFor="confirmPassword">Confirm Password *</label>
             <input
               type="password"
               name="confirmPassword"
               value={formData.confirmPassword}
               onChange={handleChange}
+              onBlur={() => validateMatch(formData.confirmPassword)}
             />
+            {!passwordMatch && (
+              <p>
+                Passwords do not match
+              </p>
+            )}
           </div>
           <br />
           <div>
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">Email *</label>
             <input
               type="email"
               id="email"
@@ -148,18 +193,19 @@ const LoginSignUp = () => {
           <br />
           <div>
             <div>
-              <label>Date of Birth</label>
+              <label>Date of Birth *</label>
               <input type="date" id="date" name="dob" onChange={handleChange} />
             </div>
             <br />
             <div>
-              <label htmlFor="gender">Gender</label>
+              <label htmlFor="gender">Gender *</label>
               <select
                 id="gender"
-                defaultValue="male"
+                defaultValue=""
                 name="gender"
                 onChange={handleChange}
               >
+                <option value="" disabled></option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="other">Other</option>
@@ -189,3 +235,4 @@ const LoginSignUp = () => {
 };
 
 export default LoginSignUp;
+
