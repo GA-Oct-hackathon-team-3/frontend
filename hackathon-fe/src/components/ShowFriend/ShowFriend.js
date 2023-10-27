@@ -162,7 +162,7 @@ const ShowFriend = () => {
       return `https://www.google.com/search?q=${gift.title}`;
     } else if (/experience/i.test(gift.giftType)) {
       let query = `https://www.google.com/search?q=${gift.title}`;
-      if (friend.location) {
+      if (friend && friend.location) {
         query += `+near+${friend.location}`;
       }
       return query;
