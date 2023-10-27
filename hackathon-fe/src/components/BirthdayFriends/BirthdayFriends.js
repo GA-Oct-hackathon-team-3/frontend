@@ -24,7 +24,6 @@ const BirthdayFriends = () => {
         const friendsData = await friendsService.retrieveFriends();
         setAllFriends(friendsData);
         setFilteredData(friendsData);
-        console.log("Length", friendsData.length);
         if (typeof friendsData.length === "undefined") {
           setOnboardingStep(1); // Initiate onboarding if there are no friends
         }
