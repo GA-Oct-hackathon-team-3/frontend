@@ -1,13 +1,11 @@
 import BirthdayFriends from "../../components/BirthdayFriends/BirthdayFriends";
 
-
-
 const FriendsPage = () => {
-    return (
-        <>
-            <BirthdayFriends />
-        </>
-    );
+  return (
+    <>
+      <BirthdayFriends />
+    </>
+  );
 };
 
 export default FriendsPage;

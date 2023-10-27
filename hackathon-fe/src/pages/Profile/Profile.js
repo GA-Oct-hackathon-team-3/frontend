@@ -38,10 +38,10 @@ const Profile = () => {
     const response = await profilesService.updateUserProfile(profileInput);
     if (uploadedFile) {
       const photoResponse = await profilesService.uploadPhoto(uploadedFile);
-      if (photoResponse.ok && response.message === 'User details updated') navigate('/friends');
+      if (photoResponse.ok && response.message === "User details updated")
+        navigate("/friends");
     }
-    if (response.message === 'User details updated') navigate('/friends');
-
+    if (response.message === "User details updated") navigate("/friends");
   };
   function handleAddPhotoClick(evt) {
     evt.preventDefault();
@@ -74,7 +74,7 @@ const Profile = () => {
             <BsArrowLeft />
           </p>
           <h1>My Profile</h1>
-        <button onClick={logOutHandler} >Log Out</button>
+          <button onClick={logOutHandler}>Log Out</button>
         </div>
         <form onSubmit={submitHandler} encType="multipart/form-data">
           <div>
@@ -109,41 +109,41 @@ const Profile = () => {
                 setProfileInput({ ...profileInput, name: e.target.value })
               }
             />
-            </div>
-            <br />
+          </div>
+          <br />
 
+          <div>
             <div>
-              <div>
-                <label htmlFor="dob">DOB</label>
-                <input
-                  type="date"
-                  id="dob"
-                  value={profileInput && profileInput.dob}
-                  onChange={(e) =>
-                    setProfileInput({
-                      ...profileInput,
-                      dob: e.target.value
-                    })
-                  }
-                />
-              </div>
-              <div>
-                <label htmlFor="gender">Gender</label>
-                <select
-                  id="gender"
-                  value={profileInput && profileInput.gender}
-                  onChange={(e) =>
-                    setProfileInput({ ...profileInput, gender: e.target.value })
-                  }
-                >
-                  <option disabled></option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
+              <label htmlFor="dob">DOB</label>
+              <input
+                type="date"
+                id="dob"
+                value={profileInput && profileInput.dob}
+                onChange={(e) =>
+                  setProfileInput({
+                    ...profileInput,
+                    dob: e.target.value
+                  })
+                }
+              />
             </div>
-            <br />
+            <div>
+              <label htmlFor="gender">Gender</label>
+              <select
+                id="gender"
+                value={profileInput && profileInput.gender}
+                onChange={(e) =>
+                  setProfileInput({ ...profileInput, gender: e.target.value })
+                }
+              >
+                <option disabled></option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
+          <br />
           <br />
           <button onClick={submitHandler}>Confirm</button>
         </form>
@@ -153,4 +153,3 @@ const Profile = () => {
 };
 
 export default Profile;
-

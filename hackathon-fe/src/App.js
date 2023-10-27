@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 
 import Footer from "./components/Footer/Footer";
 
+import ProtectedPage from "./components/ProtectedPage/ProtectedPage";
 import LandingPage from "./pages/Landing/Landing";
 import SignUpPage from "./pages/SignUp/SignUp";
 import LoginPage from "./pages/Login/Login";
@@ -22,13 +23,62 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/friends" element={<FriendsPage />} />
-          <Route path="/friend/:id" element={<FriendPage />} />
-          <Route path="/friend/:id/edit" element={<UpdateFriendPage />} />
-          <Route path="/filters" element={<FiltersPage />} />
-          <Route path="/addfriend" element={<CreateFriendPage />} />
-          <Route path="/friend/:id/tag" element={<TagAdderPage />} />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedPage>
+                <ProfilePage />
+              </ProtectedPage>
+            }
+          />
+          <Route
+            path="/friends"
+            element={
+              <ProtectedPage>
+                <FriendsPage />
+              </ProtectedPage>
+            }
+          />
+          <Route
+            path="/friend/:id"
+            element={
+              <ProtectedPage>
+                <FriendPage />
+              </ProtectedPage>
+            }
+          />
+          <Route
+            path="/friend/:id/edit"
+            element={
+              <ProtectedPage>
+                <UpdateFriendPage />
+              </ProtectedPage>
+            }
+          />
+          <Route
+            path="/filters"
+            element={
+              <ProtectedPage>
+                <FiltersPage />
+              </ProtectedPage>
+            }
+          />
+          <Route
+            path="/addfriend"
+            element={
+              <ProtectedPage>
+                <CreateFriendPage />
+              </ProtectedPage>
+            }
+          />
+          <Route
+            path="/friend/:id/tag"
+            element={
+              <ProtectedPage>
+                <TagAdderPage />
+              </ProtectedPage>
+            }
+          />
         </Routes>
       </RecommendationProvider>
       <Footer />
