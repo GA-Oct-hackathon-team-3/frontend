@@ -193,3 +193,8 @@
     margin: 0 auto;
     background-color: #53CF85;
 }
+
+button.gift-type-active{
+    background-color: #53CF85 !important;
+    color: #fff !important;
+}
