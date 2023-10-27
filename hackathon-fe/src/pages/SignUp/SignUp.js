@@ -12,7 +12,7 @@ const LoginSignUp = () => {
     tel: "",
     email: "",
     dob: "",
-    gender: "",
+    gender: "male",
     password: "",
     confirmPassword: ""
   });
@@ -103,7 +103,12 @@ const LoginSignUp = () => {
             <br />
             <div>
               <label htmlFor="gender">Gender</label>
-              <select id="gender" name="gender" onChange={handleChange}>
+              <select
+                id="gender"
+                defaultValue="male"
+                name="gender"
+                onChange={handleChange}
+              >
                 <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="other">Other</option>
