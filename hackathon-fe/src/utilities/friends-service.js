@@ -50,3 +50,13 @@ export async function getRecommendations(id, data){
   const response = await sendRequest(`${BASE_URL}/${id}/generate-gift`, "POST", data);
   return response;
 }
+
+export async function addToFavorites(friendId, recData){
+  const response = await sendRequest(`${BASE_URL}/${friendId}/favorites`, "POST", recData);
+  return response;
+}
+
+export async function removeFromFavorites(friendId, recId){
+  const response = await sendRequest(`${BASE_URL}/${friendId}/favorites/${recId}`, "DELETE");
+  return response;
+}

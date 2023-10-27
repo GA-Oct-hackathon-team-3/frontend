@@ -20,13 +20,15 @@ import {
   BsArrowCounterclockwise,
   BsArrowLeft,
   BsFilter,
-  BsHeart
+  BsHeart,
+  BsHeartFill
 } from "react-icons/bs";
 import { useRecommendation } from "../RecommendationContext/RecommendationContext";
 
 import EditIcon from '../../assets/edit_icon.png';
 import FilterIcon from '../../assets/filter_icon.png';
 import RefreshIcon from '../../assets/Blue_green_restart_icon.png';
+import { IconContext } from "react-icons/lib";
 
 const ShowFriend = () => {
   const [friend, setFriend] = useState(null);
@@ -41,6 +43,7 @@ const ShowFriend = () => {
   const [recs, setRecs] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [favError, setFavError] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const [popOverText, setPopOverText] = useState("");
   const location = useLocation();
@@ -136,6 +139,7 @@ const ShowFriend = () => {
 
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
+    if(tabName==="explore") setAnchorEl(null);
   };
 
   const handleEditProfile = () => {
@@ -172,6 +176,31 @@ const ShowFriend = () => {
 
   const handlePopOverClose = () => {
     setAnchorEl(null);
+  }
+
+  const toggleFavorite = async (recommendation, e) => {
+    e.preventDefault();
+    const idx = favorites.findIndex(fav => fav.title.toLowerCase() === recommendation.title.toLowerCase());
+    if (idx > -1) {
+      // remove from favorites
+      try {
+        const item = favorites[idx];
+        const res = await friendsService.removeFromFavorites(id, item._id);
+        console.log(res);
+        setFavorites(favorites.slice(0, idx).concat(favorites.slice(idx + 1)));
+      } catch (error) {
+        setFavError(error.message);
+      }
+    } else {
+      // add to favorites
+      try {
+        const res = await friendsService.addToFavorites(id, recommendation);
+        console.log(res);
+        setFavorites([...favorites, res.recommendation]);
+      } catch (error) {
+        setFavError(error.message);
+      }
+    }
   }
 
   const giftPreferences = friend && friend.giftPreferences;
@@ -353,12 +382,40 @@ const ShowFriend = () => {
               <div className={styles["gift-recommendations"]}>
                 {favorites &&
                   !!favorites.length &&
-                  favorites.map((fav, idx) => {
-                    // Grid display or flex the favorites here
-                    return <div key={idx} />;
-                  })}
+                  <div className={styles["fav-grid"]}>
+                    {favorites.map((fav, idx) => {
+                      return (
+                        <div key={fav._id} className={styles["grid-item"]}>
+                           <Link to={buildGiftLink(fav)} target="_blank" rel="noopener noreferrer">
+                          <div className={styles["product-pic"]}>
+                            <img
+                              className={styles["product-pic"]}
+                              src={fav.image}
+                              alt={fav.title}
+                            />
+                            <div className={styles["product-heart"]}>
+                              <IconButton onClick={(e) => toggleFavorite(fav, e)}>
+                                    <IconContext.Provider value={{ color: "#FA7F39" }}>
+                                      <BsHeartFill />
+                                    </IconContext.Provider>
+                              </IconButton>
+                            </div>
+                          </div>
+
+                          <div className={styles["product-name"]}>{fav.title}</div>
+                          <div className={styles["product-price"]}>
+                            ~{fav.estimatedCost}
+                          </div>
+                        </Link>
+                        </div>
+                      );
+                    })}
+                  </div>
+                }
                 {!(favorites && !!favorites.length) && (
-                  <div>You haven't favorited any gifts yet.</div>
+                  <Typography>
+                    You have no favorites yet
+                  </Typography>
                 )}
               </div>
             </CardContent>
@@ -419,8 +476,15 @@ const ShowFriend = () => {
                               alt={rec.title}
                             />
                             <div className={styles["product-heart"]}>
-                              <IconButton>
-                                <BsHeart />
+                              <IconButton onClick={(e) => toggleFavorite(rec, e)}>
+                                {
+                                  favorites.findIndex(fav => fav.title.toLowerCase() === rec.title.toLowerCase()) === -1 ?
+                                    <BsHeart />
+                                    :
+                                    <IconContext.Provider value={{ color: "#FA7F39" }}>
+                                      <BsHeartFill />
+                                    </IconContext.Provider>
+                                }
                               </IconButton>
                             </div>
                           </div>

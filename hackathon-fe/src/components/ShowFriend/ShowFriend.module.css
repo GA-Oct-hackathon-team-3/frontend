@@ -176,6 +176,14 @@ button:hover {
   text-decoration: underline;
 }
 
+
+
+.fav-grid {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 24px;
+}
+
 .personalized-recs--container {
   background-color: #ffffff;
   border-radius: 10px;
@@ -224,6 +232,7 @@ button:hover {
   position: relative;
   object-fit: cover;
 }
+
 
 .product-heart {
   width: 32px;
