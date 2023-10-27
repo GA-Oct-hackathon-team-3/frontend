@@ -1,5 +1,6 @@
+import { WEB_BASE_URL } from "./constants";
 import sendRequest from "./send-request";
-const BASE_URL = "http://localhost:3010/api/";
+const BASE_URL = `${WEB_BASE_URL}/`;
 
 export async function addTag(id, tag) {
   const friend = await sendRequest(

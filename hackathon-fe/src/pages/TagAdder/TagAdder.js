@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import "./TagAdder.css";
 import * as friendsService from "../../utilities/friends-service";
 import * as tagService from "../../utilities/tags-service";
+import Header from "../../components/Header/Header";
 
 function TagAdder() {
   const [tags, setTags] = useState([]);
@@ -52,72 +53,75 @@ function TagAdder() {
   }, {});
 
   return (
-    <div className="tag-container">
-      <div className="header">
-        <h1>PRESENTly</h1>
-        <h2>Edit Tags</h2>
-        <p>
-          What's your friend into? Adding tags helps Presently give more
-          accurate gift suggestions.
-        </p>
-      </div>
-      <div className="tag-input-section">
-        <input
-          type="text"
-          placeholder="Type to create custom tag"
-          value={inputValue}
-          onChange={handleInputChange}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") handleInputEnter();
-          }}
-        />
-      </div>
-      <div className="tag-section">
-        <h3>Added Tags</h3>
-        {selectedTags.map((tag) => (
-          <button
-            className={"tag-button"}
-            onClick={async () => {
-              await tagService.removeTag(id, tag._id);
-              setTags(tags.filter((tag) => tag.title !== tag.title));
+    <>
+      <Header />
+      <div className="tag-container">
+        <div className="header">
+          <h1>PRESENTly</h1>
+          <h2>Edit Tags</h2>
+          <p>
+            What's your friend into? Adding tags helps Presently give more
+            accurate gift suggestions.
+          </p>
+        </div>
+        <div className="tag-input-section">
+          <input
+            type="text"
+            placeholder="Type to create custom tag"
+            value={inputValue}
+            onChange={handleInputChange}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleInputEnter();
             }}
-            key={tag._id}
-          >
-            {tag.title}
-          </button>
-        ))}
-      </div>
-
-      <div>
-        {Object.entries(groupedData)
-          .filter(([type, tags]) => type !== "custom")
-          .map(([type, tags]) => (
-            <div key={type}>
-              <h3>{type}</h3>
-              {tags.map((tag) => (
-                <button
-                  className={"tag-button"}
-                  onClick={async () => {
-                    await tagService.addTag(id, tag);
-                    setTags([...tags, tag.title]);
-                  }}
-                  key={tag.name}
-                >
-                  {tag.title}
-                </button>
-              ))}
-            </div>
+          />
+        </div>
+        <div className="tag-section">
+          <h3>Added Tags</h3>
+          {selectedTags.map((tag) => (
+            <button
+              className={"tag-button"}
+              onClick={async () => {
+                await tagService.removeTag(id, tag._id);
+                setTags(tags.filter((tag) => tag.title !== tag.title));
+              }}
+              key={tag._id}
+            >
+              {tag.title}
+            </button>
           ))}
+        </div>
+
+        <div>
+          {Object.entries(groupedData)
+            .filter(([type, tags]) => type !== "custom")
+            .map(([type, tags]) => (
+              <div key={type}>
+                <h3>{type}</h3>
+                {tags.map((tag) => (
+                  <button
+                    className={"tag-button"}
+                    onClick={async () => {
+                      await tagService.addTag(id, tag);
+                      setTags([...tags, tag.title]);
+                    }}
+                    key={tag.name}
+                  >
+                    {tag.title}
+                  </button>
+                ))}
+              </div>
+            ))}
+        </div>
+        <button
+          className="complete-button"
+          onClick={() => {
+            navigate(`/friend/${id}`);
+          }}
+        >
+          Complete Profile
+        </button>
       </div>
-      <button
-        className="complete-button"
-        onClick={() => {
-          navigate(`/friend/${id}`);
-        }}
-      >
-        Complete Profile
-      </button>
-    </div>
+    </>
   );
 }
 
