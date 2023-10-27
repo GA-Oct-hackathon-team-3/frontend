@@ -81,6 +81,7 @@
   border: 1px solid #d9d9d9;
   background: rgba(255, 255, 255, 1);
   cursor: pointer;
+  color: black;
 }
 
 .tag-button.active{

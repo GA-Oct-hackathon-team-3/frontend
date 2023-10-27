@@ -439,7 +439,7 @@ const ShowFriend = () => {
             </div>
             {!showError ?
               <>
-                {refresh || !recs.length ? (<div className={styles["spinner-container"]}>
+                {refresh || (!recs.length && friend && friend.tags && friend.tags.length) ? (<div className={styles["spinner-container"]}>
                   <CircularProgress color="secondary" />
                 </div>) : (
                   <div className={styles["personalized-recs--grid"]}>
