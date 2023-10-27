@@ -10,12 +10,13 @@ import styles from "./SignUp.module.css";
 const LoginSignUp = () => {
   const [passwordValidity, setPasswordValidity] = useState(false);
   const [passwordMatch, setPasswordMatch] = useState(true);
+  const [requiredMessage, setRequiredMessage] = useState('');
   const [formData, setFormData] = useState({
     name: "",
     tel: "",
     email: "",
     dob: "",
-    gender: "male",
+    gender: "",
     password: "",
     confirmPassword: "",
   });
@@ -24,16 +25,33 @@ const LoginSignUp = () => {
 
   const [message, setMessage] = useState("Create an Account");
 
+  function handleFormMessage (string) {
+    // handles scrolling to top to display various reasons for why form is not valid for submit
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+    setRequiredMessage(string);
+    return;
+  }
+
   const handleChange = (evt) => {
     const { name, value } = evt.target;
     setFormData({ ...formData, [name]: value });
     if (name === 'password') validatePassword(value);
-    if (name === 'confirmPassword') validateMatch(value);
+    // notifies of password match if change on either password field
+    if (name === 'password' || name === 'confirmPassword') validateMatch(value); 
   };
 
   const submitHandler = async (evt) => {
     evt.preventDefault();
-    console.log(formData)
+
+    // form validation before submit
+    const valid = validateForm();
+    if (!valid) return handleFormMessage('Required fields are marked with (*)');
+    if (!passwordValidity) return handleFormMessage('Please enter a valid password');
+    if (!passwordMatch) return handleFormMessage('Passwords must match');
+
     try {
       const userData = await usersService.register(formData);
       navigate("/friends");
@@ -44,6 +62,12 @@ const LoginSignUp = () => {
       console.log(error);
     }
   };
+
+  function validateForm () {
+    if (!formData.name || !formData.password || !formData.confirmPassword ||
+        !formData.email || !formData.dob || !formData.gender) return false;
+    else return true;
+  }
 
   function validatePassword(password) {
     // Check if the password is at least 8 characters in length
@@ -82,10 +106,11 @@ const LoginSignUp = () => {
       }
     }
 
+
     if (hasUppercase && hasLowercase && hasNumber && hasSpecialChar) setPasswordValidity(true);
     else setPasswordValidity(false);
   
-    // Check if all requirements are met
+    // returns validity of password
     return passwordValidity;
   }
 
@@ -107,8 +132,9 @@ const LoginSignUp = () => {
         </div>
         <br />
         <form className={styles["form-container"]} onSubmit={submitHandler}>
+            {requiredMessage ? requiredMessage : ''}
           <div>
-            <label htmlFor="name">Name *</label>
+            <label htmlFor="name" style={{paddingTop: 10}}>Name *</label>
             <input type="text" id="name" name="name" onChange={handleChange} />
           </div>
           <br />
@@ -175,10 +201,11 @@ const LoginSignUp = () => {
               <label htmlFor="gender">Gender *</label>
               <select
                 id="gender"
-                defaultValue="male"
+                defaultValue=""
                 name="gender"
                 onChange={handleChange}
               >
+                <option value="" disabled></option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="other">Other</option>
