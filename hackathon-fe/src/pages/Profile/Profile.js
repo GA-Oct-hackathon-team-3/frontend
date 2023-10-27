@@ -11,7 +11,7 @@ const Profile = () => {
   const navigate = useNavigate();
 
   const [profileInput, setProfileInput] = useState(null);
-  const [profile, setProfile] = useState();
+  const [profile, setProfile] = useState(null);
   const [displayFile, setDisplayFile] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [buttonHTML, setButtonHTML] = useState("Add profile photo");
@@ -25,9 +25,9 @@ const Profile = () => {
       setProfile(profileInfo.profile);
       if (profileInfo.profile.photo) {
         const uniqueTimestamp = Date.now();
-        const profilePhoto = `${profileInfo.proile.photo}?timestamp=${uniqueTimestamp}`;
+        const profilePhoto = `${profileInfo.profile.photo}?timestamp=${uniqueTimestamp}`;
         setDisplayFile(profilePhoto);
-        setButtonHTML("Change photo");
+        setButtonHTML("Change Photo");
       }
     };
     fetchProfile();
@@ -36,12 +36,11 @@ const Profile = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     const response = await profilesService.updateUserProfile(profileInput);
-    // if (uploadedFile) {
-    //   const photoResponse = await friendsService.uploadPhoto(id, uploadedFile);
-    //   if (photoResponse.ok && response.message === "Friend updated")
-    //     navigate(`/friend/${id}`);
-    // }
-    if (response) navigate('/friends');
+    if (uploadedFile) {
+      const photoResponse = await profilesService.uploadPhoto(uploadedFile);
+      if (photoResponse.ok && response.message === 'User details updated') navigate('/friends');
+    }
+    if (response.message === 'User details updated') navigate('/friends');
 
   };
   function handleAddPhotoClick(evt) {
@@ -54,11 +53,11 @@ const Profile = () => {
     if (file) {
       setDisplayFile(URL.createObjectURL(file));
       setUploadedFile(file);
-      setButtonHTML("Change photo");
+      setButtonHTML("Change Photo");
     } else {
       setDisplayFile(null);
       setUploadedFile(null);
-      setButtonHTML("Add profile photo");
+      setButtonHTML("Add Photo");
     }
   }
   const logOutHandler = (e) => {
@@ -75,6 +74,7 @@ const Profile = () => {
             <BsArrowLeft />
           </p>
           <h1>My Profile</h1>
+        <button onClick={logOutHandler} >Log Out</button>
         </div>
         <form onSubmit={submitHandler} encType="multipart/form-data">
           <div>
@@ -109,13 +109,16 @@ const Profile = () => {
                 setProfileInput({ ...profileInput, name: e.target.value })
               }
             />
+            </div>
+            <br />
+
             <div>
               <div>
                 <label htmlFor="dob">DOB</label>
                 <input
                   type="date"
                   id="dob"
-                  value={profileInput && profileInput.dob.substring(0, 10)}
+                  value={profileInput && profileInput.dob}
                   onChange={(e) =>
                     setProfileInput({
                       ...profileInput,
@@ -141,10 +144,8 @@ const Profile = () => {
               </div>
             </div>
             <br />
-          </div>
           <br />
           <button onClick={submitHandler}>Confirm</button>
-          <button onClick={logOutHandler}>Log Out</button>
         </form>
       </div>
     </>
