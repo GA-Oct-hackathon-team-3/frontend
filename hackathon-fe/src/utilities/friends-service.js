@@ -1,7 +1,8 @@
+import { WEB_BASE_URL } from "./constants";
 import sendRequest from "./send-request";
 import { getToken } from "./users-service";
 
-const BASE_URL = "https://presently-backend-64495929a7ac.herokuapp.com/api/friends";
+const BASE_URL = `${WEB_BASE_URL}/friends`;
 
 export async function retrieveFriends() {
   const friends = await sendRequest(BASE_URL, "GET", null);
