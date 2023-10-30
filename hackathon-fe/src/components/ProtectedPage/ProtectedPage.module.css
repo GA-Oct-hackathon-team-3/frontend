@@ -1,0 +1,8 @@
+.spinner-container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FDF7ED;
+    min-height: 100vh;
+  }

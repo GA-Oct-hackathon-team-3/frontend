@@ -1,0 +1,18 @@
+.container{
+    background-color: #FDF7ED;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap:10px;
+}
+
+.error{
+    color: firebrick;
+}
+
+.success{
+    color: #53CF85;
+}

@@ -14,6 +14,7 @@ import CreateFriendPage from "./pages/CreateFriendPage/CreateFriendPage";
 import TagAdderPage from "./pages/TagAdder/TagAdder";
 import UpdateFriendPage from "./pages/UpdateFriendPage/UpdateFriendPage";
 import { RecommendationProvider } from "./components/RecommendationContext/RecommendationContext";
+import EmailVerify from "./pages/EmailVerify/EmailVerify";
 
 function App() {
   return (
@@ -76,6 +77,14 @@ function App() {
             element={
               <ProtectedPage>
                 <TagAdderPage />
+              </ProtectedPage>
+            }
+          />
+          <Route
+            path="/verify-email"
+            element={
+              <ProtectedPage>
+                <EmailVerify />
               </ProtectedPage>
             }
           />

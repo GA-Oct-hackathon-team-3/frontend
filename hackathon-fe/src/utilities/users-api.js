@@ -18,3 +18,10 @@ export function checkToken() {
   return sendRequest(`${BASE_URL}check-token`);
 }
 
+export async function verifyEmail(token) {
+  return sendRequest(`${BASE_URL}users/verify`, "POST", { token });
+}
+
+export async function resendEmail(){
+  return sendRequest(`${BASE_URL}users/resend`);
+}

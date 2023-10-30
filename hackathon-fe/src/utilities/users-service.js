@@ -24,6 +24,14 @@ export async function login(credentials) {
   return getUser();
 }
 
+export async function verifyEmail(token) {
+  return usersAPI.verifyEmail(token);
+}
+
+export async function resendEmail(){
+  return usersAPI.resendEmail();
+}
+
 export function getUser() {
   const token = getToken();
   let userData;
