@@ -1,7 +1,9 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBirthdayCake } from "@fortawesome/free-solid-svg-icons";
+import { RiArrowDropDownLine } from "react-icons/ri";
+import { RiArrowDropUpLine } from "react-icons/ri";
 import * as friendsService from "../../utilities/friends-service";
 import { daysUntilBirthday } from "../../utilities/helpers";
 
@@ -20,14 +22,20 @@ const BirthdayFriends = () => {
   const [allFriends, setAllFriends] = useState([]);
   const [onboardingStep, setOnboardingStep] = useState(0);
 
-  // const [friendCardColor, setFriendCardColor] = useState("")
+  const itemCardColors = [
+    "#AF95E7",
+    "#FE6797",
+    "#EDB600",
+    "#418BFA",
+    "#FA7F39",
+    "#D9D9D9",
+    "#3D3C3C",
+    "#53CF85", 
+  ];
 
-  // const itemCardColors = ["#AF95E7", "#FE6797", "#EDB600", "#418BFA", "#FA7F39"];
-
-  // function getRandomColor() {
-  //   const chosenColor = itemCardColors[Math.floor(Math.random() * 5)];
-  //   setFriendCardColor(chosenColor)
-  // }
+  function getRandomColor() {
+    return itemCardColors[Math.floor(Math.random() * 5)];
+  }
 
   useEffect(() => {
     const fetchFriends = async () => {
@@ -38,6 +46,7 @@ const BirthdayFriends = () => {
             (a, b) => daysUntilBirthday(a.dob) - daysUntilBirthday(b.dob)
           );
         }
+        friendsData.map((f) => (f["cardColor"] = getRandomColor()));
         setAllFriends(friendsData);
         setFilteredData(friendsData);
         if (typeof friendsData.length === "undefined") {
@@ -66,32 +75,36 @@ const BirthdayFriends = () => {
     }
   };
 
-  const Item = ({ name, dob, id, photo}) => {
-    const [friendCardColor, setFriendCardColor] = useState("");
-    useEffect(()=>{
-      getRandomColor();
-    },[]);
-    
-    const history = useNavigate();
+  const Item = ({ name, dob, id, photo, cardColor }) => {
+    const [isViewSavedGifts, setIsViewedSavedGifts] = useState(false);
+    const [selectedFriend, setSelectedFriend] = useState(null);
+    const [favorites, setFavorites] = useState([]);
 
+    const viewSavedGiftsHandler = async (e) => {
+      e.stopPropagation();
+      const friendData = await friendsService.showFriend(id);
+      setSelectedFriend(friendData);
+      const favorites = await friendsService.getFavorites(id);
+      setFavorites(favorites);
+      setIsViewedSavedGifts((preVal) => !preVal);
+    };
 
-    const itemCardColors = [
-      "#AF95E7",
-      "#FE6797",
-      "#EDB600",
-      "#418BFA",
-      "#FA7F39",
-    ];
-
-    function getRandomColor() {
-      const chosenColor = itemCardColors[Math.floor(Math.random() * 5)];
-      setFriendCardColor(chosenColor);
-    }
-
+    const buildGiftLink = (friend, gift) => {
+      if (/present/i.test(gift.giftType)) {
+        return `https://www.amazon.com/s?k=${gift.title}`;
+      } else if (/donation/i.test(gift.giftType)) {
+        return `https://www.google.com/search?q=${gift.title}`;
+      } else if (/experience/i.test(gift.giftType)) {
+        let query = `https://www.google.com/search?q=${gift.title}`;
+        if (friend && friend.location) {
+          query += `+near+${friend.location}`;
+        }
+        return query;
+      }
+    };
     return (
       <button
         onClick={() => navigate(`/friend/${id}`, { state: { id: id } })}
-        onLoad={getRandomColor}
         className={styles["itemButton"]}
       >
         <div className={styles["item"]}>
@@ -103,7 +116,7 @@ const BirthdayFriends = () => {
                 icon={faBirthdayCake}
                 size="xl"
                 style={{ height: 60, width: 60 }}
-                color={friendCardColor}
+                color={cardColor}
               />
             )}
             <div>
@@ -112,15 +125,48 @@ const BirthdayFriends = () => {
             </div>
 
             <div className={styles["card"]}>
-              <p className={styles["days"]} style={{ color: friendCardColor }}>
+              <p className={styles["days"]} style={{ color: cardColor }}>
                 {daysUntilBirthday(dob)}
               </p>
               <p className={styles["label"]}>Days Left</p>
             </div>
           </div>
         </div>
-        <div style={{ backgroundColor: friendCardColor }}>
+        <div
+          style={{
+            backgroundColor: cardColor,
+            borderBottomLeftRadius: isViewSavedGifts && "0",
+            borderBottomRightRadius: isViewSavedGifts && "0",
+          }}
+          onClick={viewSavedGiftsHandler}
+        >
           View Saved Gifts{" "}
+          <sub className={styles.dropdown}>
+            {!isViewSavedGifts ? (
+              <RiArrowDropDownLine />
+            ) : (
+              <RiArrowDropUpLine />
+            )}
+          </sub>
+        </div>
+        <div className={isViewSavedGifts ? styles.open : ""}>
+          {isViewSavedGifts &&
+            favorites.map((fav, idx) => {
+              return (
+                <Link
+                  to={buildGiftLink(selectedFriend, fav)}
+                  target="_blank"
+                  key={idx}
+                  onClick={e => e.stopPropagation()}
+                >
+                  <img src={fav.image} alt={fav.title} />
+                  <p>{fav.title}</p>
+                </Link>
+              );
+            })
+          }
+          {isViewSavedGifts && favorites.length === 0 && <p>No Favorites At This Time.</p>}
+
         </div>
       </button>
     );
@@ -151,7 +197,9 @@ const BirthdayFriends = () => {
           ) : (
             <div className={styles["no-friends-yet"]}>
               <img src={noFriendsImg} alt="No friends added yet." />
-              <p>No birthdays to display–add a friend below to start gifting!</p>
+              <p>
+                No birthdays to display–add a friend below to start gifting!
+              </p>
             </div>
           )}
         </div>

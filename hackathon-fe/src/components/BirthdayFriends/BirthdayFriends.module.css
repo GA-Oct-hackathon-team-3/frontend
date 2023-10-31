@@ -211,10 +211,10 @@
   }
 
   .itemButton > div:nth-child(2) {
+    /* border: 2px solid red; */
     width: 100%;
     padding: 8px 5px;
     color: #FDF7ED;
-    /* background-color: #FE6797; */
     font-size: 16px;
     font-style: normal;
     font-weight: 700;
@@ -225,6 +225,61 @@
     margin-top: -10px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+  }
+
+  .itemButton > div:nth-child(2) > .dropdown {
+    font-size: 20px;
+    font-weight: 900;
+  }
+
+  .itemButton > div:nth-child(3) {
+    color: black;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    overflow: hidden;
+    height: 0; 
+    transition: height 0.5s ease-in-out;
+  }
+
+  .itemButton > div:nth-child(3).open {
+    /* border: 1px solid royalblue; */
+    height: 130px;
+    padding: 10px 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+    overflow: scroll;
+  }
+
+  .itemButton > div:nth-child(3).open > p {
+    font-size: 18px;
+    font-weight: 900;
+  }
+
+  .itemButton > div:nth-child(3).open > a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 8px;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    color: black;
+  }
+  
+  .itemButton > div:nth-child(3).open > a > img {
+    border: 1px solid gray;
+    width: 60px;
+    height: 60px;
+  }
+
+  .itemButton > div:nth-child(3).open > a > p {
+    width: fit-content;
   }
 
   .list {
