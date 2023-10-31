@@ -52,6 +52,26 @@
     z-index: 999;
   }
 
+  .friends-container > .reminders > div {
+    /* border: 2px solid red; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .friends-container > .reminders > div > p {
+    /* border: 1px solid royalblue; */
+    width: max-content;
+    margin-left: -10px;
+    color: #3D3C3C;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+  }
+
   .friends-container > .reminders > h2 {
     width: 171px;
     color: #3D3C3C;
@@ -125,8 +145,6 @@
 
   /*  ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  */
 
-
-
   .itemButton {
     width: 100%;
     background-color: #FDF7ED;
@@ -138,7 +156,6 @@
     align-items: flex-start;
     background-color: #ffffff;
     padding: 12px 0 15px;
-    /* margin: 8px 0; */
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
@@ -285,6 +302,21 @@
   .list {
     padding-bottom: 50px;
   }
+
+  .list > h3 {
+    /* border: 1px solid red; */
+    width: max-content;
+    margin-top: 20px;
+    font-weight: 900;
+    font-size: 20px;
+  }
+
+  .list > p {
+    /* border: 1px solid red; */
+    width: max-content;
+    margin: 10px auto;
+    font-size: 18px;
+  }
   /* ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  */
 
   .onboarding-overlay {
@@ -416,4 +448,3 @@
     flex-shrink: 0;
   }
 }
-
