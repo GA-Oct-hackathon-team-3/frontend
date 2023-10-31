@@ -6,6 +6,7 @@ import * as usersService from "../../utilities/users-service";
 import styles from "./Login.module.css";
 
 import loginImg from "../../assets/loginImg.png";
+import desktopLogin from '../../assets/desktopLogin.png';
 
 import Header from "../../components/Header/Header";
 
@@ -48,20 +49,21 @@ const Login = () => {
     <Header />
    
     <section className={styles["login-container"]}>
-      <div>
+      <div className={styles["back-button"]}>
         <Link to="/">
           <BsArrowLeft />
         </Link>
-        <h1>Log In</h1>
       </div>
+        <h1>Log In</h1>
 
       <br />
 
-      <img src={loginImg} alt="Birthday cake" />
+      <img src={loginImg} alt="Birthday cake" className={styles["mobile-login"]}/>
+      <img src={desktopLogin} alt="Girl with present" className={styles["desktop-login"]}/>
 
-      <form onSubmit={handleLogin}>
+      <form className={styles["form-container"]} onSubmit={handleLogin}>
         {validationMessage ? validationMessage : ''}
-        <div>
+        <div className={styles["form-group"]}>
           <label htmlFor="email" style={{paddingTop: 10}}>Email *</label>
           <input
             type="email"
@@ -72,7 +74,7 @@ const Login = () => {
           />
         </div>
         <br/>
-        <div>
+        <div className={styles["form-group"]}>
           <label htmlFor="password">Password *</label>
           <input
             type="password"
@@ -81,11 +83,11 @@ const Login = () => {
             value={credentials.password}
             onChange={handleChange}
           />
-          <p>Forgot Password?</p>
         </div>
         <div>
-          <button type="submit">Login</button>
+          <p style={{paddingTop: 10}}>Forgot Password?</p>
         </div>
+          <button className={styles["login-button"]} type="submit">Login</button>
       </form>
     </section>
 
