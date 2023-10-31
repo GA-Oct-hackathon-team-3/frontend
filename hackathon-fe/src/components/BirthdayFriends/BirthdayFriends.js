@@ -5,7 +5,13 @@ import { faBirthdayCake } from "@fortawesome/free-solid-svg-icons";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { RiArrowDropUpLine } from "react-icons/ri";
 import * as friendsService from "../../utilities/friends-service";
-import { daysUntilBirthday } from "../../utilities/helpers";
+import {
+  daysUntilBirthday,
+  getCurrentMonth,
+  getNumericMonthFromBirthday,
+  hasBirthdayPassed,
+  getCurrentDate,
+} from "../../utilities/helpers";
 
 import styles from "./BirthdayFriends.module.css";
 import Header from "../../components/Header/Header";
@@ -28,13 +34,29 @@ const BirthdayFriends = () => {
     "#EDB600",
     "#418BFA",
     "#FA7F39",
-    "#D9D9D9",
     "#3D3C3C",
-    "#53CF85", 
+    "#53CF85",
+    "#8cb2c9",
+    "#19bd2c",
+    "#9cd7d4",
+    "#de8d65",
+    "#f47d5f",
+    "#2367a1",
+    "#cf5f53",
+    "#ca97df",
+    "#a7adea",
   ];
 
+  const todaysDate = getCurrentDate();
+  console.log(todaysDate);
+  const currentMonth = getCurrentMonth() + 1;
+  let birthdaysToday = false;
+  let weekConditionMet = false;
+  let monthConditionMet = false;
+  let laterOnConditionMet = false; /* this variable is to check if a friend's bday is this week or month, lines around 211 & 230 */
+
   function getRandomColor() {
-    return itemCardColors[Math.floor(Math.random() * 5)];
+    return itemCardColors[Math.floor(Math.random() * 16)];
   }
 
   useEffect(() => {
@@ -47,6 +69,18 @@ const BirthdayFriends = () => {
           );
         }
         friendsData.map((f) => (f["cardColor"] = getRandomColor()));
+
+        friendsData.map((f) => {
+          if (daysUntilBirthday(f.dob) <= 7) {
+            f["birthday-time"] = "thisWeek";
+          } else if (
+            currentMonth === getNumericMonthFromBirthday(f.dob) &&
+            !hasBirthdayPassed(f.dob)
+          ) {
+            f["birthday-time"] = "thisMonth";
+          }
+        });
+
         setAllFriends(friendsData);
         setFilteredData(friendsData);
         if (typeof friendsData.length === "undefined") {
@@ -75,15 +109,13 @@ const BirthdayFriends = () => {
     }
   };
 
-  const Item = ({ name, dob, id, photo, cardColor }) => {
+  const Item = ({ friend, name, dob, id, photo, cardColor }) => {
     const [isViewSavedGifts, setIsViewedSavedGifts] = useState(false);
-    const [selectedFriend, setSelectedFriend] = useState(null);
     const [favorites, setFavorites] = useState([]);
 
     const viewSavedGiftsHandler = async (e) => {
       e.stopPropagation();
-      const friendData = await friendsService.showFriend(id);
-      setSelectedFriend(friendData);
+      console.log(friend);
       const favorites = await friendsService.getFavorites(id);
       setFavorites(favorites);
       setIsViewedSavedGifts((preVal) => !preVal);
@@ -154,19 +186,19 @@ const BirthdayFriends = () => {
             favorites.map((fav, idx) => {
               return (
                 <Link
-                  to={buildGiftLink(selectedFriend, fav)}
+                  to={buildGiftLink(friend, fav)}
                   target="_blank"
                   key={idx}
-                  onClick={e => e.stopPropagation()}
+                  onClick={(e) => e.stopPropagation()}
                 >
                   <img src={fav.image} alt={fav.title} />
                   <p>{fav.title}</p>
                 </Link>
               );
-            })
-          }
-          {isViewSavedGifts && favorites.length === 0 && <p>No Favorites At This Time.</p>}
-
+            })}
+          {isViewSavedGifts && favorites.length === 0 && (
+            <p>No Favorites At This Time.</p>
+          )}
         </div>
       </button>
     );
@@ -186,14 +218,74 @@ const BirthdayFriends = () => {
         <div className={styles.reminders}>
           <img src={manCelebratingImg} alt="Man celebrating" />
           <img src={WomanCelebratingImg} alt="Woman celebrating" />
-          <h2>Your reminders will show up here!</h2>
+          <div>
+            {filteredData.map((friend) => {
+              if (friend.dob.slice(5) === todaysDate) {
+                birthdaysToday = true;
+                return <p>Today Is {friend.name}'s Birthday!</p>;
+              }
+            })}
+          </div>
+          {!birthdaysToday && <h2>Your reminders will show up here!</h2>}
         </div>
 
         <div className={styles["list"]}>
           {filteredData.length > 0 ? (
-            filteredData.map((item) => (
-              <Item key={item._id} {...item} id={item._id} />
-            ))
+            <>
+              <h3>This Week</h3>
+              {filteredData.length > 0 &&
+                filteredData.map((friend) => {
+                  if (friend["birthday-time"] === "thisWeek") {
+                    weekConditionMet = true;
+                    return (
+                      <Item
+                        key={friend._id}
+                        {...friend}
+                        id={friend._id}
+                        friend={friend}
+                      />
+                    );
+                  }
+                })}
+              {!weekConditionMet && <p>No Birthdays At This Time</p>}
+
+              <h3>This Month</h3>
+              {filteredData.length > 0 &&
+                filteredData.map((friend) => {
+                  if (friend["birthday-time"] === "thisMonth") {
+                    monthConditionMet = true;
+                    return (
+                      <Item
+                        key={friend._id}
+                        {...friend}
+                        id={friend._id}
+                        friend={friend}
+                      />
+                    );
+                  }
+                })}
+              {!monthConditionMet && <p>No Birthdays At This Time</p>}
+
+              <h3>Later On</h3>
+              {filteredData.length > 0 &&
+                filteredData.map((friend) => {
+                  if (
+                    friend["birthday-time"] !== "thisWeek" &&
+                    friend["birthday-time"] !== "thisMonth"
+                  ) {
+                    laterOnConditionMet = true;
+                    return (
+                      <Item
+                        key={friend._id}
+                        {...friend}
+                        id={friend._id}
+                        friend={friend}
+                      />
+                    );
+                  }
+                })}
+              {!laterOnConditionMet && <p>No Birthdays At This Time</p>}
+            </>
           ) : (
             <div className={styles["no-friends-yet"]}>
               <img src={noFriendsImg} alt="No friends added yet." />
