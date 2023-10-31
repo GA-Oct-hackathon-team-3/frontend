@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BsArrowLeft } from "react-icons/bs";
 import * as usersService from "../../utilities/users-service";
+import presentlyLogo from '.././/../assets/presentlyLogo.png';
 
 import Header from "../../components/Header/Header";
 
@@ -133,12 +134,12 @@ const LoginSignUp = () => {
         <br />
         <form className={styles["form-container"]} onSubmit={submitHandler}>
             {requiredMessage ? requiredMessage : ''}
-          <div>
+            <div className={styles["form-group"]}>
             <label htmlFor="name" style={{paddingTop: 10}}>Name *</label>
             <input type="text" id="name" name="name" onChange={handleChange} />
           </div>
           <br />
-          <div>
+          <div className={styles["form-group"]}>
             <label htmlFor="password">Password * </label>
             <input
               type="password"
@@ -155,7 +156,7 @@ const LoginSignUp = () => {
             )}
           </div>
           <br />
-          <div>
+          <div className={styles["form-group"]}>
             <label htmlFor="confirmPassword">Confirm Password *</label>
             <input
               type="password"
@@ -171,7 +172,7 @@ const LoginSignUp = () => {
             )}
           </div>
           <br />
-          <div>
+          <div className={styles["form-group"]}>
             <label htmlFor="email">Email *</label>
             <input
               type="email"
@@ -181,7 +182,7 @@ const LoginSignUp = () => {
             />
           </div>
           <br />
-          <div>
+          <div className={styles["form-group"]}>
             <label htmlFor="phone-number">Phone Number</label>
             <input
               type="number"
@@ -191,13 +192,13 @@ const LoginSignUp = () => {
             />
           </div>
           <br />
-          <div>
-            <div>
+        <div className={styles["form-select-section"]}>
+        <div className={styles["form-group"]}>
               <label>Date of Birth *</label>
               <input type="date" id="date" name="dob" onChange={handleChange} />
             </div>
             <br />
-            <div>
+            <div className={styles["form-group"]}>
               <label htmlFor="gender">Gender *</label>
               <select
                 id="gender"
@@ -213,7 +214,7 @@ const LoginSignUp = () => {
             </div>
           </div>
           <br />
-          <div>
+          <div className={styles["form-group"]}>
             <label htmlFor="location">Location</label>
             <input
               type="text"
@@ -227,7 +228,7 @@ const LoginSignUp = () => {
           <input type="file" id="profile-image"  name="photoUrl" />
         </div> */}
           <br />
-          <button>Create account</button>
+          <button className={styles["signup-button"]}>Create Account</button>
         </form>
       </section>
     </>

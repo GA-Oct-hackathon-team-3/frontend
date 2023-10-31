@@ -1,3 +1,93 @@
+@media (min-width: 481px) {
+    .signup-container {
+        background: var(--Background-Cream, #FDF7ED);
+        min-height: 100vh;
+        padding-top: 15%;
+        padding-bottom: 10%;
+        display: flex;
+        overflow-y: scroll;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+
+    .signup-container > div > a {
+        display: none;
+    }
+
+    .signup-container > h1 {
+        text-align: center;
+        font-size: 40px;
+        font-style: normal;
+        font-weight: 900;
+        line-height: normal;
+    }
+
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        width: 62%;
+    }
+
+    .form-select-section {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+        align-items: stretch;
+    }
+
+    .form-group > label {
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        letter-spacing: 0.64px;
+    }
+
+    .form-group > input {
+        width: 100%;
+        font-size: 20px;
+        border-radius: 3px;
+        border: 1px solid var(--Bright-White, #FFF);
+        background: var(--Bright-White, #FFF);
+        padding: 1% 1.5%
+    }
+
+    .form-group > select {
+        font-size: 20px;
+        border-radius: 3px;
+        border: 4px solid var(--Bright-White, #FFF);
+        background: var(--Bright-White, #FFF);
+        padding: 1% 1.5%
+    }
+    
+    .form-group > p {
+        padding-top: 1%;
+    }
+
+
+    .signup-button {
+        background-color: #53CF85;
+        color: #fff;
+        margin: 0 auto;
+        width: 25%;
+        padding: 3% 2%;
+        border-radius: 15px;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+}
+
 @media(max-width: 480px) {
     .signup-container {
         position: absolute;

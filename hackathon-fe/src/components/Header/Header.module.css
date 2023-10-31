@@ -1,3 +1,15 @@
+@media (min-width: 481px) {
+    .headerLogo {
+        display: flex;
+        width: 20%;
+        height: 8%;
+        flex-shrink: 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        margin: 3% 5%;
+    }
+}
 .app_header {
     display: flex;
     justify-content: center;
@@ -9,5 +21,5 @@
     top:0;
     z-index: 1200;
     background-color: #FDF7ED;
- 
 }
+
