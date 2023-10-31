@@ -17,7 +17,7 @@ import { RecommendationProvider } from "./components/RecommendationContext/Recom
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" style={{ height: '100vh' }}>
       <RecommendationProvider>
         <Routes>
           <Route path="/" element={<LandingPage />} />
