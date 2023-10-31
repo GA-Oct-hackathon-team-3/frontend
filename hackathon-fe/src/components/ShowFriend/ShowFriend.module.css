@@ -138,10 +138,6 @@ button {
   color: #FDF7ED;
 }
 
-button:hover {
-  background-color: #d0d0d0;
-}
-
 .edit-btn {
   margin-top: 20px;
   display: block;
