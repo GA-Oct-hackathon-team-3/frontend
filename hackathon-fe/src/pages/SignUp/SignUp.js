@@ -125,12 +125,12 @@ const LoginSignUp = () => {
     <>
       <Header />
       <section className={styles["signup-container"]}>
-        <div>
+        <div className={styles["back-button"]}>
           <Link to="/">
             <BsArrowLeft />
           </Link>
-          <h1>Sign Up</h1>
         </div>
+          <h1>Sign Up</h1>
         <br />
         <form className={styles["form-container"]} onSubmit={submitHandler}>
             {requiredMessage ? requiredMessage : ''}

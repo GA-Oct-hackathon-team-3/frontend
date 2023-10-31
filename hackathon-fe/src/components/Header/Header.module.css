@@ -14,12 +14,12 @@
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    width: 390px;
-    height: 94px;
+    width: 85%;
+    height: 12%;
     color: white;
     position: fixed;
     top:0;
-    z-index: 1200;
+    z-index: 1;
     background-color: #FDF7ED;
 }
 
