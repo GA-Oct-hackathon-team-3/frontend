@@ -1,10 +1,100 @@
+@media (min-width: 481px) {
+    .login-container {
+        background: var(--Background-Cream, #FDF7ED);
+        min-height: 100vh;
+        padding-top: 10%;
+        padding-bottom: 10%;
+        display: flex;
+        overflow-y: scroll;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+
+    .back-button {
+        align-self: flex-start;
+        padding-left: 10%;
+    }
+
+    .login-container > h1 {
+        text-align: center;
+        font-size: 40px;
+        font-style: normal;
+        font-weight: 900;
+        line-height: normal;
+    }
+
+    .desktop-login {
+        width: 34%;
+        height: 47%;
+        margin: 2% 0;
+    }
+
+    .mobile-login {
+        display: none;
+    }
+
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        width: 62%;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: stretch;
+    }
+
+    .form-group > label {
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        letter-spacing: 0.64px;
+    }
+
+    .form-group > input {
+        width: 100%;
+        font-size: 20px;
+        border-radius: 3px;
+        border: 1px solid var(--Bright-White, #FFF);
+        background: var(--Bright-White, #FFF);
+        padding: 1% 1.5%
+    }
+
+    .login-button {
+        background-color: #53CF85;
+        color: #fff;
+        margin: 0 auto;
+        width: 25%;
+        padding: 3% 2%;
+        border-radius: 15px;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        margin-top: 3%;
+    }
+}
+
+
+
+
 @media (max-width: 480px) {
     .login-container {
-        padding: 140px 15px;
-        position: absolute;
-        height: 100%;
-        width: 100%;
+        width: 100vw;
+        min-height: 100vh;
+        padding: 30% 2% 5% 2%;
         background-color: #FDF7ED;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .desktop-login {
+        display: none;
     }
 
     .login-container > div {
@@ -14,38 +104,47 @@
         align-items: center;
     }
 
-    .login-container > div > h1 {
+    .login-container > h1 {
         color: #000;
         font-size: 24px;
         font-style: normal;
         font-weight: 600;
         letter-spacing: -.5px;
         line-height: normal;
+        text-align: center;
     }
 
     .login-container > div > a {
         color: black;
         font-size: 20px;
+        padding: 1% 10%;
     }
 
-    .login-container > img {
+    .mobile-login {
         display: block;
         margin: 40px auto 0;
-        width: 228.393px;
-        height: 206.452px;
+        width: 48%;
+        height: 43%;
     }
 
     .login-container > form {
-        margin-top: 50px;
+        margin-top: 10%;
+        width: 95%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-self: center;
     }
 
     .login-container > form > div {
          display: flex;
          flex-direction: column;
+         width: 100%;
+         align-self: center;
     }
 
     .login-container > form > div > label {
-        margin-bottom: 4px;
+        margin-bottom: 2%;
         font-size: 14px;
         font-style: normal;
         font-weight: 700;
@@ -57,8 +156,9 @@
         background-color: #fff;
         border: 1px solid #D9D9D9;
         border-radius: 8px;
-        width: 95%;
-        padding: 12px;
+        width: 97%;
+        padding: 3%;
+        align-self: center;
     }
 
     .login-container > form > div > p {
@@ -72,17 +172,17 @@
         text-decoration-line: underline;
     }
 
-    .login-container > form > div > button {
+    .login-container > form > button {
         background-color: #53CF85;
         color: #fff;
-        margin: 35px auto 0;
-        width: 264px;
-        padding: 18px 0;
+        width: 55%;
+        padding: 4%;
         border-radius: 15px;
         font-size: 24px;
         font-style: normal;
         font-weight: 600;
         line-height: normal;
+        margin-top: 8%;
     }
     
 }
