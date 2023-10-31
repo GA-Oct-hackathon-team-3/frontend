@@ -2,7 +2,7 @@
     .login-container {
         background: var(--Background-Cream, #FDF7ED);
         min-height: 100vh;
-        padding-top: 10%;
+        padding-top: 15%;
         padding-bottom: 10%;
         display: flex;
         overflow-y: scroll;
@@ -183,6 +183,7 @@
         font-weight: 600;
         line-height: normal;
         margin-top: 8%;
+        align-self: center;
     }
     
 }
