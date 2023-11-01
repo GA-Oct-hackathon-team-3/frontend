@@ -1,5 +1,6 @@
 import { useNavigate, Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import Confetti from "react-confetti";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBirthdayCake } from "@fortawesome/free-solid-svg-icons";
 import { RiArrowDropDownLine } from "react-icons/ri";
@@ -34,7 +35,6 @@ const BirthdayFriends = () => {
     "#EDB600",
     "#418BFA",
     "#FA7F39",
-    "#3D3C3C",
     "#53CF85",
     "#8cb2c9",
     "#19bd2c",
@@ -48,7 +48,6 @@ const BirthdayFriends = () => {
   ];
 
   const todaysDate = getCurrentDate();
-  console.log(todaysDate);
   const currentMonth = getCurrentMonth() + 1;
   let birthdaysToday = false;
   let weekConditionMet = false;
@@ -56,7 +55,7 @@ const BirthdayFriends = () => {
   let laterOnConditionMet = false; /* this variable is to check if a friend's bday is this week or month, lines around 211 & 230 */
 
   function getRandomColor() {
-    return itemCardColors[Math.floor(Math.random() * 16)];
+    return itemCardColors[Math.floor(Math.random() * 15)];
   }
 
   useEffect(() => {
@@ -70,12 +69,12 @@ const BirthdayFriends = () => {
         }
         friendsData.map((f) => (f["cardColor"] = getRandomColor()));
 
-        friendsData.map((f) => {
+        friendsData.forEach((f) => {
           if (daysUntilBirthday(f.dob) <= 7) {
             f["birthday-time"] = "thisWeek";
           } else if (
             currentMonth === getNumericMonthFromBirthday(f.dob) &&
-            !hasBirthdayPassed(f.dob)
+            hasBirthdayPassed(f.dob)
           ) {
             f["birthday-time"] = "thisMonth";
           }
@@ -112,6 +111,7 @@ const BirthdayFriends = () => {
   const Item = ({ friend, name, dob, id, photo, cardColor }) => {
     const [isViewSavedGifts, setIsViewedSavedGifts] = useState(false);
     const [favorites, setFavorites] = useState([]);
+    const canvasRef = useRef(null);
 
     const viewSavedGiftsHandler = async (e) => {
       e.stopPropagation();
@@ -140,6 +140,8 @@ const BirthdayFriends = () => {
         className={styles["itemButton"]}
       >
         <div className={styles["item"]}>
+          {daysUntilBirthday(friend.dob) === 0 && <Confetti height="90" width="320" numberOfPieces="65" colors={itemCardColors} style={{margin: "8px auto 0"}} ref={canvasRef}/> }
+
           <div>
             {photo ? (
               <img src={photo} alt={name} />
@@ -268,7 +270,7 @@ const BirthdayFriends = () => {
 
               <h3>Later On</h3>
               {filteredData.length > 0 &&
-                filteredData.map((friend) => {
+                filteredData.map((friend, idx) => {
                   if (
                     friend["birthday-time"] !== "thisWeek" &&
                     friend["birthday-time"] !== "thisMonth"
