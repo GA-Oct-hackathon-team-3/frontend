@@ -23,7 +23,6 @@ const Profile = () => {
     const fetchProfile = async () => {
       const profileInfo = await profilesService.getProfile();
       setProfileInput(profileInfo.profile);
-      console.log(profileInfo);
       if (profileInfo.photo) {
         const uniqueTimestamp = Date.now();
         const profilePhoto = profileInfo.photo ? `${profileInfo.photo}?timestamp=${uniqueTimestamp}` : "https://i.imgur.com/hCwHtRc.png";
