@@ -3,7 +3,7 @@ import { getToken } from "./users-service";
 import sendRequest from "./send-request";
 
 export async function getProfile() {
-    return await sendRequest(`${WEB_BASE_URL}/users/profile/all`, "GET", null);
+    return await sendRequest(`${WEB_BASE_URL}/users/profile`, "GET", null);
 }
 
 export async function updateUserProfile(userData) {

@@ -13,7 +13,6 @@ const Profile = () => {
   
   const [validationMessage, setValidationMessage] = useState('');
   const [profileInput, setProfileInput] = useState(null);
-  const [profile, setProfile] = useState(null);
   const [displayFile, setDisplayFile] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [buttonHTML, setButtonHTML] = useState("Add profile photo");
@@ -23,11 +22,11 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       const profileInfo = await profilesService.getProfile();
-      setProfileInput(profileInfo.user);
-      setProfile(profileInfo.profile);
-      if (profileInfo.profile.photo) {
+      setProfileInput(profileInfo.profile);
+      console.log(profileInfo);
+      if (profileInfo.photo) {
         const uniqueTimestamp = Date.now();
-        const profilePhoto = `${profileInfo.profile.photo}?timestamp=${uniqueTimestamp}`;
+        const profilePhoto = profileInfo.photo ? `${profileInfo.photo}?timestamp=${uniqueTimestamp}` : "https://i.imgur.com/hCwHtRc.png";
         setDisplayFile(profilePhoto);
         setButtonHTML("Change Photo");
       }
