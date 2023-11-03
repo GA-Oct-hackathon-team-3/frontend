@@ -14,6 +14,14 @@
   padding-bottom: 100px;
 }
 
+.toast-container {
+  width: 195px;
+  margin-top: 20px;
+  margin-left: 90px;
+  text-align: center;
+  
+}
+
 .shadow {
   border-radius: 0px 0px 8px 8px;
   background: var(--Brick, #FA7F39);

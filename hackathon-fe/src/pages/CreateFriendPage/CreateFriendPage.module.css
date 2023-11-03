@@ -11,6 +11,13 @@
     
 }
 
+.toast-container {
+    width: 195px;
+    margin-top: 20px;
+    margin-left: 90px;
+    text-align: center;
+}
+
 .create-profile-container > div:nth-child(1) {
     margin-right: 25%;
     margin-bottom: 10px;

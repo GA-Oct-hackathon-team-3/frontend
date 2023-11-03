@@ -5,6 +5,13 @@
     background-color: #FDF7ED;
 }
 
+.toast-container {
+    width: 195px;
+    margin-top: 20px;
+    margin-left: 90px;
+    text-align: center;
+}
+
 .tag-container > div.header {
     display: flex;
     flex-direction: column;

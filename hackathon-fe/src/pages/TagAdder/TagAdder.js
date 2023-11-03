@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import * as friendsService from "../../utilities/friends-service";
 import * as tagService from "../../utilities/tags-service";
@@ -17,8 +20,10 @@ function TagAdder() {
   const [selectedTags, setSelectedTags] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [allTags, setAllTags] = useState([]);
+  const [pathname, setPathname] = useState("");
   const hasFunctionRun = useRef(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const fetchFriend = async () => {
@@ -48,6 +53,19 @@ function TagAdder() {
       setSelectedTags([...selectedTags, inputValue]);
       setInputValue("");
     }
+  };
+
+  const submitHandler = () => {
+    toast.info("Updating tags..", {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 1000,
+    });
+
+    const pathData = {path: location.pathname}
+
+    setTimeout(() => {
+      navigate(`/friend/${id}`, {state: pathData});
+    }, 2000)
   };
 
   const groupedData = allTags.reduce((acc, curr) => {
@@ -127,13 +145,12 @@ function TagAdder() {
 
         <button
           className={styles["complete-button"]}
-          onClick={() => {
-            navigate(`/friend/${id}`);
-          }}
+          onClick={submitHandler}
         >
           Complete Profile
         </button>
       </div>
+      <ToastContainer className={styles["toast-container"]} />
     </>
   );
 }

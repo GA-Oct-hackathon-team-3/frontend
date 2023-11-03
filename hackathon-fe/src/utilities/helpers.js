@@ -18,6 +18,7 @@ export function daysUntilBirthday(dob) {
   return days;
 }
 
+
 export function splitDOB(dob) {
   const array = dob.split("-");
   const dobObject = {
@@ -87,33 +88,23 @@ export function getNumericMonthFromBirthday(birthday) {
   return month;
 }
 
-export function hasBirthdayPassed(birthday) {
-  // Split the input string by hyphen (-) and convert it to an array
-  const dateParts = birthday.split('-');
-
-  if (dateParts.length !== 3) {
-    // Ensure the input has the correct format
-    return "Invalid input format";
-  }
-
-  const year = parseInt(dateParts[0], 10);
-  const month = parseInt(dateParts[1], 10) - 1; // Month is zero-based
-  const day = parseInt(dateParts[2], 10);
-
-  if (isNaN(year) || isNaN(month) || isNaN(day)) {
-    // Check for valid numbers
-    return "Invalid date format";
-  }
-
-  const birthDate = new Date(year, month, day);
+export function hasBirthdayPassed(dateOfBirth) {
+  // Create Date objects for the date of birth and the current date
+  const dob = new Date(dateOfBirth);
   const currentDate = new Date();
 
-  if (currentDate >= birthDate) {
+  // Compare the month and day
+  if (
+    dob.getMonth() < currentDate.getMonth() ||
+    (dob.getMonth() === currentDate.getMonth() && dob.getDate() <= currentDate.getDate())
+  ) {
     return true; // Birthday has passed
   } else {
-    return false; // Birthday has not passed yet
+    return false; // Birthday has not passed
   }
 }
+
+
 
 export function calculateAge(dateOfBirth) {
   const dob = new Date(dateOfBirth);
