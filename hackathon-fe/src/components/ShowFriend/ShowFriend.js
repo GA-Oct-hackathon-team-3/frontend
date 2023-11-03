@@ -48,6 +48,7 @@ const ShowFriend = () => {
   const [favError, setFavError] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const [popOverText, setPopOverText] = useState("");
+  const [hasShownToast, setHasShownToast] = useState(false);
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
 
@@ -159,6 +160,25 @@ const ShowFriend = () => {
     updateCache,
   ]);
 
+  useEffect(() => {
+    let stateData;
+    if (!hasShownToast && location.state) {
+      stateData = location.state;
+      console.log(stateData);
+      if (
+        (friend && stateData.path === `/friend/${friend._id}/tag`) ||
+        (friend && stateData.path === `/friend/${friend._id}/edit`)
+      ) {
+        console.log("reached");
+        toast.success("Friend up to date!", {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 1000,
+        });
+        setHasShownToast(true)
+      }
+    }
+  }, [friend, location.state, hasShownToast]); /* this useEffect call determines when to show toast notification */
+
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
     if (tabName === "explore") setAnchorEl(null);
@@ -230,22 +250,8 @@ const ShowFriend = () => {
   const giftPreferences = friend && friend.giftPreferences;
   const open = Boolean(anchorEl);
 
-  const loadHandler = () => {
-    console.log("hi")
-    let stateData;
-    if (location.state) {
-      stateData = location.state;
-      if (friend && stateData.path === `/friend/${friend._id}/tag`) {
-        toast.success("Friend up to date!", {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 1000,
-        });
-      }
-    }
-  };
-
   return (
-    <div className={styles["container"]} onLoad={loadHandler}>
+    <div className={styles["container"]}>
       <div className={styles["shadow"]}></div>
       <div className={styles["profile"]}>
         <img
@@ -592,7 +598,7 @@ const ShowFriend = () => {
           </div>
         </>
       )}
-      <ToastContainer className={styles["toast-container"]} hideProgressBar/>
+      <ToastContainer className={styles["toast-container"]} hideProgressBar />
     </div>
   );
 };

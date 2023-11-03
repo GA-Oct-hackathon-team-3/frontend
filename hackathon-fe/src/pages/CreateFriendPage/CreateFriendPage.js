@@ -75,7 +75,7 @@ function CreateFriendProfile() {
       });
       setTimeout(() => {
         setValidationMessage("Required fields are marked with (*)");
-      }, 2300)
+      }, 2300);
       return;
     }
 
@@ -92,26 +92,26 @@ function CreateFriendProfile() {
               position: toast.POSITION.TOP_CENTER,
               autoClose: 1500,
             });
-      
+
             setTimeout(() => {
               navigate("/friend/" + friendData._id + "/tag");
-            }, 2300)
+            }, 2300);
           }
         } catch (error) {
           console.log(error);
         }
       }
       if (friendData) {
-        if(!uploadedFile){
+        if (!uploadedFile) {
           toast.info("Creating friend..", {
             position: toast.POSITION.TOP_CENTER,
             autoClose: 1500,
           });
         }
 
-      setTimeout(() => {
-        navigate("/friend/" + friendData._id + "/tag");
-      }, 2300)
+        setTimeout(() => {
+          navigate("/friend/" + friendData._id + "/tag");
+        }, 2300);
       }
     } catch (error) {
       console.log(error);
@@ -279,6 +279,7 @@ function CreateFriendProfile() {
 
           <button onClick={submitHandler}>Continue to add tags</button>
         </form>
+
         <ToastContainer className={styles["toast-container"]} />
       </div>
     </>
