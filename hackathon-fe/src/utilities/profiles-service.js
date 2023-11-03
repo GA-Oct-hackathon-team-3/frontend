@@ -7,7 +7,7 @@ export async function getProfile() {
 }
 
 export async function updateUserProfile(userData) {
-    return await sendRequest(`${WEB_BASE_URL}/users/`, "PUT", userData);
+    return await sendRequest(`${WEB_BASE_URL}/users/profile`, "PUT", userData);
 }
 
 export async function uploadPhoto(file) {

@@ -51,7 +51,7 @@ const Profile = () => {
       if (photoResponse.ok && response.message === "User details updated")
         navigate("/friends");
     }
-    if (response.message === "User details updated") navigate("/friends");
+    if (response.message === "User profile updated") navigate("/friends");
   };
   function handleAddPhotoClick(evt) {
     evt.preventDefault();
