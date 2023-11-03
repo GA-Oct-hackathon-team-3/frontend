@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 
 import { BsArrowLeft } from "react-icons/bs";
 import * as friendsService from "../../utilities/friends-service";
 import { profileFormValidation, profileDobValidation } from "../../utilities/helpers";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Header from "../../components/Header/Header";
 
@@ -13,6 +16,7 @@ import { Box, MenuItem, Select } from "@mui/material";
 function UpdateFriendPage () {
   const navigate = useNavigate();
   const { id } = useParams();
+  const location = useLocation();
 
   const [profileInput, setProfileInput] = useState({
     name: '',
@@ -87,7 +91,18 @@ function handleFileChange (evt) {
         const photoResponse = await friendsService.uploadPhoto(id, uploadedFile);
         if (photoResponse.ok && response.message === 'Friend updated') navigate(`/friend/${id}`);
     }
-    if (response.message === 'Friend updated') navigate(`/friend/${id}`);
+    if (response.message === 'Friend updated') {
+      toast.info("Updating friend..", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 1000,
+      });
+  
+      const pathData = {path: location.pathname}
+  
+      setTimeout(() => {
+        navigate(`/friend/${id}`, {state: pathData});
+      }, 2000)
+    }
 
   };
 
@@ -216,6 +231,7 @@ function handleFileChange (evt) {
 
           <button onClick={submitHandler}>Confirm</button>
         </form>
+        <ToastContainer className={styles["toast-container"]} />
       </div>
     </>
   );

@@ -68,14 +68,14 @@ const BirthdayFriends = () => {
           );
         }
         if (friendsData && friendsData.length) {
-          friendsData.map((f) => (f["cardColor"] = getRandomColor()));
+          friendsData.forEach((f) => (f["cardColor"] = getRandomColor()));
 
           friendsData.forEach((f) => {
             if (daysUntilBirthday(f.dob) <= 7) {
               f["birthday-time"] = "thisWeek";
             } else if (
               currentMonth === getNumericMonthFromBirthday(f.dob) &&
-              hasBirthdayPassed(f.dob)
+              !hasBirthdayPassed(f.dob)
             ) {
               f["birthday-time"] = "thisMonth";
             }
@@ -222,10 +222,10 @@ const BirthdayFriends = () => {
           <img src={manCelebratingImg} alt="Man celebrating" />
           <img src={WomanCelebratingImg} alt="Woman celebrating" />
           <div>
-            {!!filteredData.length && filteredData.map((friend) => {
+            {!!filteredData.length && filteredData.map((friend, idx) => {
               if (friend.dob.slice(5) === todaysDate) {
                 birthdaysToday = true;
-                return <p>Today Is {friend.name}'s Birthday!</p>;
+                return <p key={idx}>Today Is {friend.name}'s Birthday!</p>;
               }
             })}
           </div>

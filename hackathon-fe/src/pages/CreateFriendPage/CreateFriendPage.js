@@ -1,9 +1,15 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import { BsArrowLeft } from "react-icons/bs";
 import * as friendsService from "../../utilities/friends-service";
-import { profileFormValidation, profileDobValidation } from "../../utilities/helpers";
+import {
+  profileFormValidation,
+  profileDobValidation,
+} from "../../utilities/helpers";
 
 import Header from "../../components/Header/Header";
 
@@ -13,7 +19,7 @@ import { Box, MenuItem, Select } from "@mui/material";
 function CreateFriendProfile() {
   const navigate = useNavigate();
 
-  const [validationMessage, setValidationMessage] = useState('');
+  const [validationMessage, setValidationMessage] = useState("");
   const [displayFile, setDisplayFile] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [buttonHTML, setButtonHTML] = useState("Add profile photo");
@@ -23,7 +29,7 @@ function CreateFriendProfile() {
     gender: "",
     location: "",
     giftPreferences: [],
-    giftCost: ""
+    giftCost: "",
   });
 
   const fileInputRef = useRef(null);
@@ -59,13 +65,20 @@ function CreateFriendProfile() {
     const validDate = profileDobValidation(profile.dob);
     const valid = profileFormValidation(profile);
     if (!validDate) {
-        setValidationMessage('Date of birth cannot be in the future');
-        return;
+      setValidationMessage("Date of birth cannot be in the future");
+      return;
     }
     if (!valid) {
-        setValidationMessage('Required fields are marked with (*)');
-        return;
+      toast.error("Submission failed. See required fields.", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 1500,
+      });
+      setTimeout(() => {
+        setValidationMessage("Required fields are marked with (*)");
+      }, 2300);
+      return;
     }
+
     try {
       const friendData = await friendsService.createFriend(profile);
       if (uploadedFile) {
@@ -75,20 +88,34 @@ function CreateFriendProfile() {
             uploadedFile
           );
           if (response.ok && friendData) {
-            navigate("/friend/" + friendData._id + "/tag");
+            toast.info("Creating friend..", {
+              position: toast.POSITION.TOP_CENTER,
+              autoClose: 1500,
+            });
+
+            setTimeout(() => {
+              navigate("/friend/" + friendData._id + "/tag");
+            }, 2300);
           }
         } catch (error) {
           console.log(error);
         }
       }
       if (friendData) {
-        navigate("/friend/" + friendData._id + "/tag");
+        if (!uploadedFile) {
+          toast.info("Creating friend..", {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 1500,
+          });
+        }
+
+        setTimeout(() => {
+          navigate("/friend/" + friendData._id + "/tag");
+        }, 2300);
       }
     } catch (error) {
       console.log(error);
     }
-
-    // navigate("/addtags")
   };
 
   return (
@@ -111,7 +138,11 @@ function CreateFriendProfile() {
                 style={{ height: "80px", width: "80px", paddingBottom: "6px" }}
               />
             ) : (
-              <label htmlFor="image" className={styles["add-image"]} onClick={handleAddPhotoClick}>
+              <label
+                htmlFor="image"
+                className={styles["add-image"]}
+                onClick={handleAddPhotoClick}
+              >
                 +
               </label>
             )}
@@ -125,9 +156,11 @@ function CreateFriendProfile() {
             <p onClick={handleAddPhotoClick}>{buttonHTML}</p>
           </div>
           <br />
-          {validationMessage ? validationMessage : ''}
+          {validationMessage ? validationMessage : ""}
           <div>
-            <label htmlFor="name" style={{paddingTop: 10}}>Name * </label>
+            <label htmlFor="name" style={{ paddingTop: 10 }}>
+              Name *{" "}
+            </label>
             <input
               id="name"
               value={profile.name}
@@ -143,14 +176,14 @@ function CreateFriendProfile() {
                 type="date"
                 id="dob"
                 value={profile.dob}
-                max={new Date().toISOString().split('T')[0]}
+                max={new Date().toISOString().split("T")[0]}
                 onChange={(e) =>
                   setProfile({ ...profile, dob: e.target.value })
                 }
               />
             </div>
 
-            <Box sx={{minWidth:"120px"}}>
+            <Box sx={{ minWidth: "120px" }}>
               <label htmlFor="gender">Gender *</label>
               <Select
                 id="gender"
@@ -246,6 +279,8 @@ function CreateFriendProfile() {
 
           <button onClick={submitHandler}>Continue to add tags</button>
         </form>
+
+        <ToastContainer className={styles["toast-container"]} />
       </div>
     </>
   );
