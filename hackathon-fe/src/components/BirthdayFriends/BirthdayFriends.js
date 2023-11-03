@@ -67,22 +67,23 @@ const BirthdayFriends = () => {
             (a, b) => daysUntilBirthday(a.dob) - daysUntilBirthday(b.dob)
           );
         }
-        friendsData.map((f) => (f["cardColor"] = getRandomColor()));
+        if (friendsData && friendsData.length) {
+          friendsData.map((f) => (f["cardColor"] = getRandomColor()));
 
-        friendsData.forEach((f) => {
-          if (daysUntilBirthday(f.dob) <= 7) {
-            f["birthday-time"] = "thisWeek";
-          } else if (
-            currentMonth === getNumericMonthFromBirthday(f.dob) &&
-            hasBirthdayPassed(f.dob)
-          ) {
-            f["birthday-time"] = "thisMonth";
-          }
-        });
-
+          friendsData.forEach((f) => {
+            if (daysUntilBirthday(f.dob) <= 7) {
+              f["birthday-time"] = "thisWeek";
+            } else if (
+              currentMonth === getNumericMonthFromBirthday(f.dob) &&
+              hasBirthdayPassed(f.dob)
+            ) {
+              f["birthday-time"] = "thisMonth";
+            }
+          });
+        }
         setAllFriends(friendsData);
         setFilteredData(friendsData);
-        if (typeof friendsData.length === "undefined") {
+        if (!friendsData || typeof friendsData.length === "undefined") {
           setOnboardingStep(1); // Initiate onboarding if there are no friends
         }
       } catch (error) {
@@ -140,7 +141,7 @@ const BirthdayFriends = () => {
         className={styles["itemButton"]}
       >
         <div className={styles["item"]}>
-          {daysUntilBirthday(friend.dob) === 0 && <Confetti height="90" width="320" numberOfPieces="65" colors={itemCardColors} style={{margin: "8px auto 0"}} ref={canvasRef}/> }
+          {daysUntilBirthday(friend.dob) === 0 && <Confetti height="90" width="320" numberOfPieces="65" colors={itemCardColors} style={{ margin: "8px auto 0" }} ref={canvasRef} />}
 
           <div>
             {photo ? (
@@ -221,7 +222,7 @@ const BirthdayFriends = () => {
           <img src={manCelebratingImg} alt="Man celebrating" />
           <img src={WomanCelebratingImg} alt="Woman celebrating" />
           <div>
-            {filteredData.map((friend) => {
+            {!!filteredData.length && filteredData.map((friend) => {
               if (friend.dob.slice(5) === todaysDate) {
                 birthdaysToday = true;
                 return <p>Today Is {friend.name}'s Birthday!</p>;
