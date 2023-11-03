@@ -12,14 +12,10 @@ export default async function sendRequest(url, method = "GET", payload = null) {
     options.headers = options.headers || {};
     options.headers.Authorization = `Bearer ${token}`;
   }
-  options.credentials = 'include';
+
   const res = await fetch(url, options);
 
   if (res.ok) {
-    const newAccessToken = res.headers.get('x-access-token')
-    if (newAccessToken) {
-      localStorage.setItem('token', newAccessToken);
-    }
     return res.json();
   }
   throw new Error("Bad Request");
