@@ -117,8 +117,8 @@ const BirthdayFriends = () => {
     const viewSavedGiftsHandler = async (e) => {
       e.stopPropagation();
       console.log(friend);
-      const favorites = await friendsService.getFavorites(id);
-      setFavorites(favorites);
+      // const favorites = await friendsService.getFavorites(id);
+      setFavorites(friend.favoriteGifts);
       setIsViewedSavedGifts((preVal) => !preVal);
     };
 
