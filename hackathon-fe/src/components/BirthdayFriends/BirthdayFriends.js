@@ -121,6 +121,7 @@ const BirthdayFriends = () => {
       // const favorites = await friendsService.getFavorites(id);
       // setFavorites(favorites);
       setIsViewedSavedGifts(preVal => !preVal);
+
     };
 
     const buildGiftLink = (friend, gift) => {

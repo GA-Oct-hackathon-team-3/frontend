@@ -79,18 +79,14 @@ const ShowFriend = () => {
     const fetchFriend = async () => {
       const friendData = await friendsService.showFriend(id);
       const uniqueTimestamp = Date.now();
-      friendData.photo = `${
-        friendData.photo ? friendData.photo : "https://i.imgur.com/hCwHtRc.png"
-      }?timestamp=${uniqueTimestamp}`;
+      friendData.photo = `${friendData.photo ? friendData.photo : "https://i.imgur.com/hCwHtRc.png"
+        }?timestamp=${uniqueTimestamp}`;
       setFriend(friendData);
       setDobObject(splitDOB(friendData.dob));
-    };
-    const fetchFavorites = async () => {
-      const favorites = await friendsService.getFavorites(id);
-      setFavorites(favorites);
+      setFavorites(friendData.favoriteGifts);
     };
     fetchFriend();
-    fetchFavorites();
+
   }, [id]);
 
   useEffect(() => {
@@ -496,10 +492,10 @@ const ShowFriend = () => {
             {!showError ? (
               <>
                 {refresh ||
-                (!recs.length &&
-                  friend &&
-                  friend.tags &&
-                  friend.tags.length) ? (
+                  (!recs.length &&
+                    friend &&
+                    friend.tags &&
+                    friend.tags.length) ? (
                   <div className={styles["spinner-container"]}>
                     <CircularProgress color="secondary" />
                   </div>

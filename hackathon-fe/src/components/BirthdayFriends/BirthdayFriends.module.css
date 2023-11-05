@@ -300,6 +300,7 @@
     border: 1px solid gray;
     width: 60px;
     height: 60px;
+    object-fit: cover;
   }
 
   .itemButton > div:nth-child(3).open > a > p {
