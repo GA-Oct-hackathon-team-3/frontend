@@ -64,7 +64,7 @@
 
   .friends-container > .reminders > div > p {
     /* border: 1px solid royalblue; */
-    width: max-content;
+    width: 80%;
     margin-left: -10px;
     color: #3D3C3C;
     font-size: 18px;

@@ -111,15 +111,17 @@ const BirthdayFriends = () => {
 
   const Item = ({ friend, name, dob, id, photo, cardColor }) => {
     const [isViewSavedGifts, setIsViewedSavedGifts] = useState(false);
-    const [favorites, setFavorites] = useState([]);
+    // const [favorites, setFavorites] = useState([]);
     const canvasRef = useRef(null);
 
-    const viewSavedGiftsHandler = async (e) => {
+
+    const viewSavedGiftsHandler = (e) => {
       e.stopPropagation();
-      console.log(friend);
+      // console.log(friend);
       // const favorites = await friendsService.getFavorites(id);
-      setFavorites(friend.favoriteGifts);
-      setIsViewedSavedGifts((preVal) => !preVal);
+      // setFavorites(favorites);
+      setIsViewedSavedGifts(preVal => !preVal);
+
     };
 
     const buildGiftLink = (friend, gift) => {
@@ -186,7 +188,7 @@ const BirthdayFriends = () => {
         </div>
         <div className={isViewSavedGifts ? styles.open : ""}>
           {isViewSavedGifts &&
-            favorites.map((fav, idx) => {
+            friend.favoriteGifts.map((fav, idx) => {
               return (
                 <Link
                   to={buildGiftLink(friend, fav)}
@@ -199,7 +201,7 @@ const BirthdayFriends = () => {
                 </Link>
               );
             })}
-          {isViewSavedGifts && favorites.length === 0 && (
+          {isViewSavedGifts && friend.favoriteGifts.length === 0 && (
             <p>No Favorites At This Time.</p>
           )}
         </div>
@@ -223,9 +225,9 @@ const BirthdayFriends = () => {
           <img src={WomanCelebratingImg} alt="Woman celebrating" />
           <div>
             {!!filteredData.length && filteredData.map((friend, idx) => {
-              if (friend.dob.slice(5) === todaysDate) {
+              if (daysUntilBirthday(friend.dob) === 0) {
                 birthdaysToday = true;
-                return <p key={idx}>Today Is {friend.name}'s Birthday!</p>;
+                return <p key={idx} style={{color: friend.cardColor}}>It's {friend.name}'s Birthday Today!</p>;
               }
             })}
           </div>
