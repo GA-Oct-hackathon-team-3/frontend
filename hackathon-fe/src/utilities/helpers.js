@@ -1,4 +1,3 @@
-// import moment from "moment-timezone";
 import { DateTime } from 'luxon';
 
 export function daysUntilBirthday(dateOfBirth) {
@@ -27,63 +26,30 @@ export function daysUntilBirthday(dateOfBirth) {
   return daysUntilNextBirthday;
 }
 
-// export function daysUntilBirthday(dateOfBirth) {
-//   // Convert the date of birth string to a Date object
-//   const dobParts = dateOfBirth.split('-');
-//   if (dobParts.length !== 3) {
-//     throw new Error('Invalid date format. Please use "yyyy-mm-dd".');
-//   }
+export function isBirthdayThisWeek(birthday) {
+  const birthdayParts = birthday.split("-");
+  const birthdayMonth = parseInt(birthdayParts[1], 10);
+  const birthdayDay = parseInt(birthdayParts[2], 10);
+  
+  const currentDate = new Date();
+  const currentWeekStartDate = new Date(currentDate);
+  currentWeekStartDate.setDate(currentDate.getDate() - currentDate.getDay());
+  
+  const currentWeekEndDate = new Date(currentWeekStartDate);
+  currentWeekEndDate.setDate(currentWeekStartDate.getDate() + 6);
+  
+  if (birthdayMonth === currentWeekStartDate.getMonth() + 1) {
+    if (birthdayDay >= currentWeekStartDate.getDate() && birthdayDay <= currentWeekEndDate.getDate()) {
+      // Check if the birthday is in the future
+      const today = currentDate.getDate();
+      if (birthdayDay >= today) {
+        return true;
+      }
+    }
+  }
 
-//   const dobYear = parseInt(dobParts[0]);
-//   const dobMonth = parseInt(dobParts[1]) - 1; // Months are 0-based in JavaScript
-//   const dobDay = parseInt(dobParts[2]);
-
-//   const dob = new Date(dobYear, dobMonth, dobDay);
-
-//   // Get the current date in the user's timezone
-//   const currentDate = new Date();
-
-//   // Calculate the next birthday by changing the year of birth to the current year
-//   dob.setFullYear(currentDate.getFullYear());
-
-//   // If the birthday has already occurred this year, add one year to it
-//   if (dob <= currentDate) {
-//     dob.setFullYear(currentDate.getFullYear() + 1);
-//   }
-
-//   // Calculate the time difference in milliseconds
-//   const timeDifference = dob - currentDate;
-
-//   // Calculate the number of days until the next birthday
-//   const daysUntilBirthday = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-
-//   if(daysUntilBirthday === 366) return 0;
-
-//   return daysUntilBirthday;
-// }
-
-
-
-
-// export function daysUntilBirthday(dob) {
-//   const birthday = new Date(dob);
-//   const currentDate = new Date();
-
-//   birthday.setFullYear(currentDate.getFullYear());
-
-//   // If the next birthday is before the current date, set it to next year
-//   if (birthday < currentDate)
-//     birthday.setFullYear(currentDate.getFullYear() + 1);
-
-//   // Calculate the time difference in milliseconds
-//   const timeDifference = birthday - currentDate;
-
-//   // Convert milliseconds to days
-//   const days = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-
-//   if (days > 365) return 0;
-//   return days;
-// }
+  return false;
+}
 
 
 export function splitDOB(dob) {

@@ -12,6 +12,7 @@ import {
   getNumericMonthFromBirthday,
   hasBirthdayPassed,
   getCurrentDate,
+  isBirthdayThisWeek
 } from "../../utilities/helpers";
 
 import styles from "./BirthdayFriends.module.css";
@@ -64,7 +65,8 @@ const BirthdayFriends = () => {
           });
 
           friendsData.forEach((f) => {
-            if (daysUntilBirthday(f.dob) <= 7) {
+            console.log(isBirthdayThisWeek(f.dob))
+            if (isBirthdayThisWeek(f.dob)) {
               f["birthday-time"] = "thisWeek";
             } else if (
               currentMonth === getNumericMonthFromBirthday(f.dob) &&
@@ -221,7 +223,6 @@ const BirthdayFriends = () => {
           <img src={manCelebratingImg} alt="Man celebrating" />
           <img src={WomanCelebratingImg} alt="Woman celebrating" />
           <div>
-            {/* {!!filteredData.length && */}
             {filteredData.length &&
               filteredData.map((friend, idx) => {
                 if (daysUntilBirthday(friend.dob) === 0) {
