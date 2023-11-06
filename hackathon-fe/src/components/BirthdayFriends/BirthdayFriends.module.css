@@ -249,34 +249,29 @@
     margin-top: -10px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+    transition: border-bottom-left-radius 0.5s ease-in-out, border-bottom-right-radius 0.5s ease-in-out;
   }
-
+  
   .itemButton > div:nth-child(2) > .dropdown {
     font-size: 20px;
     font-weight: 900;
   }
-
+  
   .itemButton > div:nth-child(3) {
     color: black;
     background-color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
-
-    overflow: hidden;
+    flex-wrap: wrap;
+    gap: 5px;
     height: 0; 
-    transition: height 0.5s ease-in-out;
+    transition: height 0.5s ease-in-out, overflow 0.5s ease-in-out;
   }
-
+  
   .itemButton > div:nth-child(3).open {
     /* border: 1px solid royalblue; */
     height: 130px;
-    padding: 10px 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 5px;
     overflow: scroll;
   }
 
