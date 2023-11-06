@@ -29,24 +29,15 @@ const BirthdayFriends = () => {
   const [allFriends, setAllFriends] = useState([]);
   const [onboardingStep, setOnboardingStep] = useState(0);
 
-  const presentlyCardColors = [ "#418BFA", "#f63517", "#FE6797", "#FA7F39", "#AF95E7", "#EDB600", "#8cb2c9", "#53CF85"];
-
-  const itemCardColors = [
-    "#AF95E7",
-    "#FE6797",
-    "#EDB600",
+  const presentlyCardColors = [
     "#418BFA",
+    "#f63517",
+    "#FE6797",
     "#FA7F39",
-    "#53CF85",
+    "#AF95E7",
+    "#EDB600",
     "#8cb2c9",
-    "#19bd2c",
-    "#9cd7d4",
-    "#de8d65",
-    "#f47d5f",
-    "#2367a1",
-    "#cf5f53",
-    "#ca97df",
-    "#a7adea",
+    "#53CF85",
   ];
 
   const todaysDate = getCurrentDate();
@@ -55,12 +46,6 @@ const BirthdayFriends = () => {
   let weekConditionMet = false;
   let monthConditionMet = false;
   let laterOnConditionMet = false; /* this variable is to check if a friend's bday is this week or month, lines around 211 & 230 */
-
-  function getRandomColor() {
-    // return itemCardColors[Math.floor(Math.random() * 15)];
-    return presentlyCardColors[Math.floor(Math.random() * 8)];
-  }
-
 
   useEffect(() => {
     const fetchFriends = async () => {
@@ -73,9 +58,9 @@ const BirthdayFriends = () => {
         }
 
         if (friendsData && friendsData.length) {
-
           friendsData.forEach((f, idx) => {
-            f["cardColor"] = getRandomColor()
+            const colorIndex = idx % presentlyCardColors.length;
+            f["cardColor"] = presentlyCardColors[colorIndex];
           });
 
           friendsData.forEach((f) => {
@@ -198,7 +183,7 @@ const BirthdayFriends = () => {
             )}
           </sub>
         </div>
-        <div className={isViewSavedGifts ? styles.open : ""} >
+        <div className={isViewSavedGifts ? styles.open : ""}>
           {isViewSavedGifts &&
             friend.favoriteGifts.map((fav, idx) => {
               return (
