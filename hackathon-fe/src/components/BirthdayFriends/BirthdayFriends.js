@@ -29,6 +29,8 @@ const BirthdayFriends = () => {
   const [allFriends, setAllFriends] = useState([]);
   const [onboardingStep, setOnboardingStep] = useState(0);
 
+  const presentlyCardColors = [ "#418BFA", "#f63517", "#FE6797", "#FA7F39", "#AF95E7", "#EDB600", "#8cb2c9", "#53CF85"];
+
   const itemCardColors = [
     "#AF95E7",
     "#FE6797",
@@ -55,8 +57,10 @@ const BirthdayFriends = () => {
   let laterOnConditionMet = false; /* this variable is to check if a friend's bday is this week or month, lines around 211 & 230 */
 
   function getRandomColor() {
-    return itemCardColors[Math.floor(Math.random() * 15)];
+    // return itemCardColors[Math.floor(Math.random() * 15)];
+    return presentlyCardColors[Math.floor(Math.random() * 8)];
   }
+
 
   useEffect(() => {
     const fetchFriends = async () => {
@@ -67,8 +71,12 @@ const BirthdayFriends = () => {
             (a, b) => daysUntilBirthday(a.dob) - daysUntilBirthday(b.dob)
           );
         }
+
         if (friendsData && friendsData.length) {
-          friendsData.forEach((f) => (f["cardColor"] = getRandomColor()));
+
+          friendsData.forEach((f, idx) => {
+            f["cardColor"] = getRandomColor()
+          });
 
           friendsData.forEach((f) => {
             if (daysUntilBirthday(f.dob) <= 7) {
@@ -111,17 +119,11 @@ const BirthdayFriends = () => {
 
   const Item = ({ friend, name, dob, id, photo, cardColor }) => {
     const [isViewSavedGifts, setIsViewedSavedGifts] = useState(false);
-    // const [favorites, setFavorites] = useState([]);
     const canvasRef = useRef(null);
-
 
     const viewSavedGiftsHandler = (e) => {
       e.stopPropagation();
-      // console.log(friend);
-      // const favorites = await friendsService.getFavorites(id);
-      // setFavorites(favorites);
-      setIsViewedSavedGifts(preVal => !preVal);
-
+      setIsViewedSavedGifts((preVal) => !preVal);
     };
 
     const buildGiftLink = (friend, gift) => {
@@ -137,13 +139,23 @@ const BirthdayFriends = () => {
         return query;
       }
     };
+
     return (
       <button
         onClick={() => navigate(`/friend/${id}`, { state: { id: id } })}
         className={styles["itemButton"]}
       >
         <div className={styles["item"]}>
-          {daysUntilBirthday(friend.dob) === 0 && <Confetti height="90" width="320" numberOfPieces="65" colors={itemCardColors} style={{ margin: "8px auto 0" }} ref={canvasRef} />}
+          {daysUntilBirthday(friend.dob) === 0 && (
+            <Confetti
+              height="90"
+              width="320"
+              numberOfPieces="65"
+              colors={presentlyCardColors}
+              style={{ margin: "8px auto 0" }}
+              ref={canvasRef}
+            />
+          )}
 
           <div>
             {photo ? (
@@ -186,7 +198,7 @@ const BirthdayFriends = () => {
             )}
           </sub>
         </div>
-        <div className={isViewSavedGifts ? styles.open : ""}>
+        <div className={isViewSavedGifts ? styles.open : ""} >
           {isViewSavedGifts &&
             friend.favoriteGifts.map((fav, idx) => {
               return (
@@ -224,12 +236,18 @@ const BirthdayFriends = () => {
           <img src={manCelebratingImg} alt="Man celebrating" />
           <img src={WomanCelebratingImg} alt="Woman celebrating" />
           <div>
-            {!!filteredData.length && filteredData.map((friend, idx) => {
-              if (daysUntilBirthday(friend.dob) === 0) {
-                birthdaysToday = true;
-                return <p key={idx} style={{color: friend.cardColor}}>It's {friend.name}'s Birthday Today!</p>;
-              }
-            })}
+            {/* {!!filteredData.length && */}
+            {filteredData.length &&
+              filteredData.map((friend, idx) => {
+                if (daysUntilBirthday(friend.dob) === 0) {
+                  birthdaysToday = true;
+                  return (
+                    <p key={idx} style={{ color: friend.cardColor }}>
+                      It's {friend.name}'s Birthday Today!
+                    </p>
+                  );
+                }
+              })}
           </div>
           {!birthdaysToday && <h2>Your reminders will show up here!</h2>}
         </div>
