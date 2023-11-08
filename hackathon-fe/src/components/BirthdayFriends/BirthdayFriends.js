@@ -6,14 +6,7 @@ import { faBirthdayCake } from "@fortawesome/free-solid-svg-icons";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { RiArrowDropUpLine } from "react-icons/ri";
 import * as friendsService from "../../utilities/friends-service";
-import {
-//   daysUntilBirthday,
-  getCurrentMonth,
-  getNumericMonthFromBirthday,
-  hasBirthdayPassed,
-  getCurrentDate,
-  isBirthdayThisWeek
-} from "../../utilities/helpers";
+import { categorizeBirthday } from "../../utilities/helpers";
 
 import styles from "./BirthdayFriends.module.css";
 import Header from "../../components/Header/Header";
@@ -41,8 +34,6 @@ const BirthdayFriends = () => {
     "#53CF85",
   ];
 
-  const todaysDate = getCurrentDate();
-  const currentMonth = getCurrentMonth() + 1;
   let birthdaysToday = false;
   let weekConditionMet = false;
   let monthConditionMet = false;
@@ -58,12 +49,8 @@ const BirthdayFriends = () => {
             const colorIndex = idx % presentlyCardColors.length;
             f["cardColor"] = presentlyCardColors[colorIndex];
 
-            // organizes birthday by if this week or this month
-            if (f.daysUntilBirthday <= 7) {
-                if (isBirthdayThisWeek(f.dob)) f["birthday-time"] = "thisWeek";
-              } else if (f.daysUntilBirthday <= 31) {
-                if (currentMonth === getNumericMonthFromBirthday(f.dob) && !hasBirthdayPassed(f.dob)) f["birthday-time"] = "thisMonth"
-              }
+            // if next birthday is within 31 days, categorize as 'thisWeek' or 'thisMonth'
+            if (f.daysUntilBirthday <= 31) f["birthday-time"] = categorizeBirthday(f.dob);
           });
         }
         setAllFriends(friendsData);
