@@ -7,7 +7,7 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { RiArrowDropUpLine } from "react-icons/ri";
 import * as friendsService from "../../utilities/friends-service";
 import {
-  daysUntilBirthday,
+//   daysUntilBirthday,
   getCurrentMonth,
   getNumericMonthFromBirthday,
   hasBirthdayPassed,
@@ -94,7 +94,7 @@ const BirthdayFriends = () => {
     }
   };
 
-  const Item = ({ friend, name, dob, id, photo, cardColor }) => {
+  const Item = ({ friend, name, dob, id, photo, daysUntilBirthday, cardColor }) => {
     const [isViewSavedGifts, setIsViewedSavedGifts] = useState(false);
     const canvasRef = useRef(null);
 
@@ -123,7 +123,7 @@ const BirthdayFriends = () => {
         className={styles["itemButton"]}
       >
         <div className={styles["item"]}>
-          {daysUntilBirthday(friend.dob) === 0 && (
+          {daysUntilBirthday === 0 && (
             <Confetti
               height="90"
               width="320"
@@ -152,7 +152,7 @@ const BirthdayFriends = () => {
 
             <div className={styles["card"]}>
               <p className={styles["days"]} style={{ color: cardColor }}>
-                {daysUntilBirthday(dob)}
+                {daysUntilBirthday}
               </p>
               <p className={styles["label"]}>Days Left</p>
             </div>
@@ -215,7 +215,7 @@ const BirthdayFriends = () => {
           <div>
             {filteredData.length &&
               filteredData.map((friend, idx) => {
-                if (daysUntilBirthday(friend.dob) === 0) {
+                if (friend.daysUntilBirthday === 0) {
                   birthdaysToday = true;
                   return (
                     <p key={idx} style={{ color: friend.cardColor }}>
