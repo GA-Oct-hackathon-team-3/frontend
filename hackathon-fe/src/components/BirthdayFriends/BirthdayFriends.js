@@ -52,28 +52,18 @@ const BirthdayFriends = () => {
     const fetchFriends = async () => {
       try {
         const friendsData = await friendsService.retrieveFriends();
-        if (friendsData.length) {
-          friendsData.sort(
-            (a, b) => daysUntilBirthday(a.dob) - daysUntilBirthday(b.dob)
-          );
-        }
-
         if (friendsData && friendsData.length) {
           friendsData.forEach((f, idx) => {
+            // assigns card colors
             const colorIndex = idx % presentlyCardColors.length;
             f["cardColor"] = presentlyCardColors[colorIndex];
-          });
 
-          friendsData.forEach((f) => {
-            console.log(isBirthdayThisWeek(f.dob))
-            if (isBirthdayThisWeek(f.dob)) {
-              f["birthday-time"] = "thisWeek";
-            } else if (
-              currentMonth === getNumericMonthFromBirthday(f.dob) &&
-              !hasBirthdayPassed(f.dob)
-            ) {
-              f["birthday-time"] = "thisMonth";
-            }
+            // organizes birthday by if this week or this month
+            if (f.daysUntilBirthday <= 7) {
+                if (isBirthdayThisWeek(f.dob)) f["birthday-time"] = "thisWeek";
+              } else if (f.daysUntilBirthday <= 31) {
+                if (currentMonth === getNumericMonthFromBirthday(f.dob) && !hasBirthdayPassed(f.dob)) f["birthday-time"] = "thisMonth"
+              }
           });
         }
         setAllFriends(friendsData);
