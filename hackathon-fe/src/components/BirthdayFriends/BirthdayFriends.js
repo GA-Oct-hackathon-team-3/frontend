@@ -6,14 +6,7 @@ import { faBirthdayCake } from "@fortawesome/free-solid-svg-icons";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { RiArrowDropUpLine } from "react-icons/ri";
 import * as friendsService from "../../utilities/friends-service";
-import {
-  daysUntilBirthday,
-  getCurrentMonth,
-  getNumericMonthFromBirthday,
-  hasBirthdayPassed,
-  getCurrentDate,
-  isBirthdayThisWeek
-} from "../../utilities/helpers";
+import { categorizeBirthday } from "../../utilities/helpers";
 
 import styles from "./BirthdayFriends.module.css";
 import Header from "../../components/Header/Header";
@@ -41,8 +34,6 @@ const BirthdayFriends = () => {
     "#53CF85",
   ];
 
-  const todaysDate = getCurrentDate();
-  const currentMonth = getCurrentMonth() + 1;
   let birthdaysToday = false;
   let weekConditionMet = false;
   let monthConditionMet = false;
@@ -52,28 +43,14 @@ const BirthdayFriends = () => {
     const fetchFriends = async () => {
       try {
         const friendsData = await friendsService.retrieveFriends();
-        if (friendsData.length) {
-          friendsData.sort(
-            (a, b) => daysUntilBirthday(a.dob) - daysUntilBirthday(b.dob)
-          );
-        }
-
         if (friendsData && friendsData.length) {
           friendsData.forEach((f, idx) => {
+            // assigns card colors
             const colorIndex = idx % presentlyCardColors.length;
             f["cardColor"] = presentlyCardColors[colorIndex];
-          });
 
-          friendsData.forEach((f) => {
-            console.log(isBirthdayThisWeek(f.dob))
-            if (isBirthdayThisWeek(f.dob)) {
-              f["birthday-time"] = "thisWeek";
-            } else if (
-              currentMonth === getNumericMonthFromBirthday(f.dob) &&
-              !hasBirthdayPassed(f.dob)
-            ) {
-              f["birthday-time"] = "thisMonth";
-            }
+            // if next birthday is within 31 days, categorize as 'thisWeek' or 'thisMonth'
+            if (f.daysUntilBirthday <= 31) f["birthday-time"] = categorizeBirthday(f.dob);
           });
         }
         setAllFriends(friendsData);
@@ -104,7 +81,7 @@ const BirthdayFriends = () => {
     }
   };
 
-  const Item = ({ friend, name, dob, id, photo, cardColor }) => {
+  const Item = ({ friend, name, dob, id, photo, daysUntilBirthday, cardColor }) => {
     const [isViewSavedGifts, setIsViewedSavedGifts] = useState(false);
     const canvasRef = useRef(null);
 
@@ -133,7 +110,7 @@ const BirthdayFriends = () => {
         className={styles["itemButton"]}
       >
         <div className={styles["item"]}>
-          {daysUntilBirthday(friend.dob) === 0 && (
+          {daysUntilBirthday === 0 && (
             <Confetti
               height="90"
               width="320"
@@ -162,7 +139,7 @@ const BirthdayFriends = () => {
 
             <div className={styles["card"]}>
               <p className={styles["days"]} style={{ color: cardColor }}>
-                {daysUntilBirthday(dob)}
+                {daysUntilBirthday}
               </p>
               <p className={styles["label"]}>Days Left</p>
             </div>
@@ -225,7 +202,7 @@ const BirthdayFriends = () => {
           <div>
             {filteredData.length &&
               filteredData.map((friend, idx) => {
-                if (daysUntilBirthday(friend.dob) === 0) {
+                if (friend.daysUntilBirthday === 0) {
                   birthdaysToday = true;
                   return (
                     <p key={idx} style={{ color: friend.cardColor }}>
