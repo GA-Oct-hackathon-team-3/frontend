@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { BsArrowLeft } from "react-icons/bs";
 import * as profilesService from "../../utilities/profiles-service";
-import { profileFormValidation, profileDobValidation } from "../../utilities/helpers";
+import { profileFormValidation, profileDobValidation, getUniqueTimezones, getTimezones } from "../../utilities/helpers";
 
 import styles from "../CreateFriendPage/CreateFriendPage.module.css";
 import { Box, MenuItem, Select } from "@mui/material";
@@ -140,7 +140,7 @@ const Profile = () => {
               />
             </div>
             <Box sx={{ minWidth: "120px" }}>
-              <label htmlFor="gender">Gender *</label>
+              <label htmlFor="gender">Gender</label>
               <Select
                 id="gender"
                 value={profileInput && profileInput.gender}
@@ -156,6 +156,24 @@ const Profile = () => {
               </Select>
             </Box>
           </div>
+          <Box>
+          <label htmlFor="timezone">Timezone</label>
+          <Select 
+          id="timezone" 
+          value={(profileInput && profileInput.timezone) || 'UTC'} 
+          sx={{minWidth:'120px'}} 
+          className={styles['selector']}
+          onChange={(e)=> setProfileInput({...profileInput, timezone: e.target.value})}
+          >
+            {
+              getTimezones().map(tz => {
+                return (
+                  <MenuItem value={tz}>{tz.replace(/_/g, ' ')}</MenuItem>
+                );
+              })
+            }
+          </Select>
+          </Box>
           <br />
           <br />
           <button onClick={submitHandler}>Confirm</button>
