@@ -7,6 +7,7 @@ import presentlyLogo from '.././/../assets/presentlyLogo.png';
 import Header from "../../components/Header/Header";
 
 import styles from "./SignUp.module.css";
+import { Box, MenuItem, Select } from "@mui/material";
 
 const LoginSignUp = () => {
   const [passwordValidity, setPasswordValidity] = useState(false);
@@ -198,20 +199,19 @@ const LoginSignUp = () => {
               <input type="date" id="date" name="dob" onChange={handleChange} />
             </div>
             <br />
-            <div className={styles["form-group"]}>
+            <Box sx={{ minWidth: "120px" }} className={styles["form-group"]}>
               <label htmlFor="gender">Gender *</label>
-              <select
+              <Select
                 id="gender"
-                defaultValue=""
-                name="gender"
                 onChange={handleChange}
+                className={styles["selector"]}
               >
-                <option value="" disabled></option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
+                <MenuItem disabled></MenuItem>
+                <MenuItem value="male">Male</MenuItem>
+                <MenuItem value="female">Female</MenuItem>
+                <MenuItem value="other">Other</MenuItem>
+              </Select>
+            </Box>
           </div>
           <br />
           <div className={styles["form-group"]}>
