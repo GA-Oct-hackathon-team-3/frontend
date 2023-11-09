@@ -25,8 +25,8 @@ const FriendsPage = () => {
   const [onboardingStep, setOnboardingStep] = useState(0);
 
   // initializes friend state with category structure
-  const [filteredFriends, setFilteredFriends] = useState({ thisDay: [], thisWeek: [], thisMonth: [], laterOn: [] }); // use to render
-  const [categorizedFriends, setCategorizedFriends] = useState({ thisDay: [], thisWeek: [], thisMonth: [], laterOn: [] }); // use to reset filter
+  const [filteredFriends, setFilteredFriends] = useState({ today: [], thisWeek: [], thisMonth: [], laterOn: [] }); // use to render
+  const [categorizedFriends, setCategorizedFriends] = useState({ today: [], thisWeek: [], thisMonth: [], laterOn: [] }); // use to reset filter
 
   useEffect(() => {
     const fetchFriends = async () => {
@@ -48,7 +48,7 @@ const FriendsPage = () => {
     if (query) {
       // Filter the friends based on the search query using friendsFilter helper
       const filteredResults = {
-        thisDay: friendsFilter(categorizedFriends.thisDay, query),
+        today: friendsFilter(categorizedFriends.today, query),
         thisWeek: friendsFilter(categorizedFriends.thisWeek, query),
         thisMonth: friendsFilter(categorizedFriends.thisMonth, query),
         laterOn: friendsFilter(categorizedFriends.laterOn, query),
@@ -63,7 +63,7 @@ const FriendsPage = () => {
 
   const organizeFriendsList = (friendsData) => {
     const friendsList = {
-      thisDay: [],
+      today: [],
       thisWeek: [],
       thisMonth: [],
       laterOn: [],
@@ -74,8 +74,8 @@ const FriendsPage = () => {
       const colorIndex = idx % presentlyCardColors.length;
       f['cardColor'] = presentlyCardColors[colorIndex];
 
-      // categorizing birthday by thisDay, thisWeek, thisMonth, and none of the above based on daysUntilBirthday
-      if (f.daysUntilBirthday === 0) friendsList.thisDay.push(f);
+      // categorizing birthday by today, thisWeek, thisMonth, and later based on daysUntilBirthday
+      if (f.daysUntilBirthday === 0) friendsList.today.push(f);
       else if (f.daysUntilBirthday <= 31) {
         const result = categorizeBirthday(f.dob); // utilizes helper that processes whether bday is in same calendar week as today or just in same month
         if (result === 'thisWeek') friendsList.thisWeek.push(f);
@@ -122,8 +122,8 @@ const FriendsPage = () => {
           <img src={manCelebratingImg} alt="Man celebrating" />
           <img src={WomanCelebratingImg} alt="Woman celebrating" />
           <div>
-            {categorizedFriends && categorizedFriends.thisDay.length > 0 ? (
-              categorizedFriends.thisDay.map((friend, idx) => (
+            {categorizedFriends && categorizedFriends.today.length > 0 ? (
+              categorizedFriends.today.map((friend, idx) => (
                 <p key={idx} style={{ color: friend.cardColor }}>
                   It's {friend.name}'s Birthday Today!
                 </p>
@@ -137,7 +137,7 @@ const FriendsPage = () => {
         <div className={styles['list']}>
           {filteredFriends ? (
             <>
-              {renderSection(filteredFriends.thisDay, 'Today')}
+              {renderSection(filteredFriends.today, 'Today')}
               {renderSection(filteredFriends.thisWeek, 'This Week')}
               {renderSection(filteredFriends.thisMonth, 'This Month')}
               {renderSection(filteredFriends.laterOn, 'Later On')}
