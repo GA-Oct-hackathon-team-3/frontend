@@ -55,7 +55,8 @@ const LoginSignUp = () => {
     if (!passwordMatch) return handleFormMessage('Passwords must match');
 
     try {
-      const userData = await usersService.register(formData);
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const userData = await usersService.register({...formData, timezone});
       navigate("/friends");
     } catch (error) {
       setMessage(
