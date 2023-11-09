@@ -46,6 +46,7 @@ export const friendsFilter = (friends, query) => {
 
 export function splitDOB(dob) {
   const array = dob.split("-");
+  if (array[2].charAt(0) === '0') array[2] = array[2].substring(1); // removes 0 in front of single digit days
   const dobObject = {
     year: array[0],
     month: numericMonthToString([array[1]]),
@@ -75,6 +76,29 @@ function numericMonthToString(month) {
   } else {
     return "Invalid Month";
   }
+}
+
+export function formatDate(dateString) {
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    const date = new Date(dateString);
+    const day = date.getUTCDate();
+    const month = months[date.getUTCMonth()];
+    const year = date.getUTCFullYear();
+
+    return `${day} ${month} ${year}`;
 }
 
 export function getCurrentDate() {

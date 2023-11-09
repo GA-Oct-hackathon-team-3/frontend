@@ -5,7 +5,7 @@ import { faBirthdayCake } from "@fortawesome/free-solid-svg-icons";
 import { RiArrowDropDownLine, RiArrowDropUpLine } from "react-icons/ri";
 import Confetti from "react-confetti";
 import styles from "../../styles/BirthdayFriends.module.css";
-import { presentlyCardColors } from '../../utilities/helpers';
+import { formatDate, presentlyCardColors } from '../../utilities/helpers';
 
 const FriendItem = ({ friend, name, dob, id, photo, daysUntilBirthday, cardColor }) => {
     const navigate = useNavigate();
@@ -61,7 +61,7 @@ const FriendItem = ({ friend, name, dob, id, photo, daysUntilBirthday, cardColor
             )}
             <div>
               <p>{name}</p>
-              <p>{dob}</p>
+              <p>{formatDate(dob)}</p>
             </div>
 
             <div className={styles["card"]}>
