@@ -77,6 +77,29 @@ function numericMonthToString(month) {
   }
 }
 
+export function formatDate(dateString) {
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    const date = new Date(dateString);
+    const day = date.getUTCDate();
+    const month = months[date.getUTCMonth()];
+    const year = date.getUTCFullYear();
+
+    return `${day} ${month} ${year}`;
+}
+
 export function getCurrentDate() {
   const currentDate = new Date();
   const month = String(currentDate.getMonth() + 1).padStart(2, '0');
