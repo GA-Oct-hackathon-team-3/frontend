@@ -100,6 +100,8 @@ const FriendsPage = () => {
             <FriendItem
               key={friend._id}
               {...friend}
+              id={friend._id}
+              friend={friend}
             />
           ))
         )}

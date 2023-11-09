@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { BsArrowLeft } from "react-icons/bs";
 import * as profilesService from "../../utilities/profiles-service";
-import { profileFormValidation, profileDobValidation, getUniqueTimezones, getTimezones, getUniqueTimezones, getTimezones } from "../../utilities/helpers";
+import { profileFormValidation, profileDobValidation, getUniqueTimezones, getTimezones } from "../../utilities/helpers";
 
 import styles from "../../styles/CreateFriendPage.module.css";
 import { Box, MenuItem, Select } from "@mui/material";
