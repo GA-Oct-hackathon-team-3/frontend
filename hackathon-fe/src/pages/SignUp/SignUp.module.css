@@ -194,3 +194,12 @@
         align-self: center;
     }
 }
+
+.selector{
+    background-color: #fff;
+}
+
+.selector div {
+    padding-bottom: 6px !important;
+    padding-top: 6px !important;
+}
