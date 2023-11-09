@@ -54,7 +54,7 @@ const LoginSignUp = () => {
 
     try {
       const userData = await usersService.register(formData);
-      navigate("/friends");
+      navigate('/friends?fromSignup=true');
     } catch (error) {
       setMessage(
         "Either an account has already been created with this email, or there is a network error. Please try again."

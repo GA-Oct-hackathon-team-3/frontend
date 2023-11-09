@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import FriendItem from '../../components/BirthdayFriends/FriendItem';
@@ -15,6 +15,12 @@ import pointingHandImg from "../../assets/pointingHandImg.png";
 
 const FriendsPage = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    // determining if user is coming from signup 
+    const queryParams = new URLSearchParams(location.search);
+    const fromSignup = queryParams.get('fromSignup');
+
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredData, setFilteredData] = useState([]);
     const [allFriends, setAllFriends] = useState([]);
@@ -41,9 +47,7 @@ const FriendsPage = () => {
           }
           setAllFriends(friendsData);
           setFilteredData(friendsData);
-          if (!friendsData || typeof friendsData.length === "undefined") {
-            setOnboardingStep(1); // Initiate onboarding if there are no friends
-          }
+          if (fromSignup === 'true') setOnboardingStep(1); // only show onboarding if user is coming from signup
         } catch (error) {
           console.error("Error fetching friends: ", error);
         }
@@ -164,7 +168,7 @@ const FriendsPage = () => {
             )}
           </div>
   
-          {onboardingStep === 1 && (
+          {fromSignup === 'true' && onboardingStep === 1 && (
             <div className={styles["onboarding-overlay"]}>
               <div className={styles["onboarding-content"]}>
                 <h2>Welcome to your Presently Dashboard!</h2>
@@ -180,7 +184,7 @@ const FriendsPage = () => {
             </div>
           )}
   
-          {onboardingStep === 2 && (
+          {fromSignup === 'true' && onboardingStep === 2 && (
             <div className={styles["onboarding-overlay2"]}>
               <div className={styles["onboarding-content2"]}>
                 <h2>Add a new friend profile to get personalized gift ideas.</h2>
