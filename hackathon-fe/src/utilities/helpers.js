@@ -46,6 +46,7 @@ export const friendsFilter = (friends, query) => {
 
 export function splitDOB(dob) {
   const array = dob.split("-");
+  if (array[2].charAt(0) === '0') array[2] = array[2].substring(1); // removes 0 in front of single digit days
   const dobObject = {
     year: array[0],
     month: numericMonthToString([array[1]]),
