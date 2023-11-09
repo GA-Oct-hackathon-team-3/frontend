@@ -7,6 +7,7 @@ import * as profilesService from "../../utilities/profiles-service";
 import { profileFormValidation, profileDobValidation } from "../../utilities/helpers";
 
 import styles from "../CreateFriendPage/CreateFriendPage.module.css";
+import { Box, MenuItem, Select } from "@mui/material";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -138,21 +139,22 @@ const Profile = () => {
                 }
               />
             </div>
-            <div>
+            <Box sx={{ minWidth: "120px" }}>
               <label htmlFor="gender">Gender *</label>
-              <select
+              <Select
                 id="gender"
                 value={profileInput && profileInput.gender}
                 onChange={(e) =>
                   setProfileInput({ ...profileInput, gender: e.target.value })
                 }
+                className={styles["selector"]}
               >
-                <option disabled></option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
+                <MenuItem disabled></MenuItem>
+                <MenuItem value="male">Male</MenuItem>
+                <MenuItem value="female">Female</MenuItem>
+                <MenuItem value="other">Other</MenuItem>
+              </Select>
+            </Box>
           </div>
           <br />
           <br />
