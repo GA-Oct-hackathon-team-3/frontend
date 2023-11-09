@@ -2,11 +2,10 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BsArrowLeft } from "react-icons/bs";
 import * as usersService from "../../utilities/users-service";
-import presentlyLogo from '.././/../assets/presentlyLogo.png';
 
 import Header from "../../components/Header/Header";
 
-import styles from "./SignUp.module.css";
+import styles from "../../styles/SignUp.module.css";
 import { Box, MenuItem, Select } from "@mui/material";
 
 const LoginSignUp = () => {
@@ -56,8 +55,8 @@ const LoginSignUp = () => {
 
     try {
       const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      const userData = await usersService.register({...formData, timezone});
-      navigate("/friends");
+      const userData = await usersService.register({...{...formData, timezone}, timezone});
+      navigate('/friends?fromSignup=true');
     } catch (error) {
       setMessage(
         "Either an account has already been created with this email, or there is a network error. Please try again."

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import styles from "./ShowFriend.module.css";
+import styles from "../../styles/ShowFriend.module.css";
 import {
   Card,
   CardHeader,

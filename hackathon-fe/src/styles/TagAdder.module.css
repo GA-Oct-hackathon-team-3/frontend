@@ -55,7 +55,7 @@
     padding-left: 30px;
     border: 1px solid #D9D9D9;
     box-sizing: border-box;
-    background-image: url('../../assets/searchIcon.png');
+    background-image: url('../assets/searchIcon.png');
     background-repeat: no-repeat;
     background-position: 2% 50%;
     font-size: 16px;

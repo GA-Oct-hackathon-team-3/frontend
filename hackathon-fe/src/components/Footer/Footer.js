@@ -7,7 +7,7 @@ import Calender from '../../assets/footerIcons/calender.png'
 import Alert from '../../assets/footerIcons/alert.png'
 import Gift from '../../assets/footerIcons/gift.png'
 
-import styles from "./Footer.module.css";
+import styles from "../../styles/Footer.module.css";
 
 const Footer = () => {
   return (
