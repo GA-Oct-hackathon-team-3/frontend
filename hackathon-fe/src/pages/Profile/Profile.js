@@ -4,9 +4,10 @@ import { useNavigate } from "react-router-dom";
 
 import { BsArrowLeft } from "react-icons/bs";
 import * as profilesService from "../../utilities/profiles-service";
-import { profileFormValidation, profileDobValidation } from "../../utilities/helpers";
+import { profileFormValidation, profileDobValidation, getUniqueTimezones, getTimezones } from "../../utilities/helpers";
 
 import styles from "../../styles/CreateFriendPage.module.css";
+import { Box, MenuItem, Select } from "@mui/material";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -138,22 +139,41 @@ const Profile = () => {
                 }
               />
             </div>
-            <div>
-              <label htmlFor="gender">Gender *</label>
-              <select
+            <Box sx={{ minWidth: "120px" }}>
+              <label htmlFor="gender">Gender</label>
+              <Select
                 id="gender"
                 value={profileInput && profileInput.gender}
                 onChange={(e) =>
                   setProfileInput({ ...profileInput, gender: e.target.value })
                 }
+                className={styles["selector"]}
               >
-                <option disabled></option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
+                <MenuItem disabled></MenuItem>
+                <MenuItem value="male">Male</MenuItem>
+                <MenuItem value="female">Female</MenuItem>
+                <MenuItem value="other">Other</MenuItem>
+              </Select>
+            </Box>
           </div>
+          <Box>
+          <label htmlFor="timezone">Timezone</label>
+          <Select 
+          id="timezone" 
+          value={(profileInput && profileInput.timezone) || 'UTC'} 
+          sx={{minWidth:'120px'}} 
+          className={styles['selector']}
+          onChange={(e)=> setProfileInput({...profileInput, timezone: e.target.value})}
+          >
+            {
+              getTimezones().map(tz => {
+                return (
+                  <MenuItem value={tz}>{tz.replace(/_/g, ' ')}</MenuItem>
+                );
+              })
+            }
+          </Select>
+          </Box>
           <br />
           <br />
           <button onClick={submitHandler}>Confirm</button>
