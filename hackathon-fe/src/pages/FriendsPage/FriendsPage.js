@@ -5,7 +5,7 @@ import FriendItem from '../../components/BirthdayFriends/FriendItem';
 import * as friendsService from "../../utilities/friends-service";
 import { categorizeBirthday, presentlyCardColors } from "../../utilities/helpers";
 
-import styles from "./BirthdayFriends.module.css";
+import styles from "../../styles/BirthdayFriends.module.css";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import noFriendsImg from "../../assets/noFriendsImg.png";

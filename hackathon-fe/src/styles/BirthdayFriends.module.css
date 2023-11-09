@@ -19,7 +19,7 @@
     background-color: white;
     margin-bottom: 10px;
     box-sizing: border-box;
-    background-image: url('../../assets/searchIcon.png');
+    background-image: url('../assets/searchIcon.png');
     background-repeat: no-repeat;
     background-position: 2% 50%;
     font-family: Pilcrow Rounded;

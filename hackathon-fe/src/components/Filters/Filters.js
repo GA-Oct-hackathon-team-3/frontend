@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "./Filters.module.css";
+import styles from "../../styles/Filters.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import Slider from "@mui/material/Slider";

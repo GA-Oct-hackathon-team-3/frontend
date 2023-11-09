@@ -6,7 +6,7 @@ import { BsArrowLeft } from "react-icons/bs";
 import * as profilesService from "../../utilities/profiles-service";
 import { profileFormValidation, profileDobValidation } from "../../utilities/helpers";
 
-import styles from "../CreateFriendPage/CreateFriendPage.module.css";
+import styles from "../../styles/CreateFriendPage.module.css";
 
 const Profile = () => {
   const navigate = useNavigate();

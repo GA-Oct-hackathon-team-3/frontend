@@ -2,11 +2,10 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BsArrowLeft } from "react-icons/bs";
 import * as usersService from "../../utilities/users-service";
-import presentlyLogo from '.././/../assets/presentlyLogo.png';
 
 import Header from "../../components/Header/Header";
 
-import styles from "./SignUp.module.css";
+import styles from "../../styles/SignUp.module.css";
 
 const LoginSignUp = () => {
   const [passwordValidity, setPasswordValidity] = useState(false);

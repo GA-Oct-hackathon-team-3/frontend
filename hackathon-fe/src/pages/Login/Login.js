@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { BsArrowLeft } from "react-icons/bs";
 import * as usersService from "../../utilities/users-service";
 
-import styles from "./Login.module.css";
+import styles from "../../styles/Login.module.css";
 
 import loginImg from "../../assets/loginImg.png";
 import desktopLogin from '../../assets/desktopLogin.png';
