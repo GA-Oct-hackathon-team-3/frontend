@@ -26,6 +26,22 @@ export function daysUntilBirthday(dateOfBirth) {
   return daysUntilNextBirthday;
 }
 
+export const presentlyCardColors = [
+    "#418BFA",
+    "#f63517",
+    "#FE6797",
+    "#FA7F39",
+    "#AF95E7",
+    "#EDB600",
+    "#8cb2c9",
+    "#53CF85",
+  ];
+
+export const friendsFilter = (friends, query) => {
+    return friends.filter((friend) =>
+      friend.name.toLowerCase().includes(query.toLowerCase())
+    );
+  };
 
 export function splitDOB(dob) {
   const array = dob.split("-");
