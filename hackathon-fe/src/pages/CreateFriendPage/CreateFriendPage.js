@@ -13,7 +13,7 @@ import {
 
 import Header from "../../components/Header/Header";
 
-import styles from "./CreateFriendPage.module.css";
+import styles from "../../styles/CreateFriendPage.module.css";
 import { Box, MenuItem, Select } from "@mui/material";
 
 function CreateFriendProfile() {

@@ -11,7 +11,7 @@ import singerImg from "../../assets/addTagsIcons/singerTagImg.png";
 import bikerImg from "../../assets/addTagsIcons/bikerTagImg.png";
 import gardenerImg from "../../assets/addTagsIcons/gardenerTagImg.png";
 
-import styles from "./TagAdder.module.css";
+import styles from "../../styles/TagAdder.module.css";
 import Header from "../../components/Header/Header";
 
 function TagAdder() {

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import styles from "./Landing.module.css";
+import styles from "../../styles/Landing.module.css";
 
 import heroImg from "../../assets/heroImg.png";
 import presentlyLogo from "../../assets/presentlyLogo.png";
