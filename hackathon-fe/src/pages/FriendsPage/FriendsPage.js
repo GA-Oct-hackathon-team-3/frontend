@@ -26,21 +26,21 @@ const FriendsPage = () => {
 
   // initializes friend state with category structure
   const [filteredFriends, setFilteredFriends] = useState({ thisDay: [], thisWeek: [], thisMonth: [], laterOn: [] }); // use to render
-  const [categorizedFriends, setCategorizedFriends] = useState({ thisDay: [], thisWeek: [], thisMonth: [], laterOn: [] }); // use to reset filter and verify if any data
+  const [categorizedFriends, setCategorizedFriends] = useState({ thisDay: [], thisWeek: [], thisMonth: [], laterOn: [] }); // use to reset filter
 
   useEffect(() => {
     const fetchFriends = async () => {
       try {
         const friendsData = await friendsService.retrieveFriends();
         if (friendsData && friendsData.length) organizeFriendsList(friendsData);
-        else categorizedFriends(friendsData);
+        else setFilteredFriends(friendsData);
         if (fromSignup === 'true') setOnboardingStep(1); // only show onboarding if user is coming from signup
       } catch (error) {
         console.error('Error fetching friends: ', error);
       }
     };
     fetchFriends();
-  }, [fromSignup, categorizedFriends]);
+  }, [fromSignup]);
 
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -135,7 +135,7 @@ const FriendsPage = () => {
         </div>
 
         <div className={styles['list']}>
-          {categorizedFriends ? (
+          {filteredFriends ? (
             <>
               {renderSection(filteredFriends.thisDay, 'Today')}
               {renderSection(filteredFriends.thisWeek, 'This Week')}
