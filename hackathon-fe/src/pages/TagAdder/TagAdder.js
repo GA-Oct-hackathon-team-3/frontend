@@ -1,29 +1,28 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import * as friendsService from "../../utilities/friends-service";
-import * as tagService from "../../utilities/tags-service";
+import * as friendsService from '../../utilities/friends-service';
+import * as tagService from '../../utilities/tags-service';
 
-import singerImg from "../../assets/addTagsIcons/singerTagImg.png";
-import bikerImg from "../../assets/addTagsIcons/bikerTagImg.png";
-import gardenerImg from "../../assets/addTagsIcons/gardenerTagImg.png";
+import singerImg from '../../assets/addTagsIcons/singerTagImg.png';
+import bikerImg from '../../assets/addTagsIcons/bikerTagImg.png';
+import gardenerImg from '../../assets/addTagsIcons/gardenerTagImg.png';
 
-import styles from "../../styles/TagAdder.module.css";
-import Header from "../../components/Header/Header";
+import styles from '../../styles/TagAdder.module.css';
+import Header from '../../components/Header/Header';
 
 function TagAdder() {
-  const [tags, setTags] = useState([]);
-  const { id } = useParams();
-  const [selectedTags, setSelectedTags] = useState([]);
-  const [inputValue, setInputValue] = useState("");
-  const [allTags, setAllTags] = useState([]);
-  const [pathname, setPathname] = useState("");
-  const hasFunctionRun = useRef(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const { id } = useParams();
+
+  const [tags, setTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [inputValue, setInputValue] = useState('');
+  const [defaultTags, setDefaultTags] = useState([]);
 
   useEffect(() => {
     const fetchFriend = async () => {
@@ -32,15 +31,12 @@ function TagAdder() {
     };
     const fetchTags = async () => {
       const tagsData = await tagService.getTags();
-      setAllTags(tagsData);
+      setDefaultTags(tagsData);
     };
 
-    if (!hasFunctionRun.current) {
-      fetchTags();
-      hasFunctionRun.current = true;
-    }
     fetchFriend();
-  }, [tags]);
+    fetchTags();
+  }, [id, tags]);
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -49,38 +45,30 @@ function TagAdder() {
   const handleInputEnter = async () => {
     if (inputValue && !tags.includes(inputValue)) {
       await tagService.addTag(id, { title: inputValue });
-      setTags([...tags, inputValue]);
-      setSelectedTags([...selectedTags, inputValue]);
-      setInputValue("");
+      setTags((prevTags) => [...prevTags, inputValue]);
+      setSelectedTags((prevSelectedTags) => [...prevSelectedTags, inputValue]);
+      setInputValue('');
     }
   };
 
   const submitHandler = () => {
-    toast.info("Updating tags..", {
+    toast.info('Updating tags..', {
       position: toast.POSITION.TOP_CENTER,
       autoClose: 1000,
     });
 
-    const pathData = {path: location.pathname}
+    const pathData = { path: location.pathname };
 
     setTimeout(() => {
-      navigate(`/friend/${id}`, {state: pathData});
-    }, 2000)
+      navigate(`/friend/${id}`, { state: pathData });
+    }, 2000);
   };
-
-  const groupedData = allTags.reduce((acc, curr) => {
-    if (!acc[curr.type]) {
-      acc[curr.type] = [];
-    }
-    acc[curr.type].push(curr);
-    return acc;
-  }, {});
 
   return (
     <>
       <Header />
-      <div className={styles["tag-container"]}>
-        <div className={styles["header"]}>
+      <div className={styles['tag-container']}>
+        <div className={styles['header']}>
           <h1>Confirm Tags</h1>
           <p>
             What's your friend into? Adding tags helps Presently give more
@@ -95,21 +83,21 @@ function TagAdder() {
         </div>
 
         <input
-          className={styles["tag-input"]}
+          className={styles['tag-input']}
           type="text"
           placeholder="Type to create custom tag"
           value={inputValue}
           onChange={handleInputChange}
           onKeyDown={(e) => {
-            if (e.key === "Enter") handleInputEnter();
+            if (e.key === 'Enter') handleInputEnter();
           }}
         />
 
-        <div className={styles["add-tags-container"]}>
+        <div className={styles['add-tags-container']}>
           <h3>Added Tags</h3>
           {selectedTags.map((tag) => (
             <button
-              className={`${styles["tag-button"]} ${styles.selected}`}
+              className={`${styles['tag-button']} ${styles.selected}`}
               onClick={async () => {
                 await tagService.removeTag(id, tag._id);
                 setTags(tags.filter((tag) => tag.title !== tag.title));
@@ -122,35 +110,30 @@ function TagAdder() {
         </div>
 
         <div>
-          {Object.entries(groupedData)
-            .filter(([type, tags]) => type !== "custom")
-            .map(([type, tags]) => (
-              <div key={type}>
-                <h3>{type[0].toUpperCase() + type.slice(1)}</h3>
-                {tags.map((tag) => (
-                  <button
-                    className={styles["tag-button"]}
-                    onClick={async () => {
-                      await tagService.addTag(id, tag);
-                      setTags([...tags, tag.title]);
-                    }}
-                    key={tag.name}
-                  >
-                    {tag.title} +
-                  </button>
-                ))}
-              </div>
-            ))}
+          {defaultTags.map((group, key) => (
+            <div key={group.section}>
+              <h3>{group.section[0].toUpperCase() + group.section.slice(1)}</h3>
+              {group.tags.map((tag) => (
+                <button
+                  className={styles['tag-button']}
+                  onClick={async () => {
+                    await tagService.addTag(id, tag);
+                    setTags([...tags, tag.title]);
+                  }}
+                  key={tag._id}
+                >
+                  {tag.title} +
+                </button>
+              ))}
+            </div>
+          ))}
         </div>
 
-        <button
-          className={styles["complete-button"]}
-          onClick={submitHandler}
-        >
+        <button className={styles['complete-button']} onClick={submitHandler}>
           Complete Profile
         </button>
       </div>
-      <ToastContainer className={styles["toast-container"]} />
+      <ToastContainer className={styles['toast-container']} />
     </>
   );
 }
