@@ -24,3 +24,7 @@ export async function removeTag(id, tagId) {
   );
   return friend;
 }
+export async function getSuggestions (query) {
+    const suggestions = await sendRequest(`${BASE_URL}tags/suggestions?search=${query}`, 'GET', null);
+    return suggestions;
+}
