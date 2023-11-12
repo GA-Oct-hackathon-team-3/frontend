@@ -33,7 +33,7 @@ const FriendItem = ({ friend, name, dob, id, photo, daysUntilBirthday, cardColor
 
     return (
       <button
-        onClick={() => navigate(`/friend/${id}`, { state: { id: id } })}
+        onClick={() => navigate(`/friend/${id}`)}
         className={styles["itemButton"]}
       >
         <div className={styles["item"]}>
