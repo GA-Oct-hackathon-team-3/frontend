@@ -2,6 +2,8 @@ import { Routes, Route } from "react-router-dom";
 
 import Footer from "./components/Footer/Footer";
 
+import { RecommendationProvider } from "./components/RecommendationContext/RecommendationContext";
+
 import ProtectedPage from "./components/ProtectedPage/ProtectedPage";
 import LandingPage from "./pages/Landing/Landing";
 import SignUpPage from "./pages/SignUp/SignUp";
@@ -13,7 +15,8 @@ import FiltersPage from "./pages/FiltersPage/FiltersPage";
 import CreateFriendPage from "./pages/CreateFriendPage/CreateFriendPage";
 import TagAdderPage from "./pages/TagAdder/TagAdder";
 import UpdateFriendPage from "./pages/UpdateFriendPage/UpdateFriendPage";
-import { RecommendationProvider } from "./components/RecommendationContext/RecommendationContext";
+import DeleteUserPage from './pages/Account/DeleteUserPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicy/PrivacyPolicyPage';
 
 function App() {
   return (
@@ -23,6 +26,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route
             path="/profile"
             element={
@@ -76,6 +80,14 @@ function App() {
             element={
               <ProtectedPage>
                 <TagAdderPage />
+              </ProtectedPage>
+            }
+          />
+          <Route
+            path="/delete-account"
+            element={
+              <ProtectedPage>
+                <DeleteUserPage />
               </ProtectedPage>
             }
           />
