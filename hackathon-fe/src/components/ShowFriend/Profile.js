@@ -83,9 +83,7 @@ const Profile = ({ favorites, friendLocation, giftPreferences, id, tags, toggleF
             <div className={styles['tags']}>
               {tags &&
                 tags.map((tag, idx) => (
-                  <>
-                    <button key={tag._id}>{tag.title}</button>
-                  </>
+                          <button key={tag._id}>{tag.title}</button>
                 ))}
               {!tags ||
                 (!tags.length && (
@@ -110,7 +108,6 @@ const Profile = ({ favorites, friendLocation, giftPreferences, id, tags, toggleF
                     <Gift
                       gift={fav}
                       isFavorite={true}
-                      key={idx}
                       location={friendLocation}
                       toggleFavorite={toggleFavorite}
                     />

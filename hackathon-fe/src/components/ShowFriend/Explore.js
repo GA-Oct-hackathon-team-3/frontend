@@ -141,7 +141,6 @@ const Explore = ({ enableRecs, friend, friendLocation, giftPreferences, id, tags
                     <Gift
                       gift={rec}
                       isFavorite={false}
-                      key={idx}
                       location={friendLocation}
                       toggleFavorite={toggleFavorite}
                     />
