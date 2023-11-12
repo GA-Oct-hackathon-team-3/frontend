@@ -4,11 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from '../../styles/ShowFriend.module.css';
 import * as friendsService from '../../utilities/friends-service';
-import {
-  daysUntilBirthday,
-  splitDOB,
-  calculateAge,
-} from '../../utilities/helpers';
+import { daysUntilBirthday, splitDOB, calculateAge } from '../../utilities/helpers';
 import { BsArrowLeft } from 'react-icons/bs';
 
 import EditIcon from '../../assets/edit_icon.png';
@@ -17,6 +13,10 @@ import Profile from '../../components/ShowFriend/Profile';
 import Explore from '../../components/ShowFriend/Explore';
 
 const FriendPage = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [friend, setFriend] = useState(null);
   const [favorites, setFavorites] = useState([]);
   const [dobObject, setDobObject] = useState(null);
@@ -24,10 +24,6 @@ const FriendPage = () => {
   const [enableRecs, setEnableRecs] = useState(false);
   const [favError, setFavError] = useState('');
   const [hasShownToast, setHasShownToast] = useState(false);
-
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     const fetchFriend = async () => {
@@ -50,17 +46,33 @@ const FriendPage = () => {
       setActiveTab('explore');
   }, [location.state]);
 
+  useEffect(() => {
+    let stateData;
+    if (!hasShownToast && location.state) {
+      stateData = location.state;
+      if (
+        (friend && stateData.path === `/friend/${friend._id}/tag`) ||
+        (friend && stateData.path === `/friend/${friend._id}/edit`)
+      ) {
+        toast.success('Friend up to date!', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 1000,
+        });
+        setHasShownToast(true);
+      }
+    }
+  }, [friend, location.state, hasShownToast]); // this useEffect call determines when to show toast notification
+
   const toggleFavorite = async (recommendation, e) => {
     e.preventDefault();
-    const idx = favorites.findIndex(
-      (fav) => fav.title.toLowerCase() === recommendation.title.toLowerCase()
-    );
+    const idx = favorites.findIndex((fav) => fav.title.toLowerCase() === recommendation.title.toLowerCase());
     if (idx > -1) {
       // remove from favorites
       try {
         const item = favorites[idx];
         const res = await friendsService.removeFromFavorites(id, item._id);
-        setFavorites(favorites.slice(0, idx).concat(favorites.slice(idx + 1)));
+        if (res)
+          setFavorites(favorites.slice(0, idx).concat(favorites.slice(idx + 1)));
       } catch (error) {
         setFavError(error.message);
       }
@@ -68,7 +80,6 @@ const FriendPage = () => {
       // add to favorites
       try {
         const res = await friendsService.addToFavorites(id, recommendation);
-        console.log(res);
         setFavorites([...favorites, res.recommendation]);
       } catch (error) {
         setFavError(error.message);
@@ -81,11 +92,7 @@ const FriendPage = () => {
       <div className={styles['shadow']}></div>
       <div className={styles['profile']}>
         <img
-          src={
-            friend && friend.photo
-              ? friend.photo
-              : 'https://i.imgur.com/hCwHtRc.png'
-          }
+          src={ friend && friend.photo ? friend.photo : 'https://i.imgur.com/hCwHtRc.png' }
           alt="Anthony Sudol"
           className={styles['profile-pic']}
         />
@@ -146,29 +153,30 @@ const FriendPage = () => {
           Explore Gifts
         </span>
       </div>
-      {activeTab === 'profile' && friend && (
+      {friend && activeTab === 'profile' && (
         <Profile
-        favorites={favorites}
-        friendLocation={friend.location}
-        giftPreferences={friend.giftPreferences}
-        id={id}
-        tags={friend.tags}
-        toggleFavorite={toggleFavorite}
-        
+          favError={favError}
+          favorites={favorites}
+          friendLocation={friend.location}
+          giftPreferences={friend.giftPreferences}
+          id={id}
+          tags={friend.tags}
+          toggleFavorite={toggleFavorite}
         />
       )}
-      {activeTab === 'explore' && friend && (
+      {friend && activeTab === 'explore' && (
         <Explore
-        enableRecs={enableRecs}
-        favorites={favorites}
-        friend={friend}
-        friendLocation={friend.location}
-        giftPreferences={friend.giftPreferences}
-        id={id}
-        tags={friend.tags}
-        toggleFavorite={toggleFavorite}        
+          enableRecs={enableRecs}
+          favorites={favorites}
+          friend={friend}
+          friendLocation={friend.location}
+          giftPreferences={friend.giftPreferences}
+          id={id}
+          tags={friend.tags}
+          toggleFavorite={toggleFavorite}
         />
       )}
+      <ToastContainer className={styles['toast-container']} hideProgressBar />
     </div>
   );
 };

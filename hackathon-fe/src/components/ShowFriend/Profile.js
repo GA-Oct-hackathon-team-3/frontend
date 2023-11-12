@@ -6,7 +6,7 @@ import styles from '../../styles/ShowFriend.module.css';
 import { Card, CardHeader, IconButton, CardContent, Typography } from '@mui/material';
 import EditIcon from '../../assets/edit_icon.png';
 
-const Profile = ({ favorites, friendLocation, giftPreferences, id, tags, toggleFavorite }) => {
+const Profile = ({ favError, favorites, friendLocation, giftPreferences, id, tags, toggleFavorite }) => {
   const navigate = useNavigate();
 
   return (
@@ -101,6 +101,7 @@ const Profile = ({ favorites, friendLocation, giftPreferences, id, tags, toggleF
         <CardHeader className={styles['card-header']} title="Favorite Gifts" />
         <CardContent>
           <div className={styles['gift-recommendations']}>
+            {favError && favError}
             {favorites && !!favorites.length && (
               <div className={styles['fav-grid']}>
                 {favorites.map((fav, idx) => (
