@@ -124,7 +124,7 @@ function handleFileChange (evt) {
                 ) : (
                     <label htmlFor="image" className={styles["add-image"]} onClick={handleAddPhotoClick}>+</label>
             )}
-            <input type="file" name="photo" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} />
+            <input accept=".jpg,.jpeg,.svg,.tiff,.bmp,.png,.webp" type="file" name="photo" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} />
             <p onClick={handleAddPhotoClick}>{buttonHTML}</p>
           </div>
           <br />

@@ -152,6 +152,7 @@ function CreateFriendProfile() {
               ref={fileInputRef}
               onChange={handleFileChange}
               style={{ display: "none" }}
+              accept=".jpg,.jpeg,.svg,.tiff,.bmp,.png,.webp"
             />
             <p onClick={handleAddPhotoClick}>{buttonHTML}</p>
           </div>
