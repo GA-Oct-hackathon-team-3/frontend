@@ -105,7 +105,7 @@ const Filters = ({ friend }) => {
       tags: tags.map(tag => tag.title).join(','), // Assuming tags is an array
       giftTypes: giftPreferences.join(',') // Assuming giftPreferences is an array
     });
-    navigate(`/friend/${friend._id}?${queryParams}`);
+    navigate(`/friend/${friend._id}?${queryParams}`, { state: { tab: 'explore' } }); // adds tab state to auto switch to explore
   }
 
   const onBack = () =>{

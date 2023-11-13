@@ -90,21 +90,18 @@ const FriendsPage = () => {
 
   const renderSection = (friends, sectionTitle) => {
     // renders each section with the corresponding friends category data
+    if (friends.length === 0) return;
     return (
       <div>
         <h3>{sectionTitle}</h3>
-        {friends.length === 0 ? (
-          <p>No Birthdays At This Time</p>
-        ) : (
-          friends.map((friend) => (
-            <FriendItem
-              key={friend._id}
-              {...friend}
-              id={friend._id}
-              friend={friend}
-            />
-          ))
-        )}
+        {friends.map((friend) => (
+          <FriendItem
+            key={friend._id}
+            {...friend}
+            id={friend._id}
+            friend={friend}
+          />
+        ))}
       </div>
     );
   };

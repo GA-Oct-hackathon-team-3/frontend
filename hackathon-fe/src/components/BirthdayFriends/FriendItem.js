@@ -5,9 +5,9 @@ import { faBirthdayCake } from "@fortawesome/free-solid-svg-icons";
 import { RiArrowDropDownLine, RiArrowDropUpLine } from "react-icons/ri";
 import Confetti from "react-confetti";
 import styles from "../../styles/BirthdayFriends.module.css";
-import { formatDate, presentlyCardColors } from '../../utilities/helpers';
+import { formatDate, presentlyCardColors, buildGiftLink } from '../../utilities/helpers';
 
-const FriendItem = ({ friend, name, dob, id, photo, daysUntilBirthday, cardColor }) => {
+const FriendItem = ({ friend, name, dob, id, photo, daysUntilBirthday, cardColor, favoriteGifts }) => {
     const navigate = useNavigate();
     const [isViewSavedGifts, setIsViewedSavedGifts] = useState(false);
     const canvasRef = useRef(null);
@@ -17,23 +17,9 @@ const FriendItem = ({ friend, name, dob, id, photo, daysUntilBirthday, cardColor
       setIsViewedSavedGifts((preVal) => !preVal);
     };
 
-    const buildGiftLink = (friend, gift) => {
-      if (/present/i.test(gift.giftType)) {
-        return `https://www.amazon.com/s?k=${gift.title}`;
-      } else if (/donation/i.test(gift.giftType)) {
-        return `https://www.google.com/search?q=${gift.title}`;
-      } else if (/experience/i.test(gift.giftType)) {
-        let query = `https://www.google.com/search?q=${gift.title}`;
-        if (friend && friend.location) {
-          query += `+near+${friend.location}`;
-        }
-        return query;
-      }
-    };
-
     return (
       <button
-        onClick={() => navigate(`/friend/${id}`, { state: { id: id } })}
+        onClick={() => navigate(`/friend/${id}`)}
         className={styles["itemButton"]}
       >
         <div className={styles["item"]}>
@@ -90,11 +76,10 @@ const FriendItem = ({ friend, name, dob, id, photo, daysUntilBirthday, cardColor
           </sub>
         </div>
         <div className={isViewSavedGifts ? styles.open : ""}>
-          {isViewSavedGifts &&
-            friend.favoriteGifts.map((fav, idx) => {
+          {isViewSavedGifts && favoriteGifts && favoriteGifts.map((fav, idx) => {
               return (
                 <Link
-                  to={buildGiftLink(friend, fav)}
+                  to={buildGiftLink(fav, friend.location)}
                   target="_blank"
                   key={idx}
                   onClick={(e) => e.stopPropagation()}
@@ -104,7 +89,7 @@ const FriendItem = ({ friend, name, dob, id, photo, daysUntilBirthday, cardColor
                 </Link>
               );
             })}
-          {isViewSavedGifts && friend.favoriteGifts.length === 0 && (
+          {isViewSavedGifts && !favoriteGifts && (
             <p>No Favorites At This Time.</p>
           )}
         </div>

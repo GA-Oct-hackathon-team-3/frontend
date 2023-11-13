@@ -137,32 +137,6 @@ export function categorizeBirthday(dob) {
   else if (currentMonth === birthdayMonth) return 'thisMonth'; // if no, return month category
 }
 
-// export function isBirthdayThisWeek(birthday) {
-//     const birthdayParts = birthday.split("-");
-//     const birthdayMonth = parseInt(birthdayParts[1], 10);
-//     const birthdayDay = parseInt(birthdayParts[2], 10);
-
-//     const currentDate = new Date();
-//     const currentWeekStartDate = new Date(currentDate);
-//     currentWeekStartDate.setDate(currentDate.getDate() - currentDate.getDay());
-
-//     const currentWeekEndDate = new Date(currentWeekStartDate);
-//     currentWeekEndDate.setDate(currentWeekStartDate.getDate() + 6);
-
-//     if (birthdayMonth === currentWeekStartDate.getMonth() + 1) {
-//       if (birthdayDay >= currentWeekStartDate.getDate() && birthdayDay <= currentWeekEndDate.getDate()) {
-//         // Check if the birthday is in the future
-//         const today = currentDate.getDate();
-//         if (birthdayDay >= today) {
-//           return true;
-//         }
-//       }
-//     }
-
-//     return false;
-//   }
-
-
 export function calculateAge(dateOfBirth) {
   const dob = new Date(dateOfBirth);
   const currentDate = new Date();
@@ -197,3 +171,15 @@ export function profileDobValidation(dateOfBirth) {
 export function getTimezones(){
   return moment.tz.names();
 }
+
+export const buildGiftLink = (gift, location) => {
+    if (/present/i.test(gift.giftType)) {
+      return `https://www.amazon.com/s?k=${gift.title}`;
+    } else if (/donation/i.test(gift.giftType)) {
+      return `https://www.google.com/search?q=${gift.title}`;
+    } else if (/experience/i.test(gift.giftType)) {
+      let query = `https://www.google.com/search?q=${gift.title}`;
+      if (location) query += `+near+${location}`; // uses friend location
+      return query;
+    }
+  };
