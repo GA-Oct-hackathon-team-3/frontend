@@ -18,3 +18,10 @@ export function checkToken() {
   return sendRequest(`${BASE_URL}check-token`);
 }
 
+export function deleteUser(user) {
+  return sendRequest(`${BASE_URL}users`, "DELETE", user);
+}
+
+export function confirmDeleteUser(token) {
+  return sendRequest(`${BASE_URL}users/confirm-delete`, "POST", token);
+}

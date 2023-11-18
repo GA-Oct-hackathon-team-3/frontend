@@ -33,7 +33,7 @@ export function getUser() {
       username: payload.username,
       id: payload.id,
       firstName: payload.firstName,
-      lastName: payload.lastName
+      lastName: payload.lastName,
     };
   }
   return token ? userData : null;
@@ -41,4 +41,33 @@ export function getUser() {
 
 export function logOut() {
   localStorage.removeItem("token");
+}
+
+export async function deleteUser() {
+  const token = getToken();
+  if (token) {
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    const userId = payload.id;
+    const response = await usersAPI.deleteUser(userId);
+
+    console.log(response, "THIS IS THE RESPONSE DELETE USER");
+    return response;
+  }
+
+  return null;
+}
+
+export async function confirmDeleteUser(confirmToken) {
+  const token = getToken();
+  if (token) {
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    const userId = payload.id;
+    const response = await usersAPI.confirmDeleteUser({
+      confirmationToken: confirmToken,
+    });
+
+    return response;
+  }
+
+  return null;
 }
