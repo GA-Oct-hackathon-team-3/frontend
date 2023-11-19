@@ -22,7 +22,6 @@ function TagAdder() {
   const { id } = useParams();
 
   const [tags, setTags] = useState([]);
-  const [selectedTags, setSelectedTags] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [defaultTags, setDefaultTags] = useState([]);
   const [suggestedTags, setSuggestedTags] = useState([]);
@@ -30,7 +29,7 @@ function TagAdder() {
   useEffect(() => {
     const fetchFriend = async () => {
       const friend = await friendsService.showFriend(id);
-      setSelectedTags(friend.tags);
+      setTags(friend.tags);
     };
     const fetchTags = async () => {
       const tagsData = await tagService.getTags();
@@ -39,7 +38,7 @@ function TagAdder() {
 
     fetchFriend();
     fetchTags();
-  }, [id, tags]);
+  }, [id]);
 
   const fetchSuggestions = async (value) => {
     if (value === '' || value.length < 3) return setSuggestedTags([]); // requires search term of 3 => characters
@@ -47,6 +46,15 @@ function TagAdder() {
       const suggestions = await tagService.getSuggestions(value);
       setSuggestedTags(suggestions);
     }
+  };
+
+  const tagExists = (tags, newTag) => {
+    // to check if tag exists, handles cases where tag is object or string
+    return tags.some((tag) => {
+      if (typeof tag === 'string') return tag === newTag;
+      else if (typeof tag === 'object' && tag.title) return tag.title === newTag.title;
+      return false;
+    });
   };
 
   const handleInputChange = async (e) => {
@@ -59,32 +67,43 @@ function TagAdder() {
   };
 
   const handleInputEnter = async () => {
-    if (inputValue && !tags.includes(inputValue)) {
-      await tagService.addTag(id, { title: inputValue });
-      setTags((prevTags) => [...prevTags, inputValue]);
-      setSelectedTags((prevSelectedTags) => [...prevSelectedTags, inputValue]);
+    if (inputValue && !tagExists(tags, inputValue)) {
+      setTags((prevTags) => [...prevTags, inputValue]); // adds string tag
       setInputValue('');
     }
   };
 
   const handleSuggestionClick = async (suggestion) => {
-    await tagService.addTag(id, suggestion);
-    setTags((prevTags) => [...prevTags, suggestion.title]);
-    setInputValue('');
-    setSuggestedTags([]);
+    if (!tagExists(tags, suggestion)) {
+        setTags((prevTags) => [...prevTags, suggestion]); // adds tag object
+        setInputValue('');
+        setSuggestedTags([]);
+    }
   };
 
-  const submitHandler = () => {
+  const handleAddDefaultTag = (tag) => {
+    if (!tagExists(tags, tag)) setTags((prevTags) => [...prevTags, tag]); // adds tag object
+  };
+
+  const handleRemoveTag = (tag) => {
+    setTags((prevTags) => prevTags.filter((prevTag) => !tagExists([prevTag], tag)));
+  };
+
+  const submitHandler = async () => {
     toast.info('Updating tags..', {
       position: toast.POSITION.TOP_CENTER,
       autoClose: 1000,
     });
 
     const pathData = { path: location.pathname };
+    
+    const response = await tagService.updateTags(id, tags);
+    if (response.message === 'Tags updated successfully') {
+        setTimeout(() => {
+          navigate(`/friend/${id}`, { state: pathData });
+        }, 2000);
+    }
 
-    setTimeout(() => {
-      navigate(`/friend/${id}`, { state: pathData });
-    }, 2000);
   };
 
   return (
@@ -133,16 +152,13 @@ function TagAdder() {
 
         <div className={styles['add-tags-container']}>
           <h3>Added Tags</h3>
-          {selectedTags.map((tag) => (
+          {tags.map((tag) => (
             <button
               className={`${styles['tag-button']} ${styles.selected}`}
-              onClick={async () => {
-                await tagService.removeTag(id, tag._id);
-                setTags(tags.filter((tag) => tag.title !== tag.title));
-              }}
-              key={tag._id}
+              onClick={() => {handleRemoveTag(tag)}}
+              key={typeof tag === 'object' ? tag.title : tag}
             >
-              {tag.title}
+              {typeof tag === 'object' ? tag.title : tag}
             </button>
           ))}
         </div>
@@ -154,10 +170,7 @@ function TagAdder() {
               {group.tags.map((tag) => (
                 <button
                   className={styles['tag-button']}
-                  onClick={async () => {
-                    await tagService.addTag(id, tag);
-                    setTags([...tags, tag.title]);
-                  }}
+                  onClick={() => handleAddDefaultTag(tag)}
                   key={tag._id}
                 >
                   {tag.title} +
