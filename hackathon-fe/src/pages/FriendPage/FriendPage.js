@@ -114,7 +114,7 @@ const FriendPage = () => {
         </div>
         <div className={styles['description']}>
           <p className={styles['text-brick']}>
-            {friend && daysUntilBirthday(friend.dob)}
+            {friend && friend.daysUntilBirthday}
           </p>
           <p>Days left</p>
         </div>

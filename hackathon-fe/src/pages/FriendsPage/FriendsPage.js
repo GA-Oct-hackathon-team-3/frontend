@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 
 import FriendItem from '../../components/BirthdayFriends/FriendItem';
 import * as friendsService from '../../utilities/friends-service';
-import { categorizeBirthday, presentlyCardColors, friendsFilter } from '../../utilities/helpers';
+import { friendsFilter } from '../../utilities/helpers';
 
 import styles from '../../styles/BirthdayFriends.module.css';
 import Header from '../../components/Header/Header';
@@ -25,14 +25,17 @@ const FriendsPage = () => {
   const [onboardingStep, setOnboardingStep] = useState(0);
 
   // initializes friend state with category structure
+  const [friends, setFriends] = useState({ today: [], thisWeek: [], thisMonth: [], laterOn: [] }); // use to reset filter
   const [filteredFriends, setFilteredFriends] = useState({ today: [], thisWeek: [], thisMonth: [], laterOn: [] }); // use to render
-  const [categorizedFriends, setCategorizedFriends] = useState({ today: [], thisWeek: [], thisMonth: [], laterOn: [] }); // use to reset filter
 
   useEffect(() => {
     const fetchFriends = async () => {
       try {
         const friendsData = await friendsService.retrieveFriends();
-        if (friendsData && friendsData.length) organizeFriendsList(friendsData);
+        if (friendsData && friendsData.length) {
+            setFriends(friendsData);
+            setFilteredFriends(friendsData);
+        }
         else setFilteredFriends(friendsData);
         if (fromSignup === 'true') setOnboardingStep(1); // only show onboarding if user is coming from signup
       } catch (error) {
@@ -48,44 +51,17 @@ const FriendsPage = () => {
     if (query) {
       // Filter the friends based on the search query using friendsFilter helper
       const filteredResults = {
-        today: friendsFilter(categorizedFriends.today, query),
-        thisWeek: friendsFilter(categorizedFriends.thisWeek, query),
-        thisMonth: friendsFilter(categorizedFriends.thisMonth, query),
-        laterOn: friendsFilter(categorizedFriends.laterOn, query),
+        today: friendsFilter(friends.today, query),
+        thisWeek: friendsFilter(friends.thisWeek, query),
+        thisMonth: friendsFilter(friends.thisMonth, query),
+        laterOn: friendsFilter(friends.laterOn, query),
       };
 
       setFilteredFriends(filteredResults);
     } else {
       // resets list to categorizedFriends if query is empty
-      setFilteredFriends(categorizedFriends);
+      setFilteredFriends(friends);
     }
-  };
-
-  const organizeFriendsList = (friendsData) => {
-    const friendsList = {
-      today: [],
-      thisWeek: [],
-      thisMonth: [],
-      laterOn: [],
-    };
-
-    friendsData.forEach((f, idx) => {
-      // assigns card colors
-      const colorIndex = idx % presentlyCardColors.length;
-      f['cardColor'] = presentlyCardColors[colorIndex];
-
-      // categorizing birthday by today, thisWeek, thisMonth, and later based on daysUntilBirthday
-      if (f.daysUntilBirthday === 0) friendsList.today.push(f);
-      else if (f.daysUntilBirthday <= 31) {
-        const result = categorizeBirthday(f.dob); // utilizes helper that processes whether bday is in same calendar week as today or just in same month
-        if (result === 'thisWeek') friendsList.thisWeek.push(f);
-        if (result === 'thisMonth') friendsList.thisMonth.push(f);
-      } else friendsList.laterOn.push(f);
-    });
-
-    // sets state with fetch response organized into categories for easy render
-    setCategorizedFriends(friendsList);
-    setFilteredFriends(friendsList);
   };
 
   const renderSection = (friends, sectionTitle) => {
@@ -121,8 +97,8 @@ const FriendsPage = () => {
           <img src={manCelebratingImg} alt="Man celebrating" />
           <img src={WomanCelebratingImg} alt="Woman celebrating" />
           <div>
-            {categorizedFriends && categorizedFriends.today.length > 0 ? (
-              categorizedFriends.today.map((friend, idx) => (
+            {friends && friends.today.length > 0 ? (
+              friends.today.map((friend, idx) => (
                 <p key={idx} style={{ color: friend.cardColor }}>
                   It's {friend.name}'s Birthday Today!
                 </p>
