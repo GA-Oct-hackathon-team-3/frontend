@@ -1,107 +1,125 @@
+.login-container, .login-container > div {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-container {
+    width: 90%;
+    max-width: 800px;
+    max-height: 650px;
+}
+
+.desktop-login {
+    width: 34%;
+    height: 50%;
+    margin: 2% 0;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    width: 62%;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+.form-group > label {
+    font-size: 1.1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.64px;
+    align-self: flex-start;
+}
+
+.form-group > p {
+    font-size: 0.9rem;
+    font-weight: 300;
+    letter-spacing: 0.64px;
+    align-self: flex-start;
+    padding-top: 2%;
+}
+
+.form-group > input {
+    width: 60%;
+    font-size: 1rem;
+    border-radius: 3px;
+    border: 1px solid var(--Bright-White, #FFF);
+    background: var(--Bright-White, #FFF);
+    padding: 1% 1.5%;
+}
+
+.login-button {
+    background-color: #53CF85;
+    color: #fff;
+    margin: 0 auto;
+    width: 20%;
+    padding: 2% 1%;
+    border-radius: 15px;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-top: 3%;
+}
+
+/* Desktop-Specific Styles */
 @media (min-width: 481px) {
     .login-container {
         background: var(--Background-Cream, #FDF7ED);
-        min-height: 100vh;
-        padding-top: 15%;
+        padding-top: 18%;
         padding-bottom: 10%;
-        display: flex;
-        overflow-y: scroll;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
         position: relative;
     }
 
     .back-button {
+        color: black;
+        font-size: 1.5rem;
+        padding: 2% 10%;
         align-self: flex-start;
-        padding-left: 10%;
     }
 
     .login-container > h1 {
         text-align: center;
-        font-size: 40px;
-        font-style: normal;
+        font-size: 1.8rem;
         font-weight: 900;
         line-height: normal;
-    }
-
-    .desktop-login {
-        width: 34%;
-        height: 47%;
-        margin: 2% 0;
     }
 
     .mobile-login {
         display: none;
     }
 
-    .form-container {
-        display: flex;
-        flex-direction: column;
-        width: 62%;
-    }
-
-    .form-group {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        align-items: stretch;
-    }
-
-    .form-group > label {
-        font-size: 18px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
-        letter-spacing: 0.64px;
-    }
-
-    .form-group > input {
-        width: 100%;
-        font-size: 20px;
-        border-radius: 3px;
-        border: 1px solid var(--Bright-White, #FFF);
-        background: var(--Bright-White, #FFF);
-        padding: 1% 1.5%
-    }
-
-    .login-button {
-        background-color: #53CF85;
-        color: #fff;
-        margin: 0 auto;
-        width: 25%;
-        padding: 3% 2%;
-        border-radius: 15px;
-        font-size: 18px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: normal;
-        margin-top: 3%;
+    .form-group > label, .form-group > p {
+        margin-left: 20%;
     }
 }
 
-
-
-
+/* Mobile-Specific Styles */
 @media (max-width: 480px) {
     .login-container {
-        width: 100vw;
         min-height: 100vh;
-        padding: 30% 2% 5% 2%;
+        padding: 30% 2% 10% 2%;
         background-color: #FDF7ED;
         display: flex;
         flex-direction: column;
     }
 
-    .desktop-login {
-        display: none;
+    .content-container {
+        height: 100%;
+        width: 100%;
     }
 
-    .login-container > div {
-        width: 60%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+    .desktop-login {
+        display: none;
     }
 
     .login-container > h1 {
@@ -114,21 +132,22 @@
         text-align: center;
     }
 
-    .login-container > div > a {
+    .back-button {
         color: black;
-        font-size: 20px;
+        font-size: 1.5rem;
         padding: 1% 10%;
+        align-self: flex-start;
     }
 
     .mobile-login {
         display: block;
-        margin: 40px auto 0;
+        margin: 2% auto 2%;
         width: 48%;
-        height: 43%;
+        height: 30%;
     }
 
-    .login-container > form {
-        margin-top: 10%;
+    .form-container {
+        margin-top: 3%;
         width: 95%;
         display: flex;
         flex-direction: column;
@@ -136,23 +155,24 @@
         align-self: center;
     }
 
-    .login-container > form > div {
-         display: flex;
-         flex-direction: column;
-         width: 100%;
-         align-self: center;
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-self: center;
+        margin-top: 2%;
     }
 
-    .login-container > form > div > label {
+    .form-group > label {
         margin-bottom: 2%;
-        font-size: 14px;
+        font-size: 18px;
         font-style: normal;
         font-weight: 700;
         line-height: normal;
         letter-spacing: 0.28px;
     }
 
-    .login-container > form > div > input {
+    .form-group > input {
         background-color: #fff;
         border: 1px solid #D9D9D9;
         border-radius: 8px;
@@ -161,18 +181,18 @@
         align-self: center;
     }
 
-    .login-container > form > div > p {
-        margin-top: 10px;
+    .form-group > p {
+        margin-top: 0.5%;
         color: #3D3C3C;
         font-family: Pilcrow Rounded;
-        font-size: 16px;
+        font-size: 14px;
         font-style: normal;
         font-weight: 700;
-        line-height: 20.8px;
+        line-height: 18px;
         text-decoration-line: underline;
     }
 
-    .login-container > form > button {
+    .login-button {
         background-color: #53CF85;
         color: #fff;
         width: 55%;
@@ -185,5 +205,4 @@
         margin-top: 8%;
         align-self: center;
     }
-    
 }
