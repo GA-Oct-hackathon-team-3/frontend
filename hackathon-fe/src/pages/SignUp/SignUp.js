@@ -126,6 +126,7 @@ const LoginSignUp = () => {
     <>
       <Header />
       <section className={styles["signup-container"]}>
+        <div className={styles["content-container"]}>
         <div className={styles["back-button"]}>
           <Link to="/">
             <BsArrowLeft />
@@ -230,6 +231,7 @@ const LoginSignUp = () => {
           <br />
           <button className={styles["signup-button"]}>Create Account</button>
         </form>
+        </div>
       </section>
     </>
   );
