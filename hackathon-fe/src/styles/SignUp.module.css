@@ -43,9 +43,7 @@
 .form-group > label {
     margin-bottom: 1%;
     font-size: 1.1rem;
-    font-style: normal;
     font-weight: 700;
-    line-height: normal;
     letter-spacing: 0.48px;
     padding-inline-start: 1%;
 }
@@ -83,7 +81,7 @@
     letter-spacing: 0.52px;
 }
 
-
+/* DESKTOP STLYES */
 @media (min-width: 481px) {
     .signup-container {
         padding-top: 12%;

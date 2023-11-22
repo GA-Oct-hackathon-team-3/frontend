@@ -6,7 +6,7 @@ import { BsArrowLeft } from "react-icons/bs";
 import * as profilesService from "../../utilities/profiles-service";
 import { profileFormValidation, profileDobValidation, getUniqueTimezones, getTimezones } from "../../utilities/helpers";
 
-import styles from "../../styles/CreateFriendPage.module.css";
+import styles from "../../styles/ProfileForm.module.css";
 import { Box, MenuItem, Select } from "@mui/material";
 
 
@@ -80,41 +80,44 @@ const Profile = () => {
   return (
     <>
       <Header />
-      <div className={styles["create-profile-container"]}>
-        <div>
+      <section className={styles["profile-container"]}>
+        <div className={styles["content-container"]}>
+        <div className={styles["back-button"]}>
           <p onClick={() => navigate(-1)}>
             <BsArrowLeft />
           </p>
-          <h1>My Profile</h1>
-          <button onClick={logOutHandler}>Log Out</button>
         </div>
-        <form onSubmit={submitHandler} encType="multipart/form-data">
-          <div>
-            {displayFile ? (
-              <img
-                src={`${displayFile}`}
-                alt="Uploaded"
-                style={{ height: "80px", width: "80px", paddingBottom: "6px" }}
-              />
-            ) : (
-              <label htmlFor="image" className={styles["add-image"]} onChange={handleAddPhotoClick}>
-                +
-              </label>
-            )}
-            <input
-              type="file"
-              name="photo"
-              ref={fileInputRef}
-              onChange={handleFileChange}
-              style={{ display: "none" }}
-              accept=".jpg,.jpeg,.svg,.tiff,.bmp,.png,.webp"
-            />
-            <p onClick={handleAddPhotoClick}>{buttonHTML}</p>
+          <button onClick={logOutHandler} className={styles["logout"]}>Log Out</button>
+          <h1>My Profile</h1>
+        <form onSubmit={submitHandler} encType="multipart/form-data" className={styles["form-container"]}>
+          <div className={styles["photo-group"]}>
+            <div className={styles["photo-form-group"]}>
+                {displayFile ? (
+                <img
+                    src={`${displayFile}`}
+                    alt="Uploaded"
+                    style={{ height: "80px", width: "80px", paddingBottom: "6px" }}
+                />
+                ) : (
+                <label htmlFor="image" className={styles["add-image"]} onChange={handleAddPhotoClick}>
+                    +
+                </label>
+                )}
+                <input
+                type="file"
+                name="photo"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                style={{ display: "none" }}
+                accept=".jpg,.jpeg,.svg,.tiff,.bmp,.png,.webp"
+                />
+                <p onClick={handleAddPhotoClick}>{buttonHTML}</p>
+            </div>
           </div>
           <br />
-          {validationMessage ? validationMessage : ''}
-          <div>
-            <label htmlFor="name" style={{paddingTop: 10}}>Name *</label>
+          <p>{validationMessage ? validationMessage : ''}</p>
+          <div className={styles["form-group"]}>
+            <label htmlFor="name">Name *</label>
             <input
               id="name"
               value={profileInput && profileInput.name}
@@ -125,8 +128,8 @@ const Profile = () => {
           </div>
           <br />
 
-          <div>
-            <div>
+          <div className={styles["form-select-group"]}>
+          <div className={styles["form-group"]}>
               <label htmlFor="dob">Date of Birth *</label>
               <input
                 type="date"
@@ -141,7 +144,8 @@ const Profile = () => {
                 }
               />
             </div>
-            <Box sx={{ minWidth: "120px" }}>
+            <br />
+            <Box className={styles["form-group"]}>
               <label htmlFor="gender">Gender</label>
               <Select
                 id="gender"
@@ -157,13 +161,12 @@ const Profile = () => {
                 <MenuItem value="other">Other</MenuItem>
               </Select>
             </Box>
-          </div>
-          <Box>
+            <br />
+          <Box className={styles["form-group"]}>
           <label htmlFor="timezone">Timezone</label>
           <Select 
           id="timezone" 
           value={(profileInput && profileInput.timezone) || 'UTC'} 
-          sx={{minWidth:'120px'}} 
           className={styles['selector']}
           onChange={(e)=> setProfileInput({...profileInput, timezone: e.target.value})}
           >
@@ -176,11 +179,13 @@ const Profile = () => {
             }
           </Select>
           </Box>
+          </div>
           <br />
           <br />
-          <button onClick={submitHandler}>Confirm</button>
+          <button onClick={submitHandler} className={styles["profile-submit-button"]}>Confirm</button>
         </form>
-      </div>
+        </div>
+      </section>
     </>
   );
 };

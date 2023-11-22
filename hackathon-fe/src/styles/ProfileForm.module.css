@@ -1,0 +1,271 @@
+.profile-container {
+    background: var(--Background-Cream, #FDF7ED);
+    min-height: 100vh;
+    padding: 30% 2% 5% 2%;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.toast-container {
+    width: 195px !important;
+    margin-top: 20px !important;
+    margin-left: 25% !important;
+    text-align: center;
+}
+
+.content-container {
+    height: 100%;
+    width: 100%;
+}
+
+.back-button {
+    color: black;
+    font-size: 1.2rem;
+    padding-left: 8%;
+    align-self: flex-start;
+}
+
+.photo-form-group > h1 {
+    color: #000;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.48px;
+    text-align: center;
+    margin-bottom: 5%;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.photo-group {
+    align-self: center;
+}
+
+.profile-icon {
+    display: none;
+}
+
+.photo-form-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.photo-form-group > label {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    font-size: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 3%;
+    background-color: #53CF85;
+    color: white;
+    font-weight: lighter;
+
+}
+
+.photo-form-group > p {
+    color: var(--Primary-Text, #3D3C3C);
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.48px;
+    margin-top: 6%;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group > label, .form-group > p {
+    margin-bottom: 1%;
+    font-size: 1.2rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 0.48px;
+    padding-inline-start: 1%;
+    color: #4A4A4A;
+    font-weight: 700;
+    align-self: flex-start;
+}
+
+.form-group > input {
+    background-color: #fff;
+    border: 1px solid #fff;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    width: 95%;
+    padding: 2.5%;
+    align-self: center;
+}
+
+.preference-group {
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-evenly;
+    gap: 10%;
+    padding: 2%;
+}
+
+.preference-group > button {
+    padding: 5% 10%;
+    border-radius: 8px;
+    border: 1px solid #D9D9D9;
+    background-color: white;
+    color: black;
+    font-size: 1rem;
+}
+
+.profile-submit-button {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    padding: 4%;
+    color: #fff;
+    border-radius: 20px;
+    margin: 0 auto;
+    background-color: #53CF85;
+    font-size: 1rem;
+}
+
+.preference-group > button.gift-type-active {
+    background-color: #53CF85 !important;
+    color: #fff !important;
+}
+
+.selector {
+    background-color: #fff;
+    width: 95%;
+    align-self: center;
+    border-radius: 8px !important;
+}
+
+.selector > div {
+    padding: 2.5%;
+}
+
+
+.logout {
+    text-decoration: none;
+    width: 20%;
+    padding: 3%;
+    color: #fff;
+    border-radius: 20px;
+    left: 75%;
+    background-color: #53CF85;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 4%;
+    z-index: 0;
+}
+
+/* DESKTOP STLYES */
+@media (min-width: 481px) {
+    .profile-container {
+        height: 100vh;
+        padding-top: 8%;
+    }
+
+    .content-container {
+        min-width: 0;
+        min-height: 0;
+        max-width: 800px;
+        max-height: 650px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .back-button {
+        font-size: 1.5rem;
+        align-self: flex-start;
+    }
+
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+    }
+
+    .photo-group {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    .profile-icon {
+        display: block;
+        width: 16rem;
+        height: 16rem;
+        left: 80%;
+    }
+
+    .photo-form-group > label {
+        margin: 0%;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: stretch;
+    }
+
+    .form-group > label, .form-group > p {
+        font-size: 1rem;
+        letter-spacing: 0.64px;
+    }
+
+    .form-group > input {
+        width: 95%;
+        font-size: 1rem;
+        border: 1px solid var(--Bright-White, #FFF);
+        background: var(--Bright-White, #FFF);
+        padding: 1.5%;
+    }
+
+    .form-select-section {
+        width: 98%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        align-self: center;
+        gap: 5%;
+    }
+
+    .profile-submit-button {
+        width: 35%;
+        padding: 2.5%;
+        margin-bottom: 1%;
+    }
+
+    .preference-group {
+        gap: 20%;
+        padding: 2%;
+    }
+
+    .selector > div {
+        padding: 2%;
+    }
+
+    .logout {
+        left: 40%;
+        width: 12%;
+        padding: 2%;
+    }
+
+}
