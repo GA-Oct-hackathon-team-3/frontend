@@ -1,25 +1,29 @@
+.app_header {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 11%;
+    color: white;
+    position: fixed;
+    top:0;
+    padding-top: 20%;
+    z-index: 1;
+    background-color: #FDF7ED;
+}
+
 @media (min-width: 481px) {
+    .app_header {
+        padding-top: 0%;
+    }
+    
     .headerLogo {
         display: flex;
         width: 20%;
         height: 10%;
-        flex-shrink: 0;
         position: fixed;
         top: 0;
         left: 0;
         margin: 2%;
     }
-}
-.app_header {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    height: 10%;
-    color: white;
-    position: fixed;
-    top:0;
-    margin: 0% 2% 2% 2%;
-    z-index: 1;
-    background-color: #FDF7ED;
-}
 
+}

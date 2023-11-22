@@ -200,7 +200,7 @@ const LoginSignUp = () => {
               <input type="date" id="date" name="dob" onChange={handleChange} />
             </div>
             <br />
-            <Box sx={{ minWidth: "120px" }} className={styles["form-group"]}>
+            <Box className={styles["form-group"]}>
               <label htmlFor="gender">Gender *</label>
               <Select
                 id="gender"
@@ -224,10 +224,6 @@ const LoginSignUp = () => {
               onChange={handleChange}
             />
           </div>
-          {/* <div>
-          <label htmlFor="profile-image">Photo Upload</label>
-          <input type="file" id="profile-image"  name="photoUrl" />
-        </div> */}
           <br />
           <button className={styles["signup-button"]}>Create Account</button>
         </form>

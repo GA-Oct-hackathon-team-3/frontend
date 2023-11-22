@@ -1,7 +1,7 @@
 .landing-container {
     background: var(--Background-Cream, #FDF7ED);
-    padding-top: 8%;
     height: 100vh;
+    padding: 0 0 5% 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -10,173 +10,149 @@
 }
 
 .content-container {
-    height: 100vh;
-    width: 90%;
-    max-width: 1000px;
-    max-height: 700px;
+    min-height: 100%;
+    min-width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.desktopLogo {
-    width: 20%;
-    height: 10%;
-    flex-shrink: 0;
-    position: fixed;
-    top: 0;
-    left: 0;
-    margin: 2%;
+.mobileLogo {
+    border-radius: 0 0 3% 3%;
+    height: 75%;
+    width: 100%;
 }
 
-.mobileLogo {
+.desktopLogo, .desktopIntro {
     display: none;
 }
 
-.desktopIntro {
-    width: 50%;
-    height: 40%;
-    flex-shrink: 0;
-    margin-bottom: 5%;
-}
-
-.landing-container > h1 {
+.content-container > h1 {
+    color: #fff;
+    width: 70%;
+    height: 25%;
     text-align: center;
-    font-size: 40px;
-    font-style: normal;
-    font-weight: 900;
-    line-height: normal;
+    font-size: 1.4rem;
+    margin: -90% auto 90%;
+    padding-inline-start: 6%;
 }
 
-.landing-container > div {
-    width: 40%;
-    font-size: 20px;
+.content-container > div {
+    width: 98%;
+    margin: -20% 0 0;
+    padding: 2%;
+}
+
+.content-container > div > p {
+    color: #000;
+    text-align: center;
+    font-size: 1.25rem;
+    letter-spacing: 0.48px;
+    padding: 5% 1%;
+}
+
+.content-container > p {
+    color: #3D3C3C;
+    text-align: center;
+    font-size: 1.1rem;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
-    letter-spacing: 0.48px;
+    letter-spacing: 0.28px;
+    margin: 2%;
 }
 
-.landing-container > p {
-    font-size: 20px;
-}
-
-.landing-container > div > p {
-    padding: 1.5%;
+.log-in {
+    color: black;
 }
 
 .get-started {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 35%;
-    flex-shrink: 0;
+    width: 55%;
     color: #fff;
     background-color: #53CF85;
     text-decoration: none;
     border-radius: 20px;
-    margin: 2%;
-    padding: 2% 1%;
-    text-align: center;
-    font-size: 1.25rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
+    margin: 2% 3%;
+    padding: 3%;
+    font-weight: 700;
+    font-size: 1.4rem;
     letter-spacing: 0.48px;
 }
 
-.log-in {
-    color: black;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-    letter-spacing: 0.4px;
-    text-decoration-line: underline;
-}
 
-/* Mobile Styles */
-@media (max-width: 480px) {
+/* DESKTOP STLYES */
+@media (min-width: 481px) {
     .landing-container {
-        overflow-y: scroll;
-        padding-bottom: 8%;
-        padding-top: 0%;
+        padding-top: 14%;
     }
 
     .content-container {
-        min-height: 100%;
-        min-width: 100%;
+        max-width: 800px;
+        max-height: 650px;
+        min-width: 0;
+        min-height: 0;
+    }
+
+    .desktopLogo {
+        display: block;
+        width: 20%;
+        height: 10%;
+        flex-shrink: 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        margin: 2%;
     }
 
     .mobileLogo {
-        border-bottom-left-radius: 3%;
-        border-bottom-right-radius: 3%;
-        height: 75%;
-        width: 100%;
-        display: block;
-    }
-
-    .desktopLogo, .desktopIntro {
         display: none;
     }
 
+    .desktopIntro {
+        display: block;
+        width: 50%;
+        height: 50%;
+        margin: 2% 0;
+    }
+
     .content-container > h1 {
-        color: #fff;
-        width: 60%;
-        height: 15%;
-        text-align: center;
-        font-size: 1.35rem;
-        font-style: normal;
-        font-weight: 700;
-        line-height: normal;
-        margin: -90% auto 90%;
-        padding-inline-start: 5%;
-        z-index: 1;
+        margin: 1%;
+        font-size: 2rem;
+        color: black;
+        padding-inline-start: 0;
+        padding-bottom: 0;
     }
 
     .content-container > div {
-        width: 98%;
-        margin-top: -10%;
-        padding: 2%;
+        width: 65%;
+        text-align: left;
+        padding: 1%;
+        margin: 1%;
     }
 
     .content-container > div > p {
-        width: 100%;
-        margin: 0 auto 5%;
-        color: #000;
+        text-align: left;
+        font-size: 1.1rem;
+        padding: 2%;
+    }
+
+    .content-container > p {
+        font-size: 1rem;
+        padding-bottom: 1%
+    }
+
+    .get-started {
+        width: 25%;
+        padding: 1.5%;
+        margin: 1%;
         text-align: center;
-        font-size: 18px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
-        letter-spacing: 0.36px;
     }
 
-    .content-container > div > p:nth-child(2) {
-        width: 90%;
-    }
-
-    .content-container > a {
-        width: 55%;
-        margin: 2% auto;
-        padding: 4%;
-    }
-
-    .landing-container > p {
-        color: #3D3C3C;
-        text-align: center;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: normal;
-        letter-spacing: 0.28px;
-    }
-
-    .landing-container > p > a {
-        color: #4A4A4A;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: 130%;
+    .log-in {
+        letter-spacing: 0.52px;
     }
 }
