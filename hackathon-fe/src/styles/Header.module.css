@@ -2,12 +2,12 @@
     .headerLogo {
         display: flex;
         width: 20%;
-        height: 8%;
+        height: 10%;
         flex-shrink: 0;
         position: fixed;
         top: 0;
         left: 0;
-        margin: 3% 5%;
+        margin: 2%;
     }
 }
 .app_header {
@@ -15,7 +15,7 @@
     justify-content: center;
     align-items: flex-end;
     width: 85%;
-    height: 12%;
+    height: 15%;
     color: white;
     position: fixed;
     top:0;
