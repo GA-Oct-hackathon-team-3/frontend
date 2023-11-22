@@ -13,7 +13,8 @@ import {
 
 import Header from "../../components/Header/Header";
 
-import styles from "../../styles/CreateFriendPage.module.css";
+import styles from "../../styles/ProfileForm.module.css";
+import profileIcon from '../../assets/profileIcon.png';
 import { Box, MenuItem, Select } from "@mui/material";
 
 function CreateFriendProfile() {
@@ -121,47 +122,50 @@ function CreateFriendProfile() {
   return (
     <>
       <Header />
-      <div className={styles["create-profile-container"]}>
-        <div>
+      <section className={styles["profile-container"]}>
+        <div className={styles["content-container"]}>
+        <div className={styles["back-button"]}>
           <p onClick={() => navigate(-1)}>
             <BsArrowLeft />
           </p>
-          <h1>Create Friend Profile</h1>
         </div>
 
-        <form onSubmit={submitHandler} encType="multipart/form-data">
-          <div>
-            {displayFile ? (
-              <img
-                src={displayFile}
-                alt="Uploaded"
-                style={{ height: "80px", width: "80px", paddingBottom: "6px" }}
-              />
-            ) : (
-              <label
-                htmlFor="image"
-                className={styles["add-image"]}
-                onClick={handleAddPhotoClick}
-              >
-                +
-              </label>
-            )}
-            <input
-              type="file"
-              name="photo"
-              ref={fileInputRef}
-              onChange={handleFileChange}
-              style={{ display: "none" }}
-              accept=".jpg,.jpeg,.svg,.tiff,.bmp,.png,.webp"
-            />
-            <p onClick={handleAddPhotoClick}>{buttonHTML}</p>
+
+
+        <form onSubmit={submitHandler} encType="multipart/form-data" className={styles["form-container"]}>
+          <div className={styles["photo-group"]}>
+            <div className={styles["photo-form-group"]}>
+          <h1>Create Friend Profile</h1>
+                {displayFile ? (
+                <img
+                    src={displayFile}
+                    alt="Uploaded"
+                />
+                ) : (
+                <label
+                    htmlFor="image"
+                    className={styles["add-image"]}
+                    onClick={handleAddPhotoClick}
+                >
+                    +
+                </label>
+                )}
+                <input
+                type="file"
+                name="photo"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                style={{ display: "none" }}
+                accept=".jpg,.jpeg,.svg,.tiff,.bmp,.png,.webp"
+                />
+                <p onClick={handleAddPhotoClick}>{buttonHTML}</p>
+            </div>
+            <img src={profileIcon} alt="person holding a baby" className={styles["profile-icon"]} />
           </div>
           <br />
-          {validationMessage ? validationMessage : ""}
-          <div>
-            <label htmlFor="name" style={{ paddingTop: 10 }}>
-              Name *{" "}
-            </label>
+          <p>{validationMessage ? validationMessage : ""}</p>
+          <div className={styles["form-group"]}>
+            <label htmlFor="name">Name *</label>
             <input
               id="name"
               value={profile.name}
@@ -169,9 +173,8 @@ function CreateFriendProfile() {
             />
           </div>
           <br />
-
-          <div>
-            <div>
+          <div className={styles["form-select-section"]}>
+        <div className={styles["form-group"]}>
               <label htmlFor="dob">Date of Birth *</label>
               <input
                 type="date"
@@ -183,8 +186,8 @@ function CreateFriendProfile() {
                 }
               />
             </div>
-
-            <Box sx={{ minWidth: "120px" }}>
+<br />
+            <Box className={styles["form-group"]}>
               <label htmlFor="gender">Gender *</label>
               <Select
                 id="gender"
@@ -203,7 +206,7 @@ function CreateFriendProfile() {
           </div>
           <br />
 
-          <div>
+          <div className={styles["form-group"]}>
             <label htmlFor="location">Location</label>
             <input
               id="location"
@@ -215,9 +218,9 @@ function CreateFriendProfile() {
           </div>
           <br />
 
-          <div>
+          <div className={styles["form-group"]}>
             <p>Gift type Preferences (choose all that apply)</p>
-            <div>
+            <div className={styles["preference-group"]}>
               <button
                 type="button"
                 onClick={() => handleGiftTypeToggle("Experience")}
@@ -276,13 +279,13 @@ function CreateFriendProfile() {
               <option value="High">$$$ - High</option>
             </select>
           </div> */}
-          <br />
 
-          <button onClick={submitHandler}>Continue to add tags</button>
+          <button onClick={submitHandler} className={styles["profile-submit-button"]}>Continue to add tags</button>
         </form>
 
         <ToastContainer className={styles["toast-container"]} />
-      </div>
+        </div>
+      </section>
     </>
   );
 }
