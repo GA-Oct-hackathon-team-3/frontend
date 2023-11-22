@@ -49,6 +49,7 @@ const Login = () => {
     <Header />
    
     <section className={styles["login-container"]}>
+    <div className={styles["content-container"]}>
       <div className={styles["back-button"]}>
         <Link to="/">
           <BsArrowLeft />
@@ -61,8 +62,8 @@ const Login = () => {
       <img src={loginImg} alt="Birthday cake" className={styles["mobile-login"]}/>
       <img src={desktopLogin} alt="Girl with present" className={styles["desktop-login"]}/>
 
+      <p>{validationMessage ? validationMessage : ''}</p>
       <form className={styles["form-container"]} onSubmit={handleLogin}>
-        {validationMessage ? validationMessage : ''}
         <div className={styles["form-group"]}>
           <label htmlFor="email" style={{paddingTop: 10}}>Email *</label>
           <input
@@ -84,11 +85,13 @@ const Login = () => {
             onChange={handleChange}
           />
         </div>
-        <div>
-          <p style={{paddingTop: 10}}>Forgot Password?</p>
+        <div className={styles["form-group"]}>
+          <p>Forgot Password?</p>
         </div>
           <button className={styles["login-button"]} type="submit">Login</button>
       </form>
+
+        </div>
     </section>
 
     </>

@@ -2,24 +2,24 @@
     .headerLogo {
         display: flex;
         width: 20%;
-        height: 8%;
+        height: 10%;
         flex-shrink: 0;
         position: fixed;
         top: 0;
         left: 0;
-        margin: 3% 5%;
+        margin: 2%;
     }
 }
 .app_header {
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    width: 85%;
-    height: 12%;
+    height: 10%;
     color: white;
     position: fixed;
     top:0;
-    z-index: 999;
+    margin: 0% 2% 2% 2%;
+    z-index: 1;
     background-color: #FDF7ED;
 }
 

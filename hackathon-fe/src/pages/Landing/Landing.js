@@ -20,6 +20,7 @@ const Landing = () => {
 
   return (
       <section className={styles["landing-container"]}>
+        <div className={styles["content-container"]}>
       <img src={presentlyLogo} alt="presently app logo" className={styles["desktopLogo"]} />
       <img src={desktopIntro} alt="Birthday Introduction" className={styles["desktopIntro"]} />
       <img src={heroImg} alt="Birthday Introduction" className={styles["mobileLogo"]} />
@@ -43,6 +44,7 @@ const Landing = () => {
           Log In
         </Link>
       </p>
+        </div>
     </section>
   );
 };
