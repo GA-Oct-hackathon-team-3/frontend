@@ -25,8 +25,8 @@ const FriendsPage = () => {
   const [onboardingStep, setOnboardingStep] = useState(0);
 
   // initializes friend state with category structure
-  const [friends, setFriends] = useState({ today: [], thisWeek: [], thisMonth: [], upcoming: [] }); // use to reset filter
-  const [filteredFriends, setFilteredFriends] = useState({ today: [], thisWeek: [], thisMonth: [], upcoming: [] }); // use to render
+  const [friends, setFriends] = useState({ today: [], thisWeek: [], thisMonth: [], laterOn: [] }); // use to reset filter
+  const [filteredFriends, setFilteredFriends] = useState({ today: [], thisWeek: [], thisMonth: [], laterOn: [] }); // use to render
 
   useEffect(() => {
     const fetchFriends = async () => {
@@ -54,7 +54,7 @@ const FriendsPage = () => {
         today: friendsFilter(friends.today, query),
         thisWeek: friendsFilter(friends.thisWeek, query),
         thisMonth: friendsFilter(friends.thisMonth, query),
-        laterOn: friendsFilter(friends.upcoming, query),
+        laterOn: friendsFilter(friends.laterOn, query),
       };
 
       setFilteredFriends(filteredResults);
@@ -115,7 +115,7 @@ const FriendsPage = () => {
               {renderSection(filteredFriends.today, 'Today')}
               {renderSection(filteredFriends.thisWeek, 'This Week')}
               {renderSection(filteredFriends.thisMonth, 'This Month')}
-              {renderSection(filteredFriends.upcoming, 'Upcoming')}
+              {renderSection(filteredFriends.laterOn, 'Later On')}
             </>
           ) : (
             <div className={styles['no-friends-yet']}>
