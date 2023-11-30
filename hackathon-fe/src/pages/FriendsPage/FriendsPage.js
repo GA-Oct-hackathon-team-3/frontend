@@ -32,11 +32,11 @@ const FriendsPage = () => {
     const fetchFriends = async () => {
       try {
         const friendsData = await friendsService.retrieveFriends();
-        if (friendsData) {
+        if (friendsData && !friendsData.message) {
             setFriends(friendsData);
             setFilteredFriends(friendsData);
         }
-        else setFilteredFriends(friendsData);
+        else setFilteredFriends(null);
         if (fromSignup === 'true') setOnboardingStep(1); // only show onboarding if user is coming from signup
       } catch (error) {
         console.error('Error fetching friends: ', error);
@@ -97,8 +97,8 @@ const FriendsPage = () => {
           <img src={manCelebratingImg} alt="Man celebrating" />
           <img src={WomanCelebratingImg} alt="Woman celebrating" />
           <div>
-            {friends && friends.today.length > 0 ? (
-              friends.today.map((friend, idx) => (
+            {filteredFriends && filteredFriends.today.length > 0 ? (
+              filteredFriends.today.map((friend, idx) => (
                 <p key={idx} style={{ color: friend.cardColor }}>
                   It's {friend.name}'s Birthday Today!
                 </p>
