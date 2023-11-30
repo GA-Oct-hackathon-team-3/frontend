@@ -253,9 +253,10 @@
     }
 
     .profile-submit-button {
-        width: 38%;
+        width: 25%;
         padding: 2.5%;
-        margin-bottom: 1%;
+        margin-bottom: 2%;
+        font-size: 1rem;
     }
 
     .preference-group {
@@ -266,6 +267,7 @@
 
     .preference-group > button {
         padding: 3% 8%;
+        font-size: 0.9rem;
     }
 
     .selector > div {
