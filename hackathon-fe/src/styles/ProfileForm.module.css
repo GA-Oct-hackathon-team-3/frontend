@@ -1,7 +1,7 @@
 .profile-container {
     background: var(--Background-Cream, #FDF7ED);
     min-height: 100vh;
-    padding: 30% 2% 5% 2%;
+    padding: 26% 2% 5% 2%;
     overflow-y: scroll;
     display: flex;
     flex-direction: column;
@@ -158,29 +158,33 @@
 
 
 .logout {
+    position: relative;
+    width: 22%;
+    left: 72%;
+    margin-bottom: 2%;
+    text-align: center;
+    z-index: 0;
+}
+
+.logout > button {
     text-decoration: none;
-    width: 20%;
-    padding: 3%;
-    color: #fff;
-    border-radius: 20px;
-    left: 75%;
     background-color: #53CF85;
+    color: #fff;
+    width: 100%;
     font-size: 0.9rem;
     font-weight: 700;
-    margin-bottom: 4%;
-    z-index: 0;
+    border-radius: 20px;
 }
 
 /* DESKTOP STLYES */
 @media (min-width: 481px) {
     .profile-container {
         height: 100vh;
-        padding-top: 8%;
+        padding-top: 10%;
     }
 
     .content-container {
-        min-width: 0;
-        min-height: 0;
+        width: 70%;
         max-width: 800px;
         max-height: 650px;
         display: flex;
@@ -197,6 +201,7 @@
         display: flex;
         flex-direction: column;
         width: 80%;
+        height: 90%;
     }
 
     .photo-group {
@@ -209,8 +214,8 @@
 
     .profile-icon {
         display: block;
-        width: 16rem;
-        height: 16rem;
+        width: 14rem;
+        height: 14rem;
         left: 80%;
     }
 
@@ -248,14 +253,19 @@
     }
 
     .profile-submit-button {
-        width: 35%;
+        width: 38%;
         padding: 2.5%;
         margin-bottom: 1%;
     }
 
     .preference-group {
-        gap: 20%;
-        padding: 2%;
+        gap: 10%;
+        padding: 1%;
+        width: 60%;
+    }
+
+    .preference-group > button {
+        padding: 3% 8%;
     }
 
     .selector > div {
@@ -263,9 +273,15 @@
     }
 
     .logout {
-        left: 40%;
-        width: 12%;
-        padding: 2%;
+        top: 5%;
+        left: 75%;
+        width: 20%;
+        padding: 0.5%;
+        max-width: 5rem;
+    }
+
+    .logout > button {
+        font-size: 0.8rem;
     }
 
 }

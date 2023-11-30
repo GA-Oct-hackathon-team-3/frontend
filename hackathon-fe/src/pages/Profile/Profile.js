@@ -87,11 +87,13 @@ const Profile = () => {
             <BsArrowLeft />
           </p>
         </div>
-          <button onClick={logOutHandler} className={styles["logout"]}>Log Out</button>
-          <h1>My Profile</h1>
         <form onSubmit={submitHandler} encType="multipart/form-data" className={styles["form-container"]}>
+        <div className={styles["logout"]}>
+          <button onClick={logOutHandler}>Log Out</button>
+        </div>
           <div className={styles["photo-group"]}>
             <div className={styles["photo-form-group"]}>
+                <h1>My Profile</h1>
                 {displayFile ? (
                 <img
                     src={`${displayFile}`}
