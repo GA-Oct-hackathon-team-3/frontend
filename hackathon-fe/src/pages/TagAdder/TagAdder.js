@@ -41,7 +41,8 @@ function TagAdder() {
   }, [id]);
 
   const fetchSuggestions = async (value) => {
-    if (value === '' || value.length < 3) return setSuggestedTags([]); // requires search term of 3 => characters
+    if (value === '' || value.length < 3)
+      return setSuggestedTags([]); // requires search term of 3 => characters
     else {
       const suggestions = await tagService.getSuggestions(value);
       setSuggestedTags(suggestions);
@@ -52,7 +53,8 @@ function TagAdder() {
     // to check if tag exists, handles cases where tag is object or string
     return tags.some((tag) => {
       if (typeof tag === 'string') return tag === newTag;
-      else if (typeof tag === 'object' && tag.title) return tag.title === newTag.title;
+      else if (typeof tag === 'object' && tag.title)
+        return tag.title === newTag.title;
       return false;
     });
   };
@@ -75,9 +77,9 @@ function TagAdder() {
 
   const handleSuggestionClick = async (suggestion) => {
     if (!tagExists(tags, suggestion)) {
-        setTags((prevTags) => [...prevTags, suggestion]); // adds tag object
-        setInputValue('');
-        setSuggestedTags([]);
+      setTags((prevTags) => [...prevTags, suggestion]); // adds tag object
+      setInputValue('');
+      setSuggestedTags([]);
     }
   };
 
@@ -86,7 +88,9 @@ function TagAdder() {
   };
 
   const handleRemoveTag = (tag) => {
-    setTags((prevTags) => prevTags.filter((prevTag) => !tagExists([prevTag], tag)));
+    setTags((prevTags) =>
+      prevTags.filter((prevTag) => !tagExists([prevTag], tag))
+    );
   };
 
   const submitHandler = async () => {
@@ -96,93 +100,98 @@ function TagAdder() {
     });
 
     const pathData = { path: location.pathname };
-    
+
     const response = await tagService.updateTags(id, tags);
     if (response.message === 'Tags updated successfully') {
-        setTimeout(() => {
-          navigate(`/friend/${id}`, { state: pathData });
-        }, 2000);
+      setTimeout(() => {
+        navigate(`/friend/${id}`, { state: pathData });
+      }, 2000);
     }
-
   };
 
   return (
     <>
       <Header />
       <div className={styles['tag-container']}>
-        <div className={styles['header']}>
-          <h1>Confirm Tags</h1>
-          <p>
-            What's your friend into? Adding tags helps Presently give more
-            accurate gift suggestions.
-          </p>
-        </div>
+        <div className={styles['content-container']}>
+          <div className={styles['header']}>
+            <h1>Confirm Tags</h1>
+            <p>
+              What's your friend into? Adding tags helps Presently give more
+              accurate gift suggestions.
+            </p>
+          </div>
 
-        <div className={styles.hobbies}>
-          <img src={singerImg} alt="Singing hobby" />
-          <img src={bikerImg} alt="Biking hobby" />
-          <img src={gardenerImg} alt="Gardening hobby" />
-        </div>
+          <div className={styles['hobbies']}>
+            <img src={singerImg} alt="Singing hobby" />
+            <img src={bikerImg} alt="Biking hobby" />
+            <img src={gardenerImg} alt="Gardening hobby" />
+          </div>
 
-        <input
-          className={styles['tag-input']}
-          type="text"
-          placeholder="Type to create custom tag"
-          value={inputValue}
-          onChange={handleInputChange}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') handleInputEnter();
-          }}
-        />
+          <input
+            className={styles['tag-input']}
+            type="text"
+            placeholder="Type to create custom tag"
+            value={inputValue}
+            onChange={handleInputChange}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleInputEnter();
+            }}
+          />
 
-        <div className={styles['suggestions-container']}>
-          <h3>Suggested Tags</h3>
-          {suggestedTags.length > 0
-            ? suggestedTags.map((suggestion) => (
+          <div className={styles['existing-tags']}>
+            <h3>Suggested Tags</h3>
+            <div className={styles['tag-section']}>
+              {suggestedTags.length > 0
+                ? suggestedTags.map((suggestion) => (
+                    <button
+                      className={styles['tag-button']}
+                      onClick={() => handleSuggestionClick(suggestion)}
+                      key={suggestion._id}
+                    >
+                      {suggestion.title}
+                    </button>
+                  ))
+                : ''}
+            </div>
+
+            <h3>Added Tags</h3>
+            <div className={styles['tag-section']}>
+              {tags.map((tag) => (
                 <button
-                  className={styles['tag-button']}
-                  onClick={() => handleSuggestionClick(suggestion)}
-                  key={suggestion._id}
+                  className={`${styles['tag-button']} ${styles.selected}`}
+                  onClick={() => {
+                    handleRemoveTag(tag);
+                  }}
+                  key={typeof tag === 'object' ? tag.title : tag}
                 >
-                  {suggestion.title}
-                </button>
-              ))
-            : 'No suggestions'}
-        </div>
-
-        <div className={styles['add-tags-container']}>
-          <h3>Added Tags</h3>
-          {tags.map((tag) => (
-            <button
-              className={`${styles['tag-button']} ${styles.selected}`}
-              onClick={() => {handleRemoveTag(tag)}}
-              key={typeof tag === 'object' ? tag.title : tag}
-            >
-              {typeof tag === 'object' ? tag.title : tag}
-            </button>
-          ))}
-        </div>
-
-        <div>
-          {defaultTags.map((group, key) => (
-            <div key={group.section}>
-              <h3>{group.section[0].toUpperCase() + group.section.slice(1)}</h3>
-              {group.tags.map((tag) => (
-                <button
-                  className={styles['tag-button']}
-                  onClick={() => handleAddDefaultTag(tag)}
-                  key={tag._id}
-                >
-                  {tag.title} +
+                  {typeof tag === 'object' ? tag.title : tag}
                 </button>
               ))}
             </div>
-          ))}
-        </div>
 
-        <button className={styles['complete-button']} onClick={submitHandler}>
-          Complete Profile
-        </button>
+            {defaultTags.map((group, key) => (
+              <div key={group.section}>
+                <h3>{group.section}</h3>
+                <div className={styles['tag-section']}>
+                  {group.tags.map((tag) => (
+                    <button
+                      className={styles['tag-button']}
+                      onClick={() => handleAddDefaultTag(tag)}
+                      key={tag._id}
+                    >
+                      {tag.title} +
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <button className={styles['complete-button']} onClick={submitHandler}>
+            Complete Profile
+          </button>
+        </div>
       </div>
       <ToastContainer className={styles['toast-container']} />
     </>

@@ -1,8 +1,55 @@
 .tag-container {
+    background: var(--Background-Cream, #FDF7ED);
     min-height: 100vh;
-    width: 100%;
-    padding: 110px 15px 15px;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25% 1% 1%;
     background-color: #FDF7ED;
+}
+
+.content-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.header > h1 {
+    font-size: 1.6rem;
+    margin-bottom: 2%;
+}
+
+.header > p {
+    width: 100%;
+    font-size: 1rem;
+}
+
+.hobbies {
+    margin-top: -5%;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.hobbies > img {
+    width: 23%;
+    height: 28%;
+}
+
+.hobbies > img[alt='Biking hobby'] {
+    width: 32%;
+    height: 32%;
 }
 
 .toast-container {
@@ -12,84 +59,59 @@
     text-align: center;
 }
 
-.tag-container > div.header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    height: 905x;
-}
-
-.tag-container > div.header > h1 {
-    margin-bottom: 5px;
-}
-
-.tag-container > div.header > p {
-    width: 330px;
-}
-
-.tag-container > div.hobbies {
-    margin-top: -15px;
-    height: 140px;
-    display: flex;
-}
-
-.tag-container > div.hobbies > img {
-    width: 113px;
-    height: 113px;
-}
-
-.tag-container > div.hobbies > img:nth-child(2) {
-    transform: scale(1.5);
-    align-self: flex-end;
-    width: 120px;
-    height: 113px;
-}
-
-.tag-container > .tag-input {
-    width: 358px;
-    height: 48px;
+.tag-input {
+    width: 100%;
     border-radius: 40px;
     background-color: #FFF;
-    padding: 10px;
-    padding-left: 30px;
+    padding: 2.5%;
+    padding-inline-start: 10%;
     border: 1px solid #D9D9D9;
     box-sizing: border-box;
     background-image: url('../assets/searchIcon.png');
     background-repeat: no-repeat;
     background-position: 2% 50%;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 20.8px;
-    margin: 10px 0 25px;
-
-}
-
-.add-tags-container > h3 {
-    font-size: 20px;
-    color: #3D3C3C;
+    font-size: 1rem;
     font-style: normal;
     font-weight: 700;
-    line-height: normal;
     letter-spacing: 0.48px;
-    margin-bottom: 5px;
 }
 
+.existing-tags {
+    width: 95%;
+    align-self: center;
+    margin: 1%;
+    margin-top: 3%;
+    display: block;
+}
+
+.existing-tags > h3, .existing-tags > div > h3 {
+    text-transform: capitalize;
+    font-size: 1.2rem;
+    letter-spacing: 0.48px;
+    font-weight: 700;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.tag-section {
+    height: 3.5rem;
+    overflow-y: scroll;
+}
+
+
 .tag-button {
-    height: 40px;
-    padding: 8px 16px;
-    margin-right: 10px;
-    margin-bottom: 10px; 
+    padding: 1.5% 3%;
+    margin-right: 0.6rem;
+    margin-bottom: 0.6rem; 
     border: 1px solid #D9D9D9;
     border-radius: 8px;
     background-color: #fff;
     transition: background-color 0.3s;
     color: #3D3C3C;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 900;
-    line-height: 20.8px;
+    line-height: 1.9rem;
+    font-size: 0.8rem;
+    text-transform: capitalize;
+    z-index: 0;
 }
 
 .selected {
@@ -97,34 +119,58 @@
     color: #fff;
 }
 
-.tag-container > div:nth-child(5) > div > h3 {
-    color: #3D3C3C;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 900;
-    line-height: normal;
-    letter-spacing: 0.48px;
-    margin-bottom: 5px;
-}
-
-.tag-container > div:nth-child(5) > div > button.tag-button {
-    color: #3D3C3C;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 20.8px
-}
-
 .complete-button {
     display: block;
-    width: 264px;
-    height: 60px;
-    margin: 10px auto 0;
-    padding: 10px 20px;
+    width: 50%;
+    padding: 4%;
+    font-size: 1.1rem;
     background-color: #53CF85;
     color: white;
     border: none;
     border-radius: 20px;
-    margin-bottom: 100px;
+    margin-top: 1%;
+    margin-bottom: 3%;
 }
 
+
+/* DESKTOP STYLES */
+@media (min-width: 481px) {
+    .tag-container {
+        padding: 8% 15px 15px;
+    }
+
+    .content-container {
+        width: 70%;
+        max-width: 800px;
+        max-height: 650px;
+    }
+
+    .header {
+        width: 70%;
+    }
+
+    .header > h1 {
+        font-size: 1.8rem;
+    }
+
+    .header > p {
+        font-size: 1rem;
+        text-align: left;
+    }
+
+    .hobbies {
+        justify-content: space-evenly;
+    }
+
+    .hobbies > img {
+        width: 20%;
+        height: 25%;
+    }
+    
+    .hobbies > img[alt='Biking hobby'] {
+        width: 30%;
+        height: 30%;
+    }
+
+    
+}
