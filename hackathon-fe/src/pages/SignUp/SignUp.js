@@ -61,7 +61,6 @@ const LoginSignUp = () => {
       setMessage(
         "Either an account has already been created with this email, or there is a network error. Please try again."
       );
-      console.log(error);
     }
   };
 
@@ -138,7 +137,7 @@ const LoginSignUp = () => {
             {requiredMessage ? requiredMessage : ''}
             <div className={styles["form-group"]}>
             <label htmlFor="name" style={{paddingTop: 10}}>Name *</label>
-            <input type="text" id="name" name="name" onChange={handleChange} />
+            <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} />
           </div>
           <br />
           <div className={styles["form-group"]}>
@@ -180,6 +179,7 @@ const LoginSignUp = () => {
               type="email"
               id="email"
               name="email"
+              value={formData.email}
               onChange={handleChange}
             />
           </div>
@@ -190,6 +190,7 @@ const LoginSignUp = () => {
               type="number"
               id="phone-number"
               name="tel"
+              value={formData.tel}
               onChange={handleChange}
             />
           </div>
@@ -197,13 +198,15 @@ const LoginSignUp = () => {
         <div className={styles["form-select-section"]}>
         <div className={styles["form-group"]}>
               <label>Date of Birth *</label>
-              <input type="date" id="date" name="dob" onChange={handleChange} />
+              <input type="date" id="date" name="dob" value={formData.dob} onChange={handleChange} />
             </div>
             <br />
             <Box className={styles["form-group"]}>
               <label htmlFor="gender">Gender *</label>
               <Select
                 id="gender"
+                name="gender"
+                value={formData.gender}
                 onChange={handleChange}
                 className={styles["selector"]}
               >
@@ -234,4 +237,5 @@ const LoginSignUp = () => {
 };
 
 export default LoginSignUp;
+
 
