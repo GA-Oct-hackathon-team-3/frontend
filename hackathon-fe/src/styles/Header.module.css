@@ -14,12 +14,12 @@
 @media (min-width: 481px) {
     .app_header {
         padding-top: 0%;
+        padding-bottom: 1rem;
     }
     
     .headerLogo {
         display: flex;
-        width: 20%;
-        height: 10%;
+        width: 14rem;
         position: fixed;
         top: 0;
         left: 0;
