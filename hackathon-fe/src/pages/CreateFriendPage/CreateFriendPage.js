@@ -280,7 +280,7 @@ function CreateFriendProfile() {
             </select>
           </div> */}
 
-          <button onClick={submitHandler} className={styles["profile-submit-button"]}>Continue to add tags</button>
+          <button onClick={submitHandler} className={styles["profile-submit-button"]}>Continue to Tags</button>
         </form>
 
         <ToastContainer className={styles["toast-container"]} />
