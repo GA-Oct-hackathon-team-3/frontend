@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from '../../styles/ShowFriend.module.css';
 import * as friendsService from '../../utilities/friends-service';
-import { daysUntilBirthday, splitDOB, calculateAge } from '../../utilities/helpers';
+import { splitDOB, calculateAge } from '../../utilities/helpers';
 import { BsArrowLeft } from 'react-icons/bs';
 
 import EditIcon from '../../assets/edit_icon.png';
@@ -89,19 +89,19 @@ const FriendPage = () => {
 
   return (
     <div className={styles['container']}>
+        <div className={styles['content-container']}>
       <div className={styles['shadow']}></div>
-      <div className={styles['profile']}>
-        <img
-          src={ friend && friend.photo ? friend.photo : 'https://i.imgur.com/hCwHtRc.png' }
-          alt="Anthony Sudol"
-          className={styles['profile-pic']}
-        />
-        <h2 style={{ position: 'relative' }}>{friend && friend.name}</h2>
         <p className={styles['back-btn']} onClick={() => navigate('/friends')}>
           <BsArrowLeft />
         </p>
-
-        <p>Friend</p>
+      <div className={styles['profile-header']}>
+      <div className={styles['profile']}>
+        <img
+          src={ friend && friend.photo ? friend.photo : 'https://i.imgur.com/hCwHtRc.png' }
+          alt={friend && friend.name}
+          className={styles['profile-pic']}
+        />
+        <h2 style={{ position: 'relative' }}>{friend && friend.name}</h2>
       </div>
       <div className={styles['birthday']}>
         <div className={styles['description']}>
@@ -136,6 +136,7 @@ const FriendPage = () => {
           />
         </div>
       </div>
+      </div>
       <div className={styles['tab-container']}>
         <span
           onClick={() => {
@@ -153,6 +154,7 @@ const FriendPage = () => {
           Explore Gifts
         </span>
       </div>
+      <div className={styles['active-container']}>
       {friend && activeTab === 'profile' && (
         <Profile
           favError={favError}
@@ -176,6 +178,8 @@ const FriendPage = () => {
           toggleFavorite={toggleFavorite}
         />
       )}
+      </div>
+        </div>
       <ToastContainer className={styles['toast-container']} hideProgressBar />
     </div>
   );

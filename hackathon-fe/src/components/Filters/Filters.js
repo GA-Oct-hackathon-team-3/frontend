@@ -5,7 +5,6 @@ import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import Slider from "@mui/material/Slider";
 import { useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
-import { Typography } from "@mui/material";
 import { BsArrowLeft } from "react-icons/bs";
 
 const marks = [
@@ -30,23 +29,6 @@ const marks = [
     label: "$1000",
   },
 ];
-
-const friend = {
-  _id: "1",
-  user: "1",
-  name: "friend one",
-  gender: "female",
-  dob: "1990-01-01",
-  tags: [{
-    _id: "1",
-    title: "arts & crafts"
-  },
-  {
-    _id: "2",
-    title: "gardening"
-  }],
-  giftPreferences: ["donation"]
-}
 
 const Filters = ({ friend }) => {
   const [show, setShow] = useState(null);
@@ -119,15 +101,13 @@ const Filters = ({ friend }) => {
       <Header />
       <div className={styles["mainContainer"]}>
         <div className={styles["container"]}>
-          <div className={styles["row-container"]}>
-            <div className={styles.row}>
               <div className={styles["heading-container"]}>
                   <p style={{fontSize:"1.5rem"}} onClick={onBack}>
                     <BsArrowLeft />
                   </p>
                   <h1>Filters</h1>
               </div>
-            </div>
+          <div className={styles["row-container"]}>
             <div className={styles.row}>
               <h2>Budget</h2>
               <FontAwesomeIcon
@@ -138,6 +118,7 @@ const Filters = ({ friend }) => {
             </div>
             {show === "budget" && (
               <div className={styles["slider-container"]}>
+                <p>${budget && budget}</p>
                 <Slider
                   aria-label="Small steps"
                   defaultValue={budget}

@@ -149,7 +149,7 @@ function TagAdder() {
                       onClick={() => handleSuggestionClick(suggestion)}
                       key={suggestion._id}
                     >
-                      {suggestion.title}
+                      {suggestion.title} +
                     </button>
                   ))
                 : ''}
