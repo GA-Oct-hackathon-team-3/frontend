@@ -1,63 +1,59 @@
-.row {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 30px;
-}
-
-.container {
-  padding-top: 60px;
-}
-
 .mainContainer {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
-  padding: 45px 20px;
+  padding: 3rem 1.25rem;
   background-color: #FDF7ED;
   overflow-y: scroll;
 }
+.container {
+  padding-top: 60px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.6rem;
+}
 
 .heading-container{
-  display:flex;
-  flex-direction: row;
+  display: flex;
   align-items: center;
   justify-content: space-around;
-  gap:20px;
+  align-content: center;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
 }
 
 .save-btn {
   padding: 10px 20px;
-  font-family: Arial, sans-serif;
-  font-size: 16px;
+  width: 40%;
   border: 1px solid #D9D9D9;
   cursor: pointer;
   transition: background-color 0.3s ease;
   background-color: #53CF85;
   color: white;
-  width: 100%;
-  border-radius: 1px !important;
-
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  font-weight: bold;
 }
 
 .clear-btn {
   background-color: white;
   color: black;
-  width: 100%;
   border: 1px solid #D9D9D9;
-  border-radius: 1px !important;
-
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  width: 40%;
 }
 
 .btn-container {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  width: 100vw;
-  margin: 0 -20px 35px -20px;
-  overflow: visible;
-  margin-top: 25px;
+  width: 85%;
+  align-self: center;
+  margin-top: 10%;
 }
 
 .row-container {
@@ -68,20 +64,18 @@
 .tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 10px;
-  padding-left: 40px;
-  padding-right: 40px;
-  padding-bottom: 40px;
+  gap: 0.7rem;
+  padding: 0.7rem 2.5rem 2.5rem 2.5rem;
 }
 
 .tag-button {
-  padding: 8px 15px;
-  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
   border: 1px solid #d9d9d9;
   background: rgba(255, 255, 255, 1);
   cursor: pointer;
   color: black;
+  text-transform: capitalize;
 }
 
 .tag-button.active{
@@ -95,8 +89,53 @@
 
 .slider-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  width: 80%;
-  padding-left: 40px;
-  padding-left: 40px;
+  align-items: center;
+  width: 90%;
+  margin-bottom: 6%;
+  padding-inline-start: 2.5rem;
+}
+
+.slider-container > p {
+    font-size: 1.3rem;
+    font-weight: 900;
+}
+
+
+/* DESKTOP STYLES */
+@media (min-width: 481px) {
+    .mainContainer {
+        padding-top: 2%;
+    }
+
+    .container {
+        width: 70%;
+        align-self: center;
+    }
+
+    .heading-container {
+        align-self: flex-start;
+        margin-bottom: 2rem;
+        margin-top: 2rem;
+    }
+    
+    .btn-container {
+        width: 50%;
+        align-self: center;
+    }
+    
+    .row-container {
+        align-self: center;
+    }
+
+    .slider-container {
+        padding-inline-start: 15%;
+        margin-bottom: 4%;
+    }
+
+    .slider-container > p {
+        margin-bottom: 1%;
+        font-size: 1.3rem;
+    }
 }
