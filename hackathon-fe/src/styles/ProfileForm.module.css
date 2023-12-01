@@ -223,6 +223,12 @@
         margin: 0%;
     }
 
+    .photo-form-group > img {
+        width: 5.5rem;
+        height: 5rem;
+        border-radius: 50%;
+    }
+
     .form-group {
         display: flex;
         flex-direction: column;
