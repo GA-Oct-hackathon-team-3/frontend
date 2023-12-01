@@ -57,6 +57,12 @@
     align-items: center;
 }
 
+.photo-form-group > img {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+}
+
 .photo-form-group > label {
     width: 5rem;
     height: 5rem;

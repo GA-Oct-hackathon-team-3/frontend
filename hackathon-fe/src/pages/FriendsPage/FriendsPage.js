@@ -68,7 +68,7 @@ const FriendsPage = () => {
     // renders each section with the corresponding friends category data
     if (friends.length === 0) return;
     return (
-      <div>
+      <div className={styles['section']}>
         <h3>{sectionTitle}</h3>
         {friends.map((friend) => (
           <FriendItem
@@ -90,17 +90,17 @@ const FriendsPage = () => {
           className={styles['search-bar']}
           value={searchQuery}
           onChange={(e) => handleSearch(e.target.value)}
-          placeholder="Search by name, date, month..."
+          placeholder="Search by name..."
         />
 
-        <div className={styles.reminders}>
+        <div className={styles['reminders']}>
           <img src={manCelebratingImg} alt="Man celebrating" />
           <img src={WomanCelebratingImg} alt="Woman celebrating" />
           <div>
-            {filteredFriends && filteredFriends.today.length > 0 ? (
-              filteredFriends.today.map((friend, idx) => (
+            {friends && friends.today.length > 0 ? (
+              friends.today.map((friend, idx) => (
                 <p key={idx} style={{ color: friend.cardColor }}>
-                  It's {friend.name}'s Birthday Today!
+                  It's {friend.name}'s birthday today!
                 </p>
               ))
             ) : (
@@ -121,7 +121,7 @@ const FriendsPage = () => {
             <div className={styles['no-friends-yet']}>
               <img src={noFriendsImg} alt="No friends added yet." />
               <p>
-                No birthdays to display – add a friend below to start gifting!
+                No birthdays to display... add a friend below to start gifting!
               </p>
             </div>
           )}
