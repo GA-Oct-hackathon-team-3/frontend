@@ -86,6 +86,7 @@ const FriendsPage = () => {
     <>
       <Header />
       <div className={styles['friends-container']}>
+        <div className={styles['content-container']}>
         <input
           className={styles['search-bar']}
           value={searchQuery}
@@ -157,6 +158,7 @@ const FriendsPage = () => {
           <span>+</span>
           Add Friend
         </button>
+        </div>
       </div>
 
       <Footer />

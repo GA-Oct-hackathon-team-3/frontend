@@ -66,7 +66,9 @@ const FriendItem = ({ friend, name, dob, id, photo, daysUntilBirthday, cardColor
           }}
           onClick={viewSavedGiftsHandler}
         >
+            <span>
           View Saved Gifts{" "}
+            </span>
           <sub className={styles["dropdown-button"]}>
             {!isViewSavedGifts ? (
               <RiArrowDropDownLine />
