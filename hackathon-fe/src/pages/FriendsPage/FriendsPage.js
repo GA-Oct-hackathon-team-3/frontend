@@ -86,6 +86,7 @@ const FriendsPage = () => {
     <>
       <Header />
       <div className={styles['friends-container']}>
+        <div className={styles['content-container']}>
         <input
           className={styles['search-bar']}
           value={searchQuery}
@@ -128,11 +129,11 @@ const FriendsPage = () => {
         </div>
 
         {fromSignup === 'true' && onboardingStep === 1 && (
-          <div className={styles['onboarding-overlay']}>
-            <div className={styles['onboarding-content']}>
+          <div className={styles['onboarding-overlay-step-one']}>
+            <div className={styles['content']}>
               <h2>Welcome to your Presently Dashboard!</h2>
               <ul>
-                Here you can:
+                Here you can...
                 <li>See birthdays that are coming up soon</li>
                 <li>
                   Search for a friend to view their profile or saved gifts
@@ -144,8 +145,8 @@ const FriendsPage = () => {
         )}
 
         {fromSignup === 'true' && onboardingStep === 2 && (
-          <div className={styles['onboarding-overlay2']}>
-            <div className={styles['onboarding-content2']}>
+          <div className={styles['onboarding-overlay-step-two']}>
+            <div className={styles['content']}>
               <h2>Add a new friend profile to get personalized gift ideas.</h2>
               <p onClick={() => setOnboardingStep(0)}>Skip for now</p>
               <img src={pointingHandImg} alt="Pointing hand" />
@@ -153,10 +154,11 @@ const FriendsPage = () => {
           </div>
         )}
 
-        <button onClick={() => navigate('/addfriend')}>
+        <button onClick={() => navigate('/addfriend')} className={styles['add-friend']}>
           <span>+</span>
           Add Friend
         </button>
+        </div>
       </div>
 
       <Footer />
