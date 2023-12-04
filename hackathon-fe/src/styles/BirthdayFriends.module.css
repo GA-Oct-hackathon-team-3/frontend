@@ -3,6 +3,7 @@
     background-color: #FDF7ED;
     height: 100vh;
     padding-top: 6rem;
+    padding-bottom: 7.2rem;
     overflow-y: scroll;
     overflow-x: hidden;
     display: flex;
@@ -126,43 +127,41 @@
     letter-spacing: 0.28px;
   }
 
-  .friends-container > button {
-    height: 75px;
+  .add-friend {
+    height: 4.7rem;
     position: fixed;
-    bottom: 80px;
+    bottom: 5rem;
     right: 0;
-    margin-right: 20px;
-    margin-bottom: 10px;
+    margin-right: 1.2rem;
+    margin-bottom: 0.6rem;
 
-    font-size: 16px;
-    font-style: normal;
+    font-size: 1rem;
     font-weight: 700;
-    line-height: normal;
     letter-spacing: 0.48px;
     
-    border-radius: 20px;
+    border-radius: 1.2rem;
     border: 1px solid #D9D9D9;
     background: #53CF85;
 
     display: inline-flex;
-    padding: 16px;
+    padding: 1rem;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 8px;
+    gap: 0.5rem;
     color: #fff;
-    z-index: 1500;
+    z-index: 1;
   }
 
-  .friends-container > button > span {
-    font-size: 40px;
-    margin-top: -15px;
-    margin-bottom: -18px;
+  .add-friend > span {
+    font-size: 2.5rem;
+    margin-top: -1rem;
+    margin-bottom: -1rem;
   }
 
   /*  ~~~ FRIEND ITEM ~~~  */
 
-  .itemButton {
+  .item-button {
     width: 100%;
     background-color: #FDF7ED;
   }
@@ -184,7 +183,7 @@
 
   }
 
-  .item > div {
+  .item-card {
     width: 100%;
     display: flex;
     justify-content: space-around;
@@ -193,19 +192,19 @@
     padding-bottom: 10px;
   }
 
-  .item > div > img {
+  .item-card > img {
     width: 65px;
     height: 65px;
     border-radius: 50%;
   }
 
-  .item > div > div:nth-child(2) {
+  .item-card-info {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
   }
 
-  .item > div > div:nth-child(2) > p:nth-child(1) {
+  .item-card-info > p:nth-child(1) {
     color: #3D3C3C;
     width: max-content;
     font-size: 24px;
@@ -216,7 +215,7 @@
     text-align: left;
   }
   
-  .item > div > div:nth-child(2) > p:nth-child(2) {
+  .item-card-info > p:nth-child(2) {
     color: #3D3C3C;
     font-size: 16px;
     font-style: normal;
@@ -225,22 +224,21 @@
     text-align: left;
   }
 
-  .item > div > div:nth-child(3) {
+  .item-card-days {
     display: flex;
     flex-direction: column;
     height: 60px;
 
   }
 
-  .item > div > div:nth-child(3) > p:nth-child(1) {
-    /* color: #FE6797; */
+  .item-card-days > p:nth-child(1) {
     font-size: 40px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
   }
 
-  .item > div > div:nth-child(3) > p:nth-child(2) {
+  .item-card-days > p:nth-child(2) {
     width: 68.886px;
     color: #3D3C3C;
     text-align: center;
@@ -250,8 +248,7 @@
     line-height: 20.8px
   }
 
-  .itemButton > div:nth-child(2) {
-    /* border: 2px solid red; */
+  .gift-dropdown {
     width: 100%;
     padding: 8px 5px;
     color: #FDF7ED;
@@ -268,60 +265,61 @@
     transition: border-bottom-left-radius 0.5s ease-in-out, border-bottom-right-radius 0.5s ease-in-out;
   }
   
-  .itemButton > div:nth-child(2) > .dropdown {
-    font-size: 20px;
+  .dropdown-button {
+    font-size: 1.2rem;
     font-weight: 900;
   }
   
-  .itemButton > div:nth-child(3) {
+  .saved-gifts {
     color: black;
     background-color: #fff;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     flex-wrap: wrap;
-    gap: 5px;
+    gap: 0.5rem;
     height: 0; 
     transition: height 0.5s ease-in-out, overflow 0.5s ease-in-out;
   }
   
-  .itemButton > div:nth-child(3).open {
-    /* border: 1px solid royalblue; */
-    height: 130px;
+  .saved-gifts.open {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    height: 8rem;
     overflow: scroll;
   }
 
-  .itemButton > div:nth-child(3).open > p {
+  .saved-gifts.open > p {
     font-size: 18px;
     font-weight: 900;
   }
 
-  .itemButton > div:nth-child(3).open > a {
+  .saved-gifts.open > a {
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 8px;
-    width: 100px;
-    height: 100px;
+    width: 6.2rem;
+    height: 6.2rem;
     overflow: hidden;
     color: black;
   }
   
-  .itemButton > div:nth-child(3).open > a > img {
+  .saved-gifts.open > a > img {
     border: 1px solid gray;
-    width: 60px;
-    height: 60px;
+    width: 3.75rem;
+    height: 3.75rem;
     object-fit: cover;
   }
 
-  .itemButton > div:nth-child(3).open > a > p {
+  .saved-gifts.open > a > p {
     width: fit-content;
   }
 
 
   /*  ~~~ ONBOARDING ~~~  */
 
-  .onboarding-overlay {
+  .onboarding-overlay-step-one {
     /* border: 2px solid red; */
     position: absolute;
     top: 0;
@@ -332,18 +330,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 2000;
+    z-index: 11;
   }
 
-  .onboarding-overlay > .onboarding-content {
+  .onboarding-overlay-step-one > .content {
     display: inline-flex;
-    width: 328px;
-    height: 379px;
-    padding: 32px;
+    width: 80%;
+    height: 50%;
+    padding: 2rem;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
-    gap: 24px;
+    gap: 1.5rem;
     flex-shrink: 0;
     background-color: #fff;
     border-radius: 20px;
@@ -351,46 +349,39 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
 
-  .onboarding-overlay > .onboarding-content > h2 {
+  .onboarding-overlay-step-one > .content > h2 {
     color: #000;
-    font-size: 26px;
+    font-size: 1.6rem;
     font-style: normal;
     font-weight: 900;
     line-height: normal;
+    letter-spacing: 0.56px;
+  }
+
+  .onboarding-overlay-step-one > .content > ul {
+    font-size: 1.3rem;
+    padding-inline-start: 0.5rem;
+  }
+
+  .onboarding-overlay-step-one > .content > ul > li {
+    margin-left: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 400;
     letter-spacing: 0.48px;
   }
 
-  .onboarding-overlay > .onboarding-content > ul {
-    font-size: 20px;
-  }
-
-  .onboarding-overlay > .onboarding-content > ul > li {
-    margin-left: 30px;
-    color: #000;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    letter-spacing: 0.4px;
-  }
-
-  .onboarding-overlay > .onboarding-content > button {
-    width: 264px;
-    height: 60px;
+  .onboarding-overlay-step-one > .content > button {
+    width: 90%;
+    height: 4rem;
     border-radius: 20px;
     background-color: #53CF85;
-
     color: var(--Bright-White, #FFF);
     text-align: center;
-    font-size: 24px;
-    font-style: normal;
+    font-size: 1.5rem;
     font-weight: 900;
-    line-height: normal;
   }
 
-  /* ~~~~~~~~~~~~~~~~ */
-
-  .onboarding-overlay2 {
+  .onboarding-overlay-step-two {
     position: absolute;
     top: 0;
     left: 0;
@@ -400,27 +391,27 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1500;
+    z-index: 11;
   }
 
-  .onboarding-overlay2 > .onboarding-content2 {
+  .onboarding-overlay-step-two > .content {
     display: inline-flex;
-    width: 294px;
-    height: 185px;
-    padding: 32px;
+    width: 75%;
+    height: 20%;
+    padding: 2rem;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 24px;
+    gap: 1.5rem;
     flex-shrink: 0;
     background-color: #fff;
     border-radius: 20px;
     border: 1px solid #D9D9D9;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 75px;
+    margin-bottom: 4.7rem;
   }
 
-  .onboarding-overlay2 > .onboarding-content2 > h2 {
+  .onboarding-overlay-step-two > .content > h2 {
     color: #000;
     font-size: 24px;
     font-style: normal;
@@ -430,7 +421,7 @@
     width: 230px;
   }
 
-  .onboarding-overlay2 > .onboarding-content2 > p {
+  .onboarding-overlay-step-two > .content > p {
     color: #3D3C3C;
     text-align: center;
     font-size: 16px;
@@ -440,10 +431,10 @@
     text-decoration-line: underline;
   }
 
-  .onboarding-overlay2 > .onboarding-content2 > img {
+  .onboarding-overlay-step-two > .content > img {
     position: fixed;
     bottom: 100px;
-    left: -25px;
+    left: -40px;
     width: 259.327px;
     height: 259.327px;
     transform: rotate(15.634deg);

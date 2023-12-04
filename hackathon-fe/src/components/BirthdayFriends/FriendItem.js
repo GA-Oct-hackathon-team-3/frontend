@@ -20,7 +20,7 @@ const FriendItem = ({ friend, name, dob, id, photo, daysUntilBirthday, cardColor
     return (
       <button
         onClick={() => navigate(`/friend/${id}`)}
-        className={styles["itemButton"]}
+        className={styles["item-button"]}
       >
         <div className={styles["item"]}>
           {daysUntilBirthday === 0 && (
@@ -34,7 +34,7 @@ const FriendItem = ({ friend, name, dob, id, photo, daysUntilBirthday, cardColor
             />
           )}
 
-          <div>
+          <div className={styles["item-card"]}>
             {photo ? (
               <img src={photo} alt={name} />
             ) : (
@@ -45,12 +45,12 @@ const FriendItem = ({ friend, name, dob, id, photo, daysUntilBirthday, cardColor
                 color={cardColor}
               />
             )}
-            <div>
+            <div className={styles["item-card-info"]}>
               <p>{name}</p>
               <p>{formatDate(dob)}</p>
             </div>
 
-            <div className={styles["card"]}>
+            <div className={styles["item-card-days"]}>
               <p className={styles["days"]} style={{ color: cardColor }}>
                 {daysUntilBirthday}
               </p>
@@ -58,7 +58,7 @@ const FriendItem = ({ friend, name, dob, id, photo, daysUntilBirthday, cardColor
             </div>
           </div>
         </div>
-        <div
+        <div className={styles["gift-dropdown"]}
           style={{
             backgroundColor: cardColor,
             borderBottomLeftRadius: isViewSavedGifts && "0",
@@ -67,7 +67,7 @@ const FriendItem = ({ friend, name, dob, id, photo, daysUntilBirthday, cardColor
           onClick={viewSavedGiftsHandler}
         >
           View Saved Gifts{" "}
-          <sub className={styles.dropdown}>
+          <sub className={styles["dropdown-button"]}>
             {!isViewSavedGifts ? (
               <RiArrowDropDownLine />
             ) : (
@@ -75,7 +75,7 @@ const FriendItem = ({ friend, name, dob, id, photo, daysUntilBirthday, cardColor
             )}
           </sub>
         </div>
-        <div className={isViewSavedGifts ? styles.open : ""}>
+        <div className={`${styles["saved-gifts"]} ${isViewSavedGifts && styles["open"]}`}>
           {isViewSavedGifts && favoriteGifts && favoriteGifts.map((fav, idx) => {
               return (
                 <Link
@@ -89,7 +89,7 @@ const FriendItem = ({ friend, name, dob, id, photo, daysUntilBirthday, cardColor
                 </Link>
               );
             })}
-          {isViewSavedGifts && !favoriteGifts && (
+          {isViewSavedGifts && favoriteGifts.length === 0 && (
             <p>No Favorites At This Time.</p>
           )}
         </div>
