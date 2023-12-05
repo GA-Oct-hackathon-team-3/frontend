@@ -40,6 +40,11 @@ export async function uploadPhoto(id, file) {
     if (response.status === 200) return response;
 }
 
+export async function getBirthdays () {
+    const friends = await sendRequest(BASE_URL + '/birthdays', "GET", null);
+    return friends;
+}
+
 
 export async function getFavorites(id){
   const response = await sendRequest(`${BASE_URL}/${id}/favorites`, "GET", null);
