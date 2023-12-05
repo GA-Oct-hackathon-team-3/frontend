@@ -105,7 +105,7 @@
     align-self: flex-start;
 }
 
-.form-group > input {
+.form-group > input, .form-group > textarea {
     background-color: #fff;
     border: 1px solid #fff;
     border-radius: 8px;
@@ -162,31 +162,11 @@
     padding: 2.5%;
 }
 
-
-.logout {
-    position: relative;
-    width: 22%;
-    left: 72%;
-    margin-bottom: 2%;
-    text-align: center;
-    z-index: 0;
-}
-
-.logout > button {
-    text-decoration: none;
-    background-color: #53CF85;
-    color: #fff;
-    width: 100%;
-    font-size: 0.9rem;
-    font-weight: 700;
-    border-radius: 20px;
-}
-
 /* DESKTOP STLYES */
 @media (min-width: 481px) {
     .profile-container {
         height: 100vh;
-        padding-top: 10%;
+        padding-top: 15%;
     }
 
     .content-container {
@@ -247,7 +227,7 @@
         letter-spacing: 0.64px;
     }
 
-    .form-group > input {
+    .form-group > input, .form-group > textarea {
         width: 95%;
         font-size: 1rem;
         border: 1px solid var(--Bright-White, #FFF);
@@ -284,18 +264,6 @@
 
     .selector > div {
         padding: 2%;
-    }
-
-    .logout {
-        top: 5%;
-        left: 75%;
-        width: 20%;
-        padding: 0.5%;
-        max-width: 5rem;
-    }
-
-    .logout > button {
-        font-size: 0.8rem;
     }
 
 }

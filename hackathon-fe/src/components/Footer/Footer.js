@@ -24,7 +24,7 @@ const Footer = () => {
           <p>Reminders</p>
         </div>
       </NavLink>
-      <NavLink className={styles["link"]} to="/">
+      <NavLink className={styles["link"]} to="/calendar">
         <div className={styles["icon"]}>
           <img src={Calender} alt="a calendar" />
           <p>Calendar</p>

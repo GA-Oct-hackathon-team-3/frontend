@@ -1,196 +1,148 @@
-import React, { useState, useEffect, useRef } from "react";
-import Header from "../../components/Header/Header";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import * as profilesService from '../../utilities/profiles-service';
+import styles from '../../styles/ShowFriend.module.css';
+import { Card, CardHeader, IconButton, CardContent } from '@mui/material';
+import { splitDOB, calculateAge } from '../../utilities/helpers';
 
-import { BsArrowLeft } from "react-icons/bs";
-import * as profilesService from "../../utilities/profiles-service";
-import { profileFormValidation, profileDobValidation, getUniqueTimezones, getTimezones } from "../../utilities/helpers";
-
-import styles from "../../styles/ProfileForm.module.css";
-import { Box, MenuItem, Select } from "@mui/material";
-
+import { BsArrowLeft } from 'react-icons/bs';
+import EditIcon from '../../assets/edit_icon.png';
+import purpleGear from '../../assets/purpleGear.png';
 
 const Profile = () => {
-  const navigate = useNavigate();
-  
-  const [validationMessage, setValidationMessage] = useState('');
-  const [profileInput, setProfileInput] = useState(null);
-  const [displayFile, setDisplayFile] = useState(null);
-  const [uploadedFile, setUploadedFile] = useState(null);
-  const [buttonHTML, setButtonHTML] = useState("Add profile photo");
+    const navigate = useNavigate();
+    const [userProfile, setUserProfile] = useState(null);
+    const [dobObject, setDobObject] = useState(null);
 
-  const fileInputRef = useRef(null);
+    useEffect(() => {
+        const fetchProfile = async () => {
+          const profileInfo = await profilesService.getProfile();
+          if (profileInfo.profile.photo) {
+            const uniqueTimestamp = Date.now();
+            profileInfo.profile.photo =  profileInfo.profile.photo ? `${profileInfo.profile.photo}?timestamp=${uniqueTimestamp}` : "https://i.imgur.com/hCwHtRc.png";
+          }
+            setUserProfile(profileInfo.profile);
+            setDobObject(splitDOB(profileInfo.profile.dob));
+        };
+        fetchProfile();
+      }, []);
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      const profileInfo = await profilesService.getProfile();
-      setProfileInput(profileInfo.profile);
-      if (profileInfo.photo) {
-        const uniqueTimestamp = Date.now();
-        const profilePhoto = profileInfo.photo ? `${profileInfo.photo}?timestamp=${uniqueTimestamp}` : "https://i.imgur.com/hCwHtRc.png";
-        setDisplayFile(profilePhoto);
-        setButtonHTML("Change Photo");
-      }
-    };
-    fetchProfile();
-  }, []);
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    const validDate = profileDobValidation(profileInput.dob);
-    const valid = profileFormValidation(profileInput);
-    if (!validDate) {
-        setValidationMessage('Date of birth cannot be in the future');
-        return;
-    }
-    if (!valid) {
-        setValidationMessage('Required fields are marked with (*)');
-        return;
-    }
-    const response = await profilesService.updateUserProfile(profileInput);
-    if (uploadedFile) {
-      const photoResponse = await profilesService.uploadPhoto(uploadedFile);
-      if (photoResponse.ok && response.message === "User details updated")
-        navigate("/friends");
-    }
-    if (response.message === "User profile updated") navigate("/friends");
-  };
-  function handleAddPhotoClick(evt) {
-    evt.preventDefault();
-    fileInputRef.current.click();
-  }
-  function handleFileChange(evt) {
-    // assigns file upload to display image, adds file to state for form submit, and toggles button HTML
-    const file = evt.target.files[0];
-    if (file) {
-      setDisplayFile(URL.createObjectURL(file));
-      setUploadedFile(file);
-      setButtonHTML("Change Photo");
-    } else {
-      setDisplayFile(null);
-      setUploadedFile(null);
-      setButtonHTML("Add Photo");
-    }
-  }
-  const logOutHandler = (e) => {
-    e.preventDefault();
-    localStorage.removeItem("token");
-    navigate("/login");
-  };
-  return (
-    <>
-      <Header />
-      <section className={styles["profile-container"]}>
-        <div className={styles["content-container"]}>
-        <div className={styles["back-button"]}>
-          <p onClick={() => navigate(-1)}>
-            <BsArrowLeft />
+      return (
+        <div className={styles['container']}>
+        <div className={styles['content-container']}>
+      <div className={styles['shadow']}></div>
+        <p className={styles['back-btn']} onClick={() => navigate('/friends')}>
+          <BsArrowLeft />
+        </p>
+      <div className={styles["settings"]} onClick={() => navigate('/settings')} >
+          <img src={purpleGear} alt='settings'/>
+            Settings
+        </div>
+      <div className={styles['profile-header']}>
+      <div className={styles['profile']}>
+        <img
+          src={ userProfile && userProfile.photo ? userProfile.photo : 'https://i.imgur.com/hCwHtRc.png' }
+          alt={userProfile && userProfile.name}
+          className={styles['profile-pic']}
+        />
+        <h2 style={{ position: 'relative' }}>{userProfile && userProfile.name}</h2>
+      </div>
+      <div className={styles['birthday']}>
+        <div className={styles['description']}>
+          <p className={styles['text-brick']}>{dobObject && dobObject.day}</p>
+          <p>{dobObject && dobObject.month}</p>
+        </div>
+        <div className={styles['border']}>
+          <p></p>
+          <p></p>
+        </div>
+        <div className={styles['description']}>
+          <p className={styles['text-brick']}>
+            {userProfile && userProfile.daysUntilBirthday}
           </p>
+          <p>Days left</p>
         </div>
-        <form onSubmit={submitHandler} encType="multipart/form-data" className={styles["form-container"]}>
-        <div className={styles["logout"]}>
-          <button onClick={logOutHandler}>Log Out</button>
+        <div className={styles['border']}>
+          <p></p>
+          <p></p>
         </div>
-          <div className={styles["photo-group"]}>
-            <div className={styles["photo-form-group"]}>
-                <h1>My Profile</h1>
-                {displayFile ? (
-                <img
-                    src={`${displayFile}`}
-                    alt="Uploaded"
-                    style={{ height: "80px", width: "80px", paddingBottom: "6px" }}
-                />
-                ) : (
-                <label htmlFor="image" className={styles["add-image"]} onChange={handleAddPhotoClick}>
-                    +
-                </label>
-                )}
-                <input
-                type="file"
-                name="photo"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-                style={{ display: "none" }}
-                accept=".jpg,.jpeg,.svg,.tiff,.bmp,.png,.webp"
-                />
-                <p onClick={handleAddPhotoClick}>{buttonHTML}</p>
+        <div className={styles['description']}>
+          <p className={styles['text-brick']}>
+            {userProfile && calculateAge(userProfile.dob)}
+          </p>
+          <p>Age </p>
+        </div>
+        <div>
+          <img
+            onClick={() => navigate(`/profile/edit`)}
+            alt="edit"
+            src={EditIcon}
+          />
+        </div>
+      </div>
+      </div>
+      <div className={styles['tab-container']}>
+        <span
+          className={styles['active-tab']}
+        >
+          Profile
+        </span>
+      </div>
+      <div className={styles['active-container']}>
+      <Card className={styles['card']}>
+        <CardHeader
+          className={styles['card-header']}
+          title="Bio"
+          action={
+            <IconButton onClick={() => navigate(`/profile/edit`)}>
+              <img alt="edit" src={EditIcon} />
+            </IconButton>
+          }
+        />
+        <CardContent>
+          <div className={styles['gift-preference']}>
+            <div className={styles['bio']}>
+                { userProfile && userProfile.bio }
             </div>
           </div>
-          <br />
-          <p>{validationMessage ? validationMessage : ''}</p>
-          <div className={styles["form-group"]}>
-            <label htmlFor="name">Name *</label>
-            <input
-              id="name"
-              value={profileInput && profileInput.name}
-              onChange={(e) =>
-                setProfileInput({ ...profileInput, name: e.target.value })
-              }
-            />
-          </div>
-          <br />
-
-          <div className={styles["form-select-group"]}>
-          <div className={styles["form-group"]}>
-              <label htmlFor="dob">Date of Birth *</label>
-              <input
-                type="date"
-                id="dob"
-                value={profileInput && profileInput.dob}
-                max={new Date().toISOString().split('T')[0]}
-                onChange={(e) =>
-                  setProfileInput({
-                    ...profileInput,
-                    dob: e.target.value
-                  })
-                }
-              />
+        </CardContent>
+      </Card>
+      <Card className={styles['card']}>
+        <CardHeader
+          className={styles['card-header']}
+          title="Interests"
+          action={
+            <IconButton onClick={() => navigate(`/profile/edit/interests`)}>
+              <img alt="edit" src={EditIcon} />
+            </IconButton>
+          }
+        />
+        <CardContent>
+          <div className={styles['gift-preference']}>
+            <div className={styles['tags']}>
+              {userProfile &&
+                userProfile.interests.map((interest, idx) => (
+                          <button key={idx}>{interest}</button>
+                ))}
+              {userProfile && 
+                (!userProfile.interests.length && (
+                  <>
+                    <div>
+                      See your interests here
+                    </div>
+                  </>
+                ))}
             </div>
-            <br />
-            <Box className={styles["form-group"]}>
-              <label htmlFor="gender">Gender</label>
-              <Select
-                id="gender"
-                value={profileInput && profileInput.gender}
-                onChange={(e) =>
-                  setProfileInput({ ...profileInput, gender: e.target.value })
-                }
-                className={styles["selector"]}
-              >
-                <MenuItem disabled></MenuItem>
-                <MenuItem value="male">Male</MenuItem>
-                <MenuItem value="female">Female</MenuItem>
-                <MenuItem value="other">Other</MenuItem>
-              </Select>
-            </Box>
-            <br />
-          <Box className={styles["form-group"]}>
-          <label htmlFor="timezone">Timezone</label>
-          <Select 
-          id="timezone" 
-          value={(profileInput && profileInput.timezone) || 'UTC'} 
-          className={styles['selector']}
-          onChange={(e)=> setProfileInput({...profileInput, timezone: e.target.value})}
-          >
-            {
-              getTimezones().map(tz => {
-                return (
-                  <MenuItem value={tz}>{tz.replace(/_/g, ' ')}</MenuItem>
-                );
-              })
-            }
-          </Select>
-          </Box>
           </div>
-          <br />
-          <br />
-          <button onClick={submitHandler} className={styles["profile-submit-button"]}>Confirm</button>
-        </form>
+        </CardContent>
+      </Card>
+      </div>
         </div>
-      </section>
-    </>
-  );
-};
+      <ToastContainer className={styles['toast-container']} hideProgressBar />
+    </div>
+      )
+}
 
 export default Profile;
-
