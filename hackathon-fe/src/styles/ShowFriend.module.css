@@ -140,15 +140,15 @@
   margin: 0.7rem 0;
 }
 
-button {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 0.4rem;
-  background-color: #53CF85;
-  cursor: pointer;
-  position: relative;
-  color: #FDF7ED;
-  text-transform: capitalize;
+.tags > button {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 0.4rem;
+        background-color: #53CF85;
+        cursor: pointer;
+        position: relative;
+        color: #FDF7ED;
+        text-transform: capitalize;     
 }
 
 .edit-btn {
@@ -389,8 +389,14 @@ button {
         padding: 1%;
         margin-top: 1%;
     }
-      
-      button {
+
+          
+    .action-btn {
+        padding: 0.5rem 1rem;
+        font-size: 1.1rem;
+      }
+
+      .tags > button {
         padding: 0.5rem 1rem;
         font-size: 1.1rem;
       }
