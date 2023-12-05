@@ -102,6 +102,12 @@
     font-weight: 900;
 }
 
+.logout {
+    width: 40%;
+    align-self: center;
+    font-size: 1.3rem;
+}
+
 
 /* DESKTOP STYLES */
 @media (min-width: 481px) {

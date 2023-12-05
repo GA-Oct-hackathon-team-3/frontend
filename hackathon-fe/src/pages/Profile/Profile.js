@@ -8,6 +8,7 @@ import { splitDOB, calculateAge } from '../../utilities/helpers';
 
 import { BsArrowLeft } from 'react-icons/bs';
 import EditIcon from '../../assets/edit_icon.png';
+import purpleGear from '../../assets/purpleGear.png';
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -27,11 +28,6 @@ const Profile = () => {
         fetchProfile();
       }, []);
 
-      const logOutHandler = (e) => {
-        e.preventDefault();
-        localStorage.removeItem("token");
-        navigate("/login");
-      };
 
       return (
         <div className={styles['container']}>
@@ -40,8 +36,9 @@ const Profile = () => {
         <p className={styles['back-btn']} onClick={() => navigate('/friends')}>
           <BsArrowLeft />
         </p>
-      <div className={styles["logout"]}>
-          <button onClick={logOutHandler}>Log Out</button>
+      <div className={styles["settings"]} onClick={() => navigate('/settings')} >
+          <img src={purpleGear} alt='settings'/>
+            Settings
         </div>
       <div className={styles['profile-header']}>
       <div className={styles['profile']}>
