@@ -13,12 +13,14 @@ import EditInterestsPage from './pages/Profile/EditInterests';
 import ProfilePage from "./pages/Profile/Profile";
 import FriendsPage from "./pages/FriendsPage/FriendsPage";
 import FriendPage from "./pages/FriendPage/FriendPage";
+import CalendarPage from './pages/Calendar';
 import FiltersPage from "./pages/FiltersPage/FiltersPage";
 import CreateFriendPage from "./pages/CreateFriendPage/CreateFriendPage";
 import TagAdderPage from "./pages/TagAdder/TagAdder";
 import UpdateFriendPage from "./pages/UpdateFriendPage/UpdateFriendPage";
 import DeleteUserPage from './pages/Account/DeleteUserPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicy/PrivacyPolicyPage';
+import SettingsPage from './pages/Settings';
 
 function App() {
   return (
@@ -29,6 +31,7 @@ function App() {
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/settings" element={<SettingsPage /> } />
           <Route
             path="/profile"
             element={
@@ -74,6 +77,14 @@ function App() {
             element={
               <ProtectedPage>
                 <UpdateFriendPage />
+              </ProtectedPage>
+            }
+          />
+          <Route
+            path="/calendar"
+            element={
+              <ProtectedPage>
+                <CalendarPage />
               </ProtectedPage>
             }
           />
