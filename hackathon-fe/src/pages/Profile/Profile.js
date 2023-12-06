@@ -8,7 +8,7 @@ import { splitDOB, calculateAge } from '../../utilities/helpers';
 
 import { BsArrowLeft } from 'react-icons/bs';
 import EditIcon from '../../assets/edit_icon.png';
-import purpleGear from '../../assets/purpleGear.png';
+import gear from '../../assets/gear.png';
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -37,7 +37,7 @@ const Profile = () => {
           <BsArrowLeft />
         </p>
       <div className={styles["settings"]} onClick={() => navigate('/settings')} >
-          <img src={purpleGear} alt='settings'/>
+          <img src={gear} alt='settings'/>
             Settings
         </div>
       <div className={styles['profile-header']}>
@@ -114,7 +114,7 @@ const Profile = () => {
           className={styles['card-header']}
           title="Interests"
           action={
-            <IconButton onClick={() => navigate(`/profile/edit/interests`)}>
+            <IconButton onClick={() => navigate(`/profile/edit`)}>
               <img alt="edit" src={EditIcon} />
             </IconButton>
           }

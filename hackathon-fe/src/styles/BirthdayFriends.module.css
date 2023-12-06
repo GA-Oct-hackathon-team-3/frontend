@@ -171,6 +171,9 @@
     width: 100%;
     background-color: #FDF7ED;
     min-width: 18rem;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
 }
 
 .item {
