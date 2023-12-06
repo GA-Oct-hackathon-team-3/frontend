@@ -6,7 +6,10 @@ export async function getProfile() {
   return await sendRequest(`${WEB_BASE_URL}/users/profile`, "GET", null);
 }
 
-export async function updateUserProfile(userData) {
+export async function updateUserProfile(profileInput, interests) {
+    // combine interests and other profile info into userData for submission
+    if (interests) profileInput.interests = interests;
+    const userData = {...profileInput};
   return await sendRequest(`${WEB_BASE_URL}/users/profile`, "PUT", userData);
 }
 
