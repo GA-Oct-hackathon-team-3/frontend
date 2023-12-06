@@ -5,6 +5,7 @@ import * as friendsService from '../utilities/friends-service';
 import styles from '../styles/Calendar.module.css';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
+import CalendarFriendItem from '../components/CalendarFriendItem';
 
 const CalendarPage = () => {
   const navigate = useNavigate();
@@ -44,13 +45,9 @@ const CalendarPage = () => {
     return (
       matchingBirthdays.length > 0 ? (
         <div className={styles['birthday-section']}>
+            <h2>Current Birthdays...</h2>
           {matchingBirthdays.map((friend) => (
-            <div
-              key={friend._id}
-              onClick={() => navigate(`/friend/${friend._id}`)}
-            >
-              {friend.name}'s birthday
-            </div>
+            <CalendarFriendItem id={friend._id} name={friend.name} photo={friend.photo} dob={friend.dob} />
           ))}
         </div>
       ) : 'No birthdays on this date'

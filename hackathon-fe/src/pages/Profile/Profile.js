@@ -114,7 +114,7 @@ const Profile = () => {
           className={styles['card-header']}
           title="Interests"
           action={
-            <IconButton onClick={() => navigate(`/profile/edit/interests`)}>
+            <IconButton onClick={() => navigate(`/profile/edit`)}>
               <img alt="edit" src={EditIcon} />
             </IconButton>
           }

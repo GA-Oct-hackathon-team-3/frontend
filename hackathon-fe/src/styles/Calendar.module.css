@@ -21,6 +21,16 @@
     margin-bottom: 1rem;
 }
 
+.birthday-card > img {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+}
+
+.birthday-card > div > p {
+    text-transform: capitalize;
+}
+
 :global(.react-calendar) {
     width: 100%;
     max-width: 100%;
