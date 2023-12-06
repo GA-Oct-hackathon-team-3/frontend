@@ -8,6 +8,16 @@
     align-items: center;
 }
 
+.user-profile-container {
+    background: var(--Background-Cream, #FDF7ED);
+    min-height: 100vh;
+    padding: 26% 2% 5% 2%;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .toast-container {
     width: 195px !important;
     margin-top: 20px !important;
@@ -132,6 +142,28 @@
     font-size: 1rem;
 }
 
+.interest-group {
+    width: 98%;
+    align-self: center;
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 1rem;
+}
+
+.interest-button {
+    padding: 1.5% 3%;
+    margin-right: 0.6rem;
+    margin-bottom: 0.6rem; 
+    border: 1px solid #D9D9D9;
+    border-radius: 8px;
+    background-color: #53CF85;
+    color: #fff;
+    line-height: 1.9rem;
+    font-size: 0.8rem;
+    text-transform: capitalize;
+    z-index: 0;
+}
+
 .profile-submit-button {
     text-decoration: none;
     display: flex;
@@ -144,6 +176,7 @@
     margin: 0 auto;
     background-color: #53CF85;
     font-size: 1rem;
+    border: none;
 }
 
 .preference-group > button.gift-type-active {
@@ -164,23 +197,27 @@
 
 /* DESKTOP STLYES */
 @media (min-width: 481px) {
-    .profile-container {
-        height: 100vh;
-        padding-top: 15%;
+    .profile-container, .user-profile-container {
+        padding-top: 8%;
     }
-
+    
     .content-container {
         width: 70%;
         max-width: 800px;
-        max-height: 650px;
         display: flex;
         flex-direction: column;
         align-items: center;
     }
 
-    .back-button {
+    .profile-container > .content-container > .back-button {
         font-size: 1.5rem;
-        align-self: flex-start;
+    }
+
+    .user-profile-container > .content-container > .back-button {
+        font-size: 1.5rem;
+        position: relative;
+        top: -20%;
+        left: 5%;
     }
 
     .form-container {
@@ -242,6 +279,11 @@
         justify-content: space-between;
         align-self: center;
         gap: 5%;
+    }
+
+    .interest-button {
+        padding: 0.75% 1.5%;
+        font-size: 0.9rem;
     }
 
     .profile-submit-button {

@@ -15,6 +15,8 @@ const UpdateProfile = () => {
   
   const [validationMessage, setValidationMessage] = useState('');
   const [profileInput, setProfileInput] = useState(null);
+  const [interestInput, setInterestInput] = useState('');
+  const [interests, setInterests] = useState([]);
   const [displayFile, setDisplayFile] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [buttonHTML, setButtonHTML] = useState("Add profile photo");
@@ -31,23 +33,22 @@ const UpdateProfile = () => {
         setDisplayFile(profilePhoto);
         setButtonHTML("Change Photo");
       }
+      setInterests([...profileInfo.profile.interests]);
     };
     fetchProfile();
   }, []);
 
   const submitHandler = async (e) => {
     e.preventDefault();
+
+    // form validations
     const validDate = profileDobValidation(profileInput.dob);
     const valid = profileFormValidation(profileInput);
-    if (!validDate) {
-        setValidationMessage('Date of birth cannot be in the future');
-        return;
-    }
-    if (!valid) {
-        setValidationMessage('Required fields are marked with (*)');
-        return;
-    }
-    const response = await profilesService.updateUserProfile(profileInput);
+    if (!validDate) return setValidationMessage('Date of birth cannot be in the future');
+    if (!valid) return setValidationMessage('Required fields are marked with (*)');
+
+    // pass in interests and profileInput 
+    const response = await profilesService.updateUserProfile(profileInput, interests);
     if (uploadedFile) {
       const photoResponse = await profilesService.uploadPhoto(uploadedFile);
       if (photoResponse.ok && response.message === "User details updated")
@@ -73,10 +74,22 @@ const UpdateProfile = () => {
     }
   }
 
+  const handleAddInterest = () => {
+    if (interestInput && !interests.includes(interestInput.toLowerCase())) {
+      setInterests((prev) => [...prev, interestInput.toLowerCase()]);
+    }
+    setInterestInput('');
+  };
+
+  const handleRemoveInterest = (e, interestToRemove) => {
+    e.preventDefault();
+    setInterests((prevInterests) => prevInterests.filter(interest => interest !== interestToRemove));
+  }
+
   return (
     <>
       <Header />
-      <section className={styles["profile-container"]}>
+      <section className={styles["user-profile-container"]}>
         <div className={styles["content-container"]}>
         <div className={styles["back-button"]}>
           <p onClick={() => navigate(-1)}>
@@ -118,7 +131,7 @@ const UpdateProfile = () => {
               value={profileInput && profileInput.name}
               maxLength={30}
               onChange={(e) =>
-                setProfileInput({ ...profileInput, name: e.target.value.trim() })
+                setProfileInput({ ...profileInput, name: e.target.value })
               }
             />
           </div>
@@ -130,7 +143,7 @@ const UpdateProfile = () => {
               value={profileInput && profileInput.bio}
               maxLength={150}
               onChange={(e) =>
-                setProfileInput({ ...profileInput, bio: e.target.value.trim() })
+                setProfileInput({ ...profileInput, bio: e.target.value })
               }
             />
           </div>
@@ -187,6 +200,33 @@ const UpdateProfile = () => {
             }
           </Select>
           </Box>
+          <br />
+          <div className={styles["form-group"]}>
+            <input
+                type="text"
+                name="interests"
+                placeholder="Type to add interests"
+                value={interestInput}
+                onChange={(e)=> setInterestInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') { e.preventDefault(); handleAddInterest()}
+                }}
+            />
+          </div>
+          <br />
+          <div className={styles['interest-group']}>
+            {interests && interests.length > 0
+                ? interests.map((interest, index) => (
+                    <button
+                    className={styles['interest-button']}
+                      onClick={(e) => handleRemoveInterest(e, interest)}
+                      key={index}
+                    >
+                      {interest}
+                    </button>
+                  ))
+                : ''}
+          </div>
           </div>
           <br />
           <br />
