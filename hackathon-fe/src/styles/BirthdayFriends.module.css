@@ -222,7 +222,8 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    letter-spacing: -0.72px;
+    letter-spacing: -0.28px;
+    text-transform: capitalize;
     text-align: left;
 }
 

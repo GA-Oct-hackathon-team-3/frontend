@@ -103,9 +103,15 @@
 }
 
 .logout {
-    width: 40%;
+    width: 20%;
+    padding: 1rem 0;
     align-self: center;
     font-size: 1.3rem;
+    font-weight: 900;
+    background-color: #53CF85;
+    color: white;
+    border-radius: 0.5rem;
+    border: none;
 }
 
 

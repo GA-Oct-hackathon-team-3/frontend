@@ -1,7 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 
-import Footer from "./components/Footer/Footer";
-
 import { RecommendationProvider } from "./components/RecommendationContext/RecommendationContext";
 
 import ProtectedPage from "./components/ProtectedPage/ProtectedPage";
@@ -9,7 +7,6 @@ import LandingPage from "./pages/Landing/Landing";
 import SignUpPage from "./pages/SignUp/SignUp";
 import LoginPage from "./pages/Login/Login";
 import UpdateProfilePage from "./pages/Profile/UpdateProfile";
-import EditInterestsPage from './pages/Profile/EditInterests';
 import ProfilePage from "./pages/Profile/Profile";
 import FriendsPage from "./pages/FriendsPage/FriendsPage";
 import FriendPage from "./pages/FriendPage/FriendPage";
@@ -45,14 +42,6 @@ function App() {
             element={
               <ProtectedPage>
                 <UpdateProfilePage />
-              </ProtectedPage>
-            }
-          />
-          <Route
-            path="/profile/edit/interests"
-            element={
-              <ProtectedPage>
-                <EditInterestsPage />
               </ProtectedPage>
             }
           />
