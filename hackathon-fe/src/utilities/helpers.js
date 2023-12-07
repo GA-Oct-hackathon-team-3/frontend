@@ -69,6 +69,12 @@ export function calculateAge(dateOfBirth) {
   return years;
 }
 
+export function formatPartialDate (date) {
+    const fullDate = formatDate(date);
+    const [ day, month ] = fullDate.split(' ');
+    return `${month} ${day}`;
+}
+
 export function profileFormValidation(profileInput) {
   if (!profileInput.name || !profileInput.dob || !profileInput.gender)
     return false;

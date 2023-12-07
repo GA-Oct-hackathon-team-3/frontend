@@ -91,7 +91,7 @@ const FriendPage = () => {
     <div className={styles['container']}>
         <div className={styles['content-container']}>
       <div className={styles['shadow']}></div>
-        <p className={styles['back-btn']} onClick={() => navigate(-1)}>
+        <p className={styles['back-btn']} onClick={() => navigate('/friends')}>
           <BsArrowLeft />
         </p>
       <div className={styles['profile-header']}>
