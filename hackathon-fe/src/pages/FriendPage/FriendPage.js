@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import styles from '../../styles/ShowFriend.module.css';
 import * as friendsService from '../../utilities/friends-service';
 import { splitDOB, calculateAge } from '../../utilities/helpers';
+import { IconButton } from '@mui/material';
 import { BsArrowLeft } from 'react-icons/bs';
 
 import EditIcon from '../../assets/edit_icon.png';
@@ -129,11 +130,11 @@ const FriendPage = () => {
           <p>Age </p>
         </div>
         <div>
-          <img
-            onClick={() => navigate(`/friend/${id}/edit`)}
-            alt="edit"
-            src={EditIcon}
-          />
+        <div>
+          <IconButton onClick={() => navigate(`/friend/${id}/edit`)}>
+            <img alt="edit" src={EditIcon} />
+            </IconButton>
+        </div>
         </div>
       </div>
       </div>

@@ -391,6 +391,7 @@
     text-align: center;
     font-size: 1.5rem;
     font-weight: 900;
+    border: none;
 }
 
 .onboarding-overlay-step-two {

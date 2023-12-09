@@ -291,6 +291,7 @@
     align-items: center;
     top: 2%;
     right: 8%;
+    cursor: pointer;
 }
 
 .settings > img {
