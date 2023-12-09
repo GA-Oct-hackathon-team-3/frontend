@@ -110,12 +110,15 @@ const CalendarPage = () => {
   const handleClickMonth = (month) => {
     setSelectedMonth(month); // updating selected month when month is clicked in year view
     setActiveDate(month); // updating display to that month
+    setSelectedDate(''); // clears birthday section when month is changed
   };
 
   const handleActiveChange = ({ action, activeStartDate }) => {
     setActiveDate(activeStartDate);
-    if (action === 'prev' || action === 'next')  
-      setSelectedMonth(activeStartDate); // updating selected month when next and prev are clicked
+    if (action === 'prev' || action === 'next') {
+        setSelectedMonth(activeStartDate); // updating selected month when next and prev are clicked
+        setSelectedDate(''); // clears birthday section when month is changed
+    }
   };
 
   return (
