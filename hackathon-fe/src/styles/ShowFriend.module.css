@@ -11,11 +11,12 @@
 }
 
 .toast-container {
-  width: 195px;
-  margin-top: 20px;
-  margin-left: 25%;
-  text-align: center;
-  
+    width: 15rem !important;
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+    margin-left: 18% !important;
+    margin-top: 5% !important;
 }
 
 .shadow {
@@ -316,6 +317,11 @@
     .content-container {
         width: 90%;
         max-width: 850px;
+    }
+
+    .toast-container {
+        margin-top: 0% !important;
+        margin-left: 0% !important;
     }
 
     .shadow {
