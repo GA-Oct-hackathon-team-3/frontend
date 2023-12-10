@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import styles from '../../styles/ShowFriend.module.css';
 import * as friendsService from '../../utilities/friends-service';
 import { splitDOB, calculateAge } from '../../utilities/helpers';
@@ -49,7 +48,7 @@ const FriendPage = () => {
 
   useEffect(() => {
     let stateData;
-    if (!hasShownToast && location.state) {
+    if (!hasShownToast && location.state && location.state.path) {
       stateData = location.state;
       if (
         (friend && stateData.path === `/friend/${friend._id}/tag`) ||
@@ -180,8 +179,8 @@ const FriendPage = () => {
         />
       )}
       </div>
-        </div>
       <ToastContainer className={styles['toast-container']} hideProgressBar />
+        </div>
     </div>
   );
 };

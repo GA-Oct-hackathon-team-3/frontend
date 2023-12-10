@@ -24,6 +24,7 @@ function CreateFriendProfile() {
   const [displayFile, setDisplayFile] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [buttonHTML, setButtonHTML] = useState("Add profile photo");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [profile, setProfile] = useState({
     name: "",
     dob: "",
@@ -61,63 +62,42 @@ function CreateFriendProfile() {
     }
   }
 
+  const handleFormMessage = (string) => {
+    setIsSubmitting(false);
+    
+    // handles scrolling to top to display message with various reasons for why form is not valid for submit
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return setValidationMessage(string);
+  }
+
   const submitHandler = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    
+    
+    setValidationMessage('');
+
     const validDate = profileDobValidation(profile.dob);
     const valid = profileFormValidation(profile);
-    if (!validDate) {
-      setValidationMessage("Date of birth cannot be in the future");
-      return;
-    }
-    if (!valid) {
-      toast.error("Submission failed. See required fields.", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 1500,
-      });
-      setTimeout(() => {
-        setValidationMessage("Required fields are marked with (*)");
-      }, 2300);
-      return;
-    }
+    if (!validDate) return handleFormMessage("Date of birth cannot be in the future");
 
-    try {
+    if (!valid) return handleFormMessage("Required fields are marked with (*)");
+
       const friendData = await friendsService.createFriend(profile);
       if (uploadedFile) {
-        try {
-          const response = await friendsService.uploadPhoto(
-            friendData._id,
-            uploadedFile
-          );
-          if (response.ok && friendData) {
-            toast.info("Creating friend..", {
+          const photoResponse = await friendsService.uploadPhoto(friendData._id, uploadedFile);
+          if (!photoResponse.ok) toast.error('Failed to upload photo. Please try again.');
+      }
+
+        if (friendData) {
+            toast.info("Creating friend...", {
               position: toast.POSITION.TOP_CENTER,
-              autoClose: 1500,
+              autoClose: 1000,
             });
 
-            setTimeout(() => {
-              navigate("/friend/" + friendData._id + "/tag");
-            }, 2300);
+            setTimeout(() => { navigate("/friend/" + friendData._id + "/tag") }, 2300);
           }
-        } catch (error) {
-          console.log(error);
-        }
       }
-      if (friendData) {
-        if (!uploadedFile) {
-          toast.info("Creating friend..", {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 1500,
-          });
-        }
-
-        setTimeout(() => {
-          navigate("/friend/" + friendData._id + "/tag");
-        }, 2300);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <>
@@ -165,7 +145,7 @@ function CreateFriendProfile() {
           <br />
           <p>{validationMessage ? validationMessage : ""}</p>
           <div className={styles["form-group"]}>
-            <label htmlFor="name">Name *</label>
+            <label htmlFor="name" style={{ paddingTop: '10px' }}>Name *</label>
             <input
               id="name"
               value={profile.name}
@@ -280,9 +260,8 @@ function CreateFriendProfile() {
             </select>
           </div> */}
 
-          <button onClick={submitHandler} className={styles["profile-submit-button"]}>Continue to Tags</button>
+          <button onClick={submitHandler} className={styles["profile-submit-button"]} disabled={isSubmitting}>Continue to Tags</button>
         </form>
-
         <ToastContainer className={styles["toast-container"]} />
         </div>
       </section>

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import { debounce } from 'lodash';
 
@@ -25,6 +24,7 @@ function TagAdder() {
   const [inputValue, setInputValue] = useState('');
   const [defaultTags, setDefaultTags] = useState([]);
   const [suggestedTags, setSuggestedTags] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const fetchFriend = async () => {
@@ -94,7 +94,9 @@ function TagAdder() {
   };
 
   const submitHandler = async () => {
-    toast.info('Updating tags..', {
+    setIsSubmitting(true);
+    
+    toast.info('Updating tags...', {
       position: toast.POSITION.TOP_CENTER,
       autoClose: 1000,
     });
@@ -188,12 +190,12 @@ function TagAdder() {
             ))}
           </div>
 
-          <button className={styles['complete-button']} onClick={submitHandler}>
+          <button className={styles['complete-button']} onClick={submitHandler} disabled={isSubmitting}>
             Complete Profile
           </button>
+      <ToastContainer className={styles['toast-container']} />
         </div>
       </div>
-      <ToastContainer className={styles['toast-container']} />
     </>
   );
 }

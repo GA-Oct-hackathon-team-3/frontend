@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 import * as profilesService from '../../utilities/profiles-service';
 import styles from '../../styles/ShowFriend.module.css';
 import { Card, CardHeader, IconButton, CardContent } from '@mui/material';
@@ -12,8 +12,11 @@ import gear from '../../assets/gear.png';
 
 const Profile = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const [userProfile, setUserProfile] = useState(null);
   const [dobObject, setDobObject] = useState(null);
+  const [hasShownToast, setHasShownToast] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -29,6 +32,23 @@ const Profile = () => {
     };
     fetchProfile();
   }, []);
+
+  useEffect(() => {
+    let stateData;
+    if (!hasShownToast && location.state && location.state.path) {
+      stateData = location.state;
+      if (
+        (userProfile && stateData.path === '/profile/edit') ||
+        (userProfile && stateData.path === '/update-password')
+      ) {
+        toast.success('Profile updated!', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 1000,
+        });
+        setHasShownToast(true);
+      }
+    }
+  }, [userProfile, location.state, hasShownToast]); // this useEffect call determines when to show toast notification
 
   return (
     <div className={styles['container']}>
@@ -142,8 +162,8 @@ const Profile = () => {
             </CardContent>
           </Card>
         </div>
-      </div>
       <ToastContainer className={styles['toast-container']} hideProgressBar />
+      </div>
     </div>
   );
 };
