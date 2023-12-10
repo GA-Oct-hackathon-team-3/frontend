@@ -18,6 +18,7 @@ import UpdateFriendPage from "./pages/UpdateFriendPage/UpdateFriendPage";
 import DeleteUserPage from './pages/Account/DeleteUserPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicy/PrivacyPolicyPage';
 import SettingsPage from './pages/Settings';
+import UpdatePasswordPage from "./pages/Account/UpdatePassword";
 
 function App() {
   return (
@@ -106,6 +107,14 @@ function App() {
             element={
               <ProtectedPage>
                 <DeleteUserPage />
+              </ProtectedPage>
+            }
+          />
+          <Route
+            path="/update-password"
+            element={
+              <ProtectedPage>
+                <UpdatePasswordPage />
               </ProtectedPage>
             }
           />
