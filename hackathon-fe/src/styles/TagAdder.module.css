@@ -53,10 +53,12 @@
 }
 
 .toast-container {
-    width: 195px;
-    margin-top: 20px;
-    margin-left: 25%;
-    text-align: center;
+    width: 15rem !important;
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+    margin-left: 18% !important;
+    margin-top: 5% !important;
 }
 
 .tag-input {
@@ -132,6 +134,10 @@
     margin-bottom: 3%;
 }
 
+.complete-button:disabled {
+    background-color: lightgreen;
+}
+
 
 /* DESKTOP STYLES */
 @media (min-width: 481px) {
@@ -142,6 +148,11 @@
     .content-container {
         width: 70%;
         max-width: 700px;
+    }
+
+    .toast-container {
+        margin-top: 0% !important;
+        margin-left: 0% !important;
     }
 
     .header {

@@ -103,7 +103,7 @@
 }
 
 .logout {
-    width: 20%;
+    width: 50%;
     padding: 1rem 0;
     align-self: center;
     font-size: 1.3rem;
@@ -149,5 +149,9 @@
     .slider-container > p {
         margin-bottom: 1%;
         font-size: 1.3rem;
+    }
+
+    .logout {
+        width: 20%;
     }
 }

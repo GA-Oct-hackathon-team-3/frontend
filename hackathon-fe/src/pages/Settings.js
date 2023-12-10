@@ -35,6 +35,11 @@ const Settings = () => {
             <h2>Delete Account</h2>
           </div>
         </div>
+        <div className={styles["row-container"]}>
+          <div className={styles.row} onClick={() => navigate('/update-password')}>
+            <h2>Update Password</h2>
+          </div>
+        </div>
       </div>
         <button className={styles["logout"]} onClick={logOutHandler}>Logout</button>
     </div>

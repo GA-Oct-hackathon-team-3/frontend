@@ -6,7 +6,6 @@ import * as friendsService from "../../utilities/friends-service";
 import { profileFormValidation, profileDobValidation } from "../../utilities/helpers";
 
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 import Header from "../../components/Header/Header";
 
@@ -30,6 +29,7 @@ function UpdateFriendPage () {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [buttonHTML, setButtonHTML] = useState('Add profile photo');
   const [validationMessage, setValidationMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const fileInputRef = useRef(null);
 
@@ -75,25 +75,32 @@ function handleFileChange (evt) {
     setProfileInput({ ...profileInput, giftPreferences: newGiftTypes });
   };
 
+  const handleFormMessage = (string) => {
+    setIsSubmitting(false);
+    
+    // handles scrolling to top to display message with various reasons for why form is not valid for submit
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return setValidationMessage(string);
+  }
+
   const submitHandler = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
+
+    setValidationMessage('');
+
     const validDate = profileDobValidation(profileInput.dob);
     const valid = profileFormValidation(profileInput);
-    if (!validDate) {
-        setValidationMessage('Date of birth cannot be in the future');
-        return;
-    }
-    if (!valid) {
-        setValidationMessage('Required fields are marked with (*)');
-        return;
-    }
+    if (!validDate) return handleFormMessage('Date of birth cannot be in the future');
+    if (!valid) return handleFormMessage('Required fields are marked with (*)');
+
     const response = await friendsService.updateFriend(id, profileInput);
     if (uploadedFile) {
         const photoResponse = await friendsService.uploadPhoto(id, uploadedFile);
-        if (photoResponse.ok && response.message === 'Friend updated') navigate(`/friend/${id}`);
+        if (!photoResponse.ok) toast.error('Failed to upload photo. Please try again.');
     }
     if (response.message === 'Friend updated') {
-      toast.info("Updating friend..", {
+      toast.info("Updating friend...", {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 1000,
       });
@@ -233,7 +240,7 @@ function handleFileChange (evt) {
             </select>
           </div> */}
 
-          <button onClick={submitHandler} className={styles["profile-submit-button"]}>Confirm</button>
+          <button onClick={submitHandler} className={styles["profile-submit-button"]} disabled={isSubmitting}>Confirm</button>
         </form>
         <ToastContainer className={styles["toast-container"]} />
         </div>

@@ -188,9 +188,10 @@
 }
 
 .confetti {
-    border: "2px solid red";
-    margin: "0 auto";
-
+    position: relative;
+    margin-top: -0.7rem;
+    z-index: 0;
+    justify-self: center;
 }
 
 .item-card {
@@ -390,6 +391,7 @@
     text-align: center;
     font-size: 1.5rem;
     font-weight: 900;
+    border: none;
 }
 
 .onboarding-overlay-step-two {
@@ -512,6 +514,10 @@
             border-bottom-left-radius: 10px;
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
+        }
+
+        .confetti {
+            margin-top: -8rem;
         }
 
         .gift-dropdown {

@@ -23,16 +23,17 @@ const FriendItem = ({ friend, name, dob, id, photo, daysUntilBirthday, cardColor
         className={styles["item-button"]}
       >
         <div className={styles["item"]}>
+            <div className={styles['confetti']}>
           {daysUntilBirthday === 0 && (
             <Confetti
               height="90"
-              width="320"
+              width="300"
               numberOfPieces="65"
               colors={presentlyCardColors}
-              style={{ margin: "8px auto 0" }}
               ref={canvasRef}
             />
           )}
+            </div>
 
           <div className={styles["item-card"]}>
             {photo ? (
@@ -92,7 +93,7 @@ const FriendItem = ({ friend, name, dob, id, photo, daysUntilBirthday, cardColor
               );
             })}
           {isViewSavedGifts && favoriteGifts.length === 0 && (
-            <p>No Favorites At This Time.</p>
+            <p>No favorite gifts at this time.</p>
           )}
         </div>
       </button>

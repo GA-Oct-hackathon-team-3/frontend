@@ -1,17 +1,17 @@
-import { WEB_BASE_URL } from "./constants";
-import sendRequest from "./send-request";
+import { WEB_BASE_URL } from './constants';
+import sendRequest from './send-request';
 const BASE_URL = `${WEB_BASE_URL}/`;
 
 export function register(userData) {
-  return sendRequest(`${BASE_URL}users`, "POST", userData);
+  return sendRequest(`${BASE_URL}users`, 'POST', userData);
 }
 
 export function login(credentials) {
-  return sendRequest(`${BASE_URL}users/login`, "POST", credentials);
+  return sendRequest(`${BASE_URL}users/login`, 'POST', credentials);
 }
 
 export function googleLogin(credentials) {
-  return sendRequest(`${BASE_URL}googleSignin`, "POST", credentials);
+  return sendRequest(`${BASE_URL}googleSignin`, 'POST', credentials);
 }
 
 export function checkToken() {
@@ -19,9 +19,13 @@ export function checkToken() {
 }
 
 export function deleteUser(user) {
-  return sendRequest(`${BASE_URL}users`, "DELETE", user);
+  return sendRequest(`${BASE_URL}users`, 'DELETE', user);
 }
 
 export function confirmDeleteUser(token) {
-  return sendRequest(`${BASE_URL}users/confirm-delete`, "POST", token);
+  return sendRequest(`${BASE_URL}users/confirm-delete`, 'POST', token);
+}
+
+export function updatePassword(formInput) {
+  return sendRequest(`${BASE_URL}users/password`, 'PUT', formInput);
 }

@@ -18,16 +18,18 @@
     align-items: center;
 }
 
-.toast-container {
-    width: 195px !important;
-    margin-top: 20px !important;
-    margin-left: 25% !important;
-    text-align: center;
-}
-
 .content-container {
     height: 100%;
     width: 100%;
+}
+
+.toast-container {
+    width: 15rem !important;
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+    margin-left: 18% !important;
+    margin-top: 5% !important;
 }
 
 .back-button {
@@ -179,6 +181,10 @@
     border: none;
 }
 
+.profile-submit-button:disabled {
+    background-color: lightgreen;
+}
+
 .preference-group > button.gift-type-active {
     background-color: #53CF85 !important;
     color: #fff !important;
@@ -218,6 +224,11 @@
         position: relative;
         top: -20%;
         left: 5%;
+    }
+
+    .toast-container {
+        margin-top: 0% !important;
+        margin-left: 0% !important;
     }
 
     .form-container {

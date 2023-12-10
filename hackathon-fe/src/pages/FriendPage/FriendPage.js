@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import styles from '../../styles/ShowFriend.module.css';
 import * as friendsService from '../../utilities/friends-service';
 import { splitDOB, calculateAge } from '../../utilities/helpers';
+import { IconButton } from '@mui/material';
 import { BsArrowLeft } from 'react-icons/bs';
 
 import EditIcon from '../../assets/edit_icon.png';
@@ -48,7 +48,7 @@ const FriendPage = () => {
 
   useEffect(() => {
     let stateData;
-    if (!hasShownToast && location.state) {
+    if (!hasShownToast && location.state && location.state.path) {
       stateData = location.state;
       if (
         (friend && stateData.path === `/friend/${friend._id}/tag`) ||
@@ -129,11 +129,11 @@ const FriendPage = () => {
           <p>Age </p>
         </div>
         <div>
-          <img
-            onClick={() => navigate(`/friend/${id}/edit`)}
-            alt="edit"
-            src={EditIcon}
-          />
+        <div>
+          <IconButton onClick={() => navigate(`/friend/${id}/edit`)}>
+            <img alt="edit" src={EditIcon} />
+            </IconButton>
+        </div>
         </div>
       </div>
       </div>
@@ -179,8 +179,8 @@ const FriendPage = () => {
         />
       )}
       </div>
-        </div>
       <ToastContainer className={styles['toast-container']} hideProgressBar />
+        </div>
     </div>
   );
 };

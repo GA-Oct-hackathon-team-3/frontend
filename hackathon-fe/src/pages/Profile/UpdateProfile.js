@@ -1,17 +1,20 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import Header from "../../components/Header/Header";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { BsArrowLeft } from "react-icons/bs";
 import * as profilesService from "../../utilities/profiles-service";
 import { profileFormValidation, profileDobValidation, getTimezones } from "../../utilities/helpers";
 
 import styles from "../../styles/ProfileForm.module.css";
+import { ToastContainer, toast } from "react-toastify";
 import { Box, MenuItem, Select } from "@mui/material";
 
 
 const UpdateProfile = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const fileInputRef = useRef(null);
   
   const [validationMessage, setValidationMessage] = useState('');
   const [profileInput, setProfileInput] = useState(null);
@@ -20,16 +23,15 @@ const UpdateProfile = () => {
   const [displayFile, setDisplayFile] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [buttonHTML, setButtonHTML] = useState("Add profile photo");
-
-  const fileInputRef = useRef(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
       const profileInfo = await profilesService.getProfile();
       setProfileInput(profileInfo.profile);
-      if (profileInfo.photo) {
+      if (profileInfo.profile.photo) {
         const uniqueTimestamp = Date.now();
-        const profilePhoto = profileInfo.photo ? `${profileInfo.photo}?timestamp=${uniqueTimestamp}` : "https://i.imgur.com/hCwHtRc.png";
+        const profilePhoto = profileInfo.profile.photo ? `${profileInfo.profile.photo}?timestamp=${uniqueTimestamp}` : "https://i.imgur.com/hCwHtRc.png";
         setDisplayFile(profilePhoto);
         setButtonHTML("Change Photo");
       }
@@ -38,24 +40,42 @@ const UpdateProfile = () => {
     fetchProfile();
   }, []);
 
+  const handleFormMessage = (string) => {
+    setIsSubmitting(false);
+    
+    // handles scrolling to top to display message with various reasons for why form is not valid for submit
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return setValidationMessage(string);
+  }
+
   const submitHandler = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
+
+    setValidationMessage('');
 
     // form validations
     const validDate = profileDobValidation(profileInput.dob);
     const valid = profileFormValidation(profileInput);
-    if (!validDate) return setValidationMessage('Date of birth cannot be in the future');
-    if (!valid) return setValidationMessage('Required fields are marked with (*)');
+    if (!validDate) return handleFormMessage('Date of birth cannot be in the future');
+    if (!valid) return handleFormMessage('Required fields are marked with (*)');
 
     // pass in interests and profileInput 
     const response = await profilesService.updateUserProfile(profileInput, interests);
     if (uploadedFile) {
       const photoResponse = await profilesService.uploadPhoto(uploadedFile);
-      if (photoResponse.ok && response.message === "User details updated")
-        navigate("/profile");
+      if (!photoResponse.ok) toast.error('Failed to upload photo. Please try again.');
     }
-    if (response.message === "User profile updated") navigate("/profile");
+    if (response.message === 'User profile updated') {
+        toast.info('Updating profile...', {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 1000,
+          });
+
+          setTimeout(() => { navigate('/profile', { state: { path: location.pathname }}) }, 2000);
+    }
   };
+
   function handleAddPhotoClick(evt) {
     evt.preventDefault();
     fileInputRef.current.click();
@@ -125,7 +145,7 @@ const UpdateProfile = () => {
           <br />
           <p>{validationMessage ? validationMessage : ''}</p>
           <div className={styles["form-group"]}>
-            <label htmlFor="name">Name *</label>
+            <label htmlFor="name" style={{ paddingTop: '10px' }}>Name *</label>
             <input
               id="name"
               value={profileInput && profileInput.name}
@@ -192,9 +212,9 @@ const UpdateProfile = () => {
           onChange={(e)=> setProfileInput({...profileInput, timezone: e.target.value})}
           >
             {
-              getTimezones().map(tz => {
+              getTimezones().map((tz, index) => {
                 return (
-                  <MenuItem value={tz}>{tz.replace(/_/g, ' ')}</MenuItem>
+                  <MenuItem value={tz} key={index} >{tz.replace(/_/g, ' ')}</MenuItem>
                 );
               })
             }
@@ -230,8 +250,9 @@ const UpdateProfile = () => {
           </div>
           <br />
           <br />
-          <button onClick={submitHandler} className={styles["profile-submit-button"]}>Confirm</button>
+          <button onClick={submitHandler} className={styles["profile-submit-button"]} disabled={isSubmitting}>Confirm</button>
         </form>
+        <ToastContainer className={styles['toast-container']} />
         </div>
       </section>
     </>

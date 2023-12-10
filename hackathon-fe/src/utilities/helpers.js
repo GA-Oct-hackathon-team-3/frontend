@@ -30,18 +30,8 @@ export function splitDOB(dob) {
 
 export function formatDate(dateString) {
   const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December',
   ];
   const date = new Date(dateString);
   const day = date.getUTCDate();
@@ -57,27 +47,40 @@ export function calculateAge(dateOfBirth) {
 
   const years = currentDate.getFullYear() - dob.getFullYear();
 
-  // Check if the birthday for this year has occurred or not
-  if (
-    currentDate.getMonth() < dob.getMonth() ||
-    (currentDate.getMonth() === dob.getMonth() &&
-      currentDate.getDate() < dob.getDate())
-  ) {
-    return years - 1; // Subtract 1 if the birthday hasn't occurred yet this year
+  // check if the birthday for this year has occurred or not
+  if ( currentDate.getMonth() < dob.getMonth() || (currentDate.getMonth() === dob.getMonth() && currentDate.getDate() < dob.getDate())) {
+    return years - 1; // subtract 1 if the birthday hasn't occurred yet this year
   }
 
   return years;
 }
 
-export function formatPartialDate (date) {
-    const fullDate = formatDate(date);
-    const [ day, month ] = fullDate.split(' ');
-    return `${month} ${day}`;
+export function validatePassword(password) {
+    // check if the password is at least 8 characters in length
+    if (password.length < 8) return false;
+  
+    // check if password contains at least one...
+    const hasUppercase = /[A-Z]/.test(password); // uppercase
+    const hasLowercase = /[a-z]/.test(password); // lowercase
+    const hasNumber = /\d/.test(password); // number
+    const hasSpecialChar = /[!@#$%^&*()_+{}[\]:;<>,.?~^-]/.test(password); // special character
+  
+    // return true if all conditions are met
+    return hasUppercase && hasLowercase && hasNumber && hasSpecialChar;
+  }  
+
+export function validateMatch(password, confirmPassword) {
+  return password === confirmPassword;
+}
+
+export function formatPartialDate(date) {
+  const fullDate = formatDate(date);
+  const [day, month] = fullDate.split(' ');
+  return `${month} ${day}`;
 }
 
 export function profileFormValidation(profileInput) {
-  if (!profileInput.name || !profileInput.dob || !profileInput.gender)
-    return false;
+  if (!profileInput.name || !profileInput.dob || !profileInput.gender) return false;
   else return true;
 }
 
@@ -93,11 +96,11 @@ export function getTimezones() {
 }
 
 export const buildGiftLink = (gift, location) => {
-  if (/present/i.test(gift.giftType)) {
-    return `https://www.amazon.com/s?k=${gift.title}`;
-  } else if (/donation/i.test(gift.giftType)) {
-    return `https://www.google.com/search?q=${gift.title}`;
-  } else if (/experience/i.test(gift.giftType)) {
+  if (/present/i.test(gift.giftType)) return `https://www.amazon.com/s?k=${gift.title}`;
+
+  else if (/donation/i.test(gift.giftType)) return `https://www.google.com/search?q=${gift.title}`;
+  
+  else if (/experience/i.test(gift.giftType)) {
     let query = `https://www.google.com/search?q=${gift.title}`;
     if (location) query += `+near+${location}`; // uses friend location
     return query;
