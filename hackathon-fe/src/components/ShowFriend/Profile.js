@@ -1,12 +1,28 @@
 import { useNavigate } from 'react-router-dom';
+
 import Gift from './Gift';
 
-import 'react-toastify/dist/ReactToastify.css';
-import styles from '../../styles/ShowFriend.module.css';
-import { Card, CardHeader, IconButton, CardContent, Typography } from '@mui/material';
-import EditIcon from '../../assets/edit_icon.png';
+import EditIcon from '../../assets/icons/global/editIcon.png';
 
-const Profile = ({ favError, favorites, friendLocation, giftPreferences, id, tags, toggleFavorite }) => {
+import {
+  Card,
+  CardHeader,
+  IconButton,
+  CardContent,
+  Typography,
+} from '@mui/material';
+
+import styles from '../../styles/ShowFriend.module.css';
+
+const Profile = ({
+  favError,
+  favorites,
+  friendLocation,
+  giftPreferences,
+  id,
+  tags,
+  toggleFavorite,
+}) => {
   const navigate = useNavigate();
 
   return (
@@ -83,7 +99,7 @@ const Profile = ({ favError, favorites, friendLocation, giftPreferences, id, tag
             <div className={styles['tags']}>
               {tags &&
                 tags.map((tag, idx) => (
-                          <button key={tag._id}>{tag.title}</button>
+                  <button key={tag._id}>{tag.title}</button>
                 ))}
               {!tags ||
                 (!tags.length && (

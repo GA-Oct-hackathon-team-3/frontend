@@ -1,17 +1,30 @@
 import { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
+
 import * as friendsService from '../utilities/friends-service';
-import styles from '../styles/Calendar.module.css';
+import { formatPartialDate } from '../utilities/helpers';
+
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import CalendarFriendItem from '../components/CalendarFriendItem';
-import { formatPartialDate } from '../utilities/helpers';
+
+import { CircularProgress } from '@mui/material';
+import styles from '../styles/Calendar.module.css';
 
 const CalendarPage = () => {
   const currentDate = new Date();
-  const minDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-  const maxDate = new Date(currentDate.getFullYear() + 1, currentDate.getMonth(), currentDate.getDate());
+  const minDate = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    currentDate.getDate()
+  );
+  const maxDate = new Date(
+    currentDate.getFullYear() + 1,
+    currentDate.getMonth(),
+    currentDate.getDate()
+  );
 
+  const [isLoading, setIsLoading] = useState(true);
   const [birthdays, setBirthdays] = useState(null); // fetched from backend
   const [currentView, setCurrentView] = useState('month'); // controls view on calendar
   const [selectedDate, setSelectedDate] = useState(''); // selected date for view birthday section render
@@ -23,6 +36,9 @@ const CalendarPage = () => {
       const birthdayData = await friendsService.getBirthdays();
       // assigns state to response unless data comes back with message of no friends
       if (birthdayData && !birthdayData.message) setBirthdays(birthdayData);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1200);
     };
     fetchBirthdays();
   }, []);
@@ -30,9 +46,11 @@ const CalendarPage = () => {
   const tileContent = ({ date, view }) => {
     if (view !== 'month') return null; // removes rendering in year view
     if (!birthdays) return null;
-    else { // only runs if user has friends
+    else {
+      // only runs if user has friends
       if (!(date >= minDate && date <= maxDate)) return null;
-      else { // only renders on active dates
+      else {
+        // only renders on active dates
         const formattedDate = date // formats date for comparison
           .toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' })
           .replace(/\//g, '-');
@@ -56,20 +74,33 @@ const CalendarPage = () => {
   };
 
   const tileClassName = ({ date }) => {
-
     // adds color class to current dates day and month
-    const isCurrentDay = date.toDateString() === currentDate.toDateString() ? styles['current-date'] : '';
+    const isCurrentDay =
+      date.toDateString() === currentDate.toDateString()
+        ? styles['current-date']
+        : '';
 
-    const isCurrentMonth = currentView === 'year' && date.getFullYear() === currentDate.getFullYear() && date.getMonth() === currentDate.getMonth()
-      ? styles['current-date'] : '';
-
+    const isCurrentMonth =
+      currentView === 'year' &&
+      date.getFullYear() === currentDate.getFullYear() &&
+      date.getMonth() === currentDate.getMonth()
+        ? styles['current-date']
+        : '';
 
     // adds color class to selected day and month
-    const isSelectedDay = date.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' }).replace(/\//g, '-') === selectedDate
-        ? styles['selected-date'] : '';
+    const isSelectedDay =
+      date
+        .toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' })
+        .replace(/\//g, '-') === selectedDate
+        ? styles['selected-date']
+        : '';
 
-    const isSelectedMonth = currentView === 'year' && date.getMonth() === selectedMonth.getMonth() && date.getFullYear() === selectedMonth.getFullYear()
-        ? styles['selected-date'] : '';
+    const isSelectedMonth =
+      currentView === 'year' &&
+      date.getMonth() === selectedMonth.getMonth() &&
+      date.getFullYear() === selectedMonth.getFullYear()
+        ? styles['selected-date']
+        : '';
 
     return `${isCurrentDay} ${isSelectedDay} ${isCurrentMonth} ${isSelectedMonth}`;
   };
@@ -116,8 +147,8 @@ const CalendarPage = () => {
   const handleActiveChange = ({ action, activeStartDate }) => {
     setActiveDate(activeStartDate);
     if (action === 'prev' || action === 'next') {
-        setSelectedMonth(activeStartDate); // updating selected month when next and prev are clicked
-        setSelectedDate(''); // clears birthday section when month is changed
+      setSelectedMonth(activeStartDate); // updating selected month when next and prev are clicked
+      setSelectedDate(''); // clears birthday section when month is changed
     }
   };
 
@@ -125,26 +156,32 @@ const CalendarPage = () => {
     <>
       <Header />
       <div className={styles['calendar-container']}>
-        <div className={styles['content-container']}>
-          <h1>Calendar View</h1>
-          <Calendar
-            className={styles['react-calendar']}
-            tileContent={tileContent}
-            tileClassName={tileClassName}
-            showNeighboringMonth={false}
-            next2Label={null}
-            prev2Label={null}
-            minDate={minDate}
-            maxDate={maxDate}
-            view={currentView}
-            onViewChange={handleViewChange}
-            onClickMonth={handleClickMonth}
-            activeStartDate={activeDate}
-            onActiveStartDateChange={handleActiveChange}
-          />
-          {selectedDate && renderFriendLinks(selectedDate)}
-          <br />
-        </div>
+        {isLoading ? (
+          <div style={{ margin: 'auto' }}>
+            <CircularProgress color="secondary" />
+          </div>
+        ) : (
+          <div className={styles['content-container']}>
+            <h1>Calendar View</h1>
+            <Calendar
+              className={styles['react-calendar']}
+              tileContent={tileContent}
+              tileClassName={tileClassName}
+              showNeighboringMonth={false}
+              next2Label={null}
+              prev2Label={null}
+              minDate={minDate}
+              maxDate={maxDate}
+              view={currentView}
+              onViewChange={handleViewChange}
+              onClickMonth={handleClickMonth}
+              activeStartDate={activeDate}
+              onActiveStartDateChange={handleActiveChange}
+            />
+            {selectedDate && renderFriendLinks(selectedDate)}
+            <br />
+          </div>
+        )}
       </div>
       <Footer />
     </>

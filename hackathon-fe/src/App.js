@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
-import { RecommendationProvider } from "./components/RecommendationContext/RecommendationContext";
+import { RecommendationProvider } from './contexts/RecommendationContext';
 
 import ProtectedPage from "./components/ProtectedPage/ProtectedPage";
 import LandingPage from "./pages/Landing/Landing";

@@ -92,6 +92,10 @@
     border: none;
 }
 
+.signup-button:disabled {
+    background-color: lightgreen;
+}
+
 /* DESKTOP STLYES */
 @media (min-width: 481px) {
     .login-container {

@@ -1,18 +1,21 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BsArrowLeft } from 'react-icons/bs';
+
 import * as usersService from '../../utilities/users-service';
 import { validatePassword, validateMatch } from '../../utilities/helpers';
 
 import Header from '../../components/Header/Header';
 
-import styles from '../../styles/SignUp.module.css';
+import { BsArrowLeft } from 'react-icons/bs';
 import { Box, MenuItem, Select } from '@mui/material';
+
+import styles from '../../styles/SignUp.module.css';
 
 const LoginSignUp = () => {
   const navigate = useNavigate();
+  
   const [passwordValidity, setPasswordValidity] = useState(false);
-  const [passwordMatch, setPasswordMatch] = useState(true);
+  const [passwordMatch, setPasswordMatch] = useState(false);
   const [requiredMessage, setRequiredMessage] = useState(''); // displays invalid form and error messages
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -64,9 +67,13 @@ const LoginSignUp = () => {
         timezone,
       });
       if (userData) navigate('/friends?fromSignup=true');
-      else return handleFormMessage('Either an account has already been created with this email, or there is a network error. Please try again.');
+      else return handleFormMessage(
+          'Either an account has already been created with this email, or there is a network error. Please try again.'
+        );
     } catch (error) {
-      return handleFormMessage('Either an account has already been created with this email, or there is a network error. Please try again.');
+      return handleFormMessage(
+        'Either an account has already been created with this email, or there is a network error. Please try again.'
+      );
     }
   };
 
@@ -78,7 +85,8 @@ const LoginSignUp = () => {
       !formData.email ||
       !formData.dob ||
       !formData.gender
-    ) return false;
+    )
+      return false;
     else return true;
   }
 
@@ -115,7 +123,7 @@ const LoginSignUp = () => {
                 value={formData.password}
                 onChange={handleChange}
               />
-              {!passwordValidity && formData.password && (
+              {!passwordValidity && (
                 <p>
                   Password must contain at least 8 characters, 1 uppercase
                   letter, 1 lowercase letter, 1 number, & 1 special character.
@@ -131,7 +139,7 @@ const LoginSignUp = () => {
                 value={formData.confirmPassword}
                 onChange={handleChange}
               />
-              {!passwordMatch && formData.password && formData.confirmPassword && <p>Passwords do not match</p>}
+              {!passwordMatch && <p>Passwords do not match</p>}
             </div>
             <br />
             <div className={styles['form-group']}>

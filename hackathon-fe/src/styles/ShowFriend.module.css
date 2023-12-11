@@ -112,21 +112,21 @@
   width: 57.628px;
   height: 40px;
   flex-shrink: 0;
-  background: url("../assets/music_keys.png"), rgba(0, 0, 0, 0) 50% / contain no-repeat;
+  background: url("../assets/icons/friendDetail/experience.png"), rgba(0, 0, 0, 0) 50% / contain no-repeat;
 }
 
 .gift-type-btn__image--presents {
   width: 57.628px;
   height: 50px;
   flex-shrink: 0;
-  background: url("../assets/pink_gift_box_with_white_ribbon.png"), rgba(0, 0, 0, 0) 50% / contain no-repeat;
+  background: url("../assets/icons/friendDetail/presents.png"), rgba(0, 0, 0, 0) 50% / contain no-repeat;
 }
 
 .gift-type-btn__image--donations {
   width: 57.628px;
   height: 50px;
   flex-shrink: 0;
-  background: url("../assets/receive_cash.png"), rgba(0, 0, 0, 0) 50% / contain no-repeat;
+  background: url("../assets/icons/friendDetail/donation.png"), rgba(0, 0, 0, 0) 50% / contain no-repeat;
 }
 
 .gift-type-btn__text {
