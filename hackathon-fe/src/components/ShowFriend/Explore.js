@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import * as friendsService from '../../utilities/friends-service';
-import { useRecommendation } from '../RecommendationContext/RecommendationContext';
+import { useRecommendation } from '../../contexts/RecommendationContext';
 
 import Gift from './Gift';
 

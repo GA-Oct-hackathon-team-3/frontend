@@ -18,7 +18,6 @@ const Login = () => {
     password: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
   const [validationMessage, setValidationMessage] = useState('');
 
   const handleFormMessage = (string) => {
