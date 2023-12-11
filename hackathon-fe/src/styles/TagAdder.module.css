@@ -17,6 +17,14 @@
     align-items: center;
 }
 
+.back-button {
+    color: black;
+    font-size: 1.2rem;
+    padding-left: 8%;
+    align-self: flex-start;
+}
+
+
 .header {
     display: flex;
     flex-direction: column;

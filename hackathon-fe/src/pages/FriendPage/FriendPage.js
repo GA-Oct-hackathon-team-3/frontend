@@ -1,22 +1,26 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import styles from '../../styles/ShowFriend.module.css';
+
 import * as friendsService from '../../utilities/friends-service';
 import { splitDOB, calculateAge } from '../../utilities/helpers';
-import { IconButton } from '@mui/material';
-import { BsArrowLeft } from 'react-icons/bs';
-
-import EditIcon from '../../assets/edit_icon.png';
 
 import Profile from '../../components/ShowFriend/Profile';
 import Explore from '../../components/ShowFriend/Explore';
+
+import EditIcon from '../../assets/edit_icon.png';
+
+import { BsArrowLeft } from 'react-icons/bs';
+import { ToastContainer, toast } from 'react-toastify';
+import { IconButton, CircularProgress } from '@mui/material';
+
+import styles from '../../styles/ShowFriend.module.css';
 
 const FriendPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [isLoading, setIsLoading] = useState(true);
   const [friend, setFriend] = useState(null);
   const [favorites, setFavorites] = useState([]);
   const [dobObject, setDobObject] = useState(null);
@@ -36,14 +40,16 @@ const FriendPage = () => {
       setDobObject(splitDOB(friendData.dob));
       setFavorites(friendData.favoriteGifts);
       if (friendData.tags.length > 0) setEnableRecs(true);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1200);
     };
     fetchFriend();
   }, [id]);
 
   useEffect(() => {
     // checking state passed from filter's page, and then changing tab to explore on mount
-    if (location.state && location.state.tab === 'explore')
-      setActiveTab('explore');
+    if (location.state && location.state.tab === 'explore') setActiveTab('explore');
   }, [location.state]);
 
   useEffect(() => {
@@ -65,14 +71,15 @@ const FriendPage = () => {
 
   const toggleFavorite = async (recommendation, e) => {
     e.preventDefault();
-    const idx = favorites.findIndex((fav) => fav.title.toLowerCase() === recommendation.title.toLowerCase());
+    const idx = favorites.findIndex(
+      (fav) => fav.title.toLowerCase() === recommendation.title.toLowerCase()
+    );
     if (idx > -1) {
       // remove from favorites
       try {
         const item = favorites[idx];
         const res = await friendsService.removeFromFavorites(id, item._id);
-        if (res)
-          setFavorites(favorites.slice(0, idx).concat(favorites.slice(idx + 1)));
+        if (res) setFavorites(favorites.slice(0, idx).concat(favorites.slice(idx + 1)));
       } catch (error) {
         setFavError(error.message);
       }
@@ -89,98 +96,123 @@ const FriendPage = () => {
 
   return (
     <div className={styles['container']}>
-        <div className={styles['content-container']}>
-      <div className={styles['shadow']}></div>
-        <p className={styles['back-btn']} onClick={() => navigate('/friends')}>
-          <BsArrowLeft />
-        </p>
-      <div className={styles['profile-header']}>
-      <div className={styles['profile']}>
-        <img
-          src={ friend && friend.photo ? friend.photo : 'https://i.imgur.com/hCwHtRc.png' }
-          alt={friend && friend.name}
-          className={styles['profile-pic']}
-        />
-        <h2 style={{ position: 'relative' }}>{friend && friend.name}</h2>
-      </div>
-      <div className={styles['birthday']}>
-        <div className={styles['description']}>
-          <p className={styles['text-brick']}>{dobObject && dobObject.day}</p>
-          <p>{dobObject && dobObject.month}</p>
-        </div>
-        <div className={styles['border']}>
-          <p></p>
-          <p></p>
-        </div>
-        <div className={styles['description']}>
-          <p className={styles['text-brick']}>
-            {friend && friend.daysUntilBirthday}
-          </p>
-          <p>Days left</p>
-        </div>
-        <div className={styles['border']}>
-          <p></p>
-          <p></p>
-        </div>
-        <div className={styles['description']}>
-          <p className={styles['text-brick']}>
-            {friend && calculateAge(friend.dob)}
-          </p>
-          <p>Age </p>
-        </div>
-        <div>
-        <div>
-          <IconButton onClick={() => navigate(`/friend/${id}/edit`)}>
-            <img alt="edit" src={EditIcon} />
-            </IconButton>
-        </div>
-        </div>
-      </div>
-      </div>
-      <div className={styles['tab-container']}>
-        <span
-          onClick={() => {
-            setActiveTab('profile');
-            navigate(`/friend/${id}`, { replace: true }); // when tab is switched to profile, removes params from url
+      {isLoading ? (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100vh',
           }}
-          className={activeTab === 'profile' ? styles['active-tab'] : ''}
         >
-          Profile
-        </span>
-        <span
-          onClick={() => setActiveTab('explore')}
-          className={activeTab === 'explore' ? styles['active-tab'] : ''}
-        >
-          Explore Gifts
-        </span>
-      </div>
-      <div className={styles['active-container']}>
-      {friend && activeTab === 'profile' && (
-        <Profile
-          favError={favError}
-          favorites={favorites}
-          friendLocation={friend.location}
-          giftPreferences={friend.giftPreferences}
-          id={id}
-          tags={friend.tags}
-          toggleFavorite={toggleFavorite}
-        />
-      )}
-      {friend && activeTab === 'explore' && (
-        <Explore
-          enableRecs={enableRecs}
-          favorites={favorites}
-          friend={friend}
-          friendLocation={friend.location}
-          giftPreferences={friend.giftPreferences}
-          id={id}
-          tags={friend.tags}
-          toggleFavorite={toggleFavorite}
-        />
-      )}
-      </div>
-      <ToastContainer className={styles['toast-container']} hideProgressBar />
+          <CircularProgress color="secondary" />
         </div>
+      ) : (
+        <div className={styles['content-container']}>
+          <div className={styles['shadow']}></div>
+          <p
+            className={styles['back-btn']}
+            onClick={() => navigate('/friends')}
+          >
+            <BsArrowLeft />
+          </p>
+          <div className={styles['profile-header']}>
+            <div className={styles['profile']}>
+              <img
+                src={
+                  friend && friend.photo
+                    ? friend.photo
+                    : 'https://i.imgur.com/hCwHtRc.png'
+                }
+                alt={friend && friend.name}
+                className={styles['profile-pic']}
+              />
+              <h2 style={{ position: 'relative' }}>{friend && friend.name}</h2>
+            </div>
+            <div className={styles['birthday']}>
+              <div className={styles['description']}>
+                <p className={styles['text-brick']}>
+                  {dobObject && dobObject.day}
+                </p>
+                <p>{dobObject && dobObject.month}</p>
+              </div>
+              <div className={styles['border']}>
+                <p></p>
+                <p></p>
+              </div>
+              <div className={styles['description']}>
+                <p className={styles['text-brick']}>
+                  {friend && friend.daysUntilBirthday}
+                </p>
+                <p>Days left</p>
+              </div>
+              <div className={styles['border']}>
+                <p></p>
+                <p></p>
+              </div>
+              <div className={styles['description']}>
+                <p className={styles['text-brick']}>
+                  {friend && calculateAge(friend.dob)}
+                </p>
+                <p>Age </p>
+              </div>
+              <div>
+                <div>
+                  <IconButton onClick={() => navigate(`/friend/${id}/edit`)}>
+                    <img alt="edit" src={EditIcon} />
+                  </IconButton>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className={styles['tab-container']}>
+            <span
+              onClick={() => {
+                setActiveTab('profile');
+                navigate(`/friend/${id}`, { replace: true }); // when tab is switched to profile, removes params from url
+              }}
+              className={activeTab === 'profile' ? styles['active-tab'] : ''}
+            >
+              Profile
+            </span>
+            <span
+              onClick={() => setActiveTab('explore')}
+              className={activeTab === 'explore' ? styles['active-tab'] : ''}
+            >
+              Explore Gifts
+            </span>
+          </div>
+          <div className={styles['active-container']}>
+            {friend && activeTab === 'profile' && (
+              <Profile
+                favError={favError}
+                favorites={favorites}
+                friendLocation={friend.location}
+                giftPreferences={friend.giftPreferences}
+                id={id}
+                tags={friend.tags}
+                toggleFavorite={toggleFavorite}
+              />
+            )}
+            {friend && activeTab === 'explore' && (
+              <Explore
+                enableRecs={enableRecs}
+                favorites={favorites}
+                friend={friend}
+                friendLocation={friend.location}
+                giftPreferences={friend.giftPreferences}
+                id={id}
+                tags={friend.tags}
+                toggleFavorite={toggleFavorite}
+              />
+            )}
+          </div>
+          <ToastContainer
+            className={styles['toast-container']}
+            hideProgressBar
+          />
+        </div>
+      )}
     </div>
   );
 };
