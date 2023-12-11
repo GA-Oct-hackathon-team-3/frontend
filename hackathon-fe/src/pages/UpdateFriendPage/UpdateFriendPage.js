@@ -6,7 +6,7 @@ import { profileFormValidation, profileDobValidation } from '../../utilities/hel
 
 import Header from '../../components/Header/Header';
 
-import profileIcon from '../../assets/profileIcon.png';
+import profileImage from '../../assets/images/profileForm/manHoldingBaby.png';
 
 import { BsArrowLeft } from 'react-icons/bs';
 import { ToastContainer, toast } from 'react-toastify';
@@ -161,7 +161,7 @@ function UpdateFriendPage() {
                   <p onClick={handleAddPhotoClick}>{buttonHTML}</p>
                 </div>
                 <img
-                  src={profileIcon}
+                  src={profileImage}
                   alt="person holding a baby"
                   className={styles['profile-icon']}
                 />

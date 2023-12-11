@@ -8,10 +8,10 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import FriendItem from '../../components/BirthdayFriends/FriendItem';
 
-import noFriendsImg from '../../assets/noFriendsImg.png';
-import WomanCelebratingImg from '../../assets/womanCelebrating.png';
-import manCelebratingImg from '../../assets/manCelebrating.png';
-import pointingHandImg from '../../assets/pointingHandImg.png';
+import noFriendsImg from '../../assets/icons/friendsList/noFriendsImg.png';
+import WomanCelebratingImg from '../../assets/icons/friendsList/womanCelebrating.png';
+import manCelebratingImg from '../../assets/icons/friendsList/manCelebrating.png';
+import pointingHandImg from '../../assets/images/onboarding/pointingHandImg.png';
 
 import { CircularProgress } from '@mui/material';
 

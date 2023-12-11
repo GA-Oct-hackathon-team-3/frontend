@@ -7,7 +7,7 @@ import { splitDOB, calculateAge } from '../../utilities/helpers';
 import Profile from '../../components/ShowFriend/Profile';
 import Explore from '../../components/ShowFriend/Explore';
 
-import EditIcon from '../../assets/edit_icon.png';
+import EditIcon from '../../assets/icons/global/editIcon.png';
 
 import { BsArrowLeft } from 'react-icons/bs';
 import { ToastContainer, toast } from 'react-toastify';

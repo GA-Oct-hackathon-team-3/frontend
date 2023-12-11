@@ -4,8 +4,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import * as profilesService from '../../utilities/profiles-service';
 import { splitDOB, calculateAge } from '../../utilities/helpers';
 
-import EditIcon from '../../assets/edit_icon.png';
-import gear from '../../assets/gear.png';
+import EditIcon from '../../assets/icons/global/editIcon.png';
+import gear from '../../assets/icons/profile/gear.png';
 
 import { BsArrowLeft } from 'react-icons/bs';
 import { ToastContainer, toast } from 'react-toastify';

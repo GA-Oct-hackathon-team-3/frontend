@@ -7,9 +7,9 @@ import * as tagService from '../../utilities/tags-service';
 
 import Header from '../../components/Header/Header';
 
-import singerImg from '../../assets/addTagsIcons/singerTagImg.png';
-import bikerImg from '../../assets/addTagsIcons/bikerTagImg.png';
-import gardenerImg from '../../assets/addTagsIcons/gardenerTagImg.png';
+import singerImg from '../../assets/icons/tag/singerTagImg.png';
+import bikerImg from '../../assets/icons/tag/bikerTagImg.png';
+import gardenerImg from '../../assets/icons/tag/gardenerTagImg.png';
 
 import { BsArrowLeft } from 'react-icons/bs';
 import { ToastContainer, toast } from 'react-toastify';

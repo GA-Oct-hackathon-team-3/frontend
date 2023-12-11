@@ -1,16 +1,32 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import styles from '../../styles/ShowFriend.module.css';
-import { IconButton, Typography, CircularProgress, Popover } from '@mui/material';
-
-import FilterIcon from '../../assets/filter_icon.png';
-import RefreshIcon from '../../assets/Blue_green_restart_icon.png';
 
 import * as friendsService from '../../utilities/friends-service';
 import { useRecommendation } from '../RecommendationContext/RecommendationContext';
+
 import Gift from './Gift';
 
-const Explore = ({ enableRecs, friend, friendLocation, giftPreferences, id, tags, toggleFavorite }) => {
+import FilterIcon from '../../assets/icons/friendDetail/filterIcon.png';
+import RefreshIcon from '../../assets/icons/friendDetail/refreshIcon.png';
+
+import {
+  IconButton,
+  Typography,
+  CircularProgress,
+  Popover,
+} from '@mui/material';
+
+import styles from '../../styles/ShowFriend.module.css';
+
+const Explore = ({
+  enableRecs,
+  friend,
+  friendLocation,
+  giftPreferences,
+  id,
+  tags,
+  toggleFavorite,
+}) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -25,13 +41,22 @@ const Explore = ({ enableRecs, friend, friendLocation, giftPreferences, id, tags
   const [filteredGiftTypes, setFilteredGiftTypes] = useState(giftPreferences);
   const [filteredTags, setFilteredTags] = useState(tags);
   const [budget, setBudget] = useState(null);
-  const queryParams = useMemo(() => new URLSearchParams(location.search), [location.search]);
+  const queryParams = useMemo(
+    () => new URLSearchParams(location.search),
+    [location.search]
+  );
 
   useEffect(() => {
     const urlBudget = queryParams.get('budget');
-    const urlTags = queryParams.get('tags') ? queryParams.get('tags').split(',') : [];
-    const urlGiftTypes = queryParams.get('giftTypes') ? queryParams.get('giftTypes').split(',') : [];
-    setFilteredGiftTypes((prev) => urlGiftTypes && urlGiftTypes.length ? urlGiftTypes : prev);
+    const urlTags = queryParams.get('tags')
+      ? queryParams.get('tags').split(',')
+      : [];
+    const urlGiftTypes = queryParams.get('giftTypes')
+      ? queryParams.get('giftTypes').split(',')
+      : [];
+    setFilteredGiftTypes((prev) =>
+      urlGiftTypes && urlGiftTypes.length ? urlGiftTypes : prev
+    );
     setFilteredTags((prev) => (urlTags && urlTags.length ? urlTags : prev));
     setBudget((prev) => (urlBudget && urlBudget > 0 ? urlBudget : prev));
   }, [queryParams]);
@@ -66,9 +91,19 @@ const Explore = ({ enableRecs, friend, friendLocation, giftPreferences, id, tags
         getRecommendations();
       }
     }
-  }, 
-    [enableRecs, filteredGiftTypes, filteredTags, recs.length, id, refresh, budget, giftPreferences, tags, cache, updateCache]
-  );
+  }, [
+    enableRecs,
+    filteredGiftTypes,
+    filteredTags,
+    recs.length,
+    id,
+    refresh,
+    budget,
+    giftPreferences,
+    tags,
+    cache,
+    updateCache,
+  ]);
 
   const handlePopOverOpen = (event, gift) => {
     setAnchorEl(event.currentTarget);

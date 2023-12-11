@@ -1,50 +1,63 @@
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import styles from "../../styles/Landing.module.css";
+import { useNavigate, Link } from 'react-router-dom';
 
-import heroImg from "../../assets/heroImg.png";
-import presentlyLogo from "../../assets/presentlyLogo.png";
-import desktopIntro from "../../assets/desktopIntro.png";
-import * as profilesService from "../../utilities/profiles-service";
+import * as profilesService from '../../utilities/profiles-service';
+
+import mobileLanding from '../../assets/images/landing/mobileLanding.png';
+import presentlyLogo from '../../assets/images/presentlyLogo.png';
+import desktopLanding from '../../assets/images/landing/desktopLanding.png';
+
+import styles from '../../styles/Landing.module.css';
 
 const Landing = () => {
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
   const checkValidUser = async () => {
     const userData = await profilesService.getProfile();
-    navigate("/friends");
+    navigate('/friends');
   };
   if (token) {
     checkValidUser();
   }
 
   return (
-      <section className={styles["landing-container"]}>
-        <div className={styles["content-container"]}>
-      <img src={presentlyLogo} alt="presently app logo" className={styles["desktopLogo"]} />
-      <img src={desktopIntro} alt="Birthday Introduction" className={styles["desktopIntro"]} />
-      <img src={heroImg} alt="Birthday Introduction" className={styles["mobileLogo"]} />
-      <h1>Remember the perfect gift, every time.</h1>
-      <div>
+    <section className={styles['landing-container']}>
+      <div className={styles['content-container']}>
+        <img
+          src={presentlyLogo}
+          alt="presently app logo"
+          className={styles['desktopLogo']}
+        />
+        <img
+          src={desktopLanding}
+          alt="Birthday Introduction"
+          className={styles['desktopIntro']}
+        />
+        <img
+          src={mobileLanding}
+          alt="Birthday Introduction"
+          className={styles['mobileLogo']}
+        />
+        <h1>Remember the perfect gift, every time.</h1>
+        <div>
+          <p>
+            Presently is your new best friend to help in the hunt for the
+            greatest gifts ever.
+          </p>
+          <p>
+            Get reminders to help you keep track of upcoming birthdays and
+            recommendations based on your loved one's interests and hobbies.
+          </p>
+        </div>
+        <Link to="/signup" className={styles['get-started']}>
+          Get started
+        </Link>
         <p>
-          Presently is your new best friend to help in the hunt for the greatest
-          gifts ever.
-        </p>
-        <p>
-          Get reminders to help you keep track of upcoming birthdays and
-          recommendations based on your loved one's interests and hobbies.
+          Already have an account?{' '}
+          <Link to="/login" className={styles['log-in']}>
+            Log In
+          </Link>
         </p>
       </div>
-      <Link to="/signup" className={styles["get-started"]}>
-        Get started
-      </Link>
-      <p>
-        Already have an account?{" "}
-        <Link to="/login" className={styles["log-in"]}>
-          Log In
-        </Link>
-      </p>
-        </div>
     </section>
   );
 };
