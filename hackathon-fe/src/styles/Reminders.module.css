@@ -1,7 +1,8 @@
 .reminders-container {
     height: 100vh;
-    padding: 26% 2% 5% 2%;
+    padding: 26% 2% 26% 2%;
     background-color: #FDF7ED;
+    overflow-y: scroll;
     display: flex;
     flex-direction: column;
 }
@@ -11,12 +12,6 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-}
-
-.back-button {
-    color: black;
-    font-size: 1.2rem;
-    padding-left: 8%;
 }
 
 .tab-container {
@@ -39,5 +34,85 @@
     text-decoration: underline;
     font-size: 1.35rem;
 }
+
+.notification-section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.notification-section > h3 {
+    align-self: flex-start;
+    font-size: 1.5rem;
+    padding-top: 1rem;
+}
+
+.notification-item {
+    padding: 1rem;
+    width: 100%;
+    list-style: none;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.notification-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+.notification-card > img {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+}
+
+.notification-info>p:nth-child(1) {
+    font-size: 1.2rem;
+    text-transform: capitalize;
+    font-weight: 400;
+    letter-spacing: 0.28px;
+}
+
+.notification-info>p:nth-child(2) {
+    font-size: 1rem;
+    text-transform: capitalize;
+    font-weight: 400;
+    letter-spacing: 0.14px;
+}
+
+.notification-days {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.notification-days>p:nth-child(1) {
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    color: #FA7F39;
+}
+
+.notification-days>p:nth-child(2) {
+    color: #3D3C3C;
+    text-align: center;
+    font-size: 1rem;
+    letter-spacing: 0.14px;
+}
+
+.notification-close {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    margin-top: -4.75rem;
+    margin-right: -1.75rem;
+}
+
 
 /* DESKTOP STYLES */
