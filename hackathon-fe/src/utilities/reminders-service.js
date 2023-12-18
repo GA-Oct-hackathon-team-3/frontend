@@ -8,3 +8,7 @@ export async function getNotifications() {
 export async function markAsRead (notificationIds) {
     return await sendRequest(WEB_BASE_URL + '/notifications/read', 'PUT', { notificationIds });
 }
+
+export async function deleteNotification (id) {
+    return await sendRequest(WEB_BASE_URL + `/notifications/${id}/delete`, 'DELETE');
+}

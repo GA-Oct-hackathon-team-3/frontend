@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { getNotifications, markAsRead } from '../../utilities/reminders-service';
+import { getNotifications, markAsRead, deleteNotification } from '../../utilities/reminders-service';
 import { getAgeAndSuffix } from '../../utilities/helpers';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -33,14 +34,29 @@ const Notifications = () => {
 
   const NotificationItem = ({
     id,
+    friendId,
     name,
     dob,
     daysUntilBirthday,
     photo,
     setNotifications,
   }) => {
+
+    const navigate = useNavigate();
+
+    const removeReminder = async () => {
+        const response = await deleteNotification(id);
+        if (response && response.message === 'Notification deleted successfully') {
+            setNotifications((prev) => ({
+                ...prev,
+                current: prev.current.filter(notif => notif._id !==id),
+                past: prev.past.filter(notif => notif._id !==id),
+            }));
+        }
+      }
+
     return (
-      <div className={styles['notification-item']}>
+      <div className={styles['notification-item']} onClick={() => navigate(`/friend/${friendId}`)}>
         <div className={styles['notification-card']}>
           <img
             src={photo ? photo : 'https://i.imgur.com/hCwHtRc.png'}
@@ -59,8 +75,9 @@ const Notifications = () => {
                 icon={faTimesCircle}
                 className={styles['notification-close']}
                 color='#53CF85'
+                onClick={removeReminder}
                 />
-                </div>
+        </div>
       </div>
     );
   };
@@ -74,6 +91,7 @@ const Notifications = () => {
             <NotificationItem
               key={item._id.toString()}
               id={item._id.toString()}
+              friendId={item.friend._id}
               name={item.friend.name}
               dob={item.friend.dob}
               daysUntilBirthday={item.friend.daysUntilBirthday}
@@ -89,6 +107,7 @@ const Notifications = () => {
             <NotificationItem
               key={item._id.toString()}
               id={item._id.toString()}
+              friendId={item.friend._id}
               name={item.friend.name}
               dob={item.friend.dob}
               daysUntilBirthday={item.friend.daysUntilBirthday}
