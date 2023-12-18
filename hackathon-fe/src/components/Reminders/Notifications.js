@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { getNotifications } from '../../utilities/reminders-service';
+import { getNotifications, markAsRead } from '../../utilities/reminders-service';
 import { getAgeAndSuffix } from '../../utilities/helpers';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -18,7 +18,17 @@ const Notifications = () => {
         setNotifications(notificationData);
     };
 
+    const readNotifications = async () => {
+        const ids = notifications.current.map(notif => notif._id); // creates array of all unread notifications ids
+        const response = await markAsRead(ids); // sends to backend to mark as read
+    }
+
     fetchNotifications();
+
+    setTimeout(() => { 
+        // if no unread notifications, no call to backend
+        if (notifications.current.length > 0) readNotifications();
+    }, 3000); // runs 3 seconds after mount
   }, []);
 
   const NotificationItem = ({
