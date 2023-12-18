@@ -1,0 +1,43 @@
+.reminders-container {
+    height: 100vh;
+    padding: 26% 2% 5% 2%;
+    background-color: #FDF7ED;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.back-button {
+    color: black;
+    font-size: 1.2rem;
+    padding-left: 8%;
+}
+
+.tab-container {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 4%;
+    border-radius: 1rem;
+}
+
+.tab-container span {
+    padding: 3%;
+    cursor: pointer;
+    color: #3D3C3C;
+    font-size: 1.1rem;
+}
+
+.tab-container span.active-tab {
+    color: black;
+    text-decoration: underline;
+    font-size: 1.35rem;
+}
+
+/* DESKTOP STYLES */

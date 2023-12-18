@@ -18,7 +18,7 @@ const Footer = () => {
           <p>Home</p>
         </div>
       </NavLink>
-      <NavLink className={styles['link']} to="/">
+      <NavLink className={styles['link']} to="/reminders">
         <div className={styles['icon']}>
           <img src={Alert} alt="bell" />
           <p>Reminders</p>
