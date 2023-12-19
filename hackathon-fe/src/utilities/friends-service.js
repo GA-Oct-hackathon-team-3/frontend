@@ -45,6 +45,9 @@ export async function getBirthdays () {
     return friends;
 }
 
+export async function updateFriendNotification (friendIds) {
+    return await sendRequest(`${BASE_URL}/update-notification-inclusion`, 'PUT', { friendIds });
+}
 
 export async function getFavorites(id){
   const response = await sendRequest(`${BASE_URL}/${id}/favorites`, "GET", null);
