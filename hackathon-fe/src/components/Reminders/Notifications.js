@@ -61,7 +61,6 @@ const Notifications = () => {
           <img
             src={photo ? photo : 'https://i.imgur.com/hCwHtRc.png'}
             alt={name}
-            className={styles['']}
           />
           <div className={styles['notification-info']}>
             <p>{name}'s</p>
