@@ -8,30 +8,33 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
 
 const Manage = () => {
-  const [friends, setFriends] = useState([]);
-  const [filteredFriends, setFilteredFriends] = useState([]);
-  const [selectedFriendIds, setSelectedFriendIds] = useState([]);
-  const [frequency, setFrequency] = useState([]);
-  const [query, setQuery] = useState('');
+  const [friends, setFriends] = useState([]); // use to reset filter
+  const [filteredFriends, setFilteredFriends] = useState([]); // use to render
+  const [updatedFriends, setUpdatedFriends] = useState({}); // accumulates changes to includeInNotifications per friend, using _id: boolean
+  const [query, setQuery] = useState(''); // search query to filter friends in friend preferences
+
+  const [frequency, setFrequency] = useState([]); // notificationSchedule preferences
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-      const profileInfo = await getProfile();
+      const profileInfo = await getProfile(); // fetch profile
       if (profileInfo && profileInfo.profile) {
-        setFrequency(profileInfo.profile.notificationSchedule);
+        setFrequency(profileInfo.profile.notificationSchedule); // initialize user's current preferences
       }
     };
 
     const fetchFriends = async () => {
-      const friendsData = await retrieveFriends();
+      const friendsData = await retrieveFriends(); // fetch friends
       if (friendsData) {
+        // friends comes in { today: [], thisWeek: [], thisMonth: [], laterOn: [] } structure
+        // use concat to flatten into single array
         const flattenedFriendArray = friendsData.today.concat(
           friendsData.thisWeek,
           friendsData.thisMonth,
           friendsData.laterOn
         );
-        setFriends(flattenedFriendArray);
-        setFilteredFriends(flattenedFriendArray);
+        setFriends(flattenedFriendArray); // maintains all friends (to revert changes from query)
+        setFilteredFriends(flattenedFriendArray); // displays data (is updated with query)
       }
     };
 
@@ -43,20 +46,31 @@ const Manage = () => {
     setQuery(query);
 
     if (query) {
+      // if query, filter and return filtered results
       setFilteredFriends(
         friends.filter((friend) =>
           friend.name.toLowerCase().includes(query.toLowerCase())
         )
       );
-    } else setFilteredFriends(friends);
+    } else setFilteredFriends(friends); // else revert to original
   };
 
   const handleCheckbox = (days) => {
+    // updates notification schedule
     setFrequency((prev) =>
       prev.includes(days)
         ? prev.filter((prevDays) => prevDays !== days)
         : [...prev, days]
     );
+  };
+
+  const handleSelectFriend = (id, includeInNotifications) => {
+    // maintains object of key with ids of friends were who updated, and the boolean value to which includeInNotifications should be updated to
+    // ids for submission to backend, value to update render
+    setUpdatedFriends((prev) => ({
+      ...prev,
+      [id]: prev[id] ? !prev[id] : !includeInNotifications,
+    }));
   };
 
   const handleFrequencySubmit = async (evt) => {
@@ -65,8 +79,9 @@ const Manage = () => {
 
   const handleFriendSubmit = async (evt) => {
     evt.preventDefault();
-  }
+  };
 
+  // reusable render of checkbox for freqnecy preferences section
   const renderFrequencyCheckbox = (value, label) => (
     <>
       <input
@@ -78,46 +93,6 @@ const Manage = () => {
       <label htmlFor={label}>{label}</label>
     </>
   );
-
-  const Item = ({
-    id,
-    name,
-    dob,
-    photo,
-    includeInNotifications,
-    setSelectedFriendIds,
-  }) => {
-
-    const handleSelectFriend = () => {
-        setFilteredFriends((prevFriends) =>
-        prevFriends.map((friend) =>
-          friend._id === id ? { ...friend, includeInNotifications: !includeInNotifications } : friend
-        )
-      );
-        setSelectedFriendIds((prev) =>
-          prev.includes(id)
-            ? prev.filter((prevId) => prevId !== id)
-            : [...prev, id]
-        );
-      }
-      
-
-    return (
-      <div>
-        <img
-          src={photo ? photo : 'https://i.imgur.com/hCwHtRc.png'}
-          alt={name}
-        />
-        <p>{name} |</p>
-        <p>{formatDate(dob)}</p>
-        {includeInNotifications ? (
-          <FontAwesomeIcon icon={faToggleOn} color="#53CF85" onClick={() => handleSelectFriend(id)} />
-        ) : (
-          <FontAwesomeIcon icon={faToggleOff} color="#AF95E7" onClick={() => handleSelectFriend(id)} />
-        )}
-      </div>
-    );
-  };
 
   return (
     <div>
@@ -150,20 +125,43 @@ const Manage = () => {
         <div>
           {filteredFriends &&
             filteredFriends.map((friend) => {
-                return (
-                    <Item
-                      key={friend._id}
-                      id={friend._id}
-                      name={friend.name}
-                      dob={friend.dob}
-                      photo={friend.photo}
-                      includeInNotifications={friend.includeInNotifications}
-                      setSelectedFriendIds={setSelectedFriendIds}
-                    />
-                )
+              return (
+                <div>
+                  <img
+                    src={
+                      friend.photo
+                        ? friend.photo
+                        : 'https://i.imgur.com/hCwHtRc.png'
+                    }
+                    alt={friend.name}
+                  />
+                  <p>{friend.name} |</p>
+                  <p>{formatDate(friend.dob)}</p>
+                  <div
+                    onClick={() =>
+                      handleSelectFriend(
+                        friend._id,
+                        friend.includeInNotifications
+                      )
+                    }
+                  >
+                    {
+                      // if friend is in updatedFriends, display new value, else display includeInNotifications value
+                      updatedFriends[friend._id] ??
+                      friend.includeInNotifications ? (
+                        <FontAwesomeIcon icon={faToggleOn} color="#53CF85" />
+                      ) : (
+                        <FontAwesomeIcon icon={faToggleOff} color="#AF95E7" />
+                      )
+                    }
+                  </div>
+                </div>
+              );
             })}
 
-            <button onClick={(evt) => handleFriendSubmit(evt)}>Update Friend Preferences</button>
+          <button onClick={(evt) => handleFriendSubmit(evt)}>
+            Update Friend Preferences
+          </button>
         </div>
       </div>
     </div>
