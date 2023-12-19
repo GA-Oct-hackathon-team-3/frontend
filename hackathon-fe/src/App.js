@@ -11,6 +11,7 @@ import ProfilePage from "./pages/Profile/Profile";
 import FriendsPage from "./pages/FriendsPage/FriendsPage";
 import FriendPage from "./pages/FriendPage/FriendPage";
 import CalendarPage from './pages/Calendar';
+import RemindersPage from './pages/Reminders';
 import FiltersPage from "./pages/FiltersPage/FiltersPage";
 import CreateFriendPage from "./pages/CreateFriendPage/CreateFriendPage";
 import TagAdderPage from "./pages/TagAdder/TagAdder";
@@ -75,6 +76,14 @@ function App() {
             element={
               <ProtectedPage>
                 <CalendarPage />
+              </ProtectedPage>
+            }
+          />
+          <Route
+            path="/reminders"
+            element={
+              <ProtectedPage>
+                <RemindersPage />
               </ProtectedPage>
             }
           />

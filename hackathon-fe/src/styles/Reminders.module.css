@@ -1,0 +1,430 @@
+.reminders-container {
+    height: 100vh;
+    padding: 26% 2% 26% 2%;
+    background-color: #FDF7ED;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.tab-container {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 4%;
+}
+
+.tab-container span {
+    padding: 3%;
+    cursor: pointer;
+    color: #3D3C3C;
+    font-size: 1rem;
+}
+
+.tab-container span.active-tab {
+    color: black;
+    text-decoration: underline;
+    font-size: 1.2rem;
+}
+
+.tab-section {
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+}
+
+.notification-section,
+.preference-section {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    align-self: center;
+}
+
+.notification-section>h3,
+.preference-section>h3 {
+    align-self: flex-start;
+    font-size: 1.5rem;
+    padding-top: 1rem;
+}
+
+/*  ~~~ NOTIFICATION TAB ~~~  */
+.notification-item {
+    padding: 1rem;
+    width: 100%;
+    list-style: none;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.notification-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+.notification-card>img {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+}
+
+.notification-info>p:nth-child(1) {
+    font-size: 1.2rem;
+    text-transform: capitalize;
+    font-weight: 400;
+    letter-spacing: 0.28px;
+}
+
+.notification-info>p:nth-child(2) {
+    font-size: 1rem;
+    text-transform: capitalize;
+    font-weight: 400;
+    letter-spacing: 0.14px;
+}
+
+.notification-days {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.notification-days>p:nth-child(1) {
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    color: #FA7F39;
+}
+
+.notification-days>p:nth-child(2) {
+    color: #3D3C3C;
+    text-align: center;
+    font-size: 1rem;
+    letter-spacing: 0.14px;
+}
+
+.notification-close {
+    width: 2rem;
+    height: 2rem;
+    margin-top: -4.75rem;
+    margin-right: -1.75rem;
+}
+
+/*  ~~~ ~~~ ~~~ ~~~ ~~~  */
+
+/*  ~~~ MANAGE TAB ~~~  */
+
+.preference-section>p {
+    padding: 0.5rem 0.75rem 0.5rem 0.75rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.36px;
+    margin-bottom: 0.5rem;
+}
+
+.preference-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: space-evenly;
+    padding-bottom: 2rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    width: 70%;
+    position: relative;
+}
+
+.form-group>label {
+    font-size: 1.1rem;
+    text-align: center;
+    letter-spacing: 0.36px;
+}
+
+.form-group>input[type='checkbox'] {
+    opacity: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.form-group>.custom-checkbox {
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 2px solid #53CF85;
+    border-radius: 0.5rem;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.form-group>.custom-checkbox-checked {
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 2px solid #53CF85;
+    border-radius: 0.5rem;
+    background-color: #53CF85;
+    color: white;
+}
+
+.search-bar {
+    width: 100%;
+    padding: 2%;
+    padding-inline-start: 10%;
+    border: 1px solid #D9D9D9;
+    border-radius: 40px;
+    background-color: white;
+    margin-bottom: 1.5rem;
+    box-sizing: border-box;
+    background-image: url('../assets/icons/global/searchIcon.png');
+    background-repeat: no-repeat;
+    background-position: 2% 50%;
+    font-size: 0.9rem;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: 0.48px;
+    align-self: center;
+}
+
+.friend-section {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    gap: 1rem;
+    width: 105%;
+}
+
+.friend-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+.friend-item>img {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+}
+
+.friend-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.friend-info>p:nth-child(1) {
+    font-size: 1rem;
+    text-transform: capitalize;
+    letter-spacing: 0.28px;
+}
+
+.friend-info>p:nth-child(2) {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.friend-info>p:nth-child(3) {
+    font-size: 1rem;
+    text-transform: capitalize;
+    font-weight: 400;
+    letter-spacing: 0.14px;
+}
+
+.friend-toggle {
+    width: 2.25rem;
+    height: 2.25rem;
+}
+
+/*  ~~~ ~~~ ~~~ ~~~ ~~~  */
+
+.update-button {
+    background-color: #53CF85;
+    color: #fff;
+    width: 75%;
+    padding: 2%;
+    border-radius: 1rem;
+    font-size: 1.05rem;
+    margin-top: 1rem;
+    align-self: center;
+    font-weight: 700;
+    letter-spacing: 0.52px;
+    border: none;
+}
+
+
+
+
+/* DESKTOP STYLES */
+
+@media (min-width: 481px) {
+    .reminders-container {
+        padding-top: 5rem;
+        padding-left: 13rem;
+        padding-bottom: 2rem;
+    }
+
+    .content-container {
+        width: 75%;
+        align-self: center;
+        max-width: 850px;
+    }
+
+    .tab-container {
+        margin-top: 2%;
+    }
+
+    .tab-container span {
+        font-size: 1.2rem;
+    }
+
+    .tab-container span.active-tab {
+        font-size: 1.4rem;
+    }
+
+    .tab-section {
+        width: 80%;
+    }
+
+    .notification-section>h3,
+    .preference-section>h3 {
+        padding-inline-start: 2.5rem;
+    }
+
+    /*  ~~~ NOTIFICATION TAB ~~~  */
+
+    .notification-item {
+        width: 80%;
+        align-self: center;
+    }
+
+    .notification-card {
+        padding: 1.25rem;
+    }
+
+    .notification-card>img {
+        width: 4rem;
+        height: 4rem;
+    }
+
+    .notification-info>p:nth-child(1) {
+        font-size: 1.4rem;
+        letter-spacing: 0.28px;
+    }
+
+    .notification-info>p:nth-child(2) {
+        font-size: 1.1rem;
+        letter-spacing: 0.28px;
+    }
+
+    .notification-days {
+        margin-left: 2rem;
+    }
+
+    .notification-days>p:nth-child(1) {
+        font-size: 2rem;
+        color: #FA7F39;
+    }
+
+    .notification-days>p:nth-child(2) {
+        font-size: 1.1rem;
+        letter-spacing: 0.28px;
+    }
+
+    .notification-close {
+        width: 2.25rem;
+        height: 2.25rem;
+        margin-top: -5rem;
+        margin-right: -2rem;
+    }
+
+    /*  ~~~ ~~~ ~~~ ~~~ ~~~  */
+
+    /*  ~~~ MANAGE TAB ~~~  */
+
+    .preference-section>p {
+        font-size: 1.1rem;
+        padding-top: 1rem;
+        padding-left: 3rem;
+        padding-right: 3rem;
+        margin-bottom: 1rem;
+    }
+
+    .preference-form {
+        padding-inline-start: 3rem;
+    }
+
+    .form-group>label {
+        font-size: 1.2rem;
+        text-align: center;
+        letter-spacing: 0.36px;
+    }
+
+    .search-bar {
+        width: 60%;
+        padding: 0.75rem;
+        font-size: 1rem;
+        padding-inline-start: 2.5rem;
+    }
+
+    .friend-section {
+        width: 85%;
+    }
+
+    .friend-item {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
+    .friend-item>img {
+        width: 4rem;
+        height: 4rem;
+    }
+
+    .friend-info>p:nth-child(1) {
+        font-size: 1.25rem;
+        text-transform: capitalize;
+        letter-spacing: 0.48px;
+    }
+
+    .friend-info>p:nth-child(2) {
+        font-size: 1.7rem;
+    }
+
+    .friend-info>p:nth-child(3) {
+        font-size: 1.25rem;
+        letter-spacing: 0.48px;
+    }
+
+    .friend-toggle {
+        width: 3rem;
+        height: 2.5rem;
+    }
+
+    /*  ~~~ ~~~ ~~~ ~~~ ~~~  */
+
+    .update-button {
+        width: 45%;
+        font-size: 1.2rem;
+        font-weight: 700;
+    }
+}
