@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
-import { getProfile } from '../../utilities/profiles-service';
-import { retrieveFriends } from '../../utilities/friends-service';
+import { getProfile, updateUserProfile } from '../../utilities/profiles-service';
+import { retrieveFriends, updateFriendNotification } from '../../utilities/friends-service';
 import { formatDate } from '../../utilities/helpers';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -65,20 +65,41 @@ const Manage = () => {
   };
 
   const handleSelectFriend = (id, includeInNotifications) => {
+    // if if is a key in object, set to opposite value, otherwise set to !includeNotifications
+    const updatedNotificationValue = updatedFriends.hasOwnProperty(id) ? !updatedFriends[id] : !includeInNotifications;
+
     // maintains object of key with ids of friends were who updated, and the boolean value to which includeInNotifications should be updated to
     // ids for submission to backend, value to update render
-    setUpdatedFriends((prev) => ({
-      ...prev,
-      [id]: prev[id] ? !prev[id] : !includeInNotifications,
-    }));
+    setUpdatedFriends((prev) => {
+        if (updatedNotificationValue === includeInNotifications) { // if the value to update is equal to original value (i.e if toggled twice)...
+            const { [id]: omit, ...rest } = prev; // remove id key from state to prevent submission of id to backend
+            return rest;
+        }
+
+        return {
+            ...prev,
+            [id]: updatedNotificationValue
+        }
+    });
   };
 
   const handleFrequencySubmit = async (evt) => {
     evt.preventDefault();
+    if (frequency) {
+        const userData = {
+            notificationSchedule: [...frequency]
+        }
+        const response = await updateUserProfile(userData);
+    }
   };
 
   const handleFriendSubmit = async (evt) => {
     evt.preventDefault();
+
+    console.log(updatedFriends)
+    const friendIds = Object.keys(updatedFriends);
+    const response = await updateFriendNotification(friendIds);
+    if (response.message === 'Updated friend notification preference successfully'); setUpdatedFriends({});
   };
 
   // reusable render of checkbox for freqnecy preferences section
