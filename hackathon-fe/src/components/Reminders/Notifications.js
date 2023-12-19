@@ -7,7 +7,7 @@ import { getAgeAndSuffix } from '../../utilities/helpers';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
-import styles from '../../styles/Reminders.module.css'
+import styles from '../../styles/Reminders.module.css';
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState({ current: [], past: [] });
@@ -82,7 +82,7 @@ const Notifications = () => {
   };
 
   return (
-    <div>
+    <div className={styles['tab-section']}>
       <div className={styles['notification-section']}>
         <h3>Current</h3>
         {notifications.current &&

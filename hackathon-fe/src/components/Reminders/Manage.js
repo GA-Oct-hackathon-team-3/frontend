@@ -7,6 +7,8 @@ import { formatDate } from '../../utilities/helpers';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons';
 
+import styles from '../../styles/Reminders.module.css';
+
 const Manage = () => {
   const [friends, setFriends] = useState([]); // use to reset filter
   const [filteredFriends, setFilteredFriends] = useState([]); // use to render
@@ -85,7 +87,7 @@ const Manage = () => {
 
   const handleFrequencySubmit = async (evt) => {
     evt.preventDefault();
-    if (frequency) {
+    if (frequency && frequency.length > 0) {
         const userData = {
             notificationSchedule: [...frequency]
         }
@@ -96,7 +98,6 @@ const Manage = () => {
   const handleFriendSubmit = async (evt) => {
     evt.preventDefault();
 
-    console.log(updatedFriends)
     const friendIds = Object.keys(updatedFriends);
     const response = await updateFriendNotification(friendIds);
     if (response.message === 'Updated friend notification preference successfully'); setUpdatedFriends({});
@@ -104,50 +105,51 @@ const Manage = () => {
 
   // reusable render of checkbox for freqnecy preferences section
   const renderFrequencyCheckbox = (value, label) => (
-    <>
+    <div className={styles['form-group']}>
       <input
         type="checkbox"
         name={label}
+        id={label}
         checked={frequency.includes(value)}
         onChange={() => handleCheckbox(value)}
       />
-      <label htmlFor={label}>{label}</label>
-    </>
+      <label htmlFor={label} className={frequency.includes(value) ? styles['custom-checkbox-checked'] : styles['custom-checkbox']}>{frequency.includes(value) ? '\u2714' : ''}</label>
+    <label htmlFor={label}>{label}</label>
+    </div>
   );
 
   return (
-    <div>
-      <div>
+    <div className={styles['tab-section']}>
+      <div className={styles['preference-section']}>
         <h3>Frequency Preferences</h3>
         <p>
           Select the number of days in advance you want to receive a
           notification. Please choose at least one option.
         </p>
 
-        <form onSubmit={handleFrequencySubmit}>
+        <form onSubmit={handleFrequencySubmit} className={styles['preference-form']}>
           {renderFrequencyCheckbox(30, 'One Month')}
           {renderFrequencyCheckbox(7, 'One Week')}
           {renderFrequencyCheckbox(0, 'Day of')}
 
-          <input type="submit" value="Update Frequency" />
+          <input type="submit" value="Confirm Frequency Preferences" className={styles['update-button']} />
         </form>
       </div>
 
-      <div>
+      <div className={styles['preference-section']}>
+          <h3>Friend Preferences</h3>
+          <p>Enable or disable notifications for each friend and confirm below:</p>
         <input
           value={query}
           onChange={(evt) => handleSearch(evt.target.value)}
           placeholder="Search by name..."
+          className={styles['search-bar']}
         />
-        <h3>Friend Preferences</h3>
-        <p>
-          Select the friends for whom you want to enable/disable notifications:
-        </p>
-        <div>
+        <div className={styles['friend-section']}>
           {filteredFriends &&
             filteredFriends.map((friend) => {
               return (
-                <div>
+                <div key={friend._id} className={styles['friend-item']}>
                   <img
                     src={
                       friend.photo
@@ -156,8 +158,11 @@ const Manage = () => {
                     }
                     alt={friend.name}
                   />
-                  <p>{friend.name} |</p>
+                  <div className={styles['friend-info']}>
+                  <p style={{ fontWeight: 'bold' }}>{friend.name}</p>
+                  <p>|</p>
                   <p>{formatDate(friend.dob)}</p>
+                  </div>
                   <div
                     onClick={() =>
                       handleSelectFriend(
@@ -170,9 +175,9 @@ const Manage = () => {
                       // if friend is in updatedFriends, display new value, else display includeInNotifications value
                       updatedFriends[friend._id] ??
                       friend.includeInNotifications ? (
-                        <FontAwesomeIcon icon={faToggleOn} color="#53CF85" />
+                        <FontAwesomeIcon icon={faToggleOn} color="#53CF85" className={styles['friend-toggle']} />
                       ) : (
-                        <FontAwesomeIcon icon={faToggleOff} color="#AF95E7" />
+                        <FontAwesomeIcon icon={faToggleOff} color="#AF95E7" className={styles['friend-toggle']} />
                       )
                     }
                   </div>
@@ -180,8 +185,8 @@ const Manage = () => {
               );
             })}
 
-          <button onClick={(evt) => handleFriendSubmit(evt)}>
-            Update Friend Preferences
+          <button onClick={(evt) => handleFriendSubmit(evt)} className={styles['update-button']}>
+            Confirm Friend Preferences
           </button>
         </div>
       </div>
