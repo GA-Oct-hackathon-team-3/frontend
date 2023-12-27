@@ -8,8 +8,8 @@ export async function verifyEmail (token) {
     return await usersAPI.verifyEmail(token);
 }
 
-export async function resendEmail () {
-    return await usersAPI.resendEmail();
+export async function resendEmail (email, token) {
+    return await usersAPI.resendEmail(email, token);
 }
 
 export function getToken() {

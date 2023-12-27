@@ -10,8 +10,8 @@ export function verifyEmail(token) {
     return sendRequest(`${BASE_URL}users/verify-email`, 'POST', { token });
 }
 
-export function resendEmail() {
-    return sendRequest(`${BASE_URL}users/resend-email`, 'GET', null);
+export function resendEmail(email, token) {
+    return sendRequest(`${BASE_URL}users/resend-email`, 'POST', { email, token });
 }
 
 export function login(credentials) {
