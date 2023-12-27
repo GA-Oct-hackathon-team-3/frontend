@@ -12,6 +12,10 @@ export async function resendEmail (email, token) {
     return await usersAPI.resendEmail(email, token);
 }
 
+export async function getPasswordResetEmail (formData) {
+    return await usersAPI.getPasswordResetEmail(formData);
+}
+
 export function getToken() {
   const token = localStorage.getItem('token');
   if (!token) return null;

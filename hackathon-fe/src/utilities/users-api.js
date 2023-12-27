@@ -14,6 +14,10 @@ export function resendEmail(email, token) {
     return sendRequest(`${BASE_URL}users/resend-email`, 'POST', { email, token });
 }
 
+export function getPasswordResetEmail (formData) {
+    return sendRequest(`${BASE_URL}users/forgot-password`, 'POST', formData);
+}
+
 export function login(credentials) {
   return sendRequest(`${BASE_URL}users/login`, 'POST', credentials);
 }

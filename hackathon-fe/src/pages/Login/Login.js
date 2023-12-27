@@ -58,7 +58,6 @@ const Login = () => {
   return (
     <>
       <Header />
-
       <section className={styles['login-container']}>
         <div className={styles['content-container']}>
           <div className={styles['back-button']}>
@@ -107,7 +106,7 @@ const Login = () => {
               />
             </div>
             <div className={styles['form-group']}>
-              <p>Forgot Password?</p>
+              <p className={styles['forgot-password']} onClick={() => navigate('/reset-password')}>Forgot Password?</p>
             </div>
             <button
               className={styles['login-button']}

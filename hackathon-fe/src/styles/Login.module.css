@@ -78,6 +78,10 @@
     text-decoration-line: underline;
 }
 
+.forgot-password {
+    cursor: pointer;
+}
+
 .login-button {
     background-color: #53CF85;
     color: #fff;
