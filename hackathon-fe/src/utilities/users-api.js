@@ -6,6 +6,14 @@ export function register(userData) {
   return sendRequest(`${BASE_URL}users`, 'POST', userData);
 }
 
+export function verifyEmail(token) {
+    return sendRequest(`${BASE_URL}users/verify-email`, 'POST', { token });
+}
+
+export function resendEmail() {
+    return sendRequest(`${BASE_URL}users/resend-email`, 'GET', null);
+}
+
 export function login(credentials) {
   return sendRequest(`${BASE_URL}users/login`, 'POST', credentials);
 }

@@ -17,8 +17,10 @@ const LoginSignUp = () => {
   const [passwordValidity, setPasswordValidity] = useState(false);
   const [passwordMatch, setPasswordMatch] = useState(false);
   const [requiredMessage, setRequiredMessage] = useState(''); // displays invalid form and error messages
+  const [emailMessage, setEmailMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isAwaitingVerification, setIsAwaitingVerification] = useState(false);
+  const [isResending, setIsResending] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     tel: '',
@@ -93,6 +95,15 @@ const LoginSignUp = () => {
     else return true;
   }
 
+  const handleResend = async () => {
+    setIsResending(true);
+    const response = await usersService.resendEmail(formData.email, null);  // accepts email, token
+    if (response.message === 'Email resent successfully') {
+        setEmailMessage('Email resent successfully!');
+      } else setEmailMessage(response.message);
+
+  } 
+
   return (
     <>
       <Header />
@@ -101,6 +112,8 @@ const LoginSignUp = () => {
                 <div style={{ margin: 'auto', marginTop: '8rem' }}>
                     <h1>Verification email sent.</h1>
                     <h1>Please check your inbox</h1>
+                    {!isResending && <button className={styles['signup-button']} onClick={handleResend}>Resend Email</button>}
+                    {emailMessage && emailMessage}
                 </div>
             ) : (
                 <div className={styles['content-container']}>

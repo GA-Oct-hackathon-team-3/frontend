@@ -1,10 +1,15 @@
 import * as usersAPI from './users-api';
 
 export async function register(userData) {
-  const userDataReturned = await usersAPI.register(userData);
-  const token = userDataReturned.accessToken;
-  localStorage.setItem('token', token);
-  return getUser();
+  return await usersAPI.register(userData);
+}
+
+export async function verifyEmail (token) {
+    return await usersAPI.verifyEmail(token);
+}
+
+export async function resendEmail () {
+    return await usersAPI.resendEmail();
 }
 
 export function getToken() {
