@@ -17,7 +17,10 @@ const LoginSignUp = () => {
   const [passwordValidity, setPasswordValidity] = useState(false);
   const [passwordMatch, setPasswordMatch] = useState(false);
   const [requiredMessage, setRequiredMessage] = useState(''); // displays invalid form and error messages
+  const [emailMessage, setEmailMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isAwaitingVerification, setIsAwaitingVerification] = useState(false);
+  const [isResending, setIsResending] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     tel: '',
@@ -62,11 +65,13 @@ const LoginSignUp = () => {
 
     try {
       const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      const userData = await usersService.register({
+      const response = await usersService.register({
         ...{ ...formData, timezone },
         timezone,
       });
-      if (userData) navigate('/friends?fromSignup=true');
+      if (response.message === 'User successfully created and verification email sent sucessfully') {
+        setIsAwaitingVerification(true);
+      }
       else return handleFormMessage(
           'Either an account has already been created with this email, or there is a network error. Please try again.'
         );
@@ -90,11 +95,28 @@ const LoginSignUp = () => {
     else return true;
   }
 
+  const handleResend = async () => {
+    setIsResending(true);
+    const response = await usersService.resendEmail(formData.email, null);  // accepts email, token
+    if (response.message === 'Email resent successfully') {
+        setEmailMessage('Email resent successfully!');
+      } else setEmailMessage(response.message);
+
+  } 
+
   return (
     <>
       <Header />
       <section className={styles['signup-container']}>
-        <div className={styles['content-container']}>
+            { isAwaitingVerification ? (
+                <div style={{ margin: 'auto', marginTop: '8rem' }}>
+                    <h1>Verification email sent.</h1>
+                    <h1>Please check your inbox</h1>
+                    {!isResending && <button className={styles['signup-button']} onClick={handleResend}>Resend Email</button>}
+                    {emailMessage && emailMessage}
+                </div>
+            ) : (
+                <div className={styles['content-container']}>
           <div className={styles['back-button']}>
             <BsArrowLeft onClick={() => navigate('/')} />
           </div>
@@ -208,6 +230,7 @@ const LoginSignUp = () => {
             </button>
           </form>
         </div>
+            )}
       </section>
     </>
   );

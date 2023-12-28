@@ -19,6 +19,8 @@ import UpdateFriendPage from "./pages/UpdateFriendPage/UpdateFriendPage";
 import DeleteUserPage from './pages/Account/DeleteUserPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicy/PrivacyPolicyPage';
 import SettingsPage from './pages/Settings';
+import VerifyEmailPage from './pages/VerifyEmail';
+import ForgotPasswordPage from './pages/ForgotPassword';
 import UpdatePasswordPage from "./pages/Account/UpdatePassword";
 
 function App() {
@@ -31,6 +33,8 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="/settings" element={<SettingsPage /> } />
+          <Route path="/verify-email" element={<VerifyEmailPage /> } />
+          <Route path="/reset-password" element={<ForgotPasswordPage /> } />
           <Route
             path="/profile"
             element={

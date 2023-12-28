@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { getNotifications, markAsRead, deleteNotification } from '../../utilities/reminders-service';
+import * as remindersService from '../../utilities/reminders-service';
 import { getAgeAndSuffix } from '../../utilities/helpers';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,18 +15,18 @@ const Notifications = () => {
   const [notifications, setNotifications] = useState({ current: [], past: [] });
 
   useEffect(() => {
-    const fetchNotifications = async () => {
-      const notificationData = await getNotifications();
-      if (notificationData && !notificationData.message)
-        setNotifications(notificationData);
+    const fetchReminders = async () => {
+      const reminderData = await remindersService.getReminders();
+      if (reminderData && !reminderData.message)
+        setNotifications(reminderData);
     };
 
-    const readNotifications = async () => {
+    const readReminders = async () => {
       const ids = notifications.current.map((notif) => notif._id); // creates array of all unread notifications ids
-      const response = await markAsRead(ids); // sends to backend to mark as read
+      const response = await remindersService.markAsRead(ids); // sends to backend to mark as read
     };
 
-    fetchNotifications();
+    fetchReminders();
 
     setTimeout(() => {
       setIsLoading(false);
@@ -34,7 +34,7 @@ const Notifications = () => {
 
     setTimeout(() => {
       // if no unread notifications, no call to backend
-      if (notifications.current.length > 0) readNotifications();
+      if (notifications.current.length > 0) readReminders();
     }, 3000); // runs 3 seconds after mount
   }, []);
 
@@ -50,8 +50,8 @@ const Notifications = () => {
     const navigate = useNavigate();
 
     const removeReminder = async () => {
-      const response = await deleteNotification(id);
-      if (response && response.message === 'Notification deleted successfully') {
+      const response = await remindersService.deleteReminder(id);
+      if (response && response.message === 'Reminder deleted successfully') {
         setNotifications((prev) => ({
           ...prev,
           current: prev.current.filter((notif) => notif._id !== id),

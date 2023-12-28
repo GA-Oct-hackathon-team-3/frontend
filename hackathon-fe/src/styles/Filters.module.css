@@ -26,6 +26,17 @@
   margin-bottom: 2rem;
 }
 
+.loading-container{
+  display: flex;
+  align-self: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+
 .save-btn {
   padding: 10px 20px;
   width: 40%;
@@ -114,6 +125,18 @@
     border: none;
 }
 
+.resend {
+    width: 50%;
+    padding: 1rem 0;
+    align-self: center;
+    font-size: 1.3rem;
+    font-weight: 900;
+    background-color: #53CF85;
+    color: white;
+    border-radius: 0.5rem;
+    border: none;
+}
+
 
 /* DESKTOP STYLES */
 @media (min-width: 481px) {
@@ -152,6 +175,10 @@
     }
 
     .logout {
+        width: 20%;
+    }
+
+    .resend {
         width: 20%;
     }
 }

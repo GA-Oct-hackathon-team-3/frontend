@@ -6,6 +6,18 @@ export function register(userData) {
   return sendRequest(`${BASE_URL}users`, 'POST', userData);
 }
 
+export function verifyEmail(token) {
+    return sendRequest(`${BASE_URL}users/verify-email`, 'POST', { token });
+}
+
+export function resendEmail(email, token) {
+    return sendRequest(`${BASE_URL}users/resend-email`, 'POST', { email, token });
+}
+
+export function getPasswordResetEmail (formData) {
+    return sendRequest(`${BASE_URL}users/forgot-password`, 'POST', formData);
+}
+
 export function login(credentials) {
   return sendRequest(`${BASE_URL}users/login`, 'POST', credentials);
 }
