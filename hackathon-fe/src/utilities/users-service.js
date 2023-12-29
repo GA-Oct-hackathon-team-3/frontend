@@ -16,6 +16,10 @@ export async function getPasswordResetEmail (formData) {
     return await usersAPI.getPasswordResetEmail(formData);
 }
 
+export async function resetPassword (passwordData, token) {
+    return await usersAPI.resetPassword(passwordData, token);
+}
+
 export function getToken() {
   const token = localStorage.getItem('token');
   if (!token) return null;

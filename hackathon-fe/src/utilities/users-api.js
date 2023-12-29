@@ -18,6 +18,10 @@ export function getPasswordResetEmail (formData) {
     return sendRequest(`${BASE_URL}users/forgot-password`, 'POST', formData);
 }
 
+export function resetPassword (passwordData, token) {
+    return sendRequest(`${BASE_URL}users/reset-password`, 'POST', { ...passwordData, token });
+}
+
 export function login(credentials) {
   return sendRequest(`${BASE_URL}users/login`, 'POST', credentials);
 }
