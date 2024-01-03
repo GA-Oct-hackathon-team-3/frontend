@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import * as friendsService from '../../utilities/friends-service';
+import * as profilesService from '../../utilities/profiles-service';
 import { friendsFilter } from '../../utilities/helpers';
 
 import Header from '../../components/Header/Header';
@@ -51,7 +52,6 @@ const FriendsPage = () => {
           setFriends(friendsData);
           setFilteredFriends(friendsData);
         } else setFilteredFriends(null);
-        if (fromSignup === 'true') setOnboardingStep(1); // only show onboarding if user is coming from signup
       } catch (error) {
         console.error('Error fetching friends: ', error);
       } finally {
@@ -60,6 +60,12 @@ const FriendsPage = () => {
         }, 1200);
       }
     };
+    const isNewUser = localStorage.getItem('needOnboard');
+    if (isNewUser && JSON.parse(isNewUser)) {
+      // if needOnboard exists (set after successful email verification), and if true
+      setOnboardingStep(1); // start onboarding steps
+      localStorage.removeItem('needOnboard');
+    }
     fetchFriends();
   }, [fromSignup]);
 
@@ -75,11 +81,15 @@ const FriendsPage = () => {
         laterOn: friendsFilter(friends.laterOn, query),
       };
       setFilteredFriends(filteredResults);
-      
     } else {
       // resets list to categorizedFriends if query is empty
       setFilteredFriends(friends);
     }
+  };
+
+  const enableEmailsAndClose = async () => {
+    await profilesService.updateUserProfile({ emailNotifications: true }, null);
+    setOnboardingStep(0);
   };
 
   const renderSection = (friends, sectionTitle) => {
@@ -152,7 +162,7 @@ const FriendsPage = () => {
               )}
             </div>
 
-            {fromSignup === 'true' && onboardingStep === 1 && (
+            {onboardingStep === 1 && (
               <div className={styles['onboarding-overlay-step-one']}>
                 <div className={styles['content']}>
                   <h2>Welcome to your Presently Dashboard!</h2>
@@ -168,14 +178,28 @@ const FriendsPage = () => {
               </div>
             )}
 
-            {fromSignup === 'true' && onboardingStep === 2 && (
+            {onboardingStep === 2 && (
               <div className={styles['onboarding-overlay-step-two']}>
                 <div className={styles['content']}>
                   <h2>
                     Add a new friend profile to get personalized gift ideas.
                   </h2>
-                  <p onClick={() => setOnboardingStep(0)}>Skip for now</p>
+                  <p onClick={() => setOnboardingStep(3)}>Continue</p>
                   <img src={pointingHandImg} alt="Pointing hand" />
+                </div>
+              </div>
+            )}
+
+            {onboardingStep === 3 && (
+              <div className={styles['onboarding-overlay-step-one']}>
+                <div className={styles['content']}>
+                  <h2>Enable Email Notifications</h2>
+                  <ul>
+                    To receive:
+                    <li>Emails whenever a friend's birthday </li>
+                    <li onClick={enableEmailsAndClose}>Enable</li>
+                  </ul>
+                  <p onClick={() => setOnboardingStep(0)}>Skip for now</p>
                 </div>
               </div>
             )}
