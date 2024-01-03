@@ -110,12 +110,59 @@ const Manage = () => {
     }
   };
 
+  const toggleAllOn = async (evt) => {
+    evt.preventDefault();
+    // accumulates ids of friends with current value of OFF
+    const friendIds = friends.reduce((ids, friend) => {
+      if (friend.includeInNotifications === false) {
+        ids.push(friend._id);
+      }
+      return ids;
+    }, []);
+    if (friendIds.length === 0) return;
+    // sends ids to backend to toggle
+    const response = await updateFriendNotification(friendIds);
+    if (
+      response &&
+      response.message === 'Updated friend notification preference successfully'
+    ) {
+      setUpdatedFriends({}); // resets state
+      fetchFriends(); // re-fetches friends to retrieve updated friend data
+    }
+  };
+
+  const toggleAllOff = async (evt) => {
+    evt.preventDefault();
+    // accumulates ids of friends with current value of ON
+    const friendIds = friends.reduce((ids, friend) => {
+      if (friend.includeInNotifications === true) {
+        ids.push(friend._id);
+      }
+      return ids;
+    }, []);
+    if (friendIds.length === 0) return;
+    // sends ids to backend to toggle
+    const response = await updateFriendNotification(friendIds);
+    if (
+      response &&
+      response.message === 'Updated friend notification preference successfully'
+    ) {
+      setUpdatedFriends({}); // resets state
+      fetchFriends(); // re-fetches friends to retrieve updated friend data
+    }
+  };
+
   const handleFriendSubmit = async (evt) => {
     evt.preventDefault();
+    // updatedFriends structure = [ { friend_id: new includeInNotifications value }, { friend_id: new includeInNotifications value } ]
+    const friendIds = Object.keys(updatedFriends); // use Object.keys to extract ids of friends whose values were changed
 
-    const friendIds = Object.keys(updatedFriends);
+    // send to backend to toggle
     const response = await updateFriendNotification(friendIds);
-    if (response.message === 'Updated friend notification preference successfully') {
+    if (
+      response &&
+      response.message === 'Updated friend notification preference successfully'
+    ) {
       setUpdatedFriends({}); // resets state
       fetchFriends(); // re-fetches friends to retrieve updated friend data
       setIsLoading(true); // set loading to true as data is retrieved
@@ -186,12 +233,19 @@ const Manage = () => {
             <p>
               Enable or disable notifications for each friend and confirm below:
             </p>
-            <input
-              value={query}
-              onChange={(evt) => handleSearch(evt.target.value)}
-              placeholder="Search by name..."
-              className={styles['search-bar']}
-            />
+            <div className={styles['friend-section-header']}>
+              <input
+                value={query}
+                onChange={(evt) => handleSearch(evt.target.value)}
+                placeholder="Search by name..."
+                className={styles['search-bar']}
+              />
+              <div>
+                <button onClick={toggleAllOn}>Enable All</button> 
+                {' '}|{' '}
+                <button onClick={toggleAllOff}>Disable All</button>
+              </div>
+            </div>
             <div className={styles['friend-section']}>
               {filteredFriends &&
                 filteredFriends.map((friend) => {

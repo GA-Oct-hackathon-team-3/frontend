@@ -17,8 +17,7 @@ const Notifications = () => {
   useEffect(() => {
     const fetchReminders = async () => {
       const reminderData = await remindersService.getReminders();
-      if (reminderData && !reminderData.message)
-        setNotifications(reminderData);
+      if (reminderData && !reminderData.message) setNotifications(reminderData);
     };
 
     const readReminders = async () => {
@@ -35,7 +34,7 @@ const Notifications = () => {
     setTimeout(() => {
       // if no unread notifications, no call to backend
       if (notifications.current.length > 0) readReminders();
-    }, 3000); // runs 3 seconds after mount
+    }, 2000); // runs 2 seconds after mount
   }, []);
 
   const NotificationItem = ({
@@ -49,7 +48,8 @@ const Notifications = () => {
   }) => {
     const navigate = useNavigate();
 
-    const removeReminder = async () => {
+    const removeReminder = async (evt) => {
+      evt.stopPropagation();
       const response = await remindersService.deleteReminder(id);
       if (response && response.message === 'Reminder deleted successfully') {
         setNotifications((prev) => ({
