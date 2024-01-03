@@ -410,7 +410,7 @@
 .onboarding-overlay-step-two>.content {
     display: inline-flex;
     width: 75%;
-    height: 20%;
+    height: 25%;
     padding: 2rem;
     flex-direction: column;
     justify-content: center;
@@ -434,6 +434,18 @@
     width: 230px;
 }
 
+.onboarding-overlay-step-two>.content>button {
+    width: 40%;
+    height: 3rem;
+    border-radius: 20px;
+    background-color: #53CF85;
+    color: var(--Bright-White, #FFF);
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 900;
+    border: none;
+}
+
 .onboarding-overlay-step-two>.content>p {
     color: #3D3C3C;
     text-align: center;
@@ -442,6 +454,7 @@
     font-weight: 700;
     line-height: 20.8px;
     text-decoration-line: underline;
+    cursor: pointer;
 }
 
 .onboarding-overlay-step-two>.content>img {

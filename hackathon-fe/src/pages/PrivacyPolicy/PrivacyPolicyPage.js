@@ -1,8 +1,22 @@
 const PrivacyPolicy = () => {
-  const contributors = {
+  const contributorStyles = {
     textShadow: '0.5px 0.1px 0.1px rgba(0, 0, 0, 0.5',
-    fontSize: '1.1rem'
+    fontSize: '1.1rem',
   };
+
+  const contributors = [
+    { name: 'Can Gologlu', role: 'Backend Engineer' },
+    { name: 'Sharon Kim', role: 'UX Designer' },
+    { name: 'Fredy Laksmono', role: 'Frontend Engineer' },
+    { name: 'John McCants', role: 'Mobile Engineer' },
+    { name: 'Jacqueline Pineda', role: 'Frontend Engineer' },
+    { name: 'Cara Reiner', role: 'UX Designer' },
+    { name: 'Molly Rosenthal', role: 'UX Designer' },
+    { name: 'Anthony Sudol', role: 'UX Designer' },
+    { name: 'Amber Taveras', role: 'Backend / Full Stack Engineer' },
+    { name: 'Max Walker', role: 'Frontend Engineer' },
+  ];
+
   return (
     <div style={{ padding: '2rem', letterSpacing: '0.48px' }}>
       <h1>Privacy Policy</h1>
@@ -10,35 +24,28 @@ const PrivacyPolicy = () => {
       The Presently App was built as a Free app by the following individuals:
       <br />
       <br />
-      <ul style={{ listStyle: 'none',  }}>
-        <li><strong style={contributors}>Can Gologlu</strong>, Backend Engineer</li>
-        <li><strong style={contributors}>Sharon Kim</strong>, UX Designer</li>
-        <li><strong style={contributors}>John McCants</strong>, Mobile Engineer</li>
-        <li><strong style={contributors}>Cara Reiner</strong>, UX Designer</li>
-        <li><strong style={contributors}>Molly Rosenthal</strong>, UX Designer</li>
-        <li><strong style={contributors}>Anthony Sudol</strong>, UX Designer</li>
-        <li><strong style={contributors}>Amber Taveras</strong>, Full Stack Engineer</li>
-        <li><strong style={contributors}>Max Walker</strong>, Frontend Engineer</li>
-        <br />
-            With contributions by:
-        <ul style={{ listStyle: 'none'}}>
-          <li><strong>Fredy Laksmono</strong></li>
-          <li><strong>Jacqueline Pineda</strong></li>
-        </ul>
+      <ul style={{ listStyle: 'none' }}>
+        {contributors.map((contributor, index) => (
+          <li key={index}>
+            <strong style={contributorStyles}>{contributor.name}</strong>,{' '}
+            {contributor.role}
+          </li>
+        ))}
       </ul>
       <br />
       <br />
-      This SERVICE is provided by John McCants at no cost and is intended for
-      use as is. This page is used to inform visitors regarding my policies with
-      the collection, use, and disclosure of Personal Information if anyone
-      decided to use my Service. If you choose to use my Service, then you agree
-      to the collection and use of information in relation to this policy. The
-      Personal Information that I collect is used for providing and improving
-      the Service. I will not use or share your information with anyone except
-      as described in this Privacy Policy. The terms used in this Privacy Policy
-      have the same meanings as in our Terms and Conditions, which are
-      accessible at Presently App unless otherwise defined in this Privacy
-      Policy.
+      This SERVICE is provided by{' '}
+      <strong style={contributorStyles}>John McCants</strong> at no cost and is
+      intended for use as is. This page is used to inform visitors regarding my
+      policies with the collection, use, and disclosure of Personal Information
+      if anyone decided to use my Service. If you choose to use my Service, then
+      you agree to the collection and use of information in relation to this
+      policy. The Personal Information that I collect is used for providing and
+      improving the Service. I will not use or share your information with
+      anyone except as described in this Privacy Policy. The terms used in this
+      Privacy Policy have the same meanings as in our Terms and Conditions,
+      which are accessible at Presently App unless otherwise defined in this
+      Privacy Policy.
       <br />
       <br />
       <h2>Information Collection and Use</h2>
@@ -122,7 +129,8 @@ const PrivacyPolicy = () => {
       <br />
       <h2>Contact Us</h2>
       If you have any questions or suggestions about my Privacy Policy, do not
-      hesitate to contact me at johnmccants002@gmail.com.
+      hesitate to contact me at{' '}
+      <strong style={contributorStyles}>johnmccants002@gmail.com.</strong>
       <br />
       <br />
       This privacy policy page was created at privacypolicytemplate.net and

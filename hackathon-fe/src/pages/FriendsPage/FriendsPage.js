@@ -155,7 +155,7 @@ const FriendsPage = () => {
                 <div className={styles['no-friends-yet']}>
                   <img src={noFriendsImg} alt="No friends added yet." />
                   <p>
-                    No birthdays to display... add a friend below to start
+                    No birthdays to display... add a friend to start
                     gifting!
                   </p>
                 </div>
@@ -184,21 +184,17 @@ const FriendsPage = () => {
                   <h2>
                     Add a new friend profile to get personalized gift ideas.
                   </h2>
-                  <p onClick={() => setOnboardingStep(3)}>Continue</p>
+                  <button onClick={() => setOnboardingStep(3)}>Continue</button>
                   <img src={pointingHandImg} alt="Pointing hand" />
                 </div>
               </div>
             )}
 
             {onboardingStep === 3 && (
-              <div className={styles['onboarding-overlay-step-one']}>
+              <div className={styles['onboarding-overlay-step-two']}>
                 <div className={styles['content']}>
-                  <h2>Enable Email Notifications</h2>
-                  <ul>
-                    To receive:
-                    <li>Emails whenever a friend's birthday </li>
-                    <li onClick={enableEmailsAndClose}>Enable</li>
-                  </ul>
+                  <h3>Receive email notifications of upcoming birthdays?</h3>
+                    <button onClick={enableEmailsAndClose}>Enable</button>
                   <p onClick={() => setOnboardingStep(0)}>Skip for now</p>
                 </div>
               </div>
