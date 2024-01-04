@@ -15,6 +15,7 @@ import manCelebratingImg from '../../assets/icons/friendsList/manCelebrating.png
 import pointingHandImg from '../../assets/images/onboarding/pointingHandImg.png';
 
 import { CircularProgress } from '@mui/material';
+import { ToastContainer, toast } from 'react-toastify';
 
 import styles from '../../styles/BirthdayFriends.module.css';
 
@@ -22,13 +23,10 @@ const FriendsPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // determining if user is coming from signup
-  const queryParams = new URLSearchParams(location.search);
-  const fromSignup = queryParams.get('fromSignup');
-
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [onboardingStep, setOnboardingStep] = useState(0);
+  const [hasShownToast, setHasShownToast] = useState(false);
 
   // initializes friend state with category structure
   const [friends, setFriends] = useState({
@@ -67,7 +65,21 @@ const FriendsPage = () => {
       localStorage.removeItem('needOnboard');
     }
     fetchFriends();
-  }, [fromSignup]);
+  }, []);
+
+  useEffect(() => {
+    let stateData;
+    if (!hasShownToast && location.state && location.state.path) {
+      stateData = location.state;
+      if (stateData.path && stateData.path.includes('/friend')) {
+        toast.success('Friend deleted', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 1000,
+        });
+        setHasShownToast(true);
+      }
+    }
+  }, [location.state, hasShownToast]);
 
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -155,8 +167,7 @@ const FriendsPage = () => {
                 <div className={styles['no-friends-yet']}>
                   <img src={noFriendsImg} alt="No friends added yet." />
                   <p>
-                    No birthdays to display... add a friend to start
-                    gifting!
+                    No birthdays to display... add a friend to start gifting!
                   </p>
                 </div>
               )}
@@ -194,7 +205,7 @@ const FriendsPage = () => {
               <div className={styles['onboarding-overlay-step-two']}>
                 <div className={styles['content']}>
                   <h3>Receive email notifications of upcoming birthdays?</h3>
-                    <button onClick={enableEmailsAndClose}>Enable</button>
+                  <button onClick={enableEmailsAndClose}>Enable</button>
                   <p onClick={() => setOnboardingStep(0)}>Skip for now</p>
                 </div>
               </div>
@@ -209,6 +220,7 @@ const FriendsPage = () => {
             </button>
           </div>
         )}
+        <ToastContainer className={styles['toast-container']} hideProgressBar />
       </div>
       <Footer />
     </>

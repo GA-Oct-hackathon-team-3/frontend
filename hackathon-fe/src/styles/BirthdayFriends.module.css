@@ -10,6 +10,15 @@
     align-items: center;
 }
 
+.toast-container {
+    width: 15rem !important;
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+    margin-left: 18% !important;
+    margin-top: 5% !important;
+}
+
 .content-container {
     width: 100%;
     display: flex;
@@ -477,6 +486,11 @@
 
     .content-container {
         max-width: 900px;
+    }
+
+    .toast-container {
+        margin-top: 0% !important;
+        margin-left: 0% !important;
     }
 
     .search-bar {
