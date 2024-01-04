@@ -15,7 +15,11 @@ import { IconButton, CircularProgress } from '@mui/material';
 
 import styles from '../../styles/ShowFriend.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faAngleUp, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import {
+  faAngleDown,
+  faAngleUp,
+  faTrashCan,
+} from '@fortawesome/free-solid-svg-icons';
 
 const FriendPage = () => {
   const { id } = useParams();
@@ -29,8 +33,9 @@ const FriendPage = () => {
   const [activeTab, setActiveTab] = useState('profile');
   const [enableRecs, setEnableRecs] = useState(false);
   const [favError, setFavError] = useState('');
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [showConfirmDelete, setConfirmDelete] = useState(false);
   const [hasShownToast, setHasShownToast] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const fetchFriend = async () => {
@@ -52,7 +57,8 @@ const FriendPage = () => {
 
   useEffect(() => {
     // checking state passed from filter's page, and then changing tab to explore on mount
-    if (location.state && location.state.tab === 'explore') setActiveTab('explore');
+    if (location.state && location.state.tab === 'explore')
+      setActiveTab('explore');
   }, [location.state]);
 
   useEffect(() => {
@@ -82,7 +88,10 @@ const FriendPage = () => {
       try {
         const item = favorites[idx];
         const res = await friendsService.removeFromFavorites(id, item._id);
-        if (res) setFavorites(favorites.slice(0, idx).concat(favorites.slice(idx + 1)));
+        if (res)
+          setFavorites(
+            favorites.slice(0, idx).concat(favorites.slice(idx + 1))
+          );
       } catch (error) {
         setFavError(error.message);
       }
@@ -97,20 +106,21 @@ const FriendPage = () => {
     }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = async (evt) => {
+    evt.preventDefault();
     const response = await friendsService.deleteFriend(id);
     if (response.message === 'Friend deleted successfully') {
-        toast.info('Deleting friend...', {
-            position: toast.POSITION.TOP_CENTER,
-            hideProgressBar: false,
-            autoClose: 1000,
-          });
-    
-          setTimeout(() => {
-            navigate('/friends', { state: { path: location.pathname } });
-          }, 2000);
+      toast.info('Deleting friend...', {
+        position: toast.POSITION.TOP_CENTER,
+        hideProgressBar: false,
+        autoClose: 1000,
+      });
+
+      setTimeout(() => {
+        navigate('/friends', { state: { path: location.pathname } });
+      }, 2000);
     }
-  }
+  };
 
   return (
     <div className={styles['container']}>
@@ -134,38 +144,27 @@ const FriendPage = () => {
           >
             <BsArrowLeft />
           </p>
-          <div
-          className={styles['settings']}
-          >
-            <div>
-                {isOpen ? (
-                    <>
-                    <FontAwesomeIcon 
-                    icon={faAngleUp}
-                    onClick={() => setIsOpen(false)}
-                    />
-                    Close
-                    </>
-                ) : (
-                    <>
-                    <FontAwesomeIcon 
-                        icon={faAngleDown}
-                        onClick={() => setIsOpen(true)}
-                        />
-                    Manage
-                    </>
-                )}
+          <div className={styles['settings']}>
+            <div
+              className={styles['dropdown']}
+              onClick={() => setDropdownOpen(!isDropdownOpen)}
+            >
+              <p>{isDropdownOpen ? 'Close' : 'Manage'}</p>
+              <FontAwesomeIcon
+                icon={isDropdownOpen ? faAngleUp : faAngleDown}
+              />
             </div>
-            
-            {isOpen && (
-            <div>
-                <br />
-            <FontAwesomeIcon 
-                icon={faTrashCan}
-                onClick={handleDelete}
-            />
-            Remove Friend
-            </div>
+
+            {isDropdownOpen && (
+              <div
+                className={`${styles['drawer']} ${
+                  isDropdownOpen && styles['open']
+                }`}
+                onClick={() => setConfirmDelete(true)}
+              >
+                <FontAwesomeIcon icon={faTrashCan} />
+                <p>Delete</p>
+              </div>
             )}
           </div>
           <div className={styles['profile-header']}>
@@ -259,6 +258,27 @@ const FriendPage = () => {
               />
             )}
           </div>
+
+          {showConfirmDelete && (
+            <div className={styles['confirm-delete-overlay']}>
+              <div className={styles['content']}>
+                <p>
+                  Are you sure you want to delete{' '}
+                  <span style={{ textTransform: 'capitalize' }}>
+                    {friend.name}
+                  </span>
+                  ? <br /> <br /> This action cannot be undone.
+                </p>
+
+                <div className={styles['btn-container']}>
+                  <button onClick={handleDelete}>Yes</button>
+                  <button onClick={() => setConfirmDelete(false)}>
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
           <ToastContainer
             className={styles['toast-container']}
             hideProgressBar
