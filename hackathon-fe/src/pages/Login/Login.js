@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import * as usersService from '../../utilities/users-service';
 
 import Header from '../../components/Header/Header';
@@ -8,17 +8,34 @@ import mobileLogin from '../../assets/images/login/mobileLogin.png';
 import desktopLogin from '../../assets/images/login/desktopLogin.png';
 
 import { BsArrowLeft } from 'react-icons/bs';
+import { ToastContainer, toast } from 'react-toastify';
 
 import styles from '../../styles/Login.module.css';
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [credentials, setCredentials] = useState({
     email: '',
     password: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [validationMessage, setValidationMessage] = useState('');
+  const [hasShownToast, setHasShownToast] = useState(false);
+
+  useEffect(() => {
+    let stateData;
+    if (!hasShownToast && location.state && location.state.path) {
+      stateData = location.state;
+      if (stateData.path === '/reset-password') {
+        toast.success('Password updated!', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 1000,
+        });
+        setHasShownToast(true);
+      }
+    }
+  }, [location.state, hasShownToast]); // this useEffect call determines when to show toast notification
 
   const handleFormMessage = (string) => {
     setIsSubmitting(false);
@@ -116,6 +133,10 @@ const Login = () => {
               Login
             </button>
           </form>
+          <ToastContainer
+            className={styles['toast-container']}
+            hideProgressBar
+          />
         </div>
       </section>
     </>

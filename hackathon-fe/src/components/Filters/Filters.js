@@ -114,6 +114,7 @@ const Filters = ({ friend }) => {
                 onClick={() => handleClick("budget")}
                 icon={show === "budget" ? faMinus : faPlus}
                 size="2x"
+                style={{ cursor: "pointer" }}
               />
             </div>
             {show === "budget" && (
@@ -143,6 +144,7 @@ const Filters = ({ friend }) => {
                 onClick={() => handleClick("tags")}
                 icon={show === "tags" ? faMinus : faPlus}
                 size="2x"
+                style={{ cursor: "pointer" }}
               />
             </div>
             {show === "tags" && (
@@ -167,6 +169,7 @@ const Filters = ({ friend }) => {
                 onClick={() => handleClick("gifttype")}
                 icon={show === "gifttype" ? faMinus : faPlus}
                 size="2x"
+                style={{ cursor: "pointer" }}
               />
             </div>
             {show === "gifttype" && (

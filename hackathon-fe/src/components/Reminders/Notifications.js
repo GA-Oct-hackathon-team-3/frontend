@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { debounce } from 'lodash';
 
 import * as remindersService from '../../utilities/reminders-service';
 import { getAgeAndSuffix } from '../../utilities/helpers';
@@ -17,25 +18,24 @@ const Notifications = () => {
   useEffect(() => {
     const fetchReminders = async () => {
       const reminderData = await remindersService.getReminders();
-      if (reminderData && !reminderData.message)
-        setNotifications(reminderData);
+      if (reminderData && !reminderData.message) setNotifications(reminderData);
     };
 
     const readReminders = async () => {
       const ids = notifications.current.map((notif) => notif._id); // creates array of all unread notifications ids
-      const response = await remindersService.markAsRead(ids); // sends to backend to mark as read
+      if (ids.length === 0) return; // if no unread reminders, return
+      await remindersService.markAsRead(ids); // sends to backend to mark as read
     };
 
+    // uses debounce to delay mark reminders as read after 3 seconds
+    const delayedRead = debounce(() => readReminders(), 3000);
+
     fetchReminders();
+    delayedRead();
 
     setTimeout(() => {
       setIsLoading(false);
     }, 1200);
-
-    setTimeout(() => {
-      // if no unread notifications, no call to backend
-      if (notifications.current.length > 0) readReminders();
-    }, 3000); // runs 3 seconds after mount
   }, []);
 
   const NotificationItem = ({
@@ -49,7 +49,8 @@ const Notifications = () => {
   }) => {
     const navigate = useNavigate();
 
-    const removeReminder = async () => {
+    const removeReminder = async (evt) => {
+      evt.stopPropagation();
       const response = await remindersService.deleteReminder(id);
       if (response && response.message === 'Reminder deleted successfully') {
         setNotifications((prev) => ({

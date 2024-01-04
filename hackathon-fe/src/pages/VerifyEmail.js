@@ -25,6 +25,7 @@ const VerifyEmail = () => {
       if (response.message === "User's email was verified successfully") {
         setIsVerified(true);
         setMessage('Email was verified successfully...');
+        localStorage.setItem('needOnboard', JSON.stringify(true)); // to display onboard to user upon first login 
         setTimeout(() => {
           navigate('/login');
         }, 3000);

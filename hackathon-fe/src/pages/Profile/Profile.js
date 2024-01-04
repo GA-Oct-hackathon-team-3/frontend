@@ -80,7 +80,7 @@ const Profile = () => {
           </p>
           <div
             className={styles['settings']}
-            onClick={() => navigate('/settings')}
+            onClick={() => navigate('/settings', { state: { emailNotifications: userProfile.emailNotifications }})}
           >
             <img src={gear} alt="settings" />
             Settings
