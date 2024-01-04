@@ -24,6 +24,10 @@ export async function updateFriend(id, friendInput) {
     return response;
 }
 
+export async function deleteFriend(id) {
+    return await sendRequest(`${BASE_URL}/${id}/delete`, 'DELETE', null);
+}
+
 export async function uploadPhoto(id, file) {
     const formData = new FormData();
     formData.append('photo', file);

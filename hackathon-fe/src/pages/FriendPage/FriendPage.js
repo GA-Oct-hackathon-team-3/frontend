@@ -14,6 +14,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import { IconButton, CircularProgress } from '@mui/material';
 
 import styles from '../../styles/ShowFriend.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleDown, faAngleUp, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 const FriendPage = () => {
   const { id } = useParams();
@@ -28,6 +30,7 @@ const FriendPage = () => {
   const [enableRecs, setEnableRecs] = useState(false);
   const [favError, setFavError] = useState('');
   const [hasShownToast, setHasShownToast] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const fetchFriend = async () => {
@@ -94,6 +97,21 @@ const FriendPage = () => {
     }
   };
 
+  const handleDelete = async () => {
+    const response = await friendsService.deleteFriend(id);
+    if (response.message === 'Friend deleted successfully') {
+        toast.info('Deleting friend...', {
+            position: toast.POSITION.TOP_CENTER,
+            hideProgressBar: false,
+            autoClose: 1000,
+          });
+    
+          setTimeout(() => {
+            navigate('/friends', { state: { path: location.pathname } });
+          }, 2000);
+    }
+  }
+
   return (
     <div className={styles['container']}>
       {isLoading ? (
@@ -116,6 +134,40 @@ const FriendPage = () => {
           >
             <BsArrowLeft />
           </p>
+          <div
+          className={styles['settings']}
+          >
+            <div>
+                {isOpen ? (
+                    <>
+                    <FontAwesomeIcon 
+                    icon={faAngleUp}
+                    onClick={() => setIsOpen(false)}
+                    />
+                    Close
+                    </>
+                ) : (
+                    <>
+                    <FontAwesomeIcon 
+                        icon={faAngleDown}
+                        onClick={() => setIsOpen(true)}
+                        />
+                    Manage
+                    </>
+                )}
+            </div>
+            
+            {isOpen && (
+            <div>
+                <br />
+            <FontAwesomeIcon 
+                icon={faTrashCan}
+                onClick={handleDelete}
+            />
+            Remove Friend
+            </div>
+            )}
+          </div>
           <div className={styles['profile-header']}>
             <div className={styles['profile']}>
               <img
