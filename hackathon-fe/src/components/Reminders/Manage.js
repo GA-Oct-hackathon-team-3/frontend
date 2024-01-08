@@ -69,6 +69,8 @@ const Manage = () => {
         ? prev.filter((prevDays) => prevDays !== days)
         : [...prev, days]
     );
+    // call submit right after to reduce number of forms on page
+    handleFrequencySubmit();
   };
 
   const handleSelectFriend = (id, includeInNotifications) => {
@@ -93,8 +95,7 @@ const Manage = () => {
     });
   };
 
-  const handleFrequencySubmit = async (evt) => {
-    evt.preventDefault();
+  const handleFrequencySubmit = async () => {
     if (frequency && frequency.length > 0) {
       const userData = {
         notificationSchedule: [...frequency],
@@ -105,42 +106,29 @@ const Manage = () => {
         setTimeout(() => {
           // time out to set to false and render page
           setIsLoading(false);
-        }, 1200);
+        }, 600);
       }
     }
   };
 
-  const toggleAllOn = async (evt) => {
+  const handleEnableDisableAll = async (evt, action) => {
     evt.preventDefault();
     // accumulates ids of friends with current value of OFF
     const friendIds = friends.reduce((ids, friend) => {
-      if (friend.includeInNotifications === false) {
-        ids.push(friend._id);
-      }
-      return ids;
-    }, []);
-    if (friendIds.length === 0) return;
-    // sends ids to backend to toggle
-    const response = await updateFriendNotification(friendIds);
-    if (
-      response &&
-      response.message === 'Updated friend notification preference successfully'
-    ) {
-      setUpdatedFriends({}); // resets state
-      fetchFriends(); // re-fetches friends to retrieve updated friend data
-    }
-  };
+      let checkValue;
+      // if action is enable, needs to only accumulate ids for which includeInNotifications is false
+      if (action === 'enable') checkValue = false;
+      // else if the action is disable, and need to accumulate ids for which includeInNotifations is true
+      else if (action === 'disable') checkValue = true;
 
-  const toggleAllOff = async (evt) => {
-    evt.preventDefault();
-    // accumulates ids of friends with current value of ON
-    const friendIds = friends.reduce((ids, friend) => {
-      if (friend.includeInNotifications === true) {
-        ids.push(friend._id);
-      }
+      // compare value and push ids
+      if (friend.includeInNotifications === checkValue) ids.push(friend._id);
       return ids;
     }, []);
+
+    // if no changes, return
     if (friendIds.length === 0) return;
+
     // sends ids to backend to toggle
     const response = await updateFriendNotification(friendIds);
     if (
@@ -213,18 +201,12 @@ const Manage = () => {
             </p>
 
             <form
-              onSubmit={handleFrequencySubmit}
               className={styles['preference-form']}
             >
               {renderFrequencyCheckbox(30, 'One Month')}
               {renderFrequencyCheckbox(7, 'One Week')}
               {renderFrequencyCheckbox(0, 'Day of')}
 
-              <input
-                type="submit"
-                value="Confirm Frequency Preferences"
-                className={styles['update-button']}
-              />
             </form>
           </div>
 
@@ -241,9 +223,17 @@ const Manage = () => {
                 className={styles['search-bar']}
               />
               <div>
-                <button onClick={toggleAllOn}>Enable All</button> 
-                {' '}|{' '}
-                <button onClick={toggleAllOff}>Disable All</button>
+                <button
+                  onClick={(evt) => handleEnableDisableAll(evt, 'enable')}
+                >
+                  Enable All
+                </button>{' '}
+                |{' '}
+                <button
+                  onClick={(evt) => handleEnableDisableAll(evt, 'disable')}
+                >
+                  Disable All
+                </button>
               </div>
             </div>
             <div className={styles['friend-section']}>
