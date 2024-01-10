@@ -46,7 +46,7 @@
 .preference-section {
     display: flex;
     flex-direction: column;
-    width: 98%;
+    width: 100%;
     align-self: center;
 }
 
@@ -62,8 +62,7 @@
     padding: 1rem;
     width: 100%;
     list-style: none;
-    justify-content: space-between;
-    align-items: flex-start;
+    justify-content: space-evenly;
 }
 
 .notification-card {
@@ -100,6 +99,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-right: -2rem;
 }
 
 .notification-days>p:nth-child(1) {
@@ -117,10 +117,20 @@
     letter-spacing: 0.14px;
 }
 
+.gift-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 40%;
+    gap: 0.25rem;
+    margin-right: -2rem;
+}
+
 .notification-close {
     width: 2rem;
     height: 2rem;
-    margin-top: -4.75rem;
+    margin-top: -6.25rem;
     margin-right: -1.75rem;
 }
 
@@ -152,19 +162,19 @@
     position: relative;
 }
 
-.form-group>label {
+.form-group>label, .gift-group>label {
     font-size: 1.1rem;
     text-align: center;
     letter-spacing: 0.36px;
 }
 
-.form-group>input[type='checkbox'] {
+.form-group>input[type='checkbox'], .gift-group>input[type='checkbox'] {
     opacity: 0;
     width: 1.5rem;
     height: 1.5rem;
 }
 
-.form-group>.custom-checkbox {
+.form-group>.custom-checkbox, .gift-group>.custom-checkbox {
     width: 1.5rem;
     height: 1.5rem;
     border: 2px solid #53CF85;
@@ -173,7 +183,7 @@
     cursor: pointer;
 }
 
-.form-group>.custom-checkbox-checked {
+.form-group>.custom-checkbox-checked, .gift-group>.custom-checkbox-checked {
     width: 1.5rem;
     height: 1.5rem;
     border: 2px solid #53CF85;
