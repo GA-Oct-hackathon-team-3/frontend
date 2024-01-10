@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
 
 import * as remindersService from '../../utilities/reminders-service';
+import * as friendsService from '../../utilities/friends-service';
 import { getAgeAndSuffix } from '../../utilities/helpers';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -45,9 +46,30 @@ const Notifications = () => {
     dob,
     daysUntilBirthday,
     photo,
+    hasGift,
     setNotifications,
   }) => {
     const navigate = useNavigate();
+
+    const handleCheckGift = async (id) => {
+      const friendInput = { hasGift: !hasGift }
+
+      const response = await friendsService.updateFriend(id, friendInput);
+
+      if (response && response.message === 'Friend updated') {
+        setNotifications((prev) => ({
+          ...prev,
+          current: prev.current.map((notif) => notif.friend._id === id
+              ? { ...notif, friend: { ...notif.friend, hasGift: !notif.friend.hasGift } }
+              : notif
+          ),
+          past: prev.past.map((notif) => notif.friend._id === id
+              ? { ...notif, friend: { ...notif.friend, hasGift: !notif.friend.hasGift } }
+              : notif
+          ),
+        }));
+      }
+    };
 
     const removeReminder = async (evt) => {
       evt.stopPropagation();
@@ -62,22 +84,38 @@ const Notifications = () => {
     };
 
     return (
-      <div
-        className={styles['notification-item']}
-        onClick={() => navigate(`/friend/${friendId}`)}
-      >
+      <div className={styles['notification-item']}>
         <div className={styles['notification-card']}>
           <img
             src={photo ? photo : 'https://i.imgur.com/hCwHtRc.png'}
             alt={name}
           />
-          <div className={styles['notification-info']}>
+          <div
+            className={styles['notification-info']}
+            style={{ cursor: 'pointer' }}
+            onClick={() => navigate(`/friend/${friendId}`)}
+          >
             <p>{name}'s</p>
             <p>{getAgeAndSuffix(dob)} birthday</p>
           </div>
           <div className={styles['notification-days']}>
             <p>{Math.abs(daysUntilBirthday)}</p>
             <p>{daysUntilBirthday >= 0 ? 'Days Left' : 'Days Ago'}</p>
+          </div>
+          <div className={styles['gift-group']}>
+            <input type="checkbox" name="gift" id="gift" />
+            <label
+              htmlFor="gift"
+              className={
+                hasGift
+                  ? styles['custom-checkbox-checked']
+                  : styles['custom-checkbox']
+              }
+              onClick={() => handleCheckGift(friendId)}
+            >
+              {hasGift ? '\u2714' : ''}
+            </label>
+            <label htmlFor="gift">Gift?</label>
           </div>
           <FontAwesomeIcon
             icon={faTimesCircle}
@@ -110,6 +148,7 @@ const Notifications = () => {
                   dob={item.friend.dob}
                   daysUntilBirthday={item.friend.daysUntilBirthday}
                   photo={item.friend.photo}
+                  hasGift={item.friend.hasGift}
                   setNotifications={setNotifications}
                 />
               ))}
@@ -126,6 +165,7 @@ const Notifications = () => {
                   dob={item.friend.dob}
                   daysUntilBirthday={item.friend.daysUntilBirthday}
                   photo={item.friend.photo}
+                  hasGift={item.friend.hasGift}
                   setNotifications={setNotifications}
                 />
               ))}
