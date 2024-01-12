@@ -11,10 +11,12 @@ import { BsArrowLeft } from 'react-icons/bs';
 import { ToastContainer, toast } from 'react-toastify';
 
 import styles from '../../styles/Login.module.css';
+import { useAuth } from '../../contexts/AuthProvider';
 
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { login } = useAuth();
   const [credentials, setCredentials] = useState({
     email: '',
     password: '',
@@ -64,10 +66,11 @@ const Login = () => {
     const valid = validateForm();
     if (!valid) return handleFormMessage('Required fields are marked with (*)');
     try {
-      const user = await usersService.login(credentials);
-      if (user) navigate('/friends');
+      const success = await login(credentials);
+      if (success) navigate('/friends');
       else return handleFormMessage('Login failed, try again');
-    } catch {
+    } catch (error) {
+        console.log(error.message);
       return handleFormMessage('Login failed, try again');
     }
   }

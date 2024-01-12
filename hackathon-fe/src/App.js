@@ -22,10 +22,12 @@ import SettingsPage from './pages/Settings';
 import VerifyEmailPage from './pages/VerifyEmail';
 import ForgotPasswordPage from './pages/ForgotPassword';
 import UpdatePasswordPage from "./pages/Account/UpdatePassword";
+import { AuthContextProvider } from "./contexts/AuthProvider";
 
 function App() {
   return (
     <div className="App" style={{ height: '100vh' }}>
+        <AuthContextProvider>
       <RecommendationProvider>
         <Routes>
           <Route path="/" element={<LandingPage />} />
@@ -133,6 +135,7 @@ function App() {
           />
         </Routes>
       </RecommendationProvider>
+        </AuthContextProvider>
     </div>
   );
 }

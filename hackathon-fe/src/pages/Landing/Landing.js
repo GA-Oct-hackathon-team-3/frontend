@@ -7,16 +7,14 @@ import presentlyLogo from '../../assets/images/presentlyLogo.png';
 import desktopLanding from '../../assets/images/landing/desktopLanding.png';
 
 import styles from '../../styles/Landing.module.css';
+import { useAuth } from '../../contexts/AuthProvider';
 
 const Landing = () => {
   const navigate = useNavigate();
-  const token = localStorage.getItem('token');
-  const checkValidUser = async () => {
-    const userData = await profilesService.getProfile();
-    navigate('/friends');
-  };
+  const { token } = useAuth();
+
   if (token) {
-    checkValidUser();
+    navigate('/friends');
   }
 
   return (
