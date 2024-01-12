@@ -14,8 +14,10 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import styles from '../styles/Filters.module.css';
+import { useAuth } from '../contexts/AuthProvider';
 
 const Settings = () => {
+    const { logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const locationState = location.state || {};
@@ -25,10 +27,10 @@ const Settings = () => {
   const [emailNotificationsState, setEmailNotificationsState] =
     useState(emailNotifications);
 
-  const logOutHandler = (e) => {
+  const logOutHandler = async (e) => {
     e.preventDefault();
-    localStorage.removeItem('token');
-    navigate('/login');
+    const success = await logout();
+    if (success) navigate('/login');
   };
 
   const handleClick = (section) => {
