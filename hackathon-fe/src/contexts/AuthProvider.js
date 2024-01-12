@@ -28,7 +28,8 @@ export const AuthContextProvider = ({ children }) => {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(credentials)
+                body: JSON.stringify(credentials),
+                credentials: 'include',
             });
 
             if (response.status === 200) {
@@ -44,9 +45,48 @@ export const AuthContextProvider = ({ children }) => {
         }
     }
 
-    const logout = () => {
-        localStorage.removeItem('token');
-        setToken('');
+    const logout = async () => {
+        try {
+            const response = await fetch(`${WEB_BASE_URL}/users/logout`, {
+                method: 'GET',
+                credentials: 'include',
+            });
+
+            if (response.status === 200 || response.status === 204) {
+                localStorage.removeItem('token');
+                setToken('');
+                return true;
+            }
+
+            else return false;
+        } catch (error) {
+            console.error('Logout error: ', error);
+        }
+
+    }
+
+    const refreshTokens = async (device) => {
+        const response = await fetch(`${WEB_BASE_URL}/users/refresh`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({ device }),
+            credentials: 'include'
+        });
+
+        // if server responds that either token are missing, run logout
+        if (response.status === 403) {
+            await logout();
+        }
+
+        if (response.status === 200) {
+            const data = await response.json();
+            console.log(data);
+            console.log('this is old token: ', token);
+            console.log('this is new token: ', data.accessToken);
+        }
     }
 
     // const getToken = () => {
@@ -64,6 +104,7 @@ export const AuthContextProvider = ({ children }) => {
     const contextValue = useMemo(() => ({
         token,
         login,
+        refreshTokens,
         logout,
     }), [token]);
 
