@@ -37,27 +37,6 @@ export async function refreshTokens (device, token) {
     return await usersAPI.refreshTokens(device, token);
 }
 
-export async function login(credentials) {
-  const res = await usersAPI.login(credentials);
-  localStorage.setItem('token', res.accessToken);
-  return getUser();
-}
-
-export function getUser() {
-  const token = getToken();
-  let userData;
-  if (token) {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    userData = {
-      username: payload.username,
-      id: payload.id,
-      firstName: payload.firstName,
-      lastName: payload.lastName,
-    };
-  }
-  return token ? userData : null;
-}
-
 export async function logOut() {
     return await usersAPI.logout();
 }
