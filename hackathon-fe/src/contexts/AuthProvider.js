@@ -1,6 +1,7 @@
 
 import { createContext, useContext, useEffect, useState, useMemo } from 'react';
 import { WEB_BASE_URL } from '../utilities/constants';
+import * as usersAPI from '../utilities/users-api';
 
 
 const AuthContext = createContext();
@@ -13,12 +14,20 @@ export const AuthContextProvider = ({ children }) => {
     const [ token, setToken ] = useState('');
 
     useEffect(() => {
-        const storedToken = localStorage.getItem('token');
-        if (!storedToken) logout();
-        else {
-            const payload = JSON.parse(atob(storedToken.split('.')[1]));
-            if (payload.exp >= Date.now() / 1000) setToken(storedToken);
+        const handleToken = async () => {
+            const storedToken = localStorage.getItem('token');
+            if (!storedToken) logout();
+            else {
+                const payload = JSON.parse(atob(storedToken.split('.')[1]));
+                if (payload.exp >= Date.now() / 1000) setToken(storedToken);
+                else {
+                    const newToken = await refreshTokens('web', storedToken);
+                    localStorage.setItem('token', newToken);
+                }
+            }
         }
+
+        handleToken();
     }, []);
 
     const login = async (credentials) => {
@@ -46,65 +55,17 @@ export const AuthContextProvider = ({ children }) => {
     }
 
     const logout = async () => {
-        try {
-            const response = await fetch(`${WEB_BASE_URL}/users/logout`, {
-                method: 'GET',
-                credentials: 'include',
-            });
-
-            if (response.status === 200 || response.status === 204) {
-                localStorage.removeItem('token');
-                setToken('');
-                return true;
-            }
-
-            else return false;
-        } catch (error) {
-            console.error('Logout error: ', error);
-        }
-
+        const response = await usersAPI.logout();
+        if (response && response.message === 'Cookie cleared') setToken('');
     }
 
-    const refreshTokens = async (device) => {
-        const response = await fetch(`${WEB_BASE_URL}/users/refresh`, {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify({ device }),
-            credentials: 'include'
-        });
-
-        // if server responds that either token are missing, run logout
-        if (response.status === 403) {
-            await logout();
-        }
-
-        if (response.status === 200) {
-            const data = await response.json();
-            console.log(data);
-            console.log('this is old token: ', token);
-            console.log('this is new token: ', data.accessToken);
-        }
+    const refreshTokens = async (device, currentToken) => {
+        return await usersAPI.refreshTokens(device, currentToken);
     }
-
-    // const getToken = () => {
-    //     const storedToken = localStorage.getItem('token')
-    //     if (!token && storedToken) {
-    //         const payload = JSON.parse(atob(storedToken.split('.')[1]));
-    //         if (payload.exp >= Date.now() / 1000) setToken(storedToken);
-    //     } else if (!token && !storedToken) {
-    //         logout();
-    //     }
-
-    //     return storedToken;
-    // }
 
     const contextValue = useMemo(() => ({
         token,
         login,
-        refreshTokens,
         logout,
     }), [token]);
 
