@@ -15,15 +15,20 @@ export const AuthContextProvider = ({ children }) => {
 
     useEffect(() => {
         const handleToken = async () => {
-            const storedToken = localStorage.getItem('token');
-            if (!storedToken) logout();
-            else {
-                const payload = JSON.parse(atob(storedToken.split('.')[1]));
-                if (payload.exp >= Date.now() / 1000) setToken(storedToken);
+            try {
+                const storedToken = localStorage.getItem('token');
+                if (!storedToken) return await logout();
                 else {
-                    const newToken = await refreshTokens('web', storedToken);
-                    localStorage.setItem('token', newToken);
+                    const payload = JSON.parse(atob(storedToken.split('.')[1]));
+                    if (payload.exp >= Date.now() / 1000) setToken(storedToken);
+                    else {
+                        const newToken = await refreshTokens('web', storedToken);
+                        localStorage.setItem('token', newToken);
+                    }
                 }
+            } catch (error) {
+                console.error('Error handling token: ', error);
+                await logout();
             }
         }
 
@@ -57,6 +62,7 @@ export const AuthContextProvider = ({ children }) => {
     const logout = async () => {
         const response = await usersAPI.logout();
         if (response && response.message === 'Cookie cleared') setToken('');
+        return true;
     }
 
     const refreshTokens = async (device, currentToken) => {

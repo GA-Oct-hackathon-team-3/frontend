@@ -62,9 +62,14 @@ export async function logout() {
         });
 
         if (response.status === 200 || response.status === 204) {
-            localStorage.removeItem('token');
-            return response.json();
+            if (localStorage.getItem('token')) {
+                localStorage.removeItem('token');
+                return response.json();
+            }
         }
+        
+        return;
+
     } catch (error) {
         console.error('Logout error: ', error);
     }
