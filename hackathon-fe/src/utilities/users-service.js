@@ -20,40 +20,25 @@ export async function resetPassword (passwordData, token) {
     return await usersAPI.resetPassword(passwordData, token);
 }
 
-export function getToken() {
+export async function getToken() {
+    // get token from local storage
   const token = localStorage.getItem('token');
-  if (!token) return null;
+  // if no token, log user out
+  if (!token) return logOut();
+  // parse token
   const payload = JSON.parse(atob(token.split('.')[1]));
-  if (payload.exp < Date.now() / 1000) {
-    localStorage.removeItem('token');
-    return null;
-  }
-  return token;
+  // if token is expired, refresh the token and return the new token
+  if (payload.exp < Date.now() / 1000) return await refreshTokens('web', token);
+  // else return the token
+  else return token;
 }
 
-export async function login(credentials) {
-  const res = await usersAPI.login(credentials);
-  localStorage.setItem('token', res.accessToken);
-  return getUser();
+export async function refreshTokens (device, token) {
+    return await usersAPI.refreshTokens(device, token);
 }
 
-export function getUser() {
-  const token = getToken();
-  let userData;
-  if (token) {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    userData = {
-      username: payload.username,
-      id: payload.id,
-      firstName: payload.firstName,
-      lastName: payload.lastName,
-    };
-  }
-  return token ? userData : null;
-}
-
-export function logOut() {
-  localStorage.removeItem('token');
+export async function logOut() {
+    return await usersAPI.logout();
 }
 
 export async function deleteUser() {
