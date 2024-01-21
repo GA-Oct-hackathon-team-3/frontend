@@ -1,74 +1,100 @@
-import { WEB_BASE_URL } from "./constants";
-import sendRequest from "./send-request";
-import { getToken } from "./users-service";
-
-const BASE_URL = `${WEB_BASE_URL}/friends`;
+import { WEB_BASE_URL } from './constants';
+import sendRequest from './send-request';
+import { getToken } from './users-service';
 
 export async function retrieveFriends() {
-  const friends = await sendRequest(BASE_URL, "GET", null);
-  return friends;
+  return await sendRequest(`${WEB_BASE_URL}/friends`, 'GET', null);
 }
 
 export async function showFriend(id) {
-  const friend = await sendRequest(`${BASE_URL}/${id}`, "GET", null);
-  return friend;
+  return await sendRequest(`${WEB_BASE_URL}/friends/${id}`, 'GET', null);
 }
 
 export async function createFriend(friendData) {
-  const newFriend = await sendRequest(`${BASE_URL}/create`, "POST", friendData);
-  return newFriend;
+  return await sendRequest(
+    `${WEB_BASE_URL}/friends/create`,
+    'POST',
+    friendData
+  );
 }
 
 export async function updateFriend(id, friendInput) {
-    const response = await sendRequest(`${BASE_URL}/${id}/update`, "PUT", friendInput);
-    return response;
+  return await sendRequest(
+    `${WEB_BASE_URL}/friends/${id}/update`,
+    'PUT',
+    friendInput
+  );
 }
 
 export async function deleteFriend(id) {
-    return await sendRequest(`${BASE_URL}/${id}/delete`, 'DELETE', null);
+  return await sendRequest(
+    `${WEB_BASE_URL}/friends/${id}/delete`,
+    'DELETE',
+    null
+  );
 }
 
 export async function uploadPhoto(id, file) {
+  try {
     const formData = new FormData();
     formData.append('photo', file);
-    const token = getToken();
+    const token = await getToken();
 
-    const response = await fetch(`${BASE_URL}/${id}/upload`, {
-        method: 'POST',
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-        body: formData,
+    const response = await fetch(`${WEB_BASE_URL}/friends/${id}/upload`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
     });
 
     if (response.status === 200) return response;
+    else throw new Error(`Error uploading photo: ${response.status}`);
+  } catch (error) {
+    throw error;
+  }
 }
 
-export async function getBirthdays () {
-    const friends = await sendRequest(BASE_URL + '/birthdays', "GET", null);
-    return friends;
+export async function getBirthdays() {
+  return await sendRequest(`${WEB_BASE_URL}/friends/birthdays`, 'GET', null);
 }
 
-export async function updateFriendNotification (friendIds) {
-    return await sendRequest(`${BASE_URL}/update-notification-inclusion`, 'PUT', { friendIds });
+export async function updateFriendNotification(friendIds) {
+  return await sendRequest(
+    `${WEB_BASE_URL}/friends/update-notification-inclusion`,
+    'PUT',
+    { friendIds }
+  );
 }
 
-export async function getFavorites(id){
-  const response = await sendRequest(`${BASE_URL}/${id}/favorites`, "GET", null);
+export async function getFavorites(id) {
+  const response = await sendRequest(
+    `${WEB_BASE_URL}/friends/${id}/favorites`,
+    'GET',
+    null
+  );
   return response.favorites;
 }
 
-export async function getRecommendations(id, data){
-  const response = await sendRequest(`${BASE_URL}/${id}/generate-gift`, "POST", data);
-  return response;
+export async function getRecommendations(id, data) {
+  return await sendRequest(
+    `${WEB_BASE_URL}/friends/${id}/generate-gift`,
+    'POST',
+    data
+  );
 }
 
-export async function addToFavorites(friendId, recData){
-  const response = await sendRequest(`${BASE_URL}/${friendId}/favorites`, "POST", recData);
-  return response;
+export async function addToFavorites(friendId, recData) {
+  return await sendRequest(
+    `${WEB_BASE_URL}/friends/${friendId}/favorites`,
+    'POST',
+    recData
+  );
 }
 
-export async function removeFromFavorites(friendId, recId){
-  const response = await sendRequest(`${BASE_URL}/${friendId}/favorites/${recId}`, "DELETE");
-  return response;
+export async function removeFromFavorites(friendId, recId) {
+  return await sendRequest(
+    `${WEB_BASE_URL}/friends/${friendId}/favorites/${recId}`,
+    'DELETE'
+  );
 }
