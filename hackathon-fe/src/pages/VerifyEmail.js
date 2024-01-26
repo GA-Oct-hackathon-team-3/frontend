@@ -4,6 +4,7 @@ import * as usersService from '../utilities/users-service';
 
 import Header from '../components/Header/Header';
 
+import { ToastContainer, toast } from 'react-toastify';
 import { CircularProgress } from '@mui/material';
 
 import styles from '../styles/Filters.module.css';
@@ -15,40 +16,49 @@ const VerifyEmail = () => {
   const [isVerified, setIsVerified] = useState(false);
   const [isResending, setIsResending] = useState(false);
   const [message, setMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const verifyUserEmail = async () => {
-      const queryParams = new URLSearchParams(location.search);
-      const token = queryParams.get('et');
-      const response = await usersService.verifyEmail(token);
-      if (response.message === "User's email was verified successfully") {
-        setIsVerified(true);
-        setMessage('Email was verified successfully...');
-        localStorage.setItem('needOnboard', JSON.stringify(true)); // to display onboard to user upon first login 
+      try {
+        const queryParams = new URLSearchParams(location.search);
+        const token = queryParams.get('et');
+        const response = await usersService.verifyEmail(token);
+        if (response.message === "User's email was verified successfully") {
+          setIsVerified(true);
+          setMessage('Email was verified successfully...');
+          localStorage.setItem('needOnboard', JSON.stringify(true)); // to display onboard to user upon first login
+          setTimeout(() => {
+            navigate('/login');
+          }, 3000);
+        } else toast.error(response.message);
+      } catch (error) {
+        toast.error('Failed to verify email. Please try again');
+      } finally {
         setTimeout(() => {
-          navigate('/login');
-        }, 3000);
-      } else setErrorMessage(response.message);
+          setIsVerifying(false);
+        }, 5000);
+      }
     };
 
     verifyUserEmail();
-    setTimeout(() => {
-      setIsVerifying(false);
-    }, 5000);
-  }, []);
+  }, [location.search, navigate]);
 
-  const handleResend = async (evt) => {
-    setIsResending(true);
-    const queryParams = new URLSearchParams(location.search);
-    const token = queryParams.get('et');
-    const response = await usersService.resendEmail(null, token); // accepts email, token
-    if (response.message === 'Email resent successfully') {
-      setMessage('Email resent successfully!');
-    } else setErrorMessage(response.message);
-    setTimeout(() => {
-      setIsResending(false);
-    }, 3000);
+  const handleResend = async () => {
+    try {
+      setIsResending(true);
+      const queryParams = new URLSearchParams(location.search);
+      const token = queryParams.get('et');
+      const response = await usersService.resendEmail(null, token); // accepts email, token
+      if (response.message === 'Email resent successfully') {
+        setMessage('Email resent successfully!');
+      } else toast.error(response.message);
+    } catch (error) {
+      toast.error('Failed to resend email. Please try again');
+    } finally {
+      setTimeout(() => {
+        setIsResending(false);
+      }, 3000);
+    }
   };
 
   return (
@@ -66,7 +76,6 @@ const VerifyEmail = () => {
                 </>
               )}
             </div>
-            {!isVerifying && errorMessage && <h1>{errorMessage}</h1>}
             {isVerified && message && <h1>{message}</h1>}
 
             <div className={styles['loading-container']}>
@@ -88,6 +97,7 @@ const VerifyEmail = () => {
               {!isResending && !isVerified && message && <h1>{message}</h1>}
             </div>
           </div>
+          <ToastContainer className={styles['toast-container']} />
         </div>
       </div>
     </>
