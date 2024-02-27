@@ -1,7 +1,5 @@
 import { useNavigate, Link } from 'react-router-dom';
 
-import * as profilesService from '../../utilities/profiles-service';
-
 import mobileLanding from '../../assets/images/landing/mobileLanding.png';
 import presentlyLogo from '../../assets/images/presentlyLogo.png';
 import desktopLanding from '../../assets/images/landing/desktopLanding.png';
@@ -13,9 +11,7 @@ const Landing = () => {
   const navigate = useNavigate();
   const { token } = useAuth();
 
-  if (token) {
-    navigate('/friends');
-  }
+  if (token) navigate('/friends');
 
   return (
     <section className={styles['landing-container']}>

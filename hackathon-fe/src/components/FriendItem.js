@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBirthdayCake } from "@fortawesome/free-solid-svg-icons";
 import { RiArrowDropDownLine, RiArrowDropUpLine } from "react-icons/ri";
 import Confetti from "react-confetti";
-import styles from "../../styles/BirthdayFriends.module.css";
-import { formatDate, presentlyCardColors, buildGiftLink } from '../../utilities/helpers';
+import styles from "../styles/BirthdayFriends.module.css";
+import { formatDate, presentlyCardColors, buildGiftLink } from '../utilities/helpers';
 
 const FriendItem = ({ friend, name, dob, id, photo, daysUntilBirthday, cardColor, favoriteGifts }) => {
     const navigate = useNavigate();

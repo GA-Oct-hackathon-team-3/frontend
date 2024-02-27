@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthProvider";
+import { useAuth } from '../contexts/AuthProvider';
 
 const ProtectedPage = ({ children }) => {
     const navigate = useNavigate();

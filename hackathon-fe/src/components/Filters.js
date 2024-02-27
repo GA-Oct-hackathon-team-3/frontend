@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import styles from "../../styles/Filters.module.css";
+import styles from "../styles/Filters.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import Slider from "@mui/material/Slider";
 import { useNavigate } from "react-router-dom";
-import Header from "../Header/Header";
+import Header from "./Header";
 import { BsArrowLeft } from "react-icons/bs";
 
 const marks = [

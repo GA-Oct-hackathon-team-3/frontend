@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 
 import { RecommendationProvider } from './contexts/RecommendationContext';
 
-import ProtectedPage from "./components/ProtectedPage/ProtectedPage";
+import ProtectedPage from "./components/ProtectedPage";
 import LandingPage from "./pages/Landing/Landing";
 import SignUpPage from "./pages/SignUp/SignUp";
 import LoginPage from "./pages/Login/Login";

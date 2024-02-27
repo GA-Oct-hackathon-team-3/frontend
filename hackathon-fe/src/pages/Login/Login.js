@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import * as usersService from '../../utilities/users-service';
 
-import Header from '../../components/Header/Header';
+import Header from '../../components/Header';
 
 import mobileLogin from '../../assets/images/login/mobileLogin.png';
 import desktopLogin from '../../assets/images/login/desktopLogin.png';
@@ -70,7 +70,7 @@ const Login = () => {
       if (success) navigate('/friends');
       else return handleFormMessage('Login failed, try again');
     } catch (error) {
-        console.log(error.message);
+      console.log(error.message);
       return handleFormMessage('Login failed, try again');
     }
   }
@@ -126,7 +126,12 @@ const Login = () => {
               />
             </div>
             <div className={styles['form-group']}>
-              <p className={styles['forgot-password']} onClick={() => navigate('/reset-password')}>Forgot Password?</p>
+              <p
+                className={styles['forgot-password']}
+                onClick={() => navigate('/reset-password')}
+              >
+                Forgot Password?
+              </p>
             </div>
             <button
               className={styles['login-button']}

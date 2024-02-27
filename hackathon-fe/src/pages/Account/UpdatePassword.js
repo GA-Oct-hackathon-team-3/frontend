@@ -8,7 +8,7 @@ import { validateMatch, validatePassword } from '../../utilities/helpers';
 import { ToastContainer, toast } from 'react-toastify';
 import styles from '../../styles/SignUp.module.css';
 
-import Header from '../../components/Header/Header';
+import Header from '../../components/Header';
 
 const UpdatePasswordPage = () => {
   const navigate = useNavigate();

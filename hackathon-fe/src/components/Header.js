@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import styles from '../../styles/Header.module.css';
+import styles from '../styles/Header.module.css';
 
-import HeaderImg from '../../assets/images/presentlyLogo.png';
+import HeaderImg from '../assets/images/presentlyLogo.png';
 const Header = () => {
   const navigate = useNavigate();
 

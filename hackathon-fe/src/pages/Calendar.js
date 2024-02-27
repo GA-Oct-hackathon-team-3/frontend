@@ -4,8 +4,8 @@ import Calendar from 'react-calendar';
 import * as friendsService from '../utilities/friends-service';
 import { formatPartialDate } from '../utilities/helpers';
 
-import Header from '../components/Header/Header';
-import Footer from '../components/Footer/Footer';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 import CalendarFriendItem from '../components/CalendarFriendItem';
 
 import { CircularProgress } from '@mui/material';
@@ -33,12 +33,17 @@ const CalendarPage = () => {
 
   useEffect(() => {
     const fetchBirthdays = async () => {
-      const birthdayData = await friendsService.getBirthdays();
-      // assigns state to response unless data comes back with message of no friends
-      if (birthdayData && !birthdayData.message) setBirthdays(birthdayData);
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1200);
+      try {
+        const birthdayData = await friendsService.getBirthdays();
+        // assigns state to response unless data comes back with message of no friends
+        if (birthdayData && !birthdayData.message) setBirthdays(birthdayData);
+      } catch (error) {
+        throw error;
+      } finally {
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 1200);
+      }
     };
     fetchBirthdays();
   }, []);

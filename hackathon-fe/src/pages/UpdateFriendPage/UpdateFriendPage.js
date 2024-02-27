@@ -2,9 +2,12 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 
 import * as friendsService from '../../utilities/friends-service';
-import { profileFormValidation, profileDobValidation } from '../../utilities/helpers';
+import {
+  profileFormValidation,
+  profileDobValidation,
+} from '../../utilities/helpers';
 
-import Header from '../../components/Header/Header';
+import Header from '../../components/Header';
 
 import profileImage from '../../assets/images/profileForm/manHoldingBaby.png';
 
@@ -36,17 +39,22 @@ function UpdateFriendPage() {
 
   useEffect(() => {
     const fetchFriend = async () => {
-      const friendInfo = await friendsService.showFriend(id);
-      setProfileInput({ ...friendInfo });
-      if (friendInfo.photo) {
-        const uniqueTimestamp = Date.now();
-        friendInfo.photo = `${friendInfo.photo}?timestamp=${uniqueTimestamp}`;
-        setDisplayFile(friendInfo.photo);
-        setButtonHTML('Change photo');
+      try {
+        const friendInfo = await friendsService.showFriend(id);
+        setProfileInput({ ...friendInfo });
+        if (friendInfo.photo) {
+          const uniqueTimestamp = Date.now();
+          friendInfo.photo = `${friendInfo.photo}?timestamp=${uniqueTimestamp}`;
+          setDisplayFile(friendInfo.photo);
+          setButtonHTML('Change photo');
+        }
+      } catch (error) {
+        throw error;
+      } finally {
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 1200);
       }
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1200);
     };
     fetchFriend();
   }, [id]);
@@ -85,33 +93,43 @@ function UpdateFriendPage() {
     return setValidationMessage(string);
   };
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+  const submitHandler = async (evt) => {
+    try {
+      evt.preventDefault();
+      setIsSubmitting(true);
 
-    setValidationMessage('');
+      setValidationMessage('');
 
-    const validDate = profileDobValidation(profileInput.dob);
-    const valid = profileFormValidation(profileInput);
-    if (!validDate) return handleFormMessage('Date of birth cannot be in the future');
-    if (!valid) return handleFormMessage('Required fields are marked with (*)');
+      const validDate = profileDobValidation(profileInput.dob);
+      const valid = profileFormValidation(profileInput);
+      if (!validDate)
+        return handleFormMessage('Date of birth cannot be in the future');
+      if (!valid)
+        return handleFormMessage('Required fields are marked with (*)');
 
-    const response = await friendsService.updateFriend(id, profileInput);
-    if (uploadedFile) {
-      const photoResponse = await friendsService.uploadPhoto(id, uploadedFile);
-      if (!photoResponse.ok) toast.error('Failed to upload photo. Please try again.');
-    }
-    if (response.message === 'Friend updated') {
-      toast.info('Updating friend...', {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 1000,
-      });
+      const response = await friendsService.updateFriend(id, profileInput);
+      if (uploadedFile) {
+        const photoResponse = await friendsService.uploadPhoto(
+          id,
+          uploadedFile
+        );
+        if (!photoResponse.ok)
+          toast.error('Failed to upload photo. Please try again.');
+      }
+      if (response.message === 'Friend updated') {
+        toast.info('Updating friend...', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 1000,
+        });
 
-      const pathData = { path: location.pathname };
+        const pathData = { path: location.pathname };
 
-      setTimeout(() => {
-        navigate(`/friend/${id}`, { state: pathData });
-      }, 2000);
+        setTimeout(() => {
+          navigate(`/friend/${id}`, { state: pathData });
+        }, 2000);
+      }
+    } catch (error) {
+      throw error;
     }
   };
 

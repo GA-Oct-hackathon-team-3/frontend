@@ -7,7 +7,7 @@ import {
   profileDobValidation,
 } from '../../utilities/helpers';
 
-import Header from '../../components/Header/Header';
+import Header from '../../components/Header';
 
 import profileImage from '../../assets/images/profileForm/manHoldingBaby.png';
 
