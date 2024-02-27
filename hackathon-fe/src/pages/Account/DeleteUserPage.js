@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./DeleteUserPage.css"; // Importing the CSS file
+import '../../styles/DeleteUserPage.css';
 import {
   deleteUser,
   confirmDeleteUser,

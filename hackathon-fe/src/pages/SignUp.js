@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import * as usersService from '../../utilities/users-service';
-import { validatePassword, validateMatch } from '../../utilities/helpers';
+import * as usersService from '../utilities/users-service';
+import { validatePassword, validateMatch } from '../utilities/helpers';
 
-import Header from '../../components/Header';
+import Header from '../components/Header';
 
 import { BsArrowLeft } from 'react-icons/bs';
 import { Box, MenuItem, Select } from '@mui/material';
 
-import styles from '../../styles/SignUp.module.css';
+import styles from '../styles/SignUp.module.css';
 
 const LoginSignUp = () => {
   const navigate = useNavigate();

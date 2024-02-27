@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import * as usersService from '../utilities/users-service';
+import * as usersService from '../../utilities/users-service';
 
-import Header from '../components/Header';
+import Header from '../../components/Header';
 
 import { ToastContainer, toast } from 'react-toastify';
 import { CircularProgress } from '@mui/material';
 
-import styles from '../styles/Filters.module.css';
+import styles from '../../styles/Filters.module.css';
 
 const VerifyEmail = () => {
   const navigate = useNavigate();

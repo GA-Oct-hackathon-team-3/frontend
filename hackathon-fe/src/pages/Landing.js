@@ -1,11 +1,11 @@
 import { useNavigate, Link } from 'react-router-dom';
 
-import mobileLanding from '../../assets/images/landing/mobileLanding.png';
-import presentlyLogo from '../../assets/images/presentlyLogo.png';
-import desktopLanding from '../../assets/images/landing/desktopLanding.png';
+import mobileLanding from '../assets/images/landing/mobileLanding.png';
+import presentlyLogo from '../assets/images/presentlyLogo.png';
+import desktopLanding from '../assets/images/landing/desktopLanding.png';
 
-import styles from '../../styles/Landing.module.css';
-import { useAuth } from '../../contexts/AuthProvider';
+import styles from '../styles/Landing.module.css';
+import { useAuth } from '../contexts/AuthProvider';
 
 const Landing = () => {
   const navigate = useNavigate();

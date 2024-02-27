@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import * as usersService from '../utilities/users-service';
-import { validateMatch, validatePassword } from '../utilities/helpers';
+import * as usersService from '../../utilities/users-service';
+import { validateMatch, validatePassword } from '../../utilities/helpers';
 
-import Header from '../components/Header';
+import Header from '../../components/Header';
 
 import { ToastContainer, toast } from 'react-toastify';
-import styles from '../styles/Filters.module.css';
+import styles from '../../styles/Filters.module.css';
 
 import { BsArrowLeft } from 'react-icons/bs';
 

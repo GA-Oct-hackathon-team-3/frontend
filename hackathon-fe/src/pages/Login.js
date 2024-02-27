@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import * as usersService from '../../utilities/users-service';
+import * as usersService from '../utilities/users-service';
 
-import Header from '../../components/Header';
+import Header from '../components/Header';
 
-import mobileLogin from '../../assets/images/login/mobileLogin.png';
-import desktopLogin from '../../assets/images/login/desktopLogin.png';
+import mobileLogin from '../assets/images/login/mobileLogin.png';
+import desktopLogin from '../assets/images/login/desktopLogin.png';
 
 import { BsArrowLeft } from 'react-icons/bs';
 import { ToastContainer, toast } from 'react-toastify';
 
-import styles from '../../styles/Login.module.css';
-import { useAuth } from '../../contexts/AuthProvider';
+import styles from '../styles/Login.module.css';
+import { useAuth } from '../contexts/AuthProvider';
 
 const Login = () => {
   const navigate = useNavigate();

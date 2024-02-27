@@ -2,20 +2,20 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { debounce } from 'lodash';
 
-import * as friendsService from '../../utilities/friends-service';
-import * as tagService from '../../utilities/tags-service';
+import * as friendsService from '../utilities/friends-service';
+import * as tagService from '../utilities/tags-service';
 
-import Header from '../../components/Header';
+import Header from '../components/Header';
 
-import singerImg from '../../assets/icons/tag/singerTagImg.png';
-import bikerImg from '../../assets/icons/tag/bikerTagImg.png';
-import gardenerImg from '../../assets/icons/tag/gardenerTagImg.png';
+import singerImg from '../assets/icons/tag/singerTagImg.png';
+import bikerImg from '../assets/icons/tag/bikerTagImg.png';
+import gardenerImg from '../assets/icons/tag/gardenerTagImg.png';
 
 import { BsArrowLeft } from 'react-icons/bs';
 import { ToastContainer, toast } from 'react-toastify';
 import { CircularProgress } from '@mui/material';
 
-import styles from '../../styles/TagAdder.module.css';
+import styles from '../styles/TagAdder.module.css';
 
 function TagAdder() {
   const navigate = useNavigate();
