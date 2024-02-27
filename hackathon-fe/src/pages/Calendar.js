@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Calendar from 'react-calendar';
+import { Calendar as ReactCalendar } from 'react-calendar';
 
 import * as friendsService from '../utilities/friends-service';
 import { formatPartialDate } from '../utilities/helpers';
@@ -11,7 +11,7 @@ import CalendarFriendItem from '../components/CalendarFriendItem';
 import { CircularProgress } from '@mui/material';
 import styles from '../styles/Calendar.module.css';
 
-const CalendarPage = () => {
+const Calendar = () => {
   const currentDate = new Date();
   const minDate = new Date(
     currentDate.getFullYear(),
@@ -168,7 +168,7 @@ const CalendarPage = () => {
         ) : (
           <div className={styles['content-container']}>
             <h1>Calendar View</h1>
-            <Calendar
+            <ReactCalendar
               className={styles['react-calendar']}
               tileContent={tileContent}
               tileClassName={tileClassName}
@@ -193,4 +193,4 @@ const CalendarPage = () => {
   );
 };
 
-export default CalendarPage;
+export default Calendar;

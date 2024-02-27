@@ -11,7 +11,7 @@ import { Box, MenuItem, Select } from '@mui/material';
 
 import styles from '../styles/SignUp.module.css';
 
-const LoginSignUp = () => {
+const SignUp = () => {
   const navigate = useNavigate();
 
   const [passwordValidity, setPasswordValidity] = useState(false);
@@ -256,4 +256,4 @@ const LoginSignUp = () => {
   );
 };
 
-export default LoginSignUp;
+export default SignUp;

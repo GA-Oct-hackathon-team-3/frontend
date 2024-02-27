@@ -17,7 +17,7 @@ import { Box, MenuItem, Select, CircularProgress } from '@mui/material';
 
 import styles from '../../styles/ProfileForm.module.css';
 
-function UpdateFriendPage() {
+function UpdateFriend () {
   const navigate = useNavigate();
   const { id } = useParams();
   const location = useLocation();
@@ -330,4 +330,4 @@ function UpdateFriendPage() {
   );
 }
 
-export default UpdateFriendPage;
+export default UpdateFriend;

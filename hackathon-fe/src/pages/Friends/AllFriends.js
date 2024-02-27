@@ -19,7 +19,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 import styles from '../../styles/BirthdayFriends.module.css';
 
-const FriendsPage = () => {
+const AllFriends = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -227,4 +227,4 @@ const FriendsPage = () => {
   );
 };
 
-export default FriendsPage;
+export default AllFriends;

@@ -30,7 +30,7 @@ const marks = [
     },
   ];
 
-const FiltersPage = () => {
+const Filters = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -209,4 +209,4 @@ const FiltersPage = () => {
   );
 };
 
-export default FiltersPage;
+export default Filters;

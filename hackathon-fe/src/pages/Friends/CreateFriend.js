@@ -17,7 +17,7 @@ import { Box, MenuItem, Select } from '@mui/material';
 
 import styles from '../../styles/ProfileForm.module.css';
 
-function CreateFriendProfile() {
+function CreateFriend () {
   const navigate = useNavigate();
 
   const [validationMessage, setValidationMessage] = useState('');
@@ -282,4 +282,4 @@ function CreateFriendProfile() {
   );
 }
 
-export default CreateFriendProfile;
+export default CreateFriend;

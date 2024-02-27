@@ -10,7 +10,7 @@ import styles from '../../styles/SignUp.module.css';
 
 import Header from '../../components/Header';
 
-const UpdatePasswordPage = () => {
+const UpdatePassword = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [passwordValidity, setPasswordValidity] = useState(false);
@@ -143,4 +143,4 @@ const UpdatePasswordPage = () => {
 };
 
 
-export default UpdatePasswordPage;
+export default UpdatePassword;

@@ -21,7 +21,7 @@ import {
   faTrashCan,
 } from '@fortawesome/free-solid-svg-icons';
 
-const FriendPage = () => {
+const ShowFriend = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -289,4 +289,4 @@ const FriendPage = () => {
   );
 };
 
-export default FriendPage;
+export default ShowFriend;

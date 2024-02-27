@@ -7,7 +7,7 @@ import Footer from '../components/Footer';
 
 import styles from '../styles/Reminders.module.css';
 
-const RemindersPage = () => {
+const Reminders = () => {
   const [activeTab, setActiveTab] = useState('reminders');
 
   return (
@@ -39,4 +39,4 @@ const RemindersPage = () => {
   );
 };
 
-export default RemindersPage;
+export default Reminders;

@@ -7,7 +7,7 @@ import {
 } from "../../utilities/users-service";
 import { useNavigate } from "react-router-dom";
 
-const DeleteUserPage = () => {
+const DeleteUser = () => {
   const [confirmToken, setConfirmToken] = useState(null);
   const [showConfirmPopup, setShowConfirmPopup] = useState(false); // State to control the visibility of the confirmation pop-up
   const navigate = useNavigate();
@@ -66,4 +66,4 @@ const DeleteUserPage = () => {
   );
 };
 
-export default DeleteUserPage;
+export default DeleteUser;
