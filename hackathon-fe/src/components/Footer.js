@@ -1,13 +1,13 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import Profile from '../../assets/icons/footer/profile.png';
-import Home from '../../assets/icons/footer/home.png';
-import Calender from '../../assets/icons/footer/calender.png';
-import Alert from '../../assets/icons/footer/alert.png';
-// import Gift from '../../assets/icons/footer/gift.png'
+import Profile from '../assets/icons/footer/profile.png';
+import Home from '../assets/icons/footer/home.png';
+import Calender from '../assets/icons/footer/calender.png';
+import Alert from '../assets/icons/footer/alert.png';
+// import Gift from '../assets/icons/footer/gift.png'
 
-import styles from '../../styles/Footer.module.css';
+import styles from '../styles/Footer.module.css';
 
 const Footer = () => {
   return (

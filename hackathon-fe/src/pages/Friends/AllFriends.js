@@ -5,9 +5,9 @@ import * as friendsService from '../../utilities/friends-service';
 import * as profilesService from '../../utilities/profiles-service';
 import { friendsFilter } from '../../utilities/helpers';
 
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
-import FriendItem from '../../components/BirthdayFriends/FriendItem';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
+import FriendItem from '../../components/FriendItem';
 
 import noFriendsImg from '../../assets/icons/friendsList/noFriendsImg.png';
 import WomanCelebratingImg from '../../assets/icons/friendsList/womanCelebrating.png';
@@ -19,7 +19,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 import styles from '../../styles/BirthdayFriends.module.css';
 
-const FriendsPage = () => {
+const AllFriends = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -227,4 +227,4 @@ const FriendsPage = () => {
   );
 };
 
-export default FriendsPage;
+export default AllFriends;

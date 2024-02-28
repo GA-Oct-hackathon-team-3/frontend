@@ -2,20 +2,20 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { debounce } from 'lodash';
 
-import * as friendsService from '../../utilities/friends-service';
-import * as tagService from '../../utilities/tags-service';
+import * as friendsService from '../utilities/friends-service';
+import * as tagService from '../utilities/tags-service';
 
-import Header from '../../components/Header/Header';
+import Header from '../components/Header';
 
-import singerImg from '../../assets/icons/tag/singerTagImg.png';
-import bikerImg from '../../assets/icons/tag/bikerTagImg.png';
-import gardenerImg from '../../assets/icons/tag/gardenerTagImg.png';
+import singerImg from '../assets/icons/tag/singerTagImg.png';
+import bikerImg from '../assets/icons/tag/bikerTagImg.png';
+import gardenerImg from '../assets/icons/tag/gardenerTagImg.png';
 
 import { BsArrowLeft } from 'react-icons/bs';
 import { ToastContainer, toast } from 'react-toastify';
 import { CircularProgress } from '@mui/material';
 
-import styles from '../../styles/TagAdder.module.css';
+import styles from '../styles/TagAdder.module.css';
 
 function TagAdder() {
   const navigate = useNavigate();
@@ -23,23 +23,32 @@ function TagAdder() {
   const { id } = useParams();
 
   const [isLoading, setIsLoading] = useState(true);
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState([]); //
   const [inputValue, setInputValue] = useState('');
-  const [defaultTags, setDefaultTags] = useState([]);
-  const [suggestedTags, setSuggestedTags] = useState([]);
+  const [defaultTags, setDefaultTags] = useState([]); // stores default tags not in custom category
+  const [suggestedTags, setSuggestedTags] = useState([]); // tags suggested by backend after 3 chars of input
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const fetchFriend = async () => {
-      const friend = await friendsService.showFriend(id);
-      setTags(friend.tags);
+      try {
+        const friend = await friendsService.showFriend(id);
+        setTags(friend.tags);
+      } catch (error) {
+        throw error;
+      }
     };
+
     const fetchTags = async () => {
-      const tagsData = await tagService.getTags();
-      setDefaultTags(tagsData);
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1200);
+      try {
+        const tagsData = await tagService.getTags();
+        setDefaultTags(tagsData);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1200);
+      } catch (error) {
+        throw error;
+      }
     };
 
     fetchFriend();
@@ -47,10 +56,15 @@ function TagAdder() {
   }, [id]);
 
   const fetchSuggestions = async (value) => {
-    if (value === '' || value.length < 3) return setSuggestedTags([]); // requires search term of 3 => characters
+    if (value === '' || value.length < 3)
+      return setSuggestedTags([]); // requires search term of 3 => characters
     else {
-      const suggestions = await tagService.getSuggestions(value);
-      setSuggestedTags(suggestions);
+      try {
+        const suggestions = await tagService.getSuggestions(value);
+        setSuggestedTags(suggestions);
+      } catch (error) {
+        throw error;
+      }
     }
   };
 
@@ -58,7 +72,8 @@ function TagAdder() {
     // to check if tag exists, handles cases where tag is object or string
     return tags.some((tag) => {
       if (typeof tag === 'string') return tag === newTag;
-      else if (typeof tag === 'object' && tag.title) return tag.title === newTag.title;
+      else if (typeof tag === 'object' && tag.title)
+        return tag.title === newTag.title;
       else return false;
     });
   };
@@ -66,7 +81,10 @@ function TagAdder() {
   const handleInputChange = async (e) => {
     setInputValue(e.target.value);
     // uses debounce to delay calls to backend (makes sure user has stopped typing)...
-    const delayedFetch = debounce(() => fetchSuggestions(e.target.value.trim()), 300);
+    const delayedFetch = debounce(
+      () => fetchSuggestions(e.target.value.trim()),
+      300
+    );
     delayedFetch(); // then makes call to backend
   };
 
@@ -90,25 +108,35 @@ function TagAdder() {
   };
 
   const handleRemoveTag = (tag) => {
-    setTags((prevTags) => prevTags.filter((prevTag) => !tagExists([prevTag], tag)));
+    setTags((prevTags) =>
+      prevTags.filter((prevTag) => !tagExists([prevTag], tag))
+    );
   };
 
   const submitHandler = async () => {
-    setIsSubmitting(true);
+    try {
+      setIsSubmitting(true);
 
-    toast.info('Updating tags...', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 1000,
-    });
+      toast.info('Updating tags...', {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 1000,
+      });
 
-    const pathData = { path: location.pathname };
-    
-    const response = await tagService.updateTags(id, tags);
+      const pathData = { path: location.pathname };
 
-    if (response.message === 'Tags updated successfully') {
+      const response = await tagService.updateTags(id, tags);
+
+      if (response.message === 'Tags updated successfully') {
+        setTimeout(() => {
+          navigate(`/friend/${id}`, { state: pathData });
+        }, 2000);
+      }
+    } catch (error) {
+      toast.error('Failed to submit. Please try again');
+    } finally {
       setTimeout(() => {
-        navigate(`/friend/${id}`, { state: pathData });
-      }, 2000);
+          setIsSubmitting(false);
+      }, 3000);
     }
   };
 

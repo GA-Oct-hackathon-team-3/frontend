@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react';
-import Calendar from 'react-calendar';
+import { Calendar as ReactCalendar } from 'react-calendar';
 
 import * as friendsService from '../utilities/friends-service';
 import { formatPartialDate } from '../utilities/helpers';
 
-import Header from '../components/Header/Header';
-import Footer from '../components/Footer/Footer';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 import CalendarFriendItem from '../components/CalendarFriendItem';
 
 import { CircularProgress } from '@mui/material';
 import styles from '../styles/Calendar.module.css';
 
-const CalendarPage = () => {
+const Calendar = () => {
   const currentDate = new Date();
   const minDate = new Date(
     currentDate.getFullYear(),
@@ -33,12 +33,17 @@ const CalendarPage = () => {
 
   useEffect(() => {
     const fetchBirthdays = async () => {
-      const birthdayData = await friendsService.getBirthdays();
-      // assigns state to response unless data comes back with message of no friends
-      if (birthdayData && !birthdayData.message) setBirthdays(birthdayData);
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1200);
+      try {
+        const birthdayData = await friendsService.getBirthdays();
+        // assigns state to response unless data comes back with message of no friends
+        if (birthdayData && !birthdayData.message) setBirthdays(birthdayData);
+      } catch (error) {
+        throw error;
+      } finally {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1200);
+      }
     };
     fetchBirthdays();
   }, []);
@@ -163,7 +168,7 @@ const CalendarPage = () => {
         ) : (
           <div className={styles['content-container']}>
             <h1>Calendar View</h1>
-            <Calendar
+            <ReactCalendar
               className={styles['react-calendar']}
               tileContent={tileContent}
               tileClassName={tileClassName}
@@ -188,4 +193,4 @@ const CalendarPage = () => {
   );
 };
 
-export default CalendarPage;
+export default Calendar;

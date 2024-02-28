@@ -7,7 +7,7 @@ import {
   profileDobValidation,
 } from '../../utilities/helpers';
 
-import Header from '../../components/Header/Header';
+import Header from '../../components/Header';
 
 import profileImage from '../../assets/images/profileForm/manHoldingBaby.png';
 
@@ -17,7 +17,7 @@ import { Box, MenuItem, Select } from '@mui/material';
 
 import styles from '../../styles/ProfileForm.module.css';
 
-function CreateFriendProfile() {
+function CreateFriend() {
   const navigate = useNavigate();
 
   const [validationMessage, setValidationMessage] = useState('');
@@ -78,24 +78,36 @@ function CreateFriendProfile() {
 
     const validDate = profileDobValidation(profile.dob);
     const valid = profileFormValidation(profile);
-    if (!validDate)return handleFormMessage('Date of birth cannot be in the future');
+    if (!validDate)
+      return handleFormMessage('Date of birth cannot be in the future');
     if (!valid) return handleFormMessage('Required fields are marked with (*)');
 
-    const friendData = await friendsService.createFriend(profile);
-    if (uploadedFile) {
-      const photoResponse = await friendsService.uploadPhoto(friendData._id, uploadedFile);
-      if (!photoResponse.ok) toast.error('Failed to upload photo. Please try again.');
-    }
+    try {
+      const friendData = await friendsService.createFriend(profile);
+      if (uploadedFile) {
+        const photoResponse = await friendsService.uploadPhoto(
+          friendData._id,
+          uploadedFile
+        );
+        if (!photoResponse.ok)
+          toast.error('Failed to upload photo. Please try again.');
+      }
 
-    if (friendData) {
-      toast.info('Creating friend...', {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 1000,
-      });
-
+      if (friendData) {
+        toast.info('Creating friend...', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 1000,
+        });
+        setTimeout(() => {
+          navigate('/friend/' + friendData._id + '/tag');
+        }, 2300);
+      }
+    } catch (error) {
+      toast.error('Failed to create friend. Please try again');
+    } finally {
       setTimeout(() => {
-        navigate('/friend/' + friendData._id + '/tag');
-      }, 2300);
+        setIsSubmitting(false);
+      }, 3000);
     }
   };
 
@@ -282,4 +294,4 @@ function CreateFriendProfile() {
   );
 }
 
-export default CreateFriendProfile;
+export default CreateFriend;

@@ -1,7 +1,13 @@
 import { useState, useEffect } from 'react';
 
-import { getProfile, updateUserProfile } from '../../utilities/profiles-service';
-import { retrieveFriends, updateFriendNotification } from '../../utilities/friends-service';
+import {
+  getProfile,
+  updateUserProfile,
+} from '../../utilities/profiles-service';
+import {
+  retrieveFriends,
+  updateFriendNotification,
+} from '../../utilities/friends-service';
 import { formatDate } from '../../utilities/helpers';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,24 +25,32 @@ const Manage = () => {
   const [frequency, setFrequency] = useState([]); // notificationSchedule preferences
 
   const fetchUserProfile = async () => {
-    const profileInfo = await getProfile(); // fetch profile
-    if (profileInfo && profileInfo.profile) {
-      setFrequency(profileInfo.profile.notificationSchedule); // initialize user's current preferences
+    try {
+      const profileInfo = await getProfile(); // fetch profile
+      if (profileInfo && profileInfo.profile) {
+        setFrequency(profileInfo.profile.notificationSchedule); // initialize user's current preferences
+      }
+    } catch (error) {
+      throw error;
     }
   };
 
   const fetchFriends = async () => {
-    const friendsData = await retrieveFriends(); // fetch friends
-    if (friendsData) {
-      // friends comes in { today: [], thisWeek: [], thisMonth: [], laterOn: [] } structure
-      // use concat to flatten into single array
-      const flattenedFriendArray = friendsData.today.concat(
-        friendsData.thisWeek,
-        friendsData.thisMonth,
-        friendsData.laterOn
-      );
-      setFriends(flattenedFriendArray); // maintains all friends (to revert changes from query)
-      setFilteredFriends(flattenedFriendArray); // displays data (is updated with query)
+    try {
+      const friendsData = await retrieveFriends(); // fetch friends
+      if (friendsData) {
+        // friends comes in { today: [], thisWeek: [], thisMonth: [], laterOn: [] } structure
+        // use concat to flatten into single array
+        const flattenedFriendArray = friendsData.today.concat(
+          friendsData.thisWeek,
+          friendsData.thisMonth,
+          friendsData.laterOn
+        );
+        setFriends(flattenedFriendArray); // maintains all friends (to revert changes from query)
+        setFilteredFriends(flattenedFriendArray); // displays data (is updated with query)
+      }
+    } catch (error) {
+      throw error;
     }
   };
 
@@ -100,13 +114,17 @@ const Manage = () => {
       const userData = {
         notificationSchedule: [...frequency],
       };
-      const response = await updateUserProfile(userData);
-      if (response && response.message === 'User profile updated') {
-        setIsLoading(true); // set loading to true to simulate loading
-        setTimeout(() => {
-          // time out to set to false and render page
-          setIsLoading(false);
-        }, 600);
+      try {
+        const response = await updateUserProfile(userData);
+        if (response && response.message === 'User profile updated') {
+          setIsLoading(true); // set loading to true to simulate loading
+          setTimeout(() => {
+            // time out to set to false and render page
+            setIsLoading(false);
+          }, 600);
+        }
+      } catch (error) {
+        throw error;
       }
     }
   };
@@ -129,14 +147,19 @@ const Manage = () => {
     // if no changes, return
     if (friendIds.length === 0) return;
 
-    // sends ids to backend to toggle
-    const response = await updateFriendNotification(friendIds);
-    if (
-      response &&
-      response.message === 'Updated friend notification preference successfully'
-    ) {
-      setUpdatedFriends({}); // resets state
-      fetchFriends(); // re-fetches friends to retrieve updated friend data
+    try {
+      // sends ids to backend to toggle
+      const response = await updateFriendNotification(friendIds);
+      if (
+        response &&
+        response.message ===
+          'Updated friend notification preference successfully'
+      ) {
+        setUpdatedFriends({}); // resets state
+        fetchFriends(); // re-fetches friends to retrieve updated friend data
+      }
+    } catch (error) {
+      throw error;
     }
   };
 
@@ -145,15 +168,21 @@ const Manage = () => {
     // updatedFriends structure = [ { friend_id: new includeInNotifications value }, { friend_id: new includeInNotifications value } ]
     const friendIds = Object.keys(updatedFriends); // use Object.keys to extract ids of friends whose values were changed
 
-    // send to backend to toggle
-    const response = await updateFriendNotification(friendIds);
-    if (
-      response &&
-      response.message === 'Updated friend notification preference successfully'
-    ) {
-      setUpdatedFriends({}); // resets state
-      fetchFriends(); // re-fetches friends to retrieve updated friend data
-      setIsLoading(true); // set loading to true as data is retrieved
+    try {
+      // send to backend to toggle
+      const response = await updateFriendNotification(friendIds);
+      if (
+        response &&
+        response.message ===
+          'Updated friend notification preference successfully'
+      ) {
+        setUpdatedFriends({}); // resets state
+        fetchFriends(); // re-fetches friends to retrieve updated friend data
+        setIsLoading(true); // set loading to true as data is retrieved
+      }
+    } catch (error) {
+      throw error;
+    } finally {
       setTimeout(() => {
         // time out to set to false and render page
         setIsLoading(false);
@@ -200,13 +229,10 @@ const Manage = () => {
               notification. Please choose at least one option.
             </p>
 
-            <form
-              className={styles['preference-form']}
-            >
+            <form className={styles['preference-form']}>
               {renderFrequencyCheckbox(30, 'One Month')}
               {renderFrequencyCheckbox(7, 'One Week')}
               {renderFrequencyCheckbox(0, 'Day of')}
-
             </form>
           </div>
 

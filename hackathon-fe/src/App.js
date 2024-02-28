@@ -1,28 +1,29 @@
 import { Routes, Route } from "react-router-dom";
 
+import { AuthContextProvider } from "./contexts/AuthProvider";
 import { RecommendationProvider } from './contexts/RecommendationContext';
 
-import ProtectedPage from "./components/ProtectedPage/ProtectedPage";
-import LandingPage from "./pages/Landing/Landing";
-import SignUpPage from "./pages/SignUp/SignUp";
-import LoginPage from "./pages/Login/Login";
-import UpdateProfilePage from "./pages/Profile/UpdateProfile";
-import ProfilePage from "./pages/Profile/Profile";
-import FriendsPage from "./pages/FriendsPage/FriendsPage";
-import FriendPage from "./pages/FriendPage/FriendPage";
-import CalendarPage from './pages/Calendar';
-import RemindersPage from './pages/Reminders';
-import FiltersPage from "./pages/FiltersPage/FiltersPage";
-import CreateFriendPage from "./pages/CreateFriendPage/CreateFriendPage";
-import TagAdderPage from "./pages/TagAdder/TagAdder";
-import UpdateFriendPage from "./pages/UpdateFriendPage/UpdateFriendPage";
-import DeleteUserPage from './pages/Account/DeleteUserPage';
-import PrivacyPolicyPage from './pages/PrivacyPolicy/PrivacyPolicyPage';
-import SettingsPage from './pages/Settings';
-import VerifyEmailPage from './pages/VerifyEmail';
-import ForgotPasswordPage from './pages/ForgotPassword';
-import UpdatePasswordPage from "./pages/Account/UpdatePassword";
-import { AuthContextProvider } from "./contexts/AuthProvider";
+import ProtectedPage from "./components/ProtectedPage";
+import Landing from "./pages/Landing";
+import SignUp from "./pages/SignUp";
+import Login from "./pages/Login";
+import UpdateProfile from "./pages/Profile/UpdateProfile";
+import Profile from "./pages/Profile/Profile";
+import AllFriends from "./pages/Friends/AllFriends";
+import ShowFriend from "./pages/Friends/ShowFriend";
+import Calendar from './pages/Calendar';
+import Reminders from './pages/Reminders';
+import Filters from "./pages/Filters";
+import CreateFriend from "./pages/Friends/CreateFriend";
+import TagAdder from "./pages/TagAdder";
+import UpdateFriend from "./pages/Friends/UpdateFriend";
+import DeleteUser from './pages/Account/DeleteUser';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import Settings from './pages/Account/Settings';
+import VerifyEmail from './pages/Account/VerifyEmail';
+import ForgotPassword from './pages/Account/ForgotPassword';
+import UpdatePassword from "./pages/Account/UpdatePassword";
+
 
 function App() {
   return (
@@ -30,18 +31,18 @@ function App() {
         <AuthContextProvider>
       <RecommendationProvider>
         <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-          <Route path="/settings" element={<SettingsPage /> } />
-          <Route path="/verify-email" element={<VerifyEmailPage /> } />
-          <Route path="/reset-password" element={<ForgotPasswordPage /> } />
+          <Route path="/" element={<Landing />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/settings" element={<Settings /> } />
+          <Route path="/verify-email" element={<VerifyEmail /> } />
+          <Route path="/reset-password" element={<ForgotPassword /> } />
           <Route
             path="/profile"
             element={
               <ProtectedPage>
-                <ProfilePage />
+                <Profile />
               </ProtectedPage>
             }
           />
@@ -49,7 +50,7 @@ function App() {
             path="/profile/edit"
             element={
               <ProtectedPage>
-                <UpdateProfilePage />
+                <UpdateProfile />
               </ProtectedPage>
             }
           />
@@ -57,7 +58,7 @@ function App() {
             path="/friends"
             element={
               <ProtectedPage>
-                <FriendsPage />
+                <AllFriends />
               </ProtectedPage>
             }
           />
@@ -65,7 +66,7 @@ function App() {
             path="/friend/:id"
             element={
               <ProtectedPage>
-                <FriendPage />
+                <ShowFriend />
               </ProtectedPage>
             }
           />
@@ -73,7 +74,7 @@ function App() {
             path="/friend/:id/edit"
             element={
               <ProtectedPage>
-                <UpdateFriendPage />
+                <UpdateFriend />
               </ProtectedPage>
             }
           />
@@ -81,7 +82,7 @@ function App() {
             path="/calendar"
             element={
               <ProtectedPage>
-                <CalendarPage />
+                <Calendar />
               </ProtectedPage>
             }
           />
@@ -89,7 +90,7 @@ function App() {
             path="/reminders"
             element={
               <ProtectedPage>
-                <RemindersPage />
+                <Reminders />
               </ProtectedPage>
             }
           />
@@ -97,7 +98,7 @@ function App() {
             path="/filters"
             element={
               <ProtectedPage>
-                <FiltersPage />
+                <Filters />
               </ProtectedPage>
             }
           />
@@ -105,7 +106,7 @@ function App() {
             path="/addfriend"
             element={
               <ProtectedPage>
-                <CreateFriendPage />
+                <CreateFriend />
               </ProtectedPage>
             }
           />
@@ -113,7 +114,7 @@ function App() {
             path="/friend/:id/tag"
             element={
               <ProtectedPage>
-                <TagAdderPage />
+                <TagAdder />
               </ProtectedPage>
             }
           />
@@ -121,7 +122,7 @@ function App() {
             path="/delete-account"
             element={
               <ProtectedPage>
-                <DeleteUserPage />
+                <DeleteUser />
               </ProtectedPage>
             }
           />
@@ -129,7 +130,7 @@ function App() {
             path="/update-password"
             element={
               <ProtectedPage>
-                <UpdatePasswordPage />
+                <UpdatePassword />
               </ProtectedPage>
             }
           />

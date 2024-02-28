@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import * as usersService from '../../utilities/users-service';
+import * as usersService from '../utilities/users-service';
 
-import Header from '../../components/Header/Header';
+import Header from '../components/Header';
 
-import mobileLogin from '../../assets/images/login/mobileLogin.png';
-import desktopLogin from '../../assets/images/login/desktopLogin.png';
+import mobileLogin from '../assets/images/login/mobileLogin.png';
+import desktopLogin from '../assets/images/login/desktopLogin.png';
 
 import { BsArrowLeft } from 'react-icons/bs';
 import { ToastContainer, toast } from 'react-toastify';
 
-import styles from '../../styles/Login.module.css';
-import { useAuth } from '../../contexts/AuthProvider';
+import styles from '../styles/Login.module.css';
+import { useAuth } from '../contexts/AuthProvider';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -68,10 +68,13 @@ const Login = () => {
     try {
       const success = await login(credentials);
       if (success) navigate('/friends');
-      else return handleFormMessage('Login failed, try again');
+      else return toast.error('Login failed, try again');
     } catch (error) {
-        console.log(error.message);
-      return handleFormMessage('Login failed, try again');
+      toast.error('Login failed, try again');
+    } finally {
+      setTimeout(() => {
+        setIsSubmitting(false);
+      }, 3000);
     }
   }
 
@@ -126,7 +129,12 @@ const Login = () => {
               />
             </div>
             <div className={styles['form-group']}>
-              <p className={styles['forgot-password']} onClick={() => navigate('/reset-password')}>Forgot Password?</p>
+              <p
+                className={styles['forgot-password']}
+                onClick={() => navigate('/reset-password')}
+              >
+                Forgot Password?
+              </p>
             </div>
             <button
               className={styles['login-button']}

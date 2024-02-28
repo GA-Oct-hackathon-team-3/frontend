@@ -8,9 +8,9 @@ import { validateMatch, validatePassword } from '../../utilities/helpers';
 import { ToastContainer, toast } from 'react-toastify';
 import styles from '../../styles/SignUp.module.css';
 
-import Header from '../../components/Header/Header';
+import Header from '../../components/Header';
 
-const UpdatePasswordPage = () => {
+const UpdatePassword = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [passwordValidity, setPasswordValidity] = useState(false);
@@ -25,8 +25,11 @@ const UpdatePasswordPage = () => {
 
   // handles constant password and match validation
   useEffect(() => {
-    if (formData.newPassword) setPasswordValidity(validatePassword(formData.newPassword));
-    setPasswordMatch( validateMatch(formData.newPassword, formData.confirmNewPassword));
+    if (formData.newPassword)
+      setPasswordValidity(validatePassword(formData.newPassword));
+    setPasswordMatch(
+      validateMatch(formData.newPassword, formData.confirmNewPassword)
+    );
   }, [formData.newPassword, formData.confirmNewPassword]);
 
   const handleChange = (evt) => {
@@ -39,7 +42,8 @@ const UpdatePasswordPage = () => {
       !formData.oldPassword ||
       !formData.newPassword ||
       !formData.confirmNewPassword
-    ) return false;
+    )
+      return false;
     else return true;
   };
 
@@ -58,7 +62,8 @@ const UpdatePasswordPage = () => {
     // form validation prior to submit
     const valid = validateForm();
     if (!valid) return handleFormMessage('Required fields are marked with (*)');
-    if (!passwordValidity) return handleFormMessage('Please enter a valid password');
+    if (!passwordValidity)
+      return handleFormMessage('Please enter a valid password');
     if (!passwordMatch) return handleFormMessage('Passwords must match');
 
     try {
@@ -69,11 +74,21 @@ const UpdatePasswordPage = () => {
           autoClose: 1000,
         });
 
-        setTimeout(() => { navigate('/profile', { state: { path: location.pathname } }) }, 2000);
-      }
-      else return handleFormMessage('Either the old password was invalid, or there is a network error. Please try again.');
+        setTimeout(() => {
+          navigate('/profile', { state: { path: location.pathname } });
+        }, 2000);
+      } else
+        return handleFormMessage(
+          'Either the old password was invalid, or there is a network error. Please try again.'
+        );
     } catch (error) {
-      return handleFormMessage('Either the old password was invalid, or there is a network error. Please try again.');
+      return handleFormMessage(
+        'Either the old password was invalid, or there is a network error. Please try again.'
+      );
+    } finally {
+      setTimeout(() => {
+        setIsSubmitting(false);
+      }, 3000);
     }
   };
 
@@ -142,5 +157,4 @@ const UpdatePasswordPage = () => {
   );
 };
 
-
-export default UpdatePasswordPage;
+export default UpdatePassword;

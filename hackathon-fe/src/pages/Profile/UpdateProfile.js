@@ -8,7 +8,7 @@ import {
   getTimezones,
 } from '../../utilities/helpers';
 
-import Header from '../../components/Header/Header';
+import Header from '../../components/Header';
 
 import { BsArrowLeft } from 'react-icons/bs';
 import { ToastContainer, toast } from 'react-toastify';
@@ -33,20 +33,24 @@ const UpdateProfile = () => {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const profileInfo = await profilesService.getProfile();
-      setProfileInput(profileInfo.profile);
-      if (profileInfo.profile.photo) {
-        const uniqueTimestamp = Date.now();
-        const profilePhoto = profileInfo.profile.photo
-          ? `${profileInfo.profile.photo}?timestamp=${uniqueTimestamp}`
-          : 'https://i.imgur.com/hCwHtRc.png';
-        setDisplayFile(profilePhoto);
-        setButtonHTML('Change Photo');
+      try {
+        const profileInfo = await profilesService.getProfile();
+        setProfileInput(profileInfo.profile);
+        if (profileInfo.profile.photo) {
+          const uniqueTimestamp = Date.now();
+          const profilePhoto = profileInfo.profile.photo
+            ? `${profileInfo.profile.photo}?timestamp=${uniqueTimestamp}`
+            : 'https://i.imgur.com/hCwHtRc.png';
+          setDisplayFile(profilePhoto);
+          setButtonHTML('Change Photo');
+        }
+        setInterests([...profileInfo.profile.interests]);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1200);
+      } catch (error) {
+        throw error;
       }
-      setInterests([...profileInfo.profile.interests]);
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1200);
     };
     fetchProfile();
   }, []);
@@ -68,24 +72,37 @@ const UpdateProfile = () => {
     // form validations
     const validDate = profileDobValidation(profileInput.dob);
     const valid = profileFormValidation(profileInput);
-    if (!validDate) return handleFormMessage('Date of birth cannot be in the future');
+    if (!validDate)
+      return handleFormMessage('Date of birth cannot be in the future');
     if (!valid) return handleFormMessage('Required fields are marked with (*)');
 
-    // pass in interests and profileInput
-    const response = await profilesService.updateUserProfile(profileInput, interests);
-    if (uploadedFile) {
-      const photoResponse = await profilesService.uploadPhoto(uploadedFile);
-      if (!photoResponse.ok) toast.error('Failed to upload photo. Please try again.');
-    }
-    if (response.message === 'User profile updated') {
-      toast.info('Updating profile...', {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 1000,
-      });
+    try {
+      // pass in interests and profileInput
+      const response = await profilesService.updateUserProfile(
+        profileInput,
+        interests
+      );
+      if (uploadedFile) {
+        const photoResponse = await profilesService.uploadPhoto(uploadedFile);
+        if (!photoResponse.ok)
+          toast.error('Failed to upload photo. Please try again.');
+      }
+      if (response.message === 'User profile updated') {
+        toast.info('Updating profile...', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 1000,
+        });
 
+        setTimeout(() => {
+          navigate('/profile', { state: { path: location.pathname } });
+        }, 2000);
+      }
+    } catch (error) {
+      toast.error('Failed to update profile. Please try again');
+    } finally {
       setTimeout(() => {
-        navigate('/profile', { state: { path: location.pathname } });
-      }, 2000);
+        setIsSubmitting(false);
+      }, 3000);
     }
   };
 
@@ -117,7 +134,9 @@ const UpdateProfile = () => {
 
   const handleRemoveInterest = (e, interestToRemove) => {
     e.preventDefault();
-    setInterests((prevInterests) => prevInterests.filter((interest) => interest !== interestToRemove));
+    setInterests((prevInterests) =>
+      prevInterests.filter((interest) => interest !== interestToRemove)
+    );
   };
 
   return (

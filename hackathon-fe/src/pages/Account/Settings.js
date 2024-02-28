@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-import * as profilesService from '../utilities/profiles-service';
-import Header from '../components/Header/Header';
+import * as profilesService from '../../utilities/profiles-service';
+import Header from '../../components/Header';
 
 import { BsArrowLeft } from 'react-icons/bs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,11 +13,11 @@ import {
   faToggleOff,
 } from '@fortawesome/free-solid-svg-icons';
 
-import styles from '../styles/Filters.module.css';
-import { useAuth } from '../contexts/AuthProvider';
+import styles from '../../styles/Common.module.css';
+import { useAuth } from '../../contexts/AuthProvider';
 
 const Settings = () => {
-    const { logout } = useAuth();
+  const { logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const locationState = location.state || {};
@@ -39,15 +39,19 @@ const Settings = () => {
   };
 
   const handleToggle = async () => {
-    const profileInput = {
-      emailNotifications: !emailNotificationsState,
-    };
-    const response = await profilesService.updateUserProfile(
-      profileInput,
-      null
-    );
-    if (response.message === 'User profile updated')
-      setEmailNotificationsState(!emailNotificationsState);
+    try {
+      const profileInput = {
+        emailNotifications: !emailNotificationsState,
+      };
+      const response = await profilesService.updateUserProfile(
+        profileInput,
+        null
+      );
+      if (response.message === 'User profile updated')
+        setEmailNotificationsState(!emailNotificationsState);
+    } catch (error) {
+      throw error;
+    }
   };
 
   return (

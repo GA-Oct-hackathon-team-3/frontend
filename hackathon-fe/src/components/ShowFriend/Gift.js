@@ -13,7 +13,11 @@ const Gift = ({ gift, isFavorite, location, toggleFavorite }) => {
   const [fillHeart, setFillHeart] = useState(isFavorite); // to toggle between empty or filled heart
 
   return (
-    <Link to={buildGiftLink(gift, location)} target="_blank" rel="noopener noreferrer">
+    <Link
+      to={buildGiftLink(gift, location)}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       <div className={styles['product-pic']}>
         <img
           className={styles['product-pic']}

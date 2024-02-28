@@ -1,52 +1,53 @@
-import React, { useEffect, useState } from "react";
-import styles from "../../styles/Filters.module.css";
+import { useEffect, useState } from "react";
+import styles from "../styles/Common.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import Slider from "@mui/material/Slider";
-import { useNavigate } from "react-router-dom";
-import Header from "../Header/Header";
+import { useNavigate, useLocation } from "react-router-dom";
+import Header from "../components/Header";
 import { BsArrowLeft } from "react-icons/bs";
 
 const marks = [
-  {
-    value: 0,
-    label: "$0",
-  },
-  {
-    value: 250,
-    label: "$250",
-  },
-  {
-    value: 500,
-    label: "$500",
-  },
-  {
-    value: 750,
-    label: "$750",
-  },
-  {
-    value: 1000,
-    label: "$1000",
-  },
-];
+    {
+      value: 0,
+      label: "$0",
+    },
+    {
+      value: 250,
+      label: "$250",
+    },
+    {
+      value: 500,
+      label: "$500",
+    },
+    {
+      value: 750,
+      label: "$750",
+    },
+    {
+      value: 1000,
+      label: "$1000",
+    },
+  ];
 
-const Filters = ({ friend }) => {
+const Filters = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const friend = location.state?.friend;
+
   const [show, setShow] = useState(null);
   const [budget, setBudget] = useState(100);
   const [giftPreferences, setGiftPreferences] = useState(friend.giftPreferences);
   const [tags, setTags] = useState(friend.tags);
 
-  const navigate = useNavigate();
 
   useEffect(() => {
     setGiftPreferences(friend.giftPreferences);
   }, []);
 
   const handleClick = (string) => {
-    if (show === string) {
-      setShow(null);
-      return;
-    }
+    if (show === string) return setShow(null);
     setShow(string);
   };
 

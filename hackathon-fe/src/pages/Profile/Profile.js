@@ -30,18 +30,22 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const profileInfo = await profilesService.getProfile();
-      if (profileInfo.profile.photo) {
-        const uniqueTimestamp = Date.now();
-        profileInfo.profile.photo = profileInfo.profile.photo
-          ? `${profileInfo.profile.photo}?timestamp=${uniqueTimestamp}`
-          : 'https://i.imgur.com/hCwHtRc.png';
+      try {
+        const profileInfo = await profilesService.getProfile();
+        if (profileInfo.profile.photo) {
+          const uniqueTimestamp = Date.now();
+          profileInfo.profile.photo = profileInfo.profile.photo
+            ? `${profileInfo.profile.photo}?timestamp=${uniqueTimestamp}`
+            : 'https://i.imgur.com/hCwHtRc.png';
+        }
+        setUserProfile(profileInfo.profile);
+        setDobObject(splitDOB(profileInfo.profile.dob));
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1200);
+      } catch (error) {
+        throw error;
       }
-      setUserProfile(profileInfo.profile);
-      setDobObject(splitDOB(profileInfo.profile.dob));
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1200);
     };
     fetchProfile();
   }, []);
@@ -80,7 +84,11 @@ const Profile = () => {
           </p>
           <div
             className={styles['settings']}
-            onClick={() => navigate('/settings', { state: { emailNotifications: userProfile.emailNotifications }})}
+            onClick={() =>
+              navigate('/settings', {
+                state: { emailNotifications: userProfile.emailNotifications },
+              })
+            }
           >
             <img src={gear} alt="settings" />
             Settings
