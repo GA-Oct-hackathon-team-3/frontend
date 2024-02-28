@@ -18,14 +18,23 @@ const Notifications = () => {
 
   useEffect(() => {
     const fetchReminders = async () => {
-      const reminderData = await remindersService.getReminders();
-      if (reminderData && !reminderData.message) setNotifications(reminderData);
+      try {
+        const reminderData = await remindersService.getReminders();
+        if (reminderData && !reminderData.message)
+          setNotifications(reminderData);
+      } catch (error) {
+        throw error;
+      }
     };
 
     const readReminders = async () => {
-      const ids = notifications.current.map((notif) => notif._id); // creates array of all unread notifications ids
-      if (ids.length === 0) return; // if no unread reminders, return
-      await remindersService.markAsRead(ids); // sends to backend to mark as read
+      try {
+        const ids = notifications.current.map((notif) => notif._id); // creates array of all unread notifications ids
+        if (ids.length === 0) return; // if no unread reminders, return
+        await remindersService.markAsRead(ids); // sends to backend to mark as read
+      } catch (error) {
+        throw error;
+      }
     };
 
     // uses debounce to delay mark reminders as read after 3 seconds
@@ -52,34 +61,50 @@ const Notifications = () => {
     const navigate = useNavigate();
 
     const handleCheckGift = async (id) => {
-      const friendInput = { hasGift: !hasGift }
+      const friendInput = { hasGift: !hasGift };
 
-      const response = await friendsService.updateFriend(id, friendInput);
+      try {
+        const response = await friendsService.updateFriend(id, friendInput);
 
-      if (response && response.message === 'Friend updated') {
-        setNotifications((prev) => ({
-          ...prev,
-          current: prev.current.map((notif) => notif.friend._id === id
-              ? { ...notif, friend: { ...notif.friend, hasGift: !notif.friend.hasGift } }
-              : notif
-          ),
-          past: prev.past.map((notif) => notif.friend._id === id
-              ? { ...notif, friend: { ...notif.friend, hasGift: !notif.friend.hasGift } }
-              : notif
-          ),
-        }));
+        if (response && response.message === 'Friend updated') {
+          setNotifications((prev) => ({
+            ...prev,
+            current: prev.current.map((notif) =>
+              notif.friend._id === id
+                ? {
+                    ...notif,
+                    friend: { ...notif.friend, hasGift: !notif.friend.hasGift },
+                  }
+                : notif
+            ),
+            past: prev.past.map((notif) =>
+              notif.friend._id === id
+                ? {
+                    ...notif,
+                    friend: { ...notif.friend, hasGift: !notif.friend.hasGift },
+                  }
+                : notif
+            ),
+          }));
+        }
+      } catch (error) {
+        throw error;
       }
     };
 
     const removeReminder = async (evt) => {
       evt.stopPropagation();
-      const response = await remindersService.deleteReminder(id);
-      if (response && response.message === 'Reminder deleted successfully') {
-        setNotifications((prev) => ({
-          ...prev,
-          current: prev.current.filter((notif) => notif._id !== id),
-          past: prev.past.filter((notif) => notif._id !== id),
-        }));
+      try {
+        const response = await remindersService.deleteReminder(id);
+        if (response && response.message === 'Reminder deleted successfully') {
+          setNotifications((prev) => ({
+            ...prev,
+            current: prev.current.filter((notif) => notif._id !== id),
+            past: prev.past.filter((notif) => notif._id !== id),
+          }));
+        }
+      } catch (error) {
+        throw error;
       }
     };
 

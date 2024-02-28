@@ -7,7 +7,7 @@ import Header from '../../components/Header';
 import { ToastContainer, toast } from 'react-toastify';
 import { CircularProgress } from '@mui/material';
 
-import styles from '../../styles/Filters.module.css';
+import styles from '../../styles/Common.module.css';
 
 const VerifyEmail = () => {
   const navigate = useNavigate();

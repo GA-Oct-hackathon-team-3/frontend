@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import '../../styles/DeleteUserPage.css';
 import {
   deleteUser,
@@ -8,27 +8,36 @@ import {
 import { useNavigate } from "react-router-dom";
 
 const DeleteUser = () => {
+    const navigate = useNavigate();
+
   const [confirmToken, setConfirmToken] = useState(null);
   const [showConfirmPopup, setShowConfirmPopup] = useState(false); // State to control the visibility of the confirmation pop-up
-  const navigate = useNavigate();
+
   const handleDelete = async () => {
     // Logic to delete the user account
-    const response = await deleteUser();
-    console.log(response.confirmationToken, "THIS IS THE RESPONSE");
-    if (response.confirmationToken) {
-      setConfirmToken(response.confirmationToken);
-      setShowConfirmPopup(true); // Show confirmation pop-up
+    try {
+        const response = await deleteUser(); 
+        if (response.confirmationToken) {
+          setConfirmToken(response.confirmationToken);
+          setShowConfirmPopup(true); // Show confirmation pop-up
+        }
+    } catch (error) {
+        throw error;
     }
   };
 
   const confirmDelete = async () => {
-    // Logic to confirm the user account deletion
-    const response = await confirmDeleteUser(confirmToken);
-
-    // Handle the response after confirmation
-    setShowConfirmPopup(false); // Hide confirmation pop-up
-    logOut();
-    navigate("/");
+    try {
+        // Logic to confirm the user account deletion
+        const response = await confirmDeleteUser(confirmToken);
+    
+        // Handle the response after confirmation
+        setShowConfirmPopup(false); // Hide confirmation pop-up
+        logOut();
+        navigate("/");
+    } catch (error) {
+        throw error;
+    }
   };
 
   const cancelDelete = () => {

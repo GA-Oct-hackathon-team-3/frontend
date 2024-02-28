@@ -39,18 +39,25 @@ const ShowFriend = () => {
 
   useEffect(() => {
     const fetchFriend = async () => {
-      const friendData = await friendsService.showFriend(id);
-      const uniqueTimestamp = Date.now();
-      friendData.photo = `${
-        friendData.photo ? friendData.photo : 'https://i.imgur.com/hCwHtRc.png'
-      }?timestamp=${uniqueTimestamp}`;
-      setFriend(friendData);
-      setDobObject(splitDOB(friendData.dob));
-      setFavorites(friendData.favoriteGifts);
-      if (friendData.tags.length > 0) setEnableRecs(true);
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1200);
+      try {
+        const friendData = await friendsService.showFriend(id);
+        const uniqueTimestamp = Date.now();
+        friendData.photo = `${
+          friendData.photo
+            ? friendData.photo
+            : 'https://i.imgur.com/hCwHtRc.png'
+        }?timestamp=${uniqueTimestamp}`;
+        setFriend(friendData);
+        setDobObject(splitDOB(friendData.dob));
+        setFavorites(friendData.favoriteGifts);
+        if (friendData.tags.length > 0) setEnableRecs(true);
+      } catch (error) {
+        throw error;
+      } finally {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1200);
+      }
     };
     fetchFriend();
   }, [id]);
@@ -108,17 +115,21 @@ const ShowFriend = () => {
 
   const handleDelete = async (evt) => {
     evt.preventDefault();
-    const response = await friendsService.deleteFriend(id);
-    if (response.message === 'Friend deleted successfully') {
-      toast.info('Deleting friend...', {
-        position: toast.POSITION.TOP_CENTER,
-        hideProgressBar: false,
-        autoClose: 1000,
-      });
+    try {
+      const response = await friendsService.deleteFriend(id);
+      if (response.message === 'Friend deleted successfully') {
+        toast.info('Deleting friend...', {
+          position: toast.POSITION.TOP_CENTER,
+          hideProgressBar: false,
+          autoClose: 1000,
+        });
 
-      setTimeout(() => {
-        navigate('/friends', { state: { path: location.pathname } });
-      }, 2000);
+        setTimeout(() => {
+          navigate('/friends', { state: { path: location.pathname } });
+        }, 2000);
+      }
+    } catch (error) {
+      toast.error('Failed to delete friend. Please try again');
     }
   };
 

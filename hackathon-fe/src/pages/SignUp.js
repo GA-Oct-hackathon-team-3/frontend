@@ -86,6 +86,10 @@ const SignUp = () => {
       return handleFormMessage(
         'Either an account has already been created with this email, or there is a network error. Please try again.'
       );
+    } finally {
+      setTimeout(() => {
+        setIsSubmitting(false);
+      }, 3000);
     }
   };
 

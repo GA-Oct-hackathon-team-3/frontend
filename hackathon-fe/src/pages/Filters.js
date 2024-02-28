@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import styles from "../styles/Filters.module.css";
+import styles from "../styles/Common.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import Slider from "@mui/material/Slider";
@@ -47,10 +47,7 @@ const Filters = () => {
   }, []);
 
   const handleClick = (string) => {
-    if (show === string) {
-      setShow(null);
-      return;
-    }
+    if (show === string) return setShow(null);
     setShow(string);
   };
 

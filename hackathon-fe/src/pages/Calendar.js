@@ -41,7 +41,7 @@ const Calendar = () => {
         throw error;
       } finally {
         setTimeout(() => {
-            setIsLoading(false);
+          setIsLoading(false);
         }, 1200);
       }
     };

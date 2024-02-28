@@ -13,7 +13,7 @@ import {
   faToggleOff,
 } from '@fortawesome/free-solid-svg-icons';
 
-import styles from '../../styles/Filters.module.css';
+import styles from '../../styles/Common.module.css';
 import { useAuth } from '../../contexts/AuthProvider';
 
 const Settings = () => {

@@ -98,7 +98,11 @@ const UpdateProfile = () => {
         }, 2000);
       }
     } catch (error) {
-      throw error;
+      toast.error('Failed to update profile. Please try again');
+    } finally {
+      setTimeout(() => {
+        setIsSubmitting(false);
+      }, 3000);
     }
   };
 

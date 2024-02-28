@@ -7,7 +7,7 @@ import { validateMatch, validatePassword } from '../../utilities/helpers';
 import Header from '../../components/Header';
 
 import { ToastContainer, toast } from 'react-toastify';
-import styles from '../../styles/Filters.module.css';
+import styles from '../../styles/Common.module.css';
 
 import { BsArrowLeft } from 'react-icons/bs';
 
@@ -57,7 +57,11 @@ const ForgotPassword = () => {
         });
       }
     } catch (error) {
-      throw error;
+      toast.error('Failed to reset email. Please try again');
+    } finally {
+      setTimeout(() => {
+        setIsSubmitting(false);
+      }, 3000);
     }
   };
 
@@ -92,6 +96,10 @@ const ForgotPassword = () => {
       return handleFormMessage(
         'Either the old password was invalid, or there is a network error. Please try again.'
       );
+    } finally {
+      setTimeout(() => {
+        setIsSubmitting(false);
+      }, 3000);
     }
   };
 

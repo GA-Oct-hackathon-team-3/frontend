@@ -68,10 +68,13 @@ const Login = () => {
     try {
       const success = await login(credentials);
       if (success) navigate('/friends');
-      else return handleFormMessage('Login failed, try again');
+      else return toast.error('Login failed, try again');
     } catch (error) {
-      console.log(error.message);
-      return handleFormMessage('Login failed, try again');
+      toast.error('Login failed, try again');
+    } finally {
+      setTimeout(() => {
+        setIsSubmitting(false);
+      }, 3000);
     }
   }
 

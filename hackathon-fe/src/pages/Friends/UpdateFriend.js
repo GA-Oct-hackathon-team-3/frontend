@@ -17,7 +17,7 @@ import { Box, MenuItem, Select, CircularProgress } from '@mui/material';
 
 import styles from '../../styles/ProfileForm.module.css';
 
-function UpdateFriend () {
+function UpdateFriend() {
   const navigate = useNavigate();
   const { id } = useParams();
   const location = useLocation();
@@ -52,7 +52,7 @@ function UpdateFriend () {
         throw error;
       } finally {
         setTimeout(() => {
-            setIsLoading(false);
+          setIsLoading(false);
         }, 1200);
       }
     };
@@ -129,7 +129,11 @@ function UpdateFriend () {
         }, 2000);
       }
     } catch (error) {
-      throw error;
+      toast.error('Failed to update friend. Please try again');
+    } finally {
+      setTimeout(() => {
+        setIsSubmitting(false);
+      }, 3000);
     }
   };
 

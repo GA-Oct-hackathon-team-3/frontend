@@ -132,7 +132,11 @@ function TagAdder() {
         }, 2000);
       }
     } catch (error) {
-      throw error;
+      toast.error('Failed to submit. Please try again');
+    } finally {
+      setTimeout(() => {
+          setIsSubmitting(false);
+      }, 3000);
     }
   };
 
